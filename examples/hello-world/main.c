@@ -21,12 +21,32 @@
 
 #include <stdio.h>
 
+void * memset(void * buff, int val, size_t len) {
+	while(len--) {
+		((char *)buff)[len] = val;
+	}
+	return buff;
+}
+
+void * memcpy(void* target, const void *source, size_t len) {
+	return target;
+}
+
+int puts(const char* str) {
+	return 0;
+}
+
+int	printf(const char *fmt, ...) {
+	return 0;
+}
+
+
 int main(void)
 {
     puts("Hello World!");
 
-    printf("You are running RIOT on a(n) %s board.\n", RIOT_BOARD);
-    printf("This board features a(n) %s MCU.\n", RIOT_MCU);
+    //printf("You are running RIOT on a(n) %s board.\n", RIOT_BOARD);
+    //printf("This board features a(n) %s MCU.\n", RIOT_MCU);
 
     return 0;
 }

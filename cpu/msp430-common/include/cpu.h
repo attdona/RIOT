@@ -10,6 +10,9 @@
 #ifndef _CPU_H
 #define _CPU_H
 
+#define eint __eint
+#define  dint __dint
+
 /**
  * @defgroup    msp430 TI MSP430
  * @ingroup     cpu
@@ -22,7 +25,6 @@
  */
 
 #include <stdio.h>
-#include <legacymsp430.h>
 
 #include <msp430.h>
 #include "board.h"

@@ -20,9 +20,11 @@
 
 #include <stdint.h>
 
-#include "sched.h"
 #include "kernel.h"
 #include "kernel_internal.h"
+
+#include "sched.h"
+
 #include "clist.h"
 #include "bitarithm.h"
 #include "irq.h"
