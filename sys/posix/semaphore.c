@@ -23,9 +23,9 @@
 #include <inttypes.h>
 
 #include "irq.h"
-#include "sched.h"
 #include "tcb.h"
 #include "thread.h"
+#include "sched.h"
 
 #define ENABLE_DEBUG (0)
 #include "debug.h"

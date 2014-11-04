@@ -13,3 +13,4 @@ cachegrind.out*
 .settings
 /toolchain
 /Debug
+.launches

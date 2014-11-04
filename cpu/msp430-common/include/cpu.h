@@ -24,7 +24,7 @@
  * @{
  */
 
-#include <stdio.h>
+//#include <stdio.h>
 
 #include <msp430.h>
 #include "board.h"
@@ -41,7 +41,7 @@ extern char __isr_stack[MSP430_ISR_STACK_SIZE];
 //#define eINT()  eint()
 //#define dINT()  dint()
 
-inline void __save_context_isr(void)
+static inline void __save_context_isr(void)
 {
     __asm__("push r15");
     __asm__("push r14");
@@ -59,7 +59,7 @@ inline void __save_context_isr(void)
     __asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
 }
 
-inline void __restore_context_isr(void)
+static inline void __restore_context_isr(void)
 {
     __asm__("mov.w %0,r1" : : "m"(sched_active_thread->sp));
 
@@ -77,14 +77,14 @@ inline void __restore_context_isr(void)
     __asm__("pop r15");
 }
 
-inline void __enter_isr(void)
+static inline void __enter_isr(void)
 {
     __save_context_isr();
     __asm__("mov.w %0,r1" : : "i"(__isr_stack+MSP430_ISR_STACK_SIZE));
     __inISR = 1;
 }
 
-inline void __exit_isr(void)
+static inline void __exit_isr(void)
 {
     __inISR = 0;
 
@@ -96,13 +96,13 @@ inline void __exit_isr(void)
     __asm__("reti");
 }
 
-inline void __save_context(void)
+static inline void __save_context(void)
 {
     __asm__("push r2"); /* save SR */
     __save_context_isr();
 }
 
-inline void __restore_context(unsigned int irqen)
+static inline void __restore_context(unsigned int irqen)
 {
     __restore_context_isr();
 
@@ -121,13 +121,13 @@ inline void __restore_context(unsigned int irqen)
     __asm__("reti");
 }
 
-inline void eINT(void)
+static inline void eINT(void)
 {
     //    puts("+");
     eint();
 }
 
-inline void dINT(void)
+static inline void dINT(void)
 {
     //    puts("-");
     dint();

@@ -32,17 +32,10 @@ void * memcpy(void* target, const void *source, size_t len) {
 	return target;
 }
 
-int puts(const char* str) {
-	return 0;
-}
-
-int	printf(const char *fmt, ...) {
-	return 0;
-}
-
-
 int main(void)
 {
+	//startup();
+
     puts("Hello World!");
 
     //printf("You are running RIOT on a(n) %s board.\n", RIOT_BOARD);
