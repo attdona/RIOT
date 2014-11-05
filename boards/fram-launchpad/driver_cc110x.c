@@ -16,6 +16,9 @@
 
 #include "cc110x_legacy.h"
 
+
+extern inline void __exit_isr(void);
+
 //#define CC1100_GDO0         (P1IN & 0x08)   // read serial I/O (GDO0)
 //#define CC1100_GDO1         (P5IN & 0x04)   // read serial I/O (GDO1)
 //#define CC1100_GDO2         (P1IN & 0x10)   // read serial I/O (GDO2)

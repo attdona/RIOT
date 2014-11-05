@@ -69,8 +69,8 @@ ISRV(TIMERB1_VECTOR,  timer_isr)
     __enter_isr();
 
     short taiv_reg = TB0IV;
-    if (taiv_reg == 0x0A) {
-        /* TAIV = 0x0A means overflow */
+    if (taiv_reg == 0x0E) {
+        /* TAIV = 0x0E means overflow */
         DEBUG("Overflow\n");
         timer_round++;
     }

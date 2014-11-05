@@ -39,7 +39,7 @@
 #define __read_status_register  _get_SR_register
 
 //numbers of A Timers
-#define __MSP430_HAS_TA2__
+#define __MSP430_HAS_T0A5__
 
 // used in msp430-common/hwtimer_cpu.c
 #define TACCTL0 TB0CCTL0

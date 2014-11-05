@@ -14,6 +14,13 @@
 #include "sched.h"
 #include "thread.h"
 
+extern inline void __enter_isr(void);
+extern inline void __save_context(void);
+extern inline void __save_context_isr(void);
+
+extern inline void __restore_context(unsigned int irqen);
+extern inline void __restore_context_isr(void);
+
 volatile int __inISR = 0;
 
 char __isr_stack[MSP430_ISR_STACK_SIZE];
