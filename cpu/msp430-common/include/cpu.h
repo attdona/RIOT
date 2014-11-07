@@ -79,7 +79,7 @@ inline void __restore_context_isr(void)
 
 inline void __enter_isr(void)
 {
-    __save_context_isr();
+    //__save_context_isr();
     __asm__("mov.w %0,r1" : : "i"(__isr_stack+MSP430_ISR_STACK_SIZE));
     __inISR = 1;
 }
@@ -91,9 +91,10 @@ inline void __exit_isr(void)
     if (sched_context_switch_request) {
         sched_run();
     }
+    __asm__("mov.w %0,r1" : : "m"(sched_active_thread->sp));
 
-    __restore_context_isr();
-    __asm__("reti");
+    //__restore_context_isr();
+    //__asm__("reti");
 }
 
 inline void __save_context(void)

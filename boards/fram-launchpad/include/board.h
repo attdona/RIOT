@@ -42,9 +42,9 @@
 #define __MSP430_HAS_T0A5__
 
 // used in msp430-common/hwtimer_cpu.c
-#define TACCTL0 TB0CCTL0
-#define TACCR0  TB0CCR0
-#define TAR     TBR
+#define TIMER_CCTL0    TB0CCTL0
+#define TIMER_CCR0     TB0CCR0
+#define TIMER_COUNTER  TBR
 
 
 // for correct inclusion of <msp430.h>

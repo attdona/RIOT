@@ -29,9 +29,9 @@ volatile uint16_t timer_round;
 #else
   /* ... while other MSP430 MCUs have "TimerA", "TimerB".
      Cheers for TI and its consistency! */
-  #define CNT_CTRL_BASE_REG  (TACCTL0)
-  #define CNT_COMP_BASE_REG  (TACCR0)
-  #define TIMER_VAL_REG      (TAR)
+  #define CNT_CTRL_BASE_REG  (TIMER_CCTL0)
+  #define CNT_COMP_BASE_REG  (TIMER_CCR0)
+  #define TIMER_VAL_REG      (TIMER_COUNTER)
 #endif
 
 static void timer_disable_interrupt(short timer)

@@ -20,7 +20,7 @@
 #define KERNEL_CONF_STACKSIZE_DEFAULT   (256)
 #endif
 
-#define KERNEL_CONF_STACKSIZE_IDLE      (96)
+#define KERNEL_CONF_STACKSIZE_IDLE      (128) // was 96
 #define MSP430_ISR_STACK_SIZE           (256)
 
 #define RX_BUF_SIZE (3)
