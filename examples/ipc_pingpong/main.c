@@ -41,7 +41,7 @@ void *second_thread(void *arg)
     return NULL;
 }
 
-char second_thread_stack[KERNEL_CONF_STACKSIZE_MAIN];
+char second_thread_stack[KERNEL_CONF_STACKSIZE_DEFAULT];
 
 int main(void)
 {
