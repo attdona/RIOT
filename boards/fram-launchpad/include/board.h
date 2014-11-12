@@ -34,9 +34,11 @@
 
 #define ISRV(a,b) void __attribute__((interrupt(a))) b(void)
 
-#define __bic_status_register   _bic_SR_register
-#define __bis_status_register   _bis_SR_register
-#define __read_status_register  _get_SR_register
+#if (__GNUC__ == 4 && __GNUC_MINOR__ > 7)
+ #define __bic_status_register   _bic_SR_register
+ #define __bis_status_register   _bis_SR_register
+ #define __read_status_register  _get_SR_register
+#endif
 
 //numbers of A Timers
 #define __MSP430_HAS_T0A5__

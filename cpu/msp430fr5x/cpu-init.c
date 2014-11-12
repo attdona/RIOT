@@ -89,7 +89,12 @@ static void init_ports(void) {
 
 /*---------------------------------------------------------------------------*/
 /* msp430-ld may align _end incorrectly. Workaround in cpu_init. */
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+ #define end _end
+#endif
+
 extern int end; /* Not in sys/unistd.h */
+
 static char *cur_break = (char *) &end;
 
 void msp430_cpu_init(void) {

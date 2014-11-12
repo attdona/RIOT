@@ -16,6 +16,12 @@
 
 #include "board_uart0.h"
 
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+ #define even_in_range(A,RANGE) A
+#else
+ #define even_in_range(A,RANGE) __even_in_range(A, RANGE)
+#endif
+
 int putchar(int c)
 {
     UART0_TX = c;
@@ -38,7 +44,7 @@ ISRV(USCI_A0_VECTOR, usart0irq) {
 
     int dummy = 0;
 
-    switch(__even_in_range(UCA0IV, USCI_UART_UCTXCPTIFG))
+    switch(even_in_range(UCA0IV, USCI_UART_UCTXCPTIFG))
     {
       case USCI_NONE: break;
       case USCI_UART_UCRXIFG:
