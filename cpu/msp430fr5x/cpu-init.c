@@ -65,20 +65,19 @@ static void init_ports(void) {
 	PJSEL1 = 0;
 
 	/* All available inputs */
-	P1DIR = 0;
-	P1OUT = 0;
 
-	P2DIR = 0;
-	P2OUT = 0;
+    PADIR = 0x0000;
+    PAREN = 0xFFFF;
+    PAOUT = 0x0000;
 
-	P3DIR = 0;
-	P3OUT = 0;
+    PBDIR = 0x0000;
+    PBREN = 0xFFFF;
+    PBOUT = 0x0000;
 
-	P4DIR = 0;
-	P4OUT = 0;
-
-	PJDIR = 0;
-	PJOUT = 0;
+    PJDIR = 0x00;
+    PJREN = 0xFF;
+    PJOUT=  0x00;
+    PJSEL0 |= 0x10;     /* PJ.4 Configured for ext clock function on these pins */
 
 	P1IE = 0;
 	P2IE = 0;
