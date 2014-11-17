@@ -42,6 +42,8 @@ void usart0irq(void);
 //interrupt(USART0RX_VECTOR) usart0irq(void) {
 ISRV(USCI_A0_VECTOR, usart0irq) {
 
+	__enter_isr();
+
     int dummy = 0;
 
     switch(even_in_range(UCA0IV, USCI_UART_UCTXCPTIFG))
@@ -64,4 +66,5 @@ ISRV(USCI_A0_VECTOR, usart0irq) {
     	uart0_notify_thread();
     }
 
+    __exit_isr();
 }

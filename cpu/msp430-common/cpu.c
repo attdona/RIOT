@@ -66,6 +66,13 @@ NORETURN void cpu_switch_context_exit(void)
  * thread_stack_init behavior. */
 __attribute__((section (".fini9"))) void __main_epilogue(void) { __asm__("ret"); }
 
+
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+ #define REGS_SIZE 14
+#else
+#define REGS_SIZE 11
+#endif
+
 //----------------------------------------------------------------------------
 // Processor specific routine - here for MSP
 //----------------------------------------------------------------------------
@@ -91,12 +98,19 @@ char *thread_stack_init(thread_task_func_t task_func, void *arg, void *stack_sta
     *stackptr = GIE;
     --stackptr;
 
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+
+#else
+    /* ti mspgcc 4.9 set arg into R12 */
+    stackptr = stackptr - 3;
+#endif
+
     /* set argument to task_func */
     *stackptr = (unsigned short) arg;
     --stackptr;
 
     /* Space for registers. */
-    for (unsigned int i = 14; i > 4; i--) {
+    for (unsigned int i = REGS_SIZE; i > 4; i--) {
         *stackptr = i;
         --stackptr;
     }
