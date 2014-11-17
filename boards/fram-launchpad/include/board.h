@@ -32,9 +32,10 @@
 #define BV(x) (1 << x)
 #endif
 
-#define ISRV(a,b) void __attribute__((interrupt(a))) b(void)
-
-#if (__GNUC__ == 4 && __GNUC_MINOR__ > 7)
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+ #define ISRV(a,b) void __attribute__((interrupt (a))) __attribute__((naked)) b(void)
+#else
+ #define ISRV(a,b) void __attribute__((interrupt(a))) b(void)
  #define __bic_status_register   _bic_SR_register
  #define __bis_status_register   _bis_SR_register
  #define __read_status_register  _get_SR_register

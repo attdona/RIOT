@@ -17,6 +17,7 @@
  * @author      Milan Babel <babel@inf.fu-berlin.de>
  * @author      Kévin Roussel <Kevin.Roussel@inria.fr>
  *
+ *
  * @}
  */
 
@@ -50,7 +51,6 @@ void timerA_init(void)
     TB0CTL |= MC_2;
 }
 
-//interrupt(TIMERA0_VECTOR) __attribute__((naked)) timer_isr_ccr0(void)
 ISRV(TIMERB0_VECTOR, timer_isr_ccr0)
 {
     __enter_isr();
@@ -63,7 +63,6 @@ ISRV(TIMERB0_VECTOR, timer_isr_ccr0)
     __exit_isr();
 }
 
-//interrupt(TIMERA1_VECTOR) __attribute__((naked)) timer_isr(void)
 ISRV(TIMERB1_VECTOR,  timer_isr)
 {
     __enter_isr();
