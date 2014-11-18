@@ -40,9 +40,9 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Wdt hardware registers */
 typedef struct {
-  WoReg WDT_CR; /**< \brief (Wdt Offset: 0x00) Control Register */
-  RwReg WDT_MR; /**< \brief (Wdt Offset: 0x04) Mode Register */
-  RoReg WDT_SR; /**< \brief (Wdt Offset: 0x08) Status Register */
+    WoReg WDT_CR; /**< \brief (Wdt Offset: 0x00) Control Register */
+    RwReg WDT_MR; /**< \brief (Wdt Offset: 0x04) Mode Register */
+    RoReg WDT_SR; /**< \brief (Wdt Offset: 0x08) Status Register */
 } Wdt;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- WDT_CR : (WDT Offset: 0x00) Control Register -------- */

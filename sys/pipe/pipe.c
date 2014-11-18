@@ -29,7 +29,7 @@
 #include "pipe.h"
 #include "sched.h"
 
-typedef unsigned (*ringbuffer_op_t)(ringbuffer_t *restrict rb, char *buf, unsigned n);
+typedef unsigned(*ringbuffer_op_t)(ringbuffer_t *restrict rb, char *buf, unsigned n);
 
 static ssize_t pipe_rw(ringbuffer_t *rb,
                        void *buf,
@@ -50,6 +50,7 @@ static ssize_t pipe_rw(ringbuffer_t *rb,
         if (count > 0) {
             tcb_t *other_thread = *other_op_blocked;
             int other_prio = -1;
+
             if (other_thread) {
                 *other_op_blocked = NULL;
                 other_prio = other_thread->priority;
@@ -59,7 +60,7 @@ static ssize_t pipe_rw(ringbuffer_t *rb,
             restoreIRQ(old_state);
 
             if (other_prio >= 0) {
-                sched_switch(other_prio);
+                sched_switch (other_prio);
             }
 
             return count;
@@ -94,8 +95,8 @@ void pipe_init(pipe_t *pipe, ringbuffer_t *rb, void (*free)(void *))
 {
     *pipe = (pipe_t) {
         .rb = rb,
-        .read_blocked = NULL,
-        .write_blocked = NULL,
-        .free = free,
+         .read_blocked = NULL,
+          .write_blocked = NULL,
+           .free = free,
     };
 }

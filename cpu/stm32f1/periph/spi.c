@@ -37,14 +37,16 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
     uint16_t br_div;
     uint8_t bus_div;
 
-    switch(dev) {
+    switch (dev) {
 #ifdef SPI_0_EN
+
         case SPI_0:
             spi = SPI_0_DEV;
             bus_div = SPI_0_BUS_DIV;
             SPI_0_CLKEN();
             break;
 #endif
+
         default:
             return -1;
     }
@@ -53,22 +55,27 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
     spi_conf_pins(dev);
 
     /* configure SPI bus speed */
-    switch(speed) {
+    switch (speed) {
         case SPI_SPEED_10MHZ:
             br_div = 0x01 + bus_div;      /* actual speed: 9MHz   */
             break;
+
         case SPI_SPEED_5MHZ:
             br_div = 0x02 + bus_div;     /* actual speed: 4.5MHz */
             break;
+
         case SPI_SPEED_1MHZ:
             br_div = 0x04 + bus_div;     /* actual speed: 1.1MHz */
             break;
+
         case SPI_SPEED_400KHZ:
             br_div = 0x05 + bus_div;    /* actual speed: 560kHz */
             break;
+
         case SPI_SPEED_100KHZ:
             br_div = 0x07;              /* actual speed: 280kHz on APB2, 140KHz on APB1 */
             break;
+
         default:
             return -2;
     }
@@ -83,7 +90,7 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
     return 0;
 }
 
-int spi_init_slave(spi_t dev, spi_conf_t conf, char (*cb)(char))
+int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char))
 {
     /* TODO */
     return -1;
@@ -94,8 +101,9 @@ int spi_conf_pins(spi_t dev)
     GPIO_TypeDef *port[3];
     int pin[3];
 
-    switch(dev) {
+    switch (dev) {
 #ifdef SPI_0_EN
+
         case SPI_0:
             port[0] = SPI_0_CLK_PORT;
             pin[0] = SPI_0_CLK_PIN;
@@ -105,6 +113,7 @@ int spi_conf_pins(spi_t dev)
             pin[2] = SPI_0_MISO_PIN;
             break;
 #endif
+
         default:
             return -1;
     }
@@ -112,6 +121,7 @@ int spi_conf_pins(spi_t dev)
     /* configure pins for alternate function input (MISO) or output (MOSI, CLK) */
     for (int i = 0; i < 3; i++) {
         int crbitval = (i < 2) ? 0xb : 0x4;
+
         if (pin[i] < 8) {
             port[i]->CRL &= ~(0xf << (pin[i] * 4));
             port[i]->CRL |= (crbitval << (pin[i] * 4));
@@ -130,21 +140,25 @@ int spi_transfer_byte(spi_t dev, char out, char *in)
     SPI_TypeDef *spi;
     int transfered = 0;
 
-    switch(dev) {
+    switch (dev) {
 #ifdef SPI_0_EN
+
         case SPI_0:
             spi = SPI_0_DEV;
             break;
 #endif
+
         default:
             return -1;
     }
 
     while ((spi->SR & SPI_SR_TXE) == RESET);
+
     spi->DR = out;
     transfered++;
 
     while ((spi->SR & SPI_SR_RXNE) == RESET);
+
     if (in != NULL) {
         *in = spi->DR;
         transfered++;
@@ -167,23 +181,30 @@ int spi_transfer_bytes(spi_t dev, char *out, char *in, unsigned int length)
 
     if (out != NULL) {
         DEBUG("out*: %p out: %x length: %x\n", out, *out, length);
+
         while (length--) {
             int ret = spi_transfer_byte(dev, *(out)++, 0);
+
             if (ret <  0) {
                 return ret;
             }
+
             transfered += ret;
         }
     }
+
     if (in != NULL) {
         while (length--) {
             int ret = spi_transfer_byte(dev, 0, in++);
+
             if (ret <  0) {
                 return ret;
             }
+
             transfered += ret;
         }
-        DEBUG("in*: %p in: %x transfered: %x\n", in, *(in-transfered), transfered);
+
+        DEBUG("in*: %p in: %x transfered: %x\n", in, *(in - transfered), transfered);
     }
 
     DEBUG("sent %x byte(s)\n", transfered);
@@ -209,8 +230,9 @@ void spi_transmission_begin(spi_t dev, char reset_val)
 
 void spi_poweron(spi_t dev)
 {
-    switch(dev) {
+    switch (dev) {
 #ifdef SPI_0_EN
+
         case SPI_0:
             SPI_0_CLKEN();
             SPI_0_DEV->CR1 |= SPI_CR1_SPE;   /* turn SPI peripheral on */
@@ -221,8 +243,9 @@ void spi_poweron(spi_t dev)
 
 void spi_poweroff(spi_t dev)
 {
-    switch(dev) {
+    switch (dev) {
 #ifdef SPI_0_EN
+
         case SPI_0:
             SPI_0_DEV->CR1 &= ~(SPI_CR1_SPE);   /* turn SPI peripheral off */
             SPI_0_CLKDIS();

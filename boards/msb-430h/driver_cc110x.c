@@ -234,7 +234,7 @@ void cc110x_spi_init(void)
 //      IFG1 &= ~URXIFG0;
 //      TXBUF0 = buffer[i];
 //      /* Wait for TX to finish */
-//      while(!(IFG1 & UTXIFG0))
+//      while (!(IFG1 & UTXIFG0))
 //      {
 //          if (c++ == 1000000)
 //              alarm();
@@ -242,7 +242,7 @@ void cc110x_spi_init(void)
 //  }
 //  /* Wait for Byte received */
 //  c = 0;
-//  while(!(IFG1 & URXIFG0))
+//  while (!(IFG1 & URXIFG0))
 //  {
 //      if (c++ == 1000000)
 //          alarm();
@@ -261,14 +261,14 @@ void cc110x_spi_init(void)
 //      IFG1 &= ~UTXIFG0;
 //      IFG1 &= ~URXIFG0;
 //      TXBUF0 = NOBYTE;
-//      while(!(IFG1 & UTXIFG0))
+//      while (!(IFG1 & UTXIFG0))
 //      {
 //          if (c++ == 1000000)
 //              alarm();
 //      }
 //      /* Wait for Byte received */
 //      c = 0;
-//      while(!(IFG1 & URXIFG0))
+//      while (!(IFG1 & URXIFG0))
 //      {
 //          if (c++ == 1000000)
 //              alarm();
@@ -325,6 +325,7 @@ void cc110x_spi_init(void)
 interrupt(PORT2_VECTOR) __attribute__((naked)) cc110x_isr(void)
 {
     __enter_isr();
+
     //  if (system_state.POWERDOWN) SPI_INIT; /* Initialize SPI after wakeup */
     /* Check IFG */
     if ((P2IFG & 0x01) != 0) {

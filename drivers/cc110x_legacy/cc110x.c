@@ -210,7 +210,7 @@ char *cc110x_get_marc_state(void)
         cc110x_switch_to_rx();
     }
 
-    switch(state) {
+    switch (state) {
             /* Note: it is not possible to read back the SLEEP or XOFF state numbers
              * because setting CSn low will make the chip enter the IDLE mode from the
              * SLEEP (0) or XOFF (2) states. */
@@ -266,7 +266,7 @@ char *cc110x_get_marc_state(void)
 
 char *cc110x_state_to_text(uint8_t state)
 {
-    switch(state) {
+    switch (state) {
         case RADIO_UNKNOWN:
             return "Unknown";
 
@@ -399,7 +399,7 @@ static int rd_set_mode(int mode)
         result = RADIO_MODE_ON;
     }
 
-    switch(mode) {
+    switch (mode) {
         case RADIO_MODE_ON:
             DEBUG("Enabling rx mode\n");
             cc110x_init_interrupts();           /* Enable interrupts */

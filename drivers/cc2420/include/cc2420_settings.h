@@ -106,16 +106,16 @@ extern "C" {
  * @{
  */
 #define CC2420_REG_MDMCTRL0     0x11
-    /** @brief Address Decode enable flag */
-    #define CC2420_ADR_DECODE          0x800
-    /** @brief Reserved Frame accept enable flag */
-    #define CC2420_RES_FRM_MODE        0x2000
-    /** @brief PAN Coordinator mode enable flag */
-    #define CC2420_PAN_COORD           0x1000
-    /** @brief Automatic CRC computation/verification enable flag */
-    #define CC2420_AUTOCRC             0x20
-    /** @brief Automatic ACK response enable flag */
-    #define CC2420_AUTOACK             0x10
+/** @brief Address Decode enable flag */
+#define CC2420_ADR_DECODE          0x800
+/** @brief Reserved Frame accept enable flag */
+#define CC2420_RES_FRM_MODE        0x2000
+/** @brief PAN Coordinator mode enable flag */
+#define CC2420_PAN_COORD           0x1000
+/** @brief Automatic CRC computation/verification enable flag */
+#define CC2420_AUTOCRC             0x20
+/** @brief Automatic ACK response enable flag */
+#define CC2420_AUTOACK             0x10
 /** @} */
 /** @brief Modem Control Register 1 */
 #define CC2420_REG_MDMCTRL1     0x12
@@ -124,10 +124,10 @@ extern "C" {
  * @{
  */
 #define CC2420_REG_RSSI         0x13
-    /** @brief CCA Threshold value mask */
-    #define CC2420_CCATHR_MASK         0xFF00
-    /** @brief RSSI estimate value mask */
-    #define CC2420_RSSI_MASK           0xFF
+/** @brief CCA Threshold value mask */
+#define CC2420_CCATHR_MASK         0xFF00
+/** @brief RSSI estimate value mask */
+#define CC2420_RSSI_MASK           0xFF
 /** @} */
 /** @brief Sync Word  */
 #define CC2420_REG_SYNCWORD     0x14
@@ -136,8 +136,8 @@ extern "C" {
  * @{
  */
 #define CC2420_REG_TXCTRL       0x15
-    /** @brief Output PA Level value mask */
-    #define CC2420_PALEVEL_MASK        0x1F
+/** @brief Output PA Level value mask */
+#define CC2420_PALEVEL_MASK        0x1F
 /** @} */
 /** @brief Receive Control Register 0 */
 #define CC2420_REG_RXCTRL0      0x16
@@ -146,24 +146,24 @@ extern "C" {
  * @{
  */
 #define CC2420_REG_RXCTRL1      0x17
-    /** @brief RX BandPass Filter Bias Current mode flag */
-    #define CC2420_RXBPF_LOCUR         0x2000
+/** @brief RX BandPass Filter Bias Current mode flag */
+#define CC2420_RXBPF_LOCUR         0x2000
 /** @} */
 /**
  * @brief Frequency Synthesizer Control and Status Register
  * @{
  */
 #define CC2420_REG_FSCTRL       0x18
-    /** @brief RF Operating Frequency mask */
-    #define CC2420_FREQ_MASK           0x3FF
+/** @brief RF Operating Frequency mask */
+#define CC2420_FREQ_MASK           0x3FF
 /** @} */
 /**
  * @brief Security Control Register 0
  * @{
  */
 #define CC2420_REG_SECCTRL0     0x19
-    /** @brief RXFIFO Protection enable flag */
-    #define CC2420_RXFIFO_PROTECTION   0x200
+/** @brief RXFIFO Protection enable flag */
+#define CC2420_RXFIFO_PROTECTION   0x200
 /** @} */
 /** @brief Security Control Register 1 */
 #define CC2420_REG_SECCTRL1     0x1A
@@ -174,8 +174,8 @@ extern "C" {
  * @{
  */
 #define CC2420_REG_IOCFG0       0x1C
-    /** @brief FIFOP Activation Threshold mask */
-    #define CC2420_FIFOPTHR_MASK       0x7F
+/** @brief FIFOP Activation Threshold mask */
+#define CC2420_FIFOPTHR_MASK       0x7F
 /** @} */
 /** @brief I/O Configuration Register 1 */
 #define CC2420_REG_IOCFG1       0x1D

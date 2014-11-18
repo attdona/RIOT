@@ -42,7 +42,7 @@
 
     Some functions in the library set the global variable \c errno when an
     error occurs. The file, \c <errno.h>, provides symbolic names for various
-    error codes. 
+    error codes.
 
     \warning The \c errno global variable is not safe to use in a threaded or
     multi-task system. A race condition can occur if a task is interrupted

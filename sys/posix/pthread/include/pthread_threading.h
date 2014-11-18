@@ -33,7 +33,8 @@ typedef unsigned pthread_t;
  * @return       `== 0` on success.
  *               `!= 0` on error.
  */
-int pthread_create(pthread_t *newthread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg);
+int pthread_create(pthread_t *newthread, const pthread_attr_t *attr,
+                   void * (*start_routine)(void *), void *arg);
 
 /**
  * @brief        Exit calling pthread.

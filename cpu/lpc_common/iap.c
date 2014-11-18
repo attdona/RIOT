@@ -75,6 +75,7 @@ uint8_t flashrom_write(uint8_t *dst, const uint8_t *src, size_t size)
 
     /* prepare sector */
     err = prepare_sectors(sec, sec);
+
     if (err) {
         DEBUG("\n-- ERROR: PREPARE_SECTOR_FOR_WRITE_OPERATION: %u\n", err);
         return 0;
@@ -91,6 +92,7 @@ uint8_t flashrom_write(uint8_t *dst, const uint8_t *src, size_t size)
         restoreIRQ(intstate);
         return 0;
     }
+
     /* check result */
     err = compare((uint32_t) dst, (uint32_t) src, 256);
 
@@ -160,7 +162,7 @@ static uint32_t iap(uint32_t code, uint32_t p1, uint32_t p2, uint32_t p3, uint32
     iap_command[3] = p3;        // set 3rd param
     iap_command[4] = p4;        // set 4th param
 
-    ((void (*)())0x7ffffff1)(iap_command, iap_result);      // IAP entry point
+    ((void ( *)())0x7ffffff1)(iap_command, iap_result);     // IAP entry point
     return *iap_result;
 }
 

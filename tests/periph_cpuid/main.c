@@ -37,9 +37,11 @@ int main(void)
 
     /* print the CPUID */
     printf("CPUID:");
+
     for (unsigned int i = 0; i < CPUID_ID_LEN; i++) {
         printf(" 0x%02x", id[i]);
     }
+
     printf("\n");
 
     return 0;

@@ -122,8 +122,9 @@ static void cpu_clock_init(void)
 
     /* enable PLL again */
     RCC->CR |= RCC_CR_PLLON;
+
     /* wait until PLL is stable */
-    while(!(RCC->CR & RCC_CR_PLLRDY));
+    while (!(RCC->CR & RCC_CR_PLLRDY));
 
     /* configure flash latency */
 

@@ -169,7 +169,7 @@ static int inet_pton6(const char *src, unsigned char *dst)
         }
 
         if (ch == '.' && ((tp + INADDRSZ) <= endp) &&
-           inet_pton4(curtok, tp) > 0) {
+            inet_pton4(curtok, tp) > 0) {
             tp += INADDRSZ;
             saw_xdigit = 0;
             break;  /* '\0' was seen by inet_pton4(). */
@@ -224,7 +224,7 @@ static int inet_pton6(const char *src, unsigned char *dst)
  */
 int inet_pton(int af, const char *src, void *dst)
 {
-    switch(af) {
+    switch (af) {
         case AF_INET:
             return (inet_pton4(src, dst));
 

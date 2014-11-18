@@ -135,112 +135,112 @@ void isr_usage_fault(void)
 
 
 /* Cortex-M specific interrupt vectors */
-void isr_svc(void)           __attribute__ ((weak, alias("dummy_handler")));
-void isr_pendsv(void)        __attribute__ ((weak, alias("dummy_handler")));
-void isr_systick(void)       __attribute__ ((weak, alias("dummy_handler")));
+void isr_svc(void)           __attribute__((weak, alias("dummy_handler")));
+void isr_pendsv(void)        __attribute__((weak, alias("dummy_handler")));
+void isr_systick(void)       __attribute__((weak, alias("dummy_handler")));
 /* CC2538 specific interrupt vector */
-void isr_gpioa(void)         __attribute__ ((weak, alias("dummy_handler")));
-void isr_gpiob(void)         __attribute__ ((weak, alias("dummy_handler")));
-void isr_gpioc(void)         __attribute__ ((weak, alias("dummy_handler")));
-void isr_gpiod(void)         __attribute__ ((weak, alias("dummy_handler")));
-void isr_uart0(void)         __attribute__ ((weak, alias("dummy_handler")));
-void isr_uart1(void)         __attribute__ ((weak, alias("dummy_handler")));
-void isr_ssi0(void)          __attribute__ ((weak, alias("dummy_handler")));
-void isr_i2c(void)           __attribute__ ((weak, alias("dummy_handler")));
-void isr_adc(void)           __attribute__ ((weak, alias("dummy_handler")));
-void isr_watchdog(void)      __attribute__ ((weak, alias("dummy_handler")));
-void isr_timer0_chan0(void)  __attribute__ ((weak, alias("dummy_handler")));
-void isr_timer0_chan1(void)  __attribute__ ((weak, alias("dummy_handler")));
-void isr_timer1_chan0(void)  __attribute__ ((weak, alias("dummy_handler")));
-void isr_timer1_chan1(void)  __attribute__ ((weak, alias("dummy_handler")));
-void isr_timer2_chan0(void)  __attribute__ ((weak, alias("dummy_handler")));
-void isr_timer2_chan1(void)  __attribute__ ((weak, alias("dummy_handler")));
-void isr_comp(void)          __attribute__ ((weak, alias("dummy_handler")));
-void isr_rfcoretx(void)      __attribute__ ((weak, alias("dummy_handler")));
-void isr_rfcoreerr(void)     __attribute__ ((weak, alias("dummy_handler")));
-void isr_icepick(void)       __attribute__ ((weak, alias("dummy_handler")));
-void isr_flash(void)         __attribute__ ((weak, alias("dummy_handler")));
-void isr_aes(void)           __attribute__ ((weak, alias("dummy_handler")));
-void isr_pka(void)           __attribute__ ((weak, alias("dummy_handler")));
-void isr_sleepmode(void)     __attribute__ ((weak, alias("dummy_handler")));
-void isr_mactimer(void)      __attribute__ ((weak, alias("dummy_handler")));
-void isr_ssi1(void)          __attribute__ ((weak, alias("dummy_handler")));
-void isr_timer3_chan0(void)  __attribute__ ((weak, alias("dummy_handler")));
-void isr_timer3_chan1(void)  __attribute__ ((weak, alias("dummy_handler")));
-void isr_usb(void)           __attribute__ ((weak, alias("dummy_handler")));
-void isr_dma(void)           __attribute__ ((weak, alias("dummy_handler")));
-void isr_dmaerr(void)        __attribute__ ((weak, alias("dummy_handler")));
+void isr_gpioa(void)         __attribute__((weak, alias("dummy_handler")));
+void isr_gpiob(void)         __attribute__((weak, alias("dummy_handler")));
+void isr_gpioc(void)         __attribute__((weak, alias("dummy_handler")));
+void isr_gpiod(void)         __attribute__((weak, alias("dummy_handler")));
+void isr_uart0(void)         __attribute__((weak, alias("dummy_handler")));
+void isr_uart1(void)         __attribute__((weak, alias("dummy_handler")));
+void isr_ssi0(void)          __attribute__((weak, alias("dummy_handler")));
+void isr_i2c(void)           __attribute__((weak, alias("dummy_handler")));
+void isr_adc(void)           __attribute__((weak, alias("dummy_handler")));
+void isr_watchdog(void)      __attribute__((weak, alias("dummy_handler")));
+void isr_timer0_chan0(void)  __attribute__((weak, alias("dummy_handler")));
+void isr_timer0_chan1(void)  __attribute__((weak, alias("dummy_handler")));
+void isr_timer1_chan0(void)  __attribute__((weak, alias("dummy_handler")));
+void isr_timer1_chan1(void)  __attribute__((weak, alias("dummy_handler")));
+void isr_timer2_chan0(void)  __attribute__((weak, alias("dummy_handler")));
+void isr_timer2_chan1(void)  __attribute__((weak, alias("dummy_handler")));
+void isr_comp(void)          __attribute__((weak, alias("dummy_handler")));
+void isr_rfcoretx(void)      __attribute__((weak, alias("dummy_handler")));
+void isr_rfcoreerr(void)     __attribute__((weak, alias("dummy_handler")));
+void isr_icepick(void)       __attribute__((weak, alias("dummy_handler")));
+void isr_flash(void)         __attribute__((weak, alias("dummy_handler")));
+void isr_aes(void)           __attribute__((weak, alias("dummy_handler")));
+void isr_pka(void)           __attribute__((weak, alias("dummy_handler")));
+void isr_sleepmode(void)     __attribute__((weak, alias("dummy_handler")));
+void isr_mactimer(void)      __attribute__((weak, alias("dummy_handler")));
+void isr_ssi1(void)          __attribute__((weak, alias("dummy_handler")));
+void isr_timer3_chan0(void)  __attribute__((weak, alias("dummy_handler")));
+void isr_timer3_chan1(void)  __attribute__((weak, alias("dummy_handler")));
+void isr_usb(void)           __attribute__((weak, alias("dummy_handler")));
+void isr_dma(void)           __attribute__((weak, alias("dummy_handler")));
+void isr_dmaerr(void)        __attribute__((weak, alias("dummy_handler")));
 
 /* interrupt vector table */
-__attribute__ ((section(".vectors")))
+__attribute__((section(".vectors")))
 const void *interrupt_vector[] = {
     /* Stack pointer */
-    (void*) (&_estack),             /* pointer to the top of the empty stack */
+    (void *)(&_estack),             /* pointer to the top of the empty stack */
     /* Cortex-M handlers */
-    (void*) reset_handler,          /* entry point of the program */
-    (void*) isr_nmi,                /* non maskable interrupt handler */
-    (void*) isr_hard_fault,         /* if you end up here its not good */
-    (void*) isr_mem_manage,         /* memory controller interrupt */
-    (void*) isr_bus_fault,          /* also not good to end up here */
-    (void*) isr_usage_fault,        /* autsch */
-    (void*) (0UL),                  /* Reserved */
-    (void*) (0UL),                  /* Reserved */
-    (void*) (0UL),                  /* Reserved */
-    (void*) (0UL),                  /* Reserved */
-    (void*) isr_svc,                /* system call interrupt */
-    (void*) isr_debug_mon,          /* debug interrupt */
-    (void*) (0UL),                  /* Reserved */
-    (void*) isr_pendsv,             /* pendSV interrupt, used for task switching in RIOT */
-    (void*) isr_systick,            /* SysTick interrupt, not used in RIOT */
+    (void *) reset_handler,         /* entry point of the program */
+    (void *) isr_nmi,               /* non maskable interrupt handler */
+    (void *) isr_hard_fault,        /* if you end up here its not good */
+    (void *) isr_mem_manage,        /* memory controller interrupt */
+    (void *) isr_bus_fault,         /* also not good to end up here */
+    (void *) isr_usage_fault,       /* autsch */
+    (void *)(0UL),                  /* Reserved */
+    (void *)(0UL),                  /* Reserved */
+    (void *)(0UL),                  /* Reserved */
+    (void *)(0UL),                  /* Reserved */
+    (void *) isr_svc,               /* system call interrupt */
+    (void *) isr_debug_mon,         /* debug interrupt */
+    (void *)(0UL),                  /* Reserved */
+    (void *) isr_pendsv,            /* pendSV interrupt, used for task switching in RIOT */
+    (void *) isr_systick,           /* SysTick interrupt, not used in RIOT */
     /* CC2538 specific peripheral handlers */
-    (void*) isr_gpioa,              /* 16 GPIO Port A */
-    (void*) isr_gpiob,              /* 17 GPIO Port B */
-    (void*) isr_gpioc,              /* 18 GPIO Port C */
-    (void*) isr_gpiod,              /* 19 GPIO Port D */
-    (void*) (0UL),                  /* 20 none */
-    (void*) isr_uart0,              /* 21 UART0 Rx and Tx */
-    (void*) isr_uart1,              /* 22 UART1 Rx and Tx */
-    (void*) isr_ssi0,               /* 23 SSI0 Rx and Tx */
-    (void*) isr_i2c,                /* 24 I2C Master and Slave */
-    (void*) (0UL),                  /* 25 Reserved */
-    (void*) (0UL),                  /* 26 Reserved */
-    (void*) (0UL),                  /* 27 Reserved */
-    (void*) (0UL),                  /* 28 Reserved */
-    (void*) (0UL),                  /* 29 Reserved */
-    (void*) isr_adc,                /* 30 ADC Sequence 0 */
-    (void*) (0UL),                  /* 31 Reserved */
-    (void*) (0UL),                  /* 32 Reserved */
-    (void*) (0UL),                  /* 33 Reserved */
-    (void*) isr_watchdog,           /* 34 Watchdog timer, timer 0 */
-    (void*) isr_timer0_chan0,       /* 35 Timer 0 subtimer A */
-    (void*) isr_timer0_chan1,       /* 36 Timer 0 subtimer B */
-    (void*) isr_timer1_chan0,       /* 37 Timer 1 subtimer A */
-    (void*) isr_timer1_chan1,       /* 38 Timer 1 subtimer B */
-    (void*) isr_timer2_chan0,       /* 39 Timer 2 subtimer A */
-    (void*) isr_timer2_chan1,       /* 40 Timer 2 subtimer B */
-    (void*) isr_comp,               /* 41 Analog Comparator 0 */
-    (void*) isr_rfcoretx,           /* 42 RFCore Rx/Tx */
-    (void*) isr_rfcoreerr,          /* 43 RFCore Error */
-    (void*) isr_icepick,            /* 44 IcePick */
-    (void*) isr_flash,              /* 45 FLASH Control */
-    (void*) isr_aes,                /* 46 AES */
-    (void*) isr_pka,                /* 47 PKA */
-    (void*) isr_sleepmode,          /* 48 Sleep Timer */
-    (void*) isr_mactimer,           /* 49 MacTimer */
-    (void*) isr_ssi1,               /* 50 SSI1 Rx and Tx */
-    (void*) isr_timer3_chan0,       /* 51 Timer 3 subtimer A */
-    (void*) isr_timer3_chan1,       /* 52 Timer 3 subtimer B */
-    (void*) (0UL),                  /* 53 Reserved */
-    (void*) (0UL),                  /* 54 Reserved */
-    (void*) (0UL),                  /* 55 Reserved */
-    (void*) (0UL),                  /* 56 Reserved */
-    (void*) (0UL),                  /* 57 Reserved */
-    (void*) (0UL),                  /* 58 Reserved */
-    (void*) (0UL),                  /* 59 Reserved */
-    (void*) isr_usb,                /* 60 USB 2538 */
-    (void*) (0UL),                  /* 61 Reserved */
-    (void*) isr_dma,                /* 62 uDMA */
-    (void*) isr_dmaerr,             /* 63 uDMA Error */
+    (void *) isr_gpioa,             /* 16 GPIO Port A */
+    (void *) isr_gpiob,             /* 17 GPIO Port B */
+    (void *) isr_gpioc,             /* 18 GPIO Port C */
+    (void *) isr_gpiod,             /* 19 GPIO Port D */
+    (void *)(0UL),                  /* 20 none */
+    (void *) isr_uart0,             /* 21 UART0 Rx and Tx */
+    (void *) isr_uart1,             /* 22 UART1 Rx and Tx */
+    (void *) isr_ssi0,              /* 23 SSI0 Rx and Tx */
+    (void *) isr_i2c,               /* 24 I2C Master and Slave */
+    (void *)(0UL),                  /* 25 Reserved */
+    (void *)(0UL),                  /* 26 Reserved */
+    (void *)(0UL),                  /* 27 Reserved */
+    (void *)(0UL),                  /* 28 Reserved */
+    (void *)(0UL),                  /* 29 Reserved */
+    (void *) isr_adc,               /* 30 ADC Sequence 0 */
+    (void *)(0UL),                  /* 31 Reserved */
+    (void *)(0UL),                  /* 32 Reserved */
+    (void *)(0UL),                  /* 33 Reserved */
+    (void *) isr_watchdog,          /* 34 Watchdog timer, timer 0 */
+    (void *) isr_timer0_chan0,      /* 35 Timer 0 subtimer A */
+    (void *) isr_timer0_chan1,      /* 36 Timer 0 subtimer B */
+    (void *) isr_timer1_chan0,      /* 37 Timer 1 subtimer A */
+    (void *) isr_timer1_chan1,      /* 38 Timer 1 subtimer B */
+    (void *) isr_timer2_chan0,      /* 39 Timer 2 subtimer A */
+    (void *) isr_timer2_chan1,      /* 40 Timer 2 subtimer B */
+    (void *) isr_comp,              /* 41 Analog Comparator 0 */
+    (void *) isr_rfcoretx,          /* 42 RFCore Rx/Tx */
+    (void *) isr_rfcoreerr,         /* 43 RFCore Error */
+    (void *) isr_icepick,           /* 44 IcePick */
+    (void *) isr_flash,             /* 45 FLASH Control */
+    (void *) isr_aes,               /* 46 AES */
+    (void *) isr_pka,               /* 47 PKA */
+    (void *) isr_sleepmode,         /* 48 Sleep Timer */
+    (void *) isr_mactimer,          /* 49 MacTimer */
+    (void *) isr_ssi1,              /* 50 SSI1 Rx and Tx */
+    (void *) isr_timer3_chan0,      /* 51 Timer 3 subtimer A */
+    (void *) isr_timer3_chan1,      /* 52 Timer 3 subtimer B */
+    (void *)(0UL),                  /* 53 Reserved */
+    (void *)(0UL),                  /* 54 Reserved */
+    (void *)(0UL),                  /* 55 Reserved */
+    (void *)(0UL),                  /* 56 Reserved */
+    (void *)(0UL),                  /* 57 Reserved */
+    (void *)(0UL),                  /* 58 Reserved */
+    (void *)(0UL),                  /* 59 Reserved */
+    (void *) isr_usb,               /* 60 USB 2538 */
+    (void *)(0UL),                  /* 61 Reserved */
+    (void *) isr_dma,               /* 62 uDMA */
+    (void *) isr_dmaerr,            /* 63 uDMA Error */
 };
 
 #if UPDATE_CCA

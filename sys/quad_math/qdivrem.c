@@ -138,13 +138,13 @@ __qdivrem(u_quad_t uq, u_quad_t vq, u_quad_t *arq)
              * We unroll this completely here.
              */
             t = v[2];   /* nonzero, by definition */
-            q1 = (digit) (u[1] / t);
+            q1 = (digit)(u[1] / t);
             rbj = COMBINE(u[1] % t, u[2]);
-            q2 = (digit) (rbj / t);
+            q2 = (digit)(rbj / t);
             rbj = COMBINE(rbj % t, u[3]);
-            q3 = (digit) (rbj / t);
+            q3 = (digit)(rbj / t);
             rbj = COMBINE(rbj % t, u[4]);
-            q4 = (digit) (rbj / t);
+            q4 = (digit)(rbj / t);
 
             if (arq) {
                 *arq = rbj % t;
@@ -222,7 +222,7 @@ __qdivrem(u_quad_t uq, u_quad_t vq, u_quad_t *arq)
         }
 
         while (v2 * qhat > COMBINE(rhat, uj2)) {
-qhat_too_big:
+        qhat_too_big:
             qhat--;
 
             if ((rhat += v1) >= B) {
@@ -264,7 +264,8 @@ qhat_too_big:
         }
 
         q[j] = (digit)qhat;
-    } while (++j <= m);     /* D7: loop on j. */
+    }
+    while (++j <= m);       /* D7: loop on j. */
 
     /*
      * If caller wants the remainder, we have to calculate it as
@@ -300,7 +301,7 @@ static void shl(digit *p, int len, int sh)
     int i;
 
     for (i = 0; i < len; i++) {
-        p[i] = (digit) (LHALF((u_int)p[i] << sh) | ((u_int)p[i + 1] >> (HALF_BITS - sh)));
+        p[i] = (digit)(LHALF((u_int)p[i] << sh) | ((u_int)p[i + 1] >> (HALF_BITS - sh)));
     }
 
     p[i] = (digit)(LHALF((u_int)p[i] << sh));

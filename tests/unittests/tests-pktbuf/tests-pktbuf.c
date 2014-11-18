@@ -20,7 +20,8 @@
 
 #include "tests-pktbuf.h"
 
-typedef struct __attribute__((packed)) {
+typedef struct __attribute__((packed))
+{
     uint8_t u8;
     uint16_t u16;
     uint32_t u32;
@@ -29,7 +30,8 @@ typedef struct __attribute__((packed)) {
     int16_t s16;
     int32_t s32;
     int64_t s64;
-} test_pktbuf_struct_t;
+}
+test_pktbuf_struct_t;
 
 static void tear_down(void)
 {
@@ -489,41 +491,41 @@ Test *tests_pktbuf_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_pktbuf_alloc_0),
-        new_TestFixture(test_pktbuf_alloc_memfull),
-        new_TestFixture(test_pktbuf_alloc_success),
-        new_TestFixture(test_pktbuf_realloc_0),
-        new_TestFixture(test_pktbuf_realloc_memfull),
-        new_TestFixture(test_pktbuf_realloc_memfull2),
-        new_TestFixture(test_pktbuf_realloc_memfull3),
-        new_TestFixture(test_pktbuf_realloc_smaller),
-        new_TestFixture(test_pktbuf_realloc_memenough),
-        new_TestFixture(test_pktbuf_realloc_memenough2),
-        new_TestFixture(test_pktbuf_realloc_nomemenough),
-        new_TestFixture(test_pktbuf_realloc_unknown_ptr),
-        new_TestFixture(test_pktbuf_insert_size_0),
-        new_TestFixture(test_pktbuf_insert_data_NULL),
-        new_TestFixture(test_pktbuf_insert_memfull),
-        new_TestFixture(test_pktbuf_insert_success),
+                        new_TestFixture(test_pktbuf_alloc_memfull),
+                        new_TestFixture(test_pktbuf_alloc_success),
+                        new_TestFixture(test_pktbuf_realloc_0),
+                        new_TestFixture(test_pktbuf_realloc_memfull),
+                        new_TestFixture(test_pktbuf_realloc_memfull2),
+                        new_TestFixture(test_pktbuf_realloc_memfull3),
+                        new_TestFixture(test_pktbuf_realloc_smaller),
+                        new_TestFixture(test_pktbuf_realloc_memenough),
+                        new_TestFixture(test_pktbuf_realloc_memenough2),
+                        new_TestFixture(test_pktbuf_realloc_nomemenough),
+                        new_TestFixture(test_pktbuf_realloc_unknown_ptr),
+                        new_TestFixture(test_pktbuf_insert_size_0),
+                        new_TestFixture(test_pktbuf_insert_data_NULL),
+                        new_TestFixture(test_pktbuf_insert_memfull),
+                        new_TestFixture(test_pktbuf_insert_success),
 #ifdef DEVELHELP
-        new_TestFixture(test_pktbuf_copy_efault),
+                        new_TestFixture(test_pktbuf_copy_efault),
 #endif
-        new_TestFixture(test_pktbuf_copy_data_len_too_long),
-        new_TestFixture(test_pktbuf_copy_data_len_too_long2),
-        new_TestFixture(test_pktbuf_copy_data_len_0),
-        new_TestFixture(test_pktbuf_copy_success),
-        new_TestFixture(test_pktbuf_copy_success2),
-        new_TestFixture(test_pktbuf_hold_ptr_null),
-        new_TestFixture(test_pktbuf_hold_wrong_ptr),
-        new_TestFixture(test_pktbuf_hold_success),
-        new_TestFixture(test_pktbuf_hold_success2),
-        new_TestFixture(test_pktbuf_release_ptr_null),
-        new_TestFixture(test_pktbuf_release_wrong_ptr),
-        new_TestFixture(test_pktbuf_release_success),
-        new_TestFixture(test_pktbuf_release_success2),
-        new_TestFixture(test_pktbuf_release_success3),
-        new_TestFixture(test_pktbuf_release_success4),
-        new_TestFixture(test_pktbuf_insert_packed_struct),
-        new_TestFixture(test_pktbuf_alloc_off_by_one1),
+                        new_TestFixture(test_pktbuf_copy_data_len_too_long),
+                        new_TestFixture(test_pktbuf_copy_data_len_too_long2),
+                        new_TestFixture(test_pktbuf_copy_data_len_0),
+                        new_TestFixture(test_pktbuf_copy_success),
+                        new_TestFixture(test_pktbuf_copy_success2),
+                        new_TestFixture(test_pktbuf_hold_ptr_null),
+                        new_TestFixture(test_pktbuf_hold_wrong_ptr),
+                        new_TestFixture(test_pktbuf_hold_success),
+                        new_TestFixture(test_pktbuf_hold_success2),
+                        new_TestFixture(test_pktbuf_release_ptr_null),
+                        new_TestFixture(test_pktbuf_release_wrong_ptr),
+                        new_TestFixture(test_pktbuf_release_success),
+                        new_TestFixture(test_pktbuf_release_success2),
+                        new_TestFixture(test_pktbuf_release_success3),
+                        new_TestFixture(test_pktbuf_release_success4),
+                        new_TestFixture(test_pktbuf_insert_packed_struct),
+                        new_TestFixture(test_pktbuf_alloc_off_by_one1),
     };
 
     EMB_UNIT_TESTCALLER(pktbuf_tests, NULL, tear_down, fixtures);

@@ -51,7 +51,8 @@ typedef enum {
 #if UART_3_EN
     UART_3,                 /**< UART channel 3 */
 #endif
-} uart_t;
+}
+uart_t;
 
 /**
  * @brief Signature for receive interrupt callback

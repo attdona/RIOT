@@ -19,6 +19,7 @@ void uart1_isr(void)
 
         if (uart0_handler_pid != KERNEL_PID_UNDEF) {
             uint32_t i = 0;
+
             while (UART1->RXCON != 0) {
                 uart0_handle_incoming(UART1->DATA);
 

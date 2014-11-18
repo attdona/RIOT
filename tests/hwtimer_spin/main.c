@@ -32,6 +32,7 @@ int main(void)
             hwtimer_wait(i);
         }
     }
+
     puts("success");
     return 0;
 }

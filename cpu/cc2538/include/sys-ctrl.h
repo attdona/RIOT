@@ -63,22 +63,28 @@ typedef struct {
             cc2538_reg_t RST           : 2;  /**< Last source of reset */
             cc2538_reg_t OSC32K        : 1;  /**< Current 32-kHz clock oscillator selected */
             cc2538_reg_t OSC32K_CALDIS : 1;  /**< Disable calibration 32-kHz RC oscillator */
-            cc2538_reg_t SYNC_32K      : 1;  /**< 32-kHz clock source synced to undivided system clock (16 or 32 MHz) */
+        cc2538_reg_t SYNC_32K      :
+            1;  /**< 32-kHz clock source synced to undivided system clock (16 or 32 MHz) */
             cc2538_reg_t RESERVED9     : 5;  /**< Reserved bits */
         } CLOCK_STAbits;
     };
 
-    cc2538_reg_t RCGCGPT;                    /**< Module clocks for GPT[3:0] when the CPU is in active (run) mode */
-    cc2538_reg_t SCGCGPT;                    /**< Module clocks for GPT[3:0] when the CPU is in sleep mode */
+    cc2538_reg_t
+    RCGCGPT;                    /**< Module clocks for GPT[3:0] when the CPU is in active (run) mode */
+    cc2538_reg_t
+    SCGCGPT;                    /**< Module clocks for GPT[3:0] when the CPU is in sleep mode */
     cc2538_reg_t DCGCGPT;                    /**< Module clocks for GPT[3:0] when the CPU is in PM0 */
     cc2538_reg_t SRGPT;                      /**< Reset for GPT[3:0]. */
-    cc2538_reg_t RCGCSSI;                    /**< Module clocks for SSI[1:0] when the CPU is in active (run) mode */
-    cc2538_reg_t SCGCSSI;                    /**< Module clocks for SSI[1:0] when the CPU is insSleep mode */
+    cc2538_reg_t
+    RCGCSSI;                    /**< Module clocks for SSI[1:0] when the CPU is in active (run) mode */
+    cc2538_reg_t
+    SCGCSSI;                    /**< Module clocks for SSI[1:0] when the CPU is insSleep mode */
     cc2538_reg_t DCGCSSI;                    /**< Module clocks for SSI[1:0] when the CPU is in PM0 */
     cc2538_reg_t SRSSI;                      /**< Reset for SSI[1:0]. */
 
     union {
-        cc2538_reg_t RCGCUART;               /**< Module clocks for UART[1:0] when the CPU is in active (run) mode */
+        cc2538_reg_t
+        RCGCUART;               /**< Module clocks for UART[1:0] when the CPU is in active (run) mode */
         struct {
             cc2538_reg_t UART0         :  1; /**< Enable UART0 clock in active (run) mode */
             cc2538_reg_t UART1         :  1; /**< Enable UART1 clock in active (run) mode */
@@ -87,7 +93,8 @@ typedef struct {
     };
 
     union {
-        cc2538_reg_t SCGCUART;               /**< Module clocks for UART[1:0] when the CPU is in sleep mode */
+        cc2538_reg_t
+        SCGCUART;               /**< Module clocks for UART[1:0] when the CPU is in sleep mode */
         struct {
             cc2538_reg_t UART0         :  1; /**< Enable UART0 clock in sleep mode */
             cc2538_reg_t UART1         :  1; /**< Enable UART1 clock in sleep mode */
@@ -105,28 +112,38 @@ typedef struct {
     };
 
     cc2538_reg_t SRUART;                     /**< Reset for UART[1:0]. */
-    cc2538_reg_t RCGCI2C;                    /**< Module clocks for I2C when the CPU is in active (run) mode */
+    cc2538_reg_t
+    RCGCI2C;                    /**< Module clocks for I2C when the CPU is in active (run) mode */
     cc2538_reg_t SCGCI2C;                    /**< Module clocks for I2C when the CPU is in sleep mode */
     cc2538_reg_t DCGCI2C;                    /**< Module clocks for I2C when the CPU is in PM0 */
     cc2538_reg_t SRI2C;                      /**< Reset for I2C. */
-    cc2538_reg_t RCGCSEC;                    /**< Module clocks for the security module when the CPU is in active (run) mode */
-    cc2538_reg_t SCGCSEC;                    /**< Module clocks for the security module when the CPU is in sleep mode */
-    cc2538_reg_t DCGCSEC;                    /**< Module clocks for the security module when the CPU is in PM0 */
+    cc2538_reg_t
+    RCGCSEC;                    /**< Module clocks for the security module when the CPU is in active (run) mode */
+    cc2538_reg_t
+    SCGCSEC;                    /**< Module clocks for the security module when the CPU is in sleep mode */
+    cc2538_reg_t
+    DCGCSEC;                    /**< Module clocks for the security module when the CPU is in PM0 */
     cc2538_reg_t SRSEC;                      /**< Reset for the security module. */
     cc2538_reg_t PMCTL;                      /**< Power mode. */
     cc2538_reg_t SRCRC;                      /**< CRC on state retention. */
     cc2538_reg_t RESERVED10[5];              /**< Reserved bits */
     cc2538_reg_t PWRDBG;                     /**< Power debug register */
     cc2538_reg_t RESERVED11[2];              /**< Reserved bits */
-    cc2538_reg_t CLD;                        /**< This register controls the clock loss detection feature. */
+    cc2538_reg_t
+    CLD;                        /**< This register controls the clock loss detection feature. */
     cc2538_reg_t RESERVED12[4];              /**< Reserved bits */
     cc2538_reg_t IWE;                        /**< This register controls interrupt wake-up. */
-    cc2538_reg_t I_MAP;                      /**< This register selects which interrupt map to be used. */
+    cc2538_reg_t
+    I_MAP;                      /**< This register selects which interrupt map to be used. */
     cc2538_reg_t RESERVED13[3];              /**< Reserved bits */
-    cc2538_reg_t RCGCRFC;                    /**< This register defines the module clocks for RF CORE when the CPU is in active (run) mode */
-    cc2538_reg_t SCGCRFC;                    /**< This register defines the module clocks for RF CORE when the CPU is in sleep mode */
-    cc2538_reg_t DCGCRFC;                    /**< This register defines the module clocks for RF CORE when the CPU is in PM0 */
-    cc2538_reg_t EMUOVR;                     /**< This register defines the emulator override controls for power mode and peripheral clock gate. */
+    cc2538_reg_t
+    RCGCRFC;                    /**< This register defines the module clocks for RF CORE when the CPU is in active (run) mode */
+    cc2538_reg_t
+    SCGCRFC;                    /**< This register defines the module clocks for RF CORE when the CPU is in sleep mode */
+    cc2538_reg_t
+    DCGCRFC;                    /**< This register defines the module clocks for RF CORE when the CPU is in PM0 */
+    cc2538_reg_t
+    EMUOVR;                     /**< This register defines the emulator override controls for power mode and peripheral clock gate. */
 } cc2538_sys_ctrl_t;
 
 #define SYS_CTRL ( (cc2538_sys_ctrl_t*)0x400d2000 ) /**< One and only instance of the System Control module */

@@ -621,7 +621,7 @@ static void test_float(void)
                HEX_LITERAL(0xfa, 0x00, 0x00, 0x00, 0x00), EQUAL_FLOAT);
     /* cppcheck-suppress nanInArithmeticExpression */
     CBOR_CHECK(float, float, stream, INFINITY,
-    /* cppcheck-suppress nanInArithmeticExpression */
+               /* cppcheck-suppress nanInArithmeticExpression */
                HEX_LITERAL(0xfa, 0x7f, 0x80, 0x00, 0x00), EQUAL_FLOAT);
     /* cppcheck-suppress nanInArithmeticExpression */
     CBOR_CHECK(float, float, stream, NAN,
@@ -653,7 +653,7 @@ static void test_double(void)
                HEX_LITERAL(0xfb, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00), EQUAL_FLOAT);
     /* cppcheck-suppress nanInArithmeticExpression */
     CBOR_CHECK(double, double, stream, INFINITY,
-    /* cppcheck-suppress nanInArithmeticExpression */
+               /* cppcheck-suppress nanInArithmeticExpression */
                HEX_LITERAL(0xfb, 0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00), EQUAL_FLOAT);
     /* cppcheck-suppress nanInArithmeticExpression */
     CBOR_CHECK(double, double, stream, NAN,

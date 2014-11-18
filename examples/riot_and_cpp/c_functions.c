@@ -42,7 +42,8 @@ int day_of_week(int day, int month, int year)
         return -1;
     }
 
-    if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+    if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10
+        || month == 12) {
         if (day > 31 || day < 1) {
             printf("Sorry buddy, your date is not correct!\n");
             return -1;
@@ -78,7 +79,8 @@ int day_of_week(int day, int month, int year)
     }
 
     for (count = 1; count < month; count++) {
-        if (count == 1 || count == 3 || count == 5 || count == 7 || count == 8 || count == 10 || count == 12) {
+        if (count == 1 || count == 3 || count == 5 || count == 7 || count == 8 || count == 10
+            || count == 12) {
             sum_of_days += 31 % 7;
         }
         else if (count == 2) {

@@ -64,11 +64,14 @@ NORETURN void cpu_switch_context_exit(void)
  * To "fix" this, we put a return in section .fini9 to make main
  * behave like a regular function. This enables a common
  * thread_stack_init behavior. */
-__attribute__((section (".fini9"))) void __main_epilogue(void) { __asm__("ret"); }
+__attribute__((section(".fini9"))) void __main_epilogue(void)
+{
+    __asm__("ret");
+}
 
 
 #if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
- #define REGS_SIZE 14
+#define REGS_SIZE 14
 #else
 #define REGS_SIZE 11
 #endif

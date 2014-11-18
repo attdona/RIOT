@@ -28,5 +28,5 @@
 
 void cpuid_get(void *id)
 {
-    memcpy(id, (void*)NRF_FICR->DEVICEID, CPUID_ID_LEN);
+    memcpy(id, (void *)NRF_FICR->DEVICEID, CPUID_ID_LEN);
 }

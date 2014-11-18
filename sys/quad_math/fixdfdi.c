@@ -45,7 +45,7 @@ quad_t __fixdfdi(double x)
             return QUAD_MIN;
         }
         else {
-            return (quad_t) -(u_quad_t) -x;
+            return (quad_t) - (u_quad_t) - x;
         }
     }
     else {
@@ -53,7 +53,7 @@ quad_t __fixdfdi(double x)
             return QUAD_MAX;
         }
         else {
-            return (quad_t) (u_quad_t) x;
+            return (quad_t)(u_quad_t) x;
         }
     }
 }

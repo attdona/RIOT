@@ -117,6 +117,7 @@ uint8_t cc2420_get_cca(void)
 {
     uint8_t status;
     long count = 0;
+
     do {
         unsigned int sr = disableIRQ();
         cc2420_spi_select();
@@ -124,10 +125,13 @@ uint8_t cc2420_get_cca(void)
         cc2420_spi_unselect();
         restoreIRQ(sr);
         count++;
+
         if (count >= MAX_RSSI_WAIT) {
             core_panic(0x2420, "cc2420_get_cca(): RSSI never valid!");
         }
-    } while (!(status & CC2420_STATUS_RSSI_VALID));
+    }
+    while (!(status & CC2420_STATUS_RSSI_VALID));
+
     return CC2420_CCA;
 }
 
@@ -143,18 +147,22 @@ uint8_t cc2420_txrx(uint8_t data)
     IFG2 &= ~UTXIFG1;
     IFG2 &= ~URXIFG1;
     U1TXBUF = data;
-    while(!(IFG2 & UTXIFG1)) {
+
+    while (!(IFG2 & UTXIFG1)) {
         if (c++ == 1000000) {
             core_panic(0x2420, "cc2420_txrx() alarm");
         }
     }
+
     /* Wait for Byte received */
     c = 0;
-    while(!(IFG2 & URXIFG1)) {
+
+    while (!(IFG2 & URXIFG1)) {
         if (c++ == 1000000) {
             core_panic(0x2420, "cc2420_txrx() alarm");
         }
     }
+
     return U1RXBUF;
 }
 
@@ -164,7 +172,8 @@ void cc2420_spi_select(void)
     CC2420_CS_LOW;
 }
 
-void cc2420_spi_unselect(void) {
+void cc2420_spi_unselect(void)
+{
     CC2420_CS_HIGH;
 }
 
@@ -186,7 +195,8 @@ void cc2420_init_interrupts(void)
 void cc2420_spi_init(void)
 {
     // Switch off async UART
-    while(!(U1TCTL & TXEPT));   // Wait for empty UxTXBUF register
+    while (!(U1TCTL & TXEPT));  // Wait for empty UxTXBUF register
+
     IE2 &= ~(URXIE1 + UTXIE1);  // Disable USART1 receive&transmit interrupt
     ME2 &= ~(UTXE1 + URXE1);
     P5DIR |= 0x0A;              // output for CLK and SIMO
@@ -218,9 +228,11 @@ void cc2420_spi_init(void)
 /*
  * CC2420 receive interrupt
  */
-interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc2420_isr(void){
+interrupt(PORT1_VECTOR) __attribute__((naked)) cc2420_isr(void)
+{
     __enter_isr();
-     /* Check IFG */
+
+    /* Check IFG */
     if ((P1IFG & CC2420_GDO2_PIN) != 0) {
         DEBUG("rx interrupt");
         P1IFG &= ~CC2420_GDO2_PIN;
@@ -231,6 +243,7 @@ interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc2420_isr(void){
             cc2420_rxoverflow_irq();
             DEBUG("[CC2420] rxfifo overflow");
         }
+
         P1IFG &= ~CC2420_GDO0_PIN;                /* Clear IFG for GDO0 */
     }
     else if ((P1IFG & CC2420_SFD_PIN) != 0) {
@@ -243,5 +256,6 @@ interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc2420_isr(void){
         puts("cc2420_isr(): unexpected IFG!");
         /* Should not occur - only GDO1 and GDO2 interrupts are enabled */
     }
+
     __exit_isr();
 }

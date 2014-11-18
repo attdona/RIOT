@@ -40,14 +40,14 @@ extern "C" {
 #endif
 
 /*  #define NO_STDIO_PRINTF*/
-    #ifdef  NO_STDIO_PRINTF
-        extern void stdimpl_print(const char *string);
-    #else
-        #include<stdio.h>
-        #define stdimpl_print(s) printf("%s", s);
-    #endif
+#ifdef  NO_STDIO_PRINTF
+extern void stdimpl_print(const char *string);
+#else
+#include<stdio.h>
+#define stdimpl_print(s) printf("%s", s);
+#endif
 
-    #define ASSERT_STRING_BUFFER_MAX    64
+#define ASSERT_STRING_BUFFER_MAX    64
 
 #ifdef  __cplusplus
 }

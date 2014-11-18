@@ -40,11 +40,11 @@ extern "C" {
 #endif
 
 typedef struct __TestListnerImplement   TestListnerImplement;
-typedef struct __TestListnerImplement*  TestListnerImplementRef;/*downward compatible*/
+typedef struct __TestListnerImplement  *TestListnerImplementRef;/*downward compatible*/
 
-typedef void(*TestListnerStartTestCallBack)(void*,void*);
-typedef void(*TestListnerEndTestCallBack)(void*,void*);
-typedef void(*TestListnerAddFailureCallBack)(void*,void*,const char*,int,const char*);
+typedef void(*TestListnerStartTestCallBack)(void *, void *);
+typedef void(*TestListnerEndTestCallBack)(void *, void *);
+typedef void(*TestListnerAddFailureCallBack)(void *, void *, const char *, int, const char *);
 
 struct __TestListnerImplement {
     TestListnerStartTestCallBack startTest;
@@ -56,7 +56,7 @@ struct __TestListnerImplement {
 /*typedef struct __TestListner* TestListnerRef;*/   /*->TestResult.h*/
 
 struct __TestListner {
-    TestListnerImplement* isa;
+    TestListnerImplement *isa;
 };
 
 #define TestListner_startTest(s,t)          ((TestListner*)s)->isa->startTest(s,t)

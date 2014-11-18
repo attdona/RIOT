@@ -69,17 +69,17 @@ unsigned disableIRQ(void)
 unsigned enableIRQ(void)
 {
     unsigned long eflags;
-    asm volatile ("pushf; pop %0; sti" : "=g"(eflags));
+    asm volatile("pushf; pop %0; sti" : "=g"(eflags));
     return (eflags & X86_IF) != 0;
 }
 
 void restoreIRQ(unsigned state)
 {
     if (state) {
-        asm volatile ("sti");
+        asm volatile("sti");
     }
     else {
-        asm volatile ("cli");
+        asm volatile("cli");
     }
 }
 
@@ -89,7 +89,8 @@ static void __attribute__((noreturn)) isr_thread_yield(void)
 {
     sched_run();
     ucontext_t *ctx = (ucontext_t *) sched_active_thread->sp;
-    DEBUG("isr_thread_yield(): switching to (%s, %p)\n\n", sched_active_thread->name, ctx->uc_context.ip);
+    DEBUG("isr_thread_yield(): switching to (%s, %p)\n\n", sched_active_thread->name,
+          ctx->uc_context.ip);
 
     uint32_t cr0 = cr0_read();
     cr0 |= CR0_TS;
@@ -131,7 +132,8 @@ void isr_cpu_switch_context_exit(void)
     }
 
     ucontext_t *ctx = (ucontext_t *)(sched_active_thread->sp);
-    DEBUG("XXX: cpu_switch_context_exit(): calling setcontext(%s, %p)\n\n", sched_active_thread->name, ctx->uc_context.ip);
+    DEBUG("XXX: cpu_switch_context_exit(): calling setcontext(%s, %p)\n\n", sched_active_thread->name,
+          ctx->uc_context.ip);
 
     x86_in_isr = false;
 
@@ -152,6 +154,7 @@ void cpu_switch_context_exit(void)
     else {
         isr_cpu_switch_context_exit();
     }
+
     __builtin_unreachable();
 }
 
@@ -174,7 +177,8 @@ char *thread_stack_init(thread_task_func_t task_func, void *arg, void *stack_sta
     return (char *) p;
 }
 
-static void fpu_used_interrupt(uint8_t intr_num, struct x86_pushad *orig_ctx, unsigned long error_code)
+static void fpu_used_interrupt(uint8_t intr_num, struct x86_pushad *orig_ctx,
+                               unsigned long error_code)
 {
     static volatile struct x86_fxsave fpu_data;
 
@@ -182,7 +186,7 @@ static void fpu_used_interrupt(uint8_t intr_num, struct x86_pushad *orig_ctx, un
     (void) orig_ctx;
     (void) error_code;
 
-    asm volatile ("clts"); /* clear task switch flag */
+    asm volatile("clts");  /* clear task switch flag */
 
     if (fpu_owner == sched_active_pid) {
         return;
@@ -190,13 +194,13 @@ static void fpu_used_interrupt(uint8_t intr_num, struct x86_pushad *orig_ctx, un
 
     if (fpu_owner != KERNEL_PID_UNDEF) {
         ucontext_t *ctx_owner = (ucontext_t *) sched_threads[fpu_owner]->sp;
-        asm volatile ("fxsave (%0)" :: "r"(&fpu_data));
+        asm volatile("fxsave (%0)" :: "r"(&fpu_data));
         ctx_owner->__fxsave = fpu_data;
     }
 
     ucontext_t *ctx_active = (ucontext_t *) sched_active_thread->sp;
     fpu_data = ctx_active->__fxsave;
-    asm volatile ("fxrstor (%0)" :: "r"(&fpu_data));
+    asm volatile("fxrstor (%0)" :: "r"(&fpu_data));
 
     fpu_owner = sched_active_pid;
 }
@@ -204,9 +208,11 @@ static void fpu_used_interrupt(uint8_t intr_num, struct x86_pushad *orig_ctx, un
 static void x86_thread_exit(void)
 {
     dINT();
+
     if (fpu_owner == sched_active_pid) {
         fpu_owner = KERNEL_PID_UNDEF;
     }
+
     sched_task_exit();
 }
 

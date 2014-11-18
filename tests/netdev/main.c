@@ -96,7 +96,8 @@ static int check_channel(void)
                         printf("Got channel of value %" PRIu16 " of length %u\n",
                                *c, channel_len);
                         return (*c == NETDEV_TEST_CHANNEL) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -106,7 +107,8 @@ static int check_channel(void)
                         printf("Got channel of value %" PRIu32 " of length %u\n",
                                *c, channel_len);
                         return (*c == NETDEV_TEST_CHANNEL) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -116,7 +118,8 @@ static int check_channel(void)
                         printf("Got channel of value %" PRIu64 " of length %u\n",
                                *c, channel_len);
                         return (*c == NETDEV_TEST_CHANNEL) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -212,7 +215,8 @@ static int check_address(void)
                         printf("Got address of value %" PRIu16 " of length %u\n",
                                *a, address_len);
                         return (*a == NETDEV_TEST_ADDRESS) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -222,7 +226,8 @@ static int check_address(void)
                         printf("Got address of value %" PRIu32 " of length %u\n",
                                *a, address_len);
                         return (*a == NETDEV_TEST_ADDRESS) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -242,7 +247,8 @@ static int check_address(void)
                         printf("Got address of value %" PRIu64 " of length %u\n",
                                *a, address_len);
                         return (*a == NETDEV_TEST_ADDRESS) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -336,7 +342,8 @@ static int check_long_address(void)
                         printf("Got long address of value %" PRIu16 " of length %u\n",
                                *a, address_len);
                         return (*a == NETDEV_TEST_ADDRESS) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -346,7 +353,8 @@ static int check_long_address(void)
                         printf("Got long address of value %" PRIu32 " of length %u\n",
                                *a, address_len);
                         return (*a == NETDEV_TEST_ADDRESS) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -366,7 +374,8 @@ static int check_long_address(void)
                         printf("Got long address of value 0x%" PRIx64 " of length %u\n",
                                *a, address_len);
                         return (*a == NETDEV_TEST_ADDRESS) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                 default:
                     printf("Unexpected long address type of length %u:", address_len);
@@ -460,7 +469,8 @@ static int check_nid(void)
                         printf("Got network ID of value %" PRIu16 " of length %u\n",
                                *n, nid_len);
                         return (*n == NETDEV_TEST_NID) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -470,7 +480,8 @@ static int check_nid(void)
                         printf("Got network ID of value %" PRIu32 " of length %u\n",
                                *n, nid_len);
                         return (*n == NETDEV_TEST_NID) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -480,7 +491,8 @@ static int check_nid(void)
                         printf("Got network ID of value %" PRIu64 " of length %u\n",
                                *n, nid_len);
                         return (*n == NETDEV_TEST_NID) ? 1 : 0;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -539,7 +551,8 @@ static int check_max_packet_size(void)
                         printf("Got maximum packet size of value %" PRIu16 " of length %u\n",
                                *size, mps_len);
                         return 1;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -549,7 +562,8 @@ static int check_max_packet_size(void)
                         printf("Got maximum packet size of value %" PRIu32 " of length %u\n",
                                *size, mps_len);
                         return 1;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -559,7 +573,8 @@ static int check_max_packet_size(void)
                         printf("Got maximum packet size of value %" PRIu64 " of length %u\n",
                                *size, mps_len);
                         return 1;
-                    } while (0);
+                    }
+                    while (0);
 
                     break;
 
@@ -888,7 +903,8 @@ static int test_callback(netdev_t *rcv_dev, void *src, size_t src_len,
                 uint16_t *exp_dest_ptr = (uint16_t *)exp_dest;
                 *exp_src_ptr = NETDEV_TEST_SENDER;
                 *exp_dest_ptr = NETDEV_TEST_RECEIVER;
-            } while (0);
+            }
+            while (0);
 
             break;
 
@@ -913,7 +929,8 @@ static int test_callback(netdev_t *rcv_dev, void *src, size_t src_len,
                 uint32_t *exp_dest_ptr = (uint32_t *)exp_dest;
                 *exp_src_ptr = NETDEV_TEST_SENDER;
                 *exp_dest_ptr = NETDEV_TEST_RECEIVER;
-            } while (0);
+            }
+            while (0);
 
             break;
 
@@ -923,7 +940,8 @@ static int test_callback(netdev_t *rcv_dev, void *src, size_t src_len,
                 uint64_t *exp_dest_ptr = (uint64_t *)exp_dest;
                 *exp_src_ptr = NETDEV_TEST_SENDER;
                 *exp_dest_ptr = NETDEV_TEST_RECEIVER;
-            } while (0);
+            }
+            while (0);
 
             break;
 

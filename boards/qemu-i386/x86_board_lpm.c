@@ -42,8 +42,10 @@ enum lpm_mode lpm_set(enum lpm_mode target)
         if (target == LPM_POWERDOWN) {
             x86_shutdown();
         }
-        asm volatile ("hlt");
+
+        asm volatile("hlt");
     }
+
     return LPM_UNKNOWN;
 }
 

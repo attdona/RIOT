@@ -111,10 +111,10 @@ char *thread_arch_stack_init(thread_task_func_t task_func,
     }
 
     /* lr means exception return code  */
-     stk--;
+    stk--;
     *stk = (uint32_t)EXCEPT_RET_TASK_MODE;  /*return to task-mode main stack pointer */
 
-    return (char*) stk;
+    return (char *) stk;
 }
 
 void thread_arch_stack_print(void)
@@ -129,7 +129,8 @@ void thread_arch_stack_print(void)
         printf("  0x%08x:   0x%08x\n", (unsigned int)sp, (unsigned int)*sp);
         sp++;
         count++;
-    } while (*sp != STACK_MARKER);
+    }
+    while (*sp != STACK_MARKER);
 
     printf("current stack size: %i byte\n", count);
 }
@@ -202,7 +203,7 @@ __attribute__((always_inline)) static __INLINE void context_save(void)
     asm("mov    r0, sp");
     asm("mov    sp, r12");
     /* store the new psp to the tcb->sp */
-    asm("ldr    r1, =sched_active_thread"   );
+    asm("ldr    r1, =sched_active_thread");
     asm("ldr    r1, [r1]");
     asm("str    r0, [r1]");
 }

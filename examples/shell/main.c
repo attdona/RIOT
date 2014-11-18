@@ -77,7 +77,7 @@ void *radio(void *arg)
 
         if (m.type == PKT_PENDING) {
 #if MODULE_AT86RF231 || MODULE_CC2420 || MODULE_MC1322X
-            p = (ieee802154_packet_t*) m.content.ptr;
+            p = (ieee802154_packet_t *) m.content.ptr;
             printf("Got radio packet:\n");
             printf("\tLength:\t%u\n", p->length);
             printf("\tSrc:\t%u\n", p->frame.src_addr[0]);
@@ -120,13 +120,13 @@ void *radio(void *arg)
 void init_transceiver(void)
 {
     kernel_pid_t radio_pid = thread_create(
-                        radio_stack_buffer,
-                        sizeof(radio_stack_buffer),
-                        PRIORITY_MAIN - 2,
-                        CREATE_STACKTEST,
-                        radio,
-                        NULL,
-                        "radio");
+                                 radio_stack_buffer,
+                                 sizeof(radio_stack_buffer),
+                                 PRIORITY_MAIN - 2,
+                                 CREATE_STACKTEST,
+                                 radio,
+                                 NULL,
+                                 "radio");
 
     uint16_t transceivers = TRANSCEIVER_DEFAULT;
 

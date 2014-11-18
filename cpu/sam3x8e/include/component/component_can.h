@@ -40,34 +40,34 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief CanMb hardware registers */
 typedef struct {
-  RwReg  CAN_MMR;       /**< \brief (CanMb Offset: 0x0) Mailbox Mode Register */
-  RwReg  CAN_MAM;       /**< \brief (CanMb Offset: 0x4) Mailbox Acceptance Mask Register */
-  RwReg  CAN_MID;       /**< \brief (CanMb Offset: 0x8) Mailbox ID Register */
-  RwReg  CAN_MFID;      /**< \brief (CanMb Offset: 0xC) Mailbox Family ID Register */
-  RwReg  CAN_MSR;       /**< \brief (CanMb Offset: 0x10) Mailbox Status Register */
-  RwReg  CAN_MDL;       /**< \brief (CanMb Offset: 0x14) Mailbox Data Low Register */
-  RwReg  CAN_MDH;       /**< \brief (CanMb Offset: 0x18) Mailbox Data High Register */
-  RwReg  CAN_MCR;       /**< \brief (CanMb Offset: 0x1C) Mailbox Control Register */
+    RwReg  CAN_MMR;       /**< \brief (CanMb Offset: 0x0) Mailbox Mode Register */
+    RwReg  CAN_MAM;       /**< \brief (CanMb Offset: 0x4) Mailbox Acceptance Mask Register */
+    RwReg  CAN_MID;       /**< \brief (CanMb Offset: 0x8) Mailbox ID Register */
+    RwReg  CAN_MFID;      /**< \brief (CanMb Offset: 0xC) Mailbox Family ID Register */
+    RwReg  CAN_MSR;       /**< \brief (CanMb Offset: 0x10) Mailbox Status Register */
+    RwReg  CAN_MDL;       /**< \brief (CanMb Offset: 0x14) Mailbox Data Low Register */
+    RwReg  CAN_MDH;       /**< \brief (CanMb Offset: 0x18) Mailbox Data High Register */
+    RwReg  CAN_MCR;       /**< \brief (CanMb Offset: 0x1C) Mailbox Control Register */
 } CanMb;
 /** \brief Can hardware registers */
 #define CANMB_NUMBER 8
 typedef struct {
-  RwReg  CAN_MR;        /**< \brief (Can Offset: 0x0000) Mode Register */
-  WoReg  CAN_IER;       /**< \brief (Can Offset: 0x0004) Interrupt Enable Register */
-  WoReg  CAN_IDR;       /**< \brief (Can Offset: 0x0008) Interrupt Disable Register */
-  RoReg  CAN_IMR;       /**< \brief (Can Offset: 0x000C) Interrupt Mask Register */
-  RoReg  CAN_SR;        /**< \brief (Can Offset: 0x0010) Status Register */
-  RwReg  CAN_BR;        /**< \brief (Can Offset: 0x0014) Baudrate Register */
-  RoReg  CAN_TIM;       /**< \brief (Can Offset: 0x0018) Timer Register */
-  RoReg  CAN_TIMESTP;   /**< \brief (Can Offset: 0x001C) Timestamp Register */
-  RoReg  CAN_ECR;       /**< \brief (Can Offset: 0x0020) Error Counter Register */
-  WoReg  CAN_TCR;       /**< \brief (Can Offset: 0x0024) Transfer Command Register */
-  WoReg  CAN_ACR;       /**< \brief (Can Offset: 0x0028) Abort Command Register */
-  RoReg  Reserved1[46];
-  RwReg  CAN_WPMR;      /**< \brief (Can Offset: 0x00E4) Write Protect Mode Register */
-  RoReg  CAN_WPSR;      /**< \brief (Can Offset: 0x00E8) Write Protect Status Register */
-  RoReg  Reserved2[69];
-  CanMb  CAN_MB[CANMB_NUMBER]; /**< \brief (Can Offset: 0x200) MB = 0 .. 7 */
+    RwReg  CAN_MR;        /**< \brief (Can Offset: 0x0000) Mode Register */
+    WoReg  CAN_IER;       /**< \brief (Can Offset: 0x0004) Interrupt Enable Register */
+    WoReg  CAN_IDR;       /**< \brief (Can Offset: 0x0008) Interrupt Disable Register */
+    RoReg  CAN_IMR;       /**< \brief (Can Offset: 0x000C) Interrupt Mask Register */
+    RoReg  CAN_SR;        /**< \brief (Can Offset: 0x0010) Status Register */
+    RwReg  CAN_BR;        /**< \brief (Can Offset: 0x0014) Baudrate Register */
+    RoReg  CAN_TIM;       /**< \brief (Can Offset: 0x0018) Timer Register */
+    RoReg  CAN_TIMESTP;   /**< \brief (Can Offset: 0x001C) Timestamp Register */
+    RoReg  CAN_ECR;       /**< \brief (Can Offset: 0x0020) Error Counter Register */
+    WoReg  CAN_TCR;       /**< \brief (Can Offset: 0x0024) Transfer Command Register */
+    WoReg  CAN_ACR;       /**< \brief (Can Offset: 0x0028) Abort Command Register */
+    RoReg  Reserved1[46];
+    RwReg  CAN_WPMR;      /**< \brief (Can Offset: 0x00E4) Write Protect Mode Register */
+    RoReg  CAN_WPSR;      /**< \brief (Can Offset: 0x00E8) Write Protect Status Register */
+    RoReg  Reserved2[69];
+    CanMb  CAN_MB[CANMB_NUMBER]; /**< \brief (Can Offset: 0x200) MB = 0 .. 7 */
 } Can;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- CAN_MR : (CAN Offset: 0x0000) Mode Register -------- */

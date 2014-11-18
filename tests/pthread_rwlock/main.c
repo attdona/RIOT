@@ -66,6 +66,7 @@ static void do_sleep(int factor)
 static void *writer(void *arg)
 {
     (void) arg;
+
     /* PRINTF("%s", "start"); */
     for (int i = 0; i < NUM_ITERATIONS; ++i) {
         pthread_rwlock_wrlock(&rwlock);
@@ -75,6 +76,7 @@ static void *writer(void *arg)
         pthread_rwlock_unlock(&rwlock);
         do_sleep(2);
     }
+
     /* PRINTF("%s", "done"); */
     return NULL;
 }
@@ -82,6 +84,7 @@ static void *writer(void *arg)
 static void *reader(void *arg)
 {
     (void) arg;
+
     /* PRINTF("%s", "start"); */
     for (int i = 0; i < NUM_ITERATIONS; ++i) {
         pthread_rwlock_rdlock(&rwlock);
@@ -91,6 +94,7 @@ static void *reader(void *arg)
         pthread_rwlock_unlock(&rwlock);
         do_sleep(1);
     }
+
     /* PRINTF("%s", "done"); */
     return NULL;
 }
@@ -113,6 +117,7 @@ int main(void)
             else {
                 prio = PRIORITY_MAIN + 2;
             }
+
             fun = reader;
             name = "reader";
         }
@@ -123,6 +128,7 @@ int main(void)
             else {
                 prio = PRIORITY_MAIN + 2;
             }
+
             fun = writer;
             name = "writer";
         }

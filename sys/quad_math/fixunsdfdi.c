@@ -53,13 +53,17 @@ u_quad_t __fixunsdfdi(double x)
     }
 
 #ifdef notdef               /* this falls afoul of a GCC bug */
+
     if (x >= UQUAD_MAX) {
         return (UQUAD_MAX);
     }
+
 #else                   /* so we wire in 2^64-1 instead */
+
     if (x >= 18446744073709551615.0) {   /* XXX */
         return (UQUAD_MAX);
     }
+
 #endif
 
     /*
@@ -70,7 +74,7 @@ u_quad_t __fixunsdfdi(double x)
      * Furthermore, the quotient will fit into a 32-bit integer.
      */
     tmp = x / ONE;
-    t.ul[L] = (unsigned int) (x - tmp * ONE);
+    t.ul[L] = (unsigned int)(x - tmp * ONE);
     t.ul[H] = tmp;
     return (t.uq);
 }

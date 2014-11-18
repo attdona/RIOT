@@ -67,6 +67,7 @@ static inline priority_queue_node_t *timer_get_node(vtimer_t *timer)
     if (!timer) {
         return NULL;
     }
+
     return &timer->priority_queue_entry;
 }
 
@@ -75,6 +76,7 @@ static inline vtimer_t *node_get_timer(priority_queue_node_t *node)
     if (!node) {
         return NULL;
     }
+
     return container_of(node, vtimer_t, priority_queue_entry);
 }
 
@@ -92,6 +94,7 @@ static int update_shortterm(void)
         DEBUG("update_shortterm: shortterm_priority_queue_root.next == NULL - dont know what to do here\n");
         return 0;
     }
+
     if (hwtimer_id != -1) {
         /* there is a running hwtimer for us */
         if (hwtimer_next_absolute != shortterm_priority_queue_root.first->priority) {
@@ -120,12 +123,14 @@ static int update_shortterm(void)
         next += longterm_tick_start;
     }
 
-    if((next -  HWTIMER_TICKS_TO_US(VTIMER_THRESHOLD) - now) > MICROSECONDS_PER_TICK ) {
-        DEBUG("truncating next (next -  HWTIMER_TICKS_TO_US(VTIMER_THRESHOLD) - now): %lu\n", (next -  HWTIMER_TICKS_TO_US(VTIMER_THRESHOLD) - now));
+    if ((next -  HWTIMER_TICKS_TO_US(VTIMER_THRESHOLD) - now) > MICROSECONDS_PER_TICK) {
+        DEBUG("truncating next (next -  HWTIMER_TICKS_TO_US(VTIMER_THRESHOLD) - now): %lu\n",
+              (next -  HWTIMER_TICKS_TO_US(VTIMER_THRESHOLD) - now));
         next = now +  HWTIMER_TICKS_TO_US(VTIMER_BACKOFF);
     }
 
-    DEBUG("update_shortterm: Set hwtimer to %" PRIu32 " (now=%lu)\n", next, HWTIMER_TICKS_TO_US(hwtimer_now()));
+    DEBUG("update_shortterm: Set hwtimer to %" PRIu32 " (now=%lu)\n", next,
+          HWTIMER_TICKS_TO_US(hwtimer_now()));
     hwtimer_id = hwtimer_set_absolute(HWTIMER_TICKS(next), vtimer_callback, NULL);
 
     return 0;
@@ -176,7 +181,8 @@ static void vtimer_callback_unlock(vtimer_t *timer)
 
 static int set_shortterm(vtimer_t *timer)
 {
-    DEBUG("set_shortterm(): Absolute: %" PRIu32 " %" PRIu32 "\n", timer->absolute.seconds, timer->absolute.microseconds);
+    DEBUG("set_shortterm(): Absolute: %" PRIu32 " %" PRIu32 "\n", timer->absolute.seconds,
+          timer->absolute.microseconds);
     timer->priority_queue_entry.priority = timer->absolute.microseconds;
     priority_queue_add(&shortterm_priority_queue_root, timer_get_node(timer));
     return 1;
@@ -234,14 +240,16 @@ void normalize_to_tick(timex_t *time)
 
 static int vtimer_set(vtimer_t *timer)
 {
-    DEBUG("vtimer_set(): New timer. Offset: %" PRIu32 " %" PRIu32 "\n", timer->absolute.seconds, timer->absolute.microseconds);
+    DEBUG("vtimer_set(): New timer. Offset: %" PRIu32 " %" PRIu32 "\n", timer->absolute.seconds,
+          timer->absolute.microseconds);
 
     timex_t now;
     vtimer_now(&now);
     timer->absolute = timex_add(now, timer->absolute);
     normalize_to_tick(&(timer->absolute));
 
-    DEBUG("vtimer_set(): Absolute: %" PRIu32 " %" PRIu32 "\n", timer->absolute.seconds, timer->absolute.microseconds);
+    DEBUG("vtimer_set(): Absolute: %" PRIu32 " %" PRIu32 "\n", timer->absolute.seconds,
+          timer->absolute.microseconds);
     DEBUG("vtimer_set(): NOW: %" PRIu32 " %" PRIu32 "\n", now.seconds, now.microseconds);
 
     int result = 0;
@@ -253,6 +261,7 @@ static int vtimer_set(vtimer_t *timer)
     }
 
     unsigned state = disableIRQ();
+
     if (timer->absolute.seconds != seconds) {
         /* we're long-term */
         DEBUG("vtimer_set(): setting long_term\n");
@@ -270,6 +279,7 @@ static int vtimer_set(vtimer_t *timer)
             }
         }
     }
+
     restoreIRQ(state);
 
     return result;
@@ -284,7 +294,8 @@ void vtimer_now(timex_t *out)
     out->microseconds = us % us_per_s;
 }
 
-void vtimer_gettimeofday(struct timeval *tp) {
+void vtimer_gettimeofday(struct timeval *tp)
+{
     timex_t now;
     vtimer_now(&now);
 
@@ -318,7 +329,8 @@ int vtimer_init(void)
     longterm_tick_timer.absolute.seconds = 0;
     longterm_tick_timer.absolute.microseconds = MICROSECONDS_PER_TICK;
 
-    DEBUG("vtimer_init(): Setting longterm tick to %" PRIu32 "\n", longterm_tick_timer.absolute.microseconds);
+    DEBUG("vtimer_init(): Setting longterm tick to %" PRIu32 "\n",
+          longterm_tick_timer.absolute.microseconds);
 
     set_shortterm(&longterm_tick_timer);
     update_shortterm();
@@ -350,6 +362,7 @@ int vtimer_sleep(timex_t time)
      */
     if (time.seconds == 0) {
         unsigned long ticks = HWTIMER_TICKS(time.microseconds);
+
         if (ticks <= HWTIMER_SPIN_BARRIER) {
             hwtimer_spin(ticks);
             return 0;
@@ -394,7 +407,8 @@ int vtimer_set_msg(vtimer_t *t, timex_t interval, kernel_pid_t pid, void *ptr)
     return 0;
 }
 
-int vtimer_msg_receive_timeout(msg_t *m, timex_t timeout) {
+int vtimer_msg_receive_timeout(msg_t *m, timex_t timeout)
+{
     msg_t timeout_message;
     timeout_message.type = MSG_TIMER;
     timeout_message.content.ptr = (char *) &timeout_message;
@@ -402,6 +416,7 @@ int vtimer_msg_receive_timeout(msg_t *m, timex_t timeout) {
     vtimer_t t;
     vtimer_set_msg(&t, timeout, sched_active_pid, &timeout_message);
     msg_receive(m);
+
     if (m->type == MSG_TIMER && m->content.ptr == (char *) &timeout_message) {
         /* we hit the timeout */
         return -1;
@@ -414,11 +429,13 @@ int vtimer_msg_receive_timeout(msg_t *m, timex_t timeout) {
 
 #if ENABLE_DEBUG
 
-void vtimer_print_short_queue(){
+void vtimer_print_short_queue()
+{
     priority_queue_print(&shortterm_priority_queue_root);
 }
 
-void vtimer_print_long_queue(){
+void vtimer_print_long_queue()
+{
     priority_queue_print(&longterm_priority_queue_root);
 }
 

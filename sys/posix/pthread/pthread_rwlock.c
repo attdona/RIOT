@@ -47,14 +47,15 @@ int pthread_rwlock_init(pthread_rwlock_t *rwlock, const pthread_rwlockattr_t *at
         return EINVAL;
     }
 
-    memset(rwlock, 0, sizeof (*rwlock));
+    memset(rwlock, 0, sizeof(*rwlock));
     return 0;
 }
 
 int pthread_rwlock_destroy(pthread_rwlock_t *rwlock)
 {
     if (rwlock == NULL) {
-        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): rwlock=NULL supplied\n", thread_pid, "destroy");
+        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): rwlock=NULL supplied\n", thread_pid,
+              "destroy");
         return EINVAL;
     }
 
@@ -81,6 +82,7 @@ bool __pthread_rwlock_blocked_readingly(const pthread_rwlock_t *rwlock)
     }
 
     priority_queue_node_t *qnode = rwlock->queue.first;
+
     if (qnode->priority > sched_active_thread->priority) {
         /* the waiting thread has a lower priority */
         return false;
@@ -110,6 +112,7 @@ static int pthread_rwlock_lock(pthread_rwlock_t *rwlock,
     }
 
     mutex_lock(&rwlock->mutex);
+
     if (!is_blocked(rwlock)) {
         DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): is_writer=%u, allow_spurious=%u %s\n",
               thread_pid, "lock", is_writer, allow_spurious, "is open");
@@ -137,6 +140,7 @@ static int pthread_rwlock_lock(pthread_rwlock_t *rwlock,
             mutex_unlock_and_sleep(&rwlock->mutex);
 
             mutex_lock(&rwlock->mutex);
+
             if (waiting_node.continue_) {
                 /* pthread_rwlock_unlock() already set rwlock->readers */
                 DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): is_writer=%u, allow_spurious=%u %s\n",
@@ -152,6 +156,7 @@ static int pthread_rwlock_lock(pthread_rwlock_t *rwlock,
             }
         }
     }
+
     mutex_unlock(&rwlock->mutex);
 
     return 0;
@@ -162,7 +167,8 @@ static int pthread_rwlock_trylock(pthread_rwlock_t *rwlock,
                                   int incr_when_held)
 {
     if (rwlock == NULL) {
-        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): rwlock=NULL supplied\n", thread_pid, "trylock");
+        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): rwlock=NULL supplied\n", thread_pid,
+              "trylock");
         return EINVAL;
     }
     else if (mutex_trylock(&rwlock->mutex) == 0) {
@@ -202,6 +208,7 @@ static int pthread_rwlock_timedlock(pthread_rwlock_t *rwlock,
         vtimer_t timer;
         vtimer_set_wakeup(&timer, reltime, sched_active_pid);
         int result = pthread_rwlock_lock(rwlock, is_blocked, is_writer, incr_when_held, true);
+
         if (result != ETIMEDOUT) {
             vtimer_remove(&timer);
         }
@@ -243,11 +250,13 @@ int pthread_rwlock_timedwrlock(pthread_rwlock_t *rwlock, const struct timespec *
 int pthread_rwlock_unlock(pthread_rwlock_t *rwlock)
 {
     if (rwlock == NULL) {
-        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): rwlock=NULL supplied\n", thread_pid, "unlock");
+        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): rwlock=NULL supplied\n", thread_pid,
+              "unlock");
         return EINVAL;
     }
 
     mutex_lock(&rwlock->mutex);
+
     if (rwlock->readers == 0) {
         /* the lock is open */
         DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): lock is open\n", thread_pid, "unlock");
@@ -256,11 +265,13 @@ int pthread_rwlock_unlock(pthread_rwlock_t *rwlock)
     }
 
     if (rwlock->readers > 0) {
-        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): release %s lock\n", thread_pid, "unlock", "read");
+        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): release %s lock\n", thread_pid, "unlock",
+              "read");
         --rwlock->readers;
     }
     else {
-        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): release %s lock\n", thread_pid, "unlock", "write");
+        DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): release %s lock\n", thread_pid, "unlock",
+              "write");
         rwlock->readers = 0;
     }
 
@@ -291,21 +302,26 @@ int pthread_rwlock_unlock(pthread_rwlock_t *rwlock)
         /* wake up further readers */
         while (rwlock->queue.first) {
             waiting_node = (__pthread_rwlock_waiter_node_t *) rwlock->queue.first->data;
+
             if (waiting_node->is_writer) {
                 /* Not to be unfair to writers, we don't try to wake up readers that came after the first writer. */
-                DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): continuing readers blocked by writer %" PRIkernel_pid "\n",
+                DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): continuing readers blocked by writer %"
+                      PRIkernel_pid "\n",
                       thread_pid, "unlock", waiting_node->thread->pid);
                 break;
             }
+
             waiting_node->continue_ = true;
             DEBUG("Thread %" PRIkernel_pid ": pthread_rwlock_%s(): continue %s %" PRIkernel_pid "\n",
                   thread_pid, "unlock", "reader", waiting_node->thread->pid);
 
             /* wake up this reader */
             qnode = priority_queue_remove_head(&rwlock->queue);
+
             if (qnode->priority < prio) {
                 prio = qnode->priority;
             }
+
             sched_set_status(waiting_node->thread, STATUS_PENDING);
 
             ++rwlock->readers;
@@ -315,6 +331,6 @@ int pthread_rwlock_unlock(pthread_rwlock_t *rwlock)
     mutex_unlock(&rwlock->mutex);
 
     /* yield if a woken up thread had a higher priority */
-    sched_switch(prio);
+    sched_switch (prio);
     return 0;
 }

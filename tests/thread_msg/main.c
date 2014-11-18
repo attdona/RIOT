@@ -78,6 +78,7 @@ void *thread3(void *arg)
         printf("T3 i=%d\n", i);
         msg_send(&msg, p1);
     }
+
     return NULL;
 }
 

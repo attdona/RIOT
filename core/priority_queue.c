@@ -43,9 +43,11 @@ void priority_queue_remove(priority_queue_t *root_, priority_queue_node_t *node)
 priority_queue_node_t *priority_queue_remove_head(priority_queue_t *root)
 {
     priority_queue_node_t *head = root->first;
+
     if (head) {
         root->first = head->next;
     }
+
     return head;
 }
 
@@ -80,6 +82,7 @@ void priority_queue_print(priority_queue_t *root)
 
 void priority_queue_print_node(priority_queue_node_t *node)
 {
-    printf("Data: %u Priority: %lu Next: %u\n", (unsigned int) node->data, (unsigned long) node->priority, (unsigned int)node->next);
+    printf("Data: %u Priority: %lu Next: %u\n", (unsigned int) node->data,
+           (unsigned long) node->priority, (unsigned int)node->next);
 }
 #endif

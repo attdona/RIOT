@@ -26,7 +26,7 @@
 #include "board_uart0.h"
 
 #define UART1_TX                        TXBUF1
-#define UART1_WAIT_TXDONE()       while( (UTCTL1 & TXEPT) == 0 ) { _NOP(); }
+#define UART1_WAIT_TXDONE()       while ( (UTCTL1 & TXEPT) == 0 ) { _NOP(); }
 
 
 int putchar(int c)
@@ -49,29 +49,36 @@ interrupt(USART1RX_VECTOR) usart0irq(void)
 {
     U1TCTL &= ~URXSE; /* Clear the URXS signal */
     U1TCTL |= URXSE;  /* Re-enable URXS - needed here?*/
+
     /* Check status register for receive errors. */
-    if(U1RCTL & RXERR) {
+    if (U1RCTL & RXERR) {
         if (U1RCTL & FE) {
-           puts("rx framing error");
+            puts("rx framing error");
         }
+
         if (U1RCTL & OE) {
             puts("rx overrun error");
         }
+
         if (U1RCTL & PE) {
             puts("rx parity error");
         }
+
         if (U1RCTL & BRK) {
             puts("rx break error");
         }
+
         /* Clear error flags by forcing a dummy read. */
         volatile int c = U1RXBUF;
         (void) c;
     }
+
 #ifdef MODULE_UART0
     else if (uart0_handler_pid != KERNEL_PID_UNDEF) {
         volatile int c = U1RXBUF;
         uart0_handle_incoming(c);
         uart0_notify_thread();
     }
+
 #endif
 }

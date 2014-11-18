@@ -122,7 +122,7 @@ static volatile uint16_t last_seq_num = 0;
 
 #define EVENT0_MAX          (60493) ///< Maximum RX polling interval in milliseconds
 #define WOR_RES_SWITCH       (1891) ///< Switching point value in milliseconds between
-                                    ///< WOR_RES = 0 and WOR_RES = 1
+///< WOR_RES = 0 and WOR_RES = 1
 #define DUTY_CYCLE_SIZE         (7) ///< Length of duty cycle array
 
 cc1100_wor_config_t cc1100_wor_config;  ///< CC1100 WOR configuration
@@ -170,7 +170,8 @@ void cc1100_phy_init(void)
     cc1100_mutex_pid = KERNEL_PID_UNDEF;
 
     /* Allocate event numbers and start cc1100 event process */
-    cc1100_event_handler_pid = thread_create(event_handler_stack, sizeof(event_handler_stack), PRIORITY_CC1100, CREATE_STACKTEST,
+    cc1100_event_handler_pid = thread_create(event_handler_stack, sizeof(event_handler_stack),
+                               PRIORITY_CC1100, CREATE_STACKTEST,
                                cc1100_event_handler_function, NULL, cc1100_event_handler_name);
 
     /* Active watchdog for the first time */
@@ -225,17 +226,24 @@ void cc1100_reset_statistic(void)
 void cc1100_print_statistic(void)
 {
     printf("\nStatistic on CC1100 interface\n\n");
-    printf("Total packets send on layer 0.5 (broadcast): %lu\n", cc1100_statistic.packets_out_broadcast);
+    printf("Total packets send on layer 0.5 (broadcast): %lu\n",
+           cc1100_statistic.packets_out_broadcast);
     printf("Total packets send on layer 0.5 (unicast): %lu\n", cc1100_statistic.packets_out);
-    printf("Total packets Acked on layer 0.5: %lu (%.2f%%)\n", cc1100_statistic.packets_out_acked, cc1100_statistic.packets_out_acked * (100.0f / (float)cc1100_statistic.packets_out));
+    printf("Total packets Acked on layer 0.5: %lu (%.2f%%)\n", cc1100_statistic.packets_out_acked,
+           cc1100_statistic.packets_out_acked * (100.0f / (float)cc1100_statistic.packets_out));
     printf("Total packets send on layer 0: %lu\n", cc1100_statistic.raw_packets_out);
-    printf("Total packets send on layer 0 w. Ack on Layer 0.5: %lu (Avg. Ack after: %lu packets)\n", cc1100_statistic.raw_packets_out_acked, cc1100_statistic.raw_packets_out_acked  / cc1100_statistic.packets_out_acked);
-    printf("Burst count on this node: %i (%.2f%%)\n", cc1100_burst_count, (100 / (float)cc1100_burst_count) * (cc1100_statistic.raw_packets_out_acked  / (float) cc1100_statistic.packets_out_acked));
+    printf("Total packets send on layer 0 w. Ack on Layer 0.5: %lu (Avg. Ack after: %lu packets)\n",
+           cc1100_statistic.raw_packets_out_acked,
+           cc1100_statistic.raw_packets_out_acked  / cc1100_statistic.packets_out_acked);
+    printf("Burst count on this node: %i (%.2f%%)\n", cc1100_burst_count,
+           (100 / (float)cc1100_burst_count) * (cc1100_statistic.raw_packets_out_acked  /
+                   (float) cc1100_statistic.packets_out_acked));
     printf("Total packets In on layer 0: %lu\n", cc1100_statistic.packets_in);
     printf("Duped packets In on layer 0: %lu\n", cc1100_statistic.packets_in_dups);
     printf("Corrupted packets In on layer 0: %lu\n", cc1100_statistic.packets_in_crc_fail);
     printf("Packets In on layer 0 while in TX: %lu\n", cc1100_statistic.packets_in_while_tx);
-    printf("Total packets In and up to layer 1: %lu (%.2f%%)\n", cc1100_statistic.packets_in_up, cc1100_statistic.packets_in_up * (100.0f / (float)cc1100_statistic.packets_in));
+    printf("Total packets In and up to layer 1: %lu (%.2f%%)\n", cc1100_statistic.packets_in_up,
+           cc1100_statistic.packets_in_up * (100.0f / (float)cc1100_statistic.packets_in));
     printf("Total Acks send on layer 0.5: %lu\n", cc1100_statistic.acks_send);
     printf("RX Buffer max: %lu (now: %u)\n", cc1100_statistic.rx_buffer_max, rx_buffer_size);
     printf("State machine resets by cc1100 watchdog: %lu\n", cc1100_statistic.watch_dog_resets);
@@ -270,7 +278,7 @@ void cc1100_print_config(void)
 
 inline uint16_t iround(double d)
 {
-    return (uint16_t) (d + 0.5);
+    return (uint16_t)(d + 0.5);
 }
 
 int cc1100_phy_calc_wor_settings(uint16_t millis)
@@ -362,7 +370,8 @@ static bool contains_seq_entry(uint8_t src, uint8_t id)
     for (i = 0; i < MAX_SEQ_BUFFER_SIZE; i++) {
         if ((seq_buffer[i].source == src) && (seq_buffer[i].identification == id)) {
             /* Check if time stamp is OK */
-            cmp = (radio_mode == CC1100_MODE_WOR) ? cc1100_wor_config.rx_interval : 16000; /* constant RX ~16ms */
+            cmp = (radio_mode == CC1100_MODE_WOR) ? cc1100_wor_config.rx_interval :
+                  16000; /* constant RX ~16ms */
 
             if ((timex_uint64(now_timex) - seq_buffer[i].m_ticks < cmp)) {
                 return true;
@@ -501,7 +510,8 @@ static bool send_burst(cc1100_packet_layer0_t *packet, uint8_t retries, uint8_t 
     return true;
 }
 
-int cc1100_send(radio_address_t addr, protocol_t protocol, int priority, char *payload, radio_packet_length_t payload_len)
+int cc1100_send(radio_address_t addr, protocol_t protocol, int priority, char *payload,
+                radio_packet_length_t payload_len)
 {
     (void) priority;
 
@@ -561,7 +571,8 @@ int cc1100_send(radio_address_t addr, protocol_t protocol, int priority, char *p
 
     /* Set identification number of packet */
     tx_buffer.flags |= rflags.SEQ;                      /* Set flags.identification (bit 0) */
-    rflags.SEQ = !rflags.SEQ;                           /* Toggle value of layer 0 sequence number bit */
+    rflags.SEQ =
+        !rflags.SEQ;                           /* Toggle value of layer 0 sequence number bit */
 
     memcpy(tx_buffer.data, payload, payload_len);       /* Copy data */
 
@@ -712,7 +723,8 @@ void cc1100_phy_rx_handler(void)
     }
 
     /* Transfer packet into temporary buffer position */
-    res = cc1100_spi_receive_packet((uint8_t *) & (rx_buffer[rx_buffer_tail].packet), sizeof(cc1100_packet_layer0_t));
+    res = cc1100_spi_receive_packet((uint8_t *) & (rx_buffer[rx_buffer_tail].packet),
+                                    sizeof(cc1100_packet_layer0_t));
 
     if (res) {
         /* Get packet pointer and store additional data in packet info structure */

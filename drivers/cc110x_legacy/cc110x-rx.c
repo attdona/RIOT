@@ -52,7 +52,8 @@ void cc110x_rx_handler(void)
     rflags.MAN_WOR  = 0;
     cc110x_statistic.packets_in++;
 
-    res = receive_packet((uint8_t *)&(cc110x_rx_buffer[rx_buffer_next].packet), sizeof(cc110x_packet_t));
+    res = receive_packet((uint8_t *) & (cc110x_rx_buffer[rx_buffer_next].packet),
+                         sizeof(cc110x_packet_t));
 
     if (res) {
         /* If we are sending a burst, don't accept packets.

@@ -21,7 +21,8 @@ static priority_queue_node_t qe[Q_LEN];
 static void set_up(void)
 {
     priority_queue_init(&q);
-    for (unsigned i = 0; i < sizeof(qe)/sizeof(priority_queue_node_t); ++i) {
+
+    for (unsigned i = 0; i < sizeof(qe) / sizeof(priority_queue_node_t); ++i) {
         priority_queue_node_init(&(qe[i]));
     }
 }
@@ -141,11 +142,11 @@ Test *tests_core_priority_queue_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_priority_queue_remove_head_empty),
-        new_TestFixture(test_priority_queue_remove_head_one),
-        new_TestFixture(test_priority_queue_add_one),
-        new_TestFixture(test_priority_queue_add_two_equal),
-        new_TestFixture(test_priority_queue_add_two_distinct),
-        new_TestFixture(test_priority_queue_remove_one),
+                        new_TestFixture(test_priority_queue_remove_head_one),
+                        new_TestFixture(test_priority_queue_add_one),
+                        new_TestFixture(test_priority_queue_add_two_equal),
+                        new_TestFixture(test_priority_queue_add_two_distinct),
+                        new_TestFixture(test_priority_queue_remove_one),
     };
 
     EMB_UNIT_TESTCALLER(core_priority_queue_tests, set_up, NULL,

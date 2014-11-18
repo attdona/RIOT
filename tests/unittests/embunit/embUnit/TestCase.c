@@ -36,36 +36,40 @@
 #include "TestCase.h"
 #include "TestResult.h"
 
-static TestResult* result_;
-static TestCase* self_;
+static TestResult *result_;
+static TestCase *self_;
 
-char* TestCase_name(TestCase* self)
+char *TestCase_name(TestCase *self)
 {
     return self->name;
 }
 
-void TestCase_run(TestCase* self,TestResult* result)
+void TestCase_run(TestCase *self, TestResult *result)
 {
-    TestResult_startTest(result, (Test*)self);
+    TestResult_startTest(result, (Test *)self);
+
     if (self->setUp) {
         self->setUp();
     }
+
     if (self->runTest) {
-        TestResult* wr =result_;    /*push*/
-        TestCase* ws = self_;   /*push*/
+        TestResult *wr = result_;   /*push*/
+        TestCase *ws = self_;   /*push*/
         result_ = result;
         self_ = self;
         self->runTest();
         result_ = wr;   /*pop*/
         self_ = ws; /*pop*/
     }
+
     if (self->tearDown) {
         self->tearDown();
     }
-    TestResult_endTest(result, (Test*)self);
+
+    TestResult_endTest(result, (Test *)self);
 }
 
-int TestCase_countTestCases(TestCase* self)
+int TestCase_countTestCases(TestCase *self)
 {
     (void)self;
     return 1;
@@ -79,5 +83,5 @@ const TestImplement TestCaseImplement = {
 
 void addFailure(const char *msg, long line, const char *file)
 {
-    TestResult_addFailure(result_, (Test*)self_, (char*)msg, line, (char*)file);
+    TestResult_addFailure(result_, (Test *)self_, (char *)msg, line, (char *)file);
 }

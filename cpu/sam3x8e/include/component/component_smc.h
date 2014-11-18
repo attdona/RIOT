@@ -40,50 +40,53 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief SmcCs_number hardware registers */
 typedef struct {
-  RwReg         SMC_SETUP;        /**< \brief (SmcCs_number Offset: 0x0) SMC Setup Register */
-  RwReg         SMC_PULSE;        /**< \brief (SmcCs_number Offset: 0x4) SMC Pulse Register */
-  RwReg         SMC_CYCLE;        /**< \brief (SmcCs_number Offset: 0x8) SMC Cycle Register */
-  RwReg         SMC_TIMINGS;      /**< \brief (SmcCs_number Offset: 0xC) SMC Timings Register */
-  RwReg         SMC_MODE;         /**< \brief (SmcCs_number Offset: 0x10) SMC Mode Register */
+    RwReg         SMC_SETUP;        /**< \brief (SmcCs_number Offset: 0x0) SMC Setup Register */
+    RwReg         SMC_PULSE;        /**< \brief (SmcCs_number Offset: 0x4) SMC Pulse Register */
+    RwReg         SMC_CYCLE;        /**< \brief (SmcCs_number Offset: 0x8) SMC Cycle Register */
+    RwReg         SMC_TIMINGS;      /**< \brief (SmcCs_number Offset: 0xC) SMC Timings Register */
+    RwReg         SMC_MODE;         /**< \brief (SmcCs_number Offset: 0x10) SMC Mode Register */
 } SmcCs_number;
 /** \brief Smc hardware registers */
 #define SMCCS_NUMBER_NUMBER 8
 typedef struct {
-  RwReg         SMC_CFG;          /**< \brief (Smc Offset: 0x000) SMC NFC Configuration Register */
-  WoReg         SMC_CTRL;         /**< \brief (Smc Offset: 0x004) SMC NFC Control Register */
-  RoReg         SMC_SR;           /**< \brief (Smc Offset: 0x008) SMC NFC Status Register */
-  WoReg         SMC_IER;          /**< \brief (Smc Offset: 0x00C) SMC NFC Interrupt Enable Register */
-  WoReg         SMC_IDR;          /**< \brief (Smc Offset: 0x010) SMC NFC Interrupt Disable Register */
-  RoReg         SMC_IMR;          /**< \brief (Smc Offset: 0x014) SMC NFC Interrupt Mask Register */
-  RwReg         SMC_ADDR;         /**< \brief (Smc Offset: 0x018) SMC NFC Address Cycle Zero Register */
-  RwReg         SMC_BANK;         /**< \brief (Smc Offset: 0x01C) SMC Bank Address Register */
-  WoReg         SMC_ECC_CTRL;     /**< \brief (Smc Offset: 0x020) SMC ECC Control Register */
-  RwReg         SMC_ECC_MD;       /**< \brief (Smc Offset: 0x024) SMC ECC Mode Register */
-  RoReg         SMC_ECC_SR1;      /**< \brief (Smc Offset: 0x028) SMC ECC Status 1 Register */
-  RoReg         SMC_ECC_PR0;      /**< \brief (Smc Offset: 0x02C) SMC ECC Parity 0 Register */
-  RoReg         SMC_ECC_PR1;      /**< \brief (Smc Offset: 0x030) SMC ECC parity 1 Register */
-  RoReg         SMC_ECC_SR2;      /**< \brief (Smc Offset: 0x034) SMC ECC status 2 Register */
-  RoReg         SMC_ECC_PR2;      /**< \brief (Smc Offset: 0x038) SMC ECC parity 2 Register */
-  RoReg         SMC_ECC_PR3;      /**< \brief (Smc Offset: 0x03C) SMC ECC parity 3 Register */
-  RoReg         SMC_ECC_PR4;      /**< \brief (Smc Offset: 0x040) SMC ECC parity 4 Register */
-  RoReg         SMC_ECC_PR5;      /**< \brief (Smc Offset: 0x044) SMC ECC parity 5 Register */
-  RoReg         SMC_ECC_PR6;      /**< \brief (Smc Offset: 0x048) SMC ECC parity 6 Register */
-  RoReg         SMC_ECC_PR7;      /**< \brief (Smc Offset: 0x04C) SMC ECC parity 7 Register */
-  RoReg         SMC_ECC_PR8;      /**< \brief (Smc Offset: 0x050) SMC ECC parity 8 Register */
-  RoReg         SMC_ECC_PR9;      /**< \brief (Smc Offset: 0x054) SMC ECC parity 9 Register */
-  RoReg         SMC_ECC_PR10;     /**< \brief (Smc Offset: 0x058) SMC ECC parity 10 Register */
-  RoReg         SMC_ECC_PR11;     /**< \brief (Smc Offset: 0x05C) SMC ECC parity 11 Register */
-  RoReg         SMC_ECC_PR12;     /**< \brief (Smc Offset: 0x060) SMC ECC parity 12 Register */
-  RoReg         SMC_ECC_PR13;     /**< \brief (Smc Offset: 0x064) SMC ECC parity 13 Register */
-  RoReg         SMC_ECC_PR14;     /**< \brief (Smc Offset: 0x068) SMC ECC parity 14 Register */
-  RoReg         SMC_ECC_PR15;     /**< \brief (Smc Offset: 0x06C) SMC ECC parity 15 Register */
-  SmcCs_number  SMC_CS_NUMBER[SMCCS_NUMBER_NUMBER]; /**< \brief (Smc Offset: 0x70) CS_number = 0 .. 7 */
-  RwReg         SMC_OCMS;         /**< \brief (Smc Offset: 0x110) SMC OCMS Register */
-  WoReg         SMC_KEY1;         /**< \brief (Smc Offset: 0x114) SMC OCMS KEY1 Register */
-  WoReg         SMC_KEY2;         /**< \brief (Smc Offset: 0x118) SMC OCMS KEY2 Register */
-  RoReg         Reserved1[50];
-  WoReg         SMC_WPCR;         /**< \brief (Smc Offset: 0x1E4) Write Protection Control Register */
-  RoReg         SMC_WPSR;         /**< \brief (Smc Offset: 0x1E8) Write Protection Status Register */
+    RwReg         SMC_CFG;          /**< \brief (Smc Offset: 0x000) SMC NFC Configuration Register */
+    WoReg         SMC_CTRL;         /**< \brief (Smc Offset: 0x004) SMC NFC Control Register */
+    RoReg         SMC_SR;           /**< \brief (Smc Offset: 0x008) SMC NFC Status Register */
+    WoReg         SMC_IER;          /**< \brief (Smc Offset: 0x00C) SMC NFC Interrupt Enable Register */
+    WoReg
+    SMC_IDR;          /**< \brief (Smc Offset: 0x010) SMC NFC Interrupt Disable Register */
+    RoReg         SMC_IMR;          /**< \brief (Smc Offset: 0x014) SMC NFC Interrupt Mask Register */
+    RwReg
+    SMC_ADDR;         /**< \brief (Smc Offset: 0x018) SMC NFC Address Cycle Zero Register */
+    RwReg         SMC_BANK;         /**< \brief (Smc Offset: 0x01C) SMC Bank Address Register */
+    WoReg         SMC_ECC_CTRL;     /**< \brief (Smc Offset: 0x020) SMC ECC Control Register */
+    RwReg         SMC_ECC_MD;       /**< \brief (Smc Offset: 0x024) SMC ECC Mode Register */
+    RoReg         SMC_ECC_SR1;      /**< \brief (Smc Offset: 0x028) SMC ECC Status 1 Register */
+    RoReg         SMC_ECC_PR0;      /**< \brief (Smc Offset: 0x02C) SMC ECC Parity 0 Register */
+    RoReg         SMC_ECC_PR1;      /**< \brief (Smc Offset: 0x030) SMC ECC parity 1 Register */
+    RoReg         SMC_ECC_SR2;      /**< \brief (Smc Offset: 0x034) SMC ECC status 2 Register */
+    RoReg         SMC_ECC_PR2;      /**< \brief (Smc Offset: 0x038) SMC ECC parity 2 Register */
+    RoReg         SMC_ECC_PR3;      /**< \brief (Smc Offset: 0x03C) SMC ECC parity 3 Register */
+    RoReg         SMC_ECC_PR4;      /**< \brief (Smc Offset: 0x040) SMC ECC parity 4 Register */
+    RoReg         SMC_ECC_PR5;      /**< \brief (Smc Offset: 0x044) SMC ECC parity 5 Register */
+    RoReg         SMC_ECC_PR6;      /**< \brief (Smc Offset: 0x048) SMC ECC parity 6 Register */
+    RoReg         SMC_ECC_PR7;      /**< \brief (Smc Offset: 0x04C) SMC ECC parity 7 Register */
+    RoReg         SMC_ECC_PR8;      /**< \brief (Smc Offset: 0x050) SMC ECC parity 8 Register */
+    RoReg         SMC_ECC_PR9;      /**< \brief (Smc Offset: 0x054) SMC ECC parity 9 Register */
+    RoReg         SMC_ECC_PR10;     /**< \brief (Smc Offset: 0x058) SMC ECC parity 10 Register */
+    RoReg         SMC_ECC_PR11;     /**< \brief (Smc Offset: 0x05C) SMC ECC parity 11 Register */
+    RoReg         SMC_ECC_PR12;     /**< \brief (Smc Offset: 0x060) SMC ECC parity 12 Register */
+    RoReg         SMC_ECC_PR13;     /**< \brief (Smc Offset: 0x064) SMC ECC parity 13 Register */
+    RoReg         SMC_ECC_PR14;     /**< \brief (Smc Offset: 0x068) SMC ECC parity 14 Register */
+    RoReg         SMC_ECC_PR15;     /**< \brief (Smc Offset: 0x06C) SMC ECC parity 15 Register */
+    SmcCs_number
+    SMC_CS_NUMBER[SMCCS_NUMBER_NUMBER]; /**< \brief (Smc Offset: 0x70) CS_number = 0 .. 7 */
+    RwReg         SMC_OCMS;         /**< \brief (Smc Offset: 0x110) SMC OCMS Register */
+    WoReg         SMC_KEY1;         /**< \brief (Smc Offset: 0x114) SMC OCMS KEY1 Register */
+    WoReg         SMC_KEY2;         /**< \brief (Smc Offset: 0x118) SMC OCMS KEY2 Register */
+    RoReg         Reserved1[50];
+    WoReg         SMC_WPCR;         /**< \brief (Smc Offset: 0x1E4) Write Protection Control Register */
+    RoReg         SMC_WPSR;         /**< \brief (Smc Offset: 0x1E8) Write Protection Status Register */
 } Smc;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- SMC_CFG : (SMC Offset: 0x000) SMC NFC Configuration Register -------- */

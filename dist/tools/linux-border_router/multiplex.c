@@ -171,13 +171,15 @@ void demultiplex(const border_packet_t *packet, int len)
             switch (l3_header_buf->ethertype) {
                 case (ETHERTYPE_IPV6): {
                     printf("INFO: IPv6-Packet %d received\n", l3_header_buf->seq_num);
-                    struct ip6_hdr *ip6_buf = (struct ip6_hdr *)(((unsigned char *)packet) + sizeof(border_l3_header_t));
+                    struct ip6_hdr *ip6_buf = (struct ip6_hdr *)(((unsigned char *)packet) + sizeof(
+                                                  border_l3_header_t));
                     border_send_ipv6_over_tun(get_tun_fd(), ip6_buf);
                     break;
                 }
 
                 default:
-                    printf("INFO: Unknown ethertype %04x for packet %d\n", l3_header_buf->ethertype, l3_header_buf->seq_num);
+                    printf("INFO: Unknown ethertype %04x for packet %d\n", l3_header_buf->ethertype,
+                           l3_header_buf->seq_num);
                     break;
             }
 

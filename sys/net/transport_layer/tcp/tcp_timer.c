@@ -38,7 +38,8 @@ void handle_synchro_timeout(socket_internal_t *current_socket)
         vtimer_now(&now);
 
         if ((current_socket->socket_values.tcp_control.no_of_retries == 0) &&
-            (timex_uint64(timex_sub(now, current_socket->socket_values.tcp_control.last_packet_time)) > TCP_SYN_INITIAL_TIMEOUT)) {
+            (timex_uint64(timex_sub(now, current_socket->socket_values.tcp_control.last_packet_time)) >
+             TCP_SYN_INITIAL_TIMEOUT)) {
             current_socket->socket_values.tcp_control.no_of_retries++;
             socket_base_net_msg_send(&send, current_socket->recv_pid, 0, TCP_RETRY);
         }

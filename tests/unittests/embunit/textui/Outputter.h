@@ -42,14 +42,14 @@ extern "C" {
 #endif
 
 typedef struct __OutputterImplement     OutputterImplement;
-typedef struct __OutputterImplement*    OutputterImplementRef;
+typedef struct __OutputterImplement    *OutputterImplementRef;
 
-typedef void(*OutputterPrintHeaderFunction)(void*);
-typedef void(*OutputterPrintStartTestFunction)(void*,TestRef);
-typedef void(*OutputterPrintEndTestFunction)(void*,TestRef);
-typedef void(*OutputterPrintSuccessfulFunction)(void*,TestRef,int);
-typedef void(*OutputterPrintFailureFunction)(void*,TestRef,char*,int,char*,int);
-typedef void(*OutputterPrintStatisticsFunction)(void*,TestResultRef);
+typedef void(*OutputterPrintHeaderFunction)(void *);
+typedef void(*OutputterPrintStartTestFunction)(void *, TestRef);
+typedef void(*OutputterPrintEndTestFunction)(void *, TestRef);
+typedef void(*OutputterPrintSuccessfulFunction)(void *, TestRef, int);
+typedef void(*OutputterPrintFailureFunction)(void *, TestRef, char *, int, char *, int);
+typedef void(*OutputterPrintStatisticsFunction)(void *, TestResultRef);
 
 
 struct __OutputterImplement {
@@ -62,7 +62,7 @@ struct __OutputterImplement {
 };
 
 typedef struct __Outputter  Outputter;
-typedef struct __Outputter* OutputterRef;
+typedef struct __Outputter *OutputterRef;
 
 struct __Outputter {
     OutputterImplementRef isa;

@@ -36,7 +36,8 @@
  * If the device class is unknown, then the hexadecimal value is returned.
  * This function is not thread safe.
  */
-const char *x86_pci_subclass_to_string(unsigned baseclass, unsigned subclass, unsigned interface, const char **baseclass_name);
+const char *x86_pci_subclass_to_string(unsigned baseclass, unsigned subclass, unsigned interface,
+                                       const char **baseclass_name);
 
 /**
  * @brief        Get a string representation of the device name.
@@ -46,7 +47,8 @@ const char *x86_pci_subclass_to_string(unsigned baseclass, unsigned subclass, un
  * If the device ID is unknown, then the hexadecimal value is returned.
  * This function is not thread safe.
  */
-const char *x86_pci_device_id_to_string(unsigned vendor_id, unsigned device_id, const char **vendor_name);
+const char *x86_pci_device_id_to_string(unsigned vendor_id, unsigned device_id,
+                                        const char **vendor_name);
 
 #endif
 

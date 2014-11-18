@@ -29,37 +29,39 @@ static void cleanup(void *arg)
     printf("Cleanup: <%s>\n", (const char *) arg);
 }
 
-static void *run(void *unused) {
+static void *run(void *unused)
+{
     (void) unused;
 
     /* indentation for visibility */
     puts("<SCOPE 0>");
     pthread_cleanup_push(cleanup, "1");
-        puts("<SCOPE 1>");
-        pthread_cleanup_push(cleanup, "2");
-            puts("<SCOPE 2>");
-            pthread_cleanup_push(cleanup, "3");
-                puts("<SCOPE 3>");
-                pthread_cleanup_push(cleanup, "4");
-                    puts("<SCOPE 4>");
-                    pthread_cleanup_push(cleanup, "5");
-                        puts("<SCOPE 5 />");
-                    pthread_cleanup_pop(1);
-                    puts("</SCOPE 4>");
-                pthread_cleanup_pop(0); /* cleanup 4 should not be executed */
-                puts("</SCOPE 3>");
-            pthread_cleanup_pop(1);
-            pthread_exit(RET_EXIT);
-            puts("/<SCOPE 2>"); /* thread exited, should not be printed */
-        pthread_cleanup_pop(0); /* should be printed nevertheless */
-        puts("</SCOPE 1>");
+    puts("<SCOPE 1>");
+    pthread_cleanup_push(cleanup, "2");
+    puts("<SCOPE 2>");
+    pthread_cleanup_push(cleanup, "3");
+    puts("<SCOPE 3>");
+    pthread_cleanup_push(cleanup, "4");
+    puts("<SCOPE 4>");
+    pthread_cleanup_push(cleanup, "5");
+    puts("<SCOPE 5 />");
+    pthread_cleanup_pop(1);
+    puts("</SCOPE 4>");
+    pthread_cleanup_pop(0); /* cleanup 4 should not be executed */
+    puts("</SCOPE 3>");
+    pthread_cleanup_pop(1);
+    pthread_exit(RET_EXIT);
+    puts("/<SCOPE 2>"); /* thread exited, should not be printed */
+    pthread_cleanup_pop(0); /* should be printed nevertheless */
+    puts("</SCOPE 1>");
     pthread_cleanup_pop(1);
     puts("</SCOPE 0>");
 
     return RET_FAIL;
 }
 
-int main(void) {
+int main(void)
+{
     puts("Start.");
 
     pthread_t th_id;
@@ -68,7 +70,7 @@ int main(void) {
     void *res;
     pthread_join(th_id, (void **) &res);
 
-    printf("Result: %u\n", (int) (intptr_t) res);
+    printf("Result: %u\n", (int)(intptr_t) res);
     puts("Done.");
     return 0;
 }

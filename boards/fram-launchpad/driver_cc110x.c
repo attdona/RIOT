@@ -75,16 +75,19 @@ void cc110x_after_send(void)
 }
 
 
-int cc110x_get_gdo0(void) {
-        return  CC1100_GDO0;
+int cc110x_get_gdo0(void)
+{
+    return  CC1100_GDO0;
 }
 
-int cc110x_get_gdo1(void) {
-        return  CC1100_GDO1;
+int cc110x_get_gdo1(void)
+{
+    return  CC1100_GDO1;
 }
 
-int cc110x_get_gdo2(void) {
-        return  CC1100_GDO2;
+int cc110x_get_gdo2(void)
+{
+    return  CC1100_GDO2;
 }
 
 void cc110x_spi_cs(void)
@@ -100,18 +103,22 @@ uint8_t cc110x_txrx(uint8_t data)
     UCB0IFG &= ~UCRXIFG;
 
     UCB0TXBUF = data;
-    while(!(UCB0IFG & UCTXIFG)) {
+
+    while (!(UCB0IFG & UCTXIFG)) {
         if (c++ == 1000000) {
             puts("cc110x_txrx alarm()");
         }
     }
+
     /* Wait for Byte received */
     c = 0;
-    while(!(UCB0IFG & UCRXIFG)) {
+
+    while (!(UCB0IFG & UCRXIFG)) {
         if (c++ == 1000000) {
             puts("cc110x_txrx alarm()");
         }
     }
+
     return UCB0RXBUF;
 }
 
@@ -122,28 +129,34 @@ void cc110x_spi_select(void)
     // Switch to GDO mode
     P5SEL &= ~0x04;
     P5DIR &= ~0x04;
-    cs_low:
+cs_low:
     // CS to low
     abort_count = 0;
     CC1100_CS_LOW;
     // Wait for SO to go low (voltage regulator
     // has stabilized and the crystal is running)
-    loop:
-//    asm volatile ("nop");
+loop:
+
+    //    asm volatile ("nop");
     if (CC1100_GDO1) {
         abort_count++;
+
         if (abort_count > CC1100_GDO1_LOW_COUNT) {
             retry_count++;
+
             if (retry_count > CC1100_GDO1_LOW_RETRY) {
                 puts("[CC1100 SPI] fatal error\n");
                 goto final;
             }
+
             CC1100_CS_HIGH;
             goto cs_low;        // try again
         }
+
         goto loop;
     }
-    final:
+
+final:
     /* Switch to SPI mode */
     P5SEL |= 0x04;
 #endif
@@ -152,13 +165,14 @@ void cc110x_spi_select(void)
     CC110L_SPI_CSN_PORT(OUT) &= ~BV(CC110L_SPI_CSN_PIN);
 
     /* The MISO pin should go low before chip is fully enabled. */
-    while((CC110L_SPI_MISO_PORT(IN) & BV(CC110L_SPI_MISO_PIN)) != 0);
+    while ((CC110L_SPI_MISO_PORT(IN) & BV(CC110L_SPI_MISO_PIN)) != 0);
 
 }
 
-void cc110x_spi_unselect(void) {
+void cc110x_spi_unselect(void)
+{
     //CC1100_CS_HIGH;
-	CC110L_SPI_CSN_PORT(OUT) |= BV(CC110L_SPI_CSN_PIN);
+    CC110L_SPI_CSN_PORT(OUT) |= BV(CC110L_SPI_CSN_PIN);
 }
 
 void cc110x_init_interrupts(void)
@@ -192,8 +206,10 @@ void cc110x_init_interrupts(void)
 void cc110x_spi_init(void)
 {
 #if 0
+
     // Switch off async UART
-    while(!(U1TCTL & TXEPT));   // Wait for empty UxTXBUF register
+    while (!(U1TCTL & TXEPT));  // Wait for empty UxTXBUF register
+
     IE2 &= ~(URXIE1 + UTXIE1);  // Disable USART1 receive&transmit interrupt
     ME2 &= ~(UTXE1 + URXE1);
     P5DIR |= 0x0A;              // output for CLK and SIMO
@@ -225,7 +241,7 @@ void cc110x_spi_init(void)
     // Configure USCI_B0 for SPI operation
     UCB0CTLW0 = UCSWRST;                      // **Put state machine in reset**
     UCB0CTLW0 |= UCMST | UCSYNC | UCCKPL | UCMSB; // 3-pin, 8-bit SPI master
-                                              // Clock polarity high, MSB
+    // Clock polarity high, MSB
     UCB0CTLW0 |= UCSSEL__SMCLK;                // SMCLK
     UCB0BR0 = 0x01;                           // /2
     UCB0BR1 = 0;                              //
@@ -248,9 +264,11 @@ void cc110x_spi_init(void)
  * CC1100 receive interrupt
  */
 //interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc110x_isr(void){
-ISRV(PORT1_VECTOR, cc110x_isr) {
+ISRV(PORT1_VECTOR, cc110x_isr)
+{
     __enter_isr();
-     /* Check IFG */
+
+    /* Check IFG */
     if ((P1IFG & 0x10) != 0) {
         P1IFG &= ~0x10;
         cc110x_gdo2_irq();
@@ -258,11 +276,12 @@ ISRV(PORT1_VECTOR, cc110x_isr) {
     else if ((P2IFG & 0x08) != 0) {
         cc110x_gdo0_irq();
         P1IE &= ~0x08;                // Disable interrupt for GDO0
-           P1IFG &= ~0x08;                // Clear IFG for GDO0
+        P1IFG &= ~0x08;                // Clear IFG for GDO0
     }
     else {
         puts("cc110x_isr(): unexpected IFG!");
         /* Should not occur - only GDO1 and GDO2 interrupts are enabled */
     }
+
     __exit_isr();
 }

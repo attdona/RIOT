@@ -24,7 +24,7 @@
 #include "priority_queue.h"
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /**

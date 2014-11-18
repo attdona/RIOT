@@ -39,13 +39,14 @@ void _rpl_route_handler(int argc, char **argv)
         if (rtable[i].used) {
             c++;
             printf(" %03d: %-18s  ", i, ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
-                                            (&rtable[i].address)));
+                    (&rtable[i].address)));
             printf("%-18s  ", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
-                                            (&rtable[i].next_hop)));
+                                               (&rtable[i].next_hop)));
             printf("%d\n", rtable[i].lifetime);
 
         }
     }
+
     puts("--------------------------------------------------------------------");
     printf(" %u routing table entries\n", c);
 

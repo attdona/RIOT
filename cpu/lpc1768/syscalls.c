@@ -45,26 +45,27 @@ extern uintptr_t __heap_start;      ///< start of heap memory space
 extern uintptr_t __heap_max;        ///< maximum for end of heap memory space
 
 /// current position in heap
-static caddr_t heap[NUM_HEAPS] = {(caddr_t)&__heap_start};
+static caddr_t heap[NUM_HEAPS] = {(caddr_t) &__heap_start};
 /// maximum position in heap
-static const caddr_t heap_max[NUM_HEAPS] = {(caddr_t)&__heap_max};
+static const caddr_t heap_max[NUM_HEAPS] = {(caddr_t) &__heap_max};
 // start position in heap
-static const caddr_t heap_start[NUM_HEAPS] = {(caddr_t)&__heap_start};
+static const caddr_t heap_start[NUM_HEAPS] = {(caddr_t) &__heap_start};
 // current heap in use
 volatile static uint8_t iUsedHeap = 0;
 
 /** @} */
 
 /*-----------------------------------------------------------------------------------*/
-void heap_stats(void) {
-    for(int i = 0; i < NUM_HEAPS; i++)
+void heap_stats(void)
+{
+    for (int i = 0; i < NUM_HEAPS; i++)
         printf("# heap %i: %p -- %p -> %p (%li of %li free)\n", i, heap_start[i], heap[i], heap_max[i],
-            (uint32_t)heap_max[i] - (uint32_t)heap[i], (uint32_t)heap_max[i] - (uint32_t)heap_start[i]);
+               (uint32_t)heap_max[i] - (uint32_t)heap[i], (uint32_t)heap_max[i] - (uint32_t)heap_start[i]);
 }
 /*-----------------------------------------------------------------------------------*/
 void __assert_func(const char *file, int line, const char *func, const char *failedexpr)
 {
-    printf("#! assertion %s failed\n\t%s() in %s:%d\n", failedexpr, func, file, line );
+    printf("#!assertion %s failed\n\t%s() in %s:%d\n", failedexpr, func, file, line);
     _exit(3);
 }
 /*-----------------------------------------------------------------------------------*/
@@ -75,8 +76,7 @@ void __assert(const char *file, int line, const char *failedexpr)
 /*-----------------------------------------------------------------------------------*/
 caddr_t _sbrk_r(struct _reent *r, ptrdiff_t incr)
 {
-    if(incr < 0)
-    {
+    if (incr < 0) {
         puts("[syscalls] Negative Values for _sbrk_r are not supported");
         r->_errno = ENOMEM;
         return NULL;
@@ -85,10 +85,10 @@ caddr_t _sbrk_r(struct _reent *r, ptrdiff_t incr)
     uint32_t cpsr = disableIRQ();
 
     /* check all heaps for a chunk of the requested size */
-    for( ; iUsedHeap < NUM_HEAPS; iUsedHeap++ ) {
+    for (; iUsedHeap < NUM_HEAPS; iUsedHeap++) {
         caddr_t new_heap = heap[iUsedHeap] + incr;
 
-        if( new_heap <= heap_max[iUsedHeap] ) {
+        if (new_heap <= heap_max[iUsedHeap]) {
             caddr_t prev_heap = heap[iUsedHeap];
             heap[iUsedHeap] = new_heap;
 
@@ -97,6 +97,7 @@ caddr_t _sbrk_r(struct _reent *r, ptrdiff_t incr)
             return prev_heap;
         }
     }
+
     restoreIRQ(cpsr);
 
     r->_errno = ENOMEM;
@@ -106,10 +107,13 @@ caddr_t _sbrk_r(struct _reent *r, ptrdiff_t incr)
 int _isatty_r(struct _reent *r, int fd)
 {
     r->_errno = 0;
-    if( fd == STDOUT_FILENO || fd == STDERR_FILENO )
+
+    if (fd == STDOUT_FILENO || fd == STDERR_FILENO) {
         return 1;
-    else
+    }
+    else {
         return 0;
+    }
 }
 /*---------------------------------------------------------------------------*/
 _off_t _lseek_r(struct _reent *r, int fd, _off_t pos, int whence)
@@ -143,12 +147,13 @@ int _stat_r(struct _reent *r, char *name, struct stat *st)
     return ret;
 }
 /*---------------------------------------------------------------------------*/
-int _fstat_r(struct _reent *r, int fd, struct stat * st)
+int _fstat_r(struct _reent *r, int fd, struct stat *st)
 {
     int ret = -1;
 
     r->_errno = 0;
     memset(st, 0, sizeof(*st));
+
     if (fd == STDOUT_FILENO || fd == STDERR_FILENO) {
         st->st_mode = S_IFCHR;
         ret = 0;
@@ -156,6 +161,7 @@ int _fstat_r(struct _reent *r, int fd, struct stat * st)
     else {
         r->_errno = ENODEV;
     }
+
     return ret;
 }
 /*---------------------------------------------------------------------------*/
@@ -164,23 +170,22 @@ int _write_r(struct _reent *r, int fd, const void *data, unsigned int count)
     int result = EOF;
     r->_errno = EBADF;
 
-    switch(fd) {
+    switch (fd) {
         case STDOUT_FILENO:
-        case STDERR_FILENO:
-        {
-                //FIXME impl fw_puts
-                //char* chars = (char*) data;
-                for(int i = 0;i < count;i++) {
-                  //USART_SendData(USART2, chars[i]);
+        case STDERR_FILENO: {
+            //FIXME impl fw_puts
+            //char* chars = (char*) data;
+            for (int i = 0; i < count; i++) {
+                //USART_SendData(USART2, chars[i]);
 
-                  /* Loop until the end of transmission */
-                  //while (USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET){}
-                }
+                /* Loop until the end of transmission */
+                //while (USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET){}
+            }
 
-                return count;
-                //result = fw_puts((char*)data, count);
+            return count;
+            //result = fw_puts((char*)data, count);
         }
-            break;
+        break;
 
         default:
             break;
@@ -203,7 +208,7 @@ int _close_r(struct _reent *r, int fd)
     return ret;
 }
 /*---------------------------------------------------------------------------*/
-int _unlink_r(struct _reent *r, char* path)
+int _unlink_r(struct _reent *r, char *path)
 {
     int ret = -1;
     r->_errno = ENODEV;
@@ -212,11 +217,12 @@ int _unlink_r(struct _reent *r, char* path)
 /*---------------------------------------------------------------------------*/
 void _exit(int n)
 {
-    printf("#! exit %i: resetting\n", n);
+    printf("#!exit %i: resetting\n", n);
 
     //FIXME write out all peripherie buffers stdout flush
     NVIC_SystemReset();
-    while(1);
+
+    while (1);
 }
 /*---------------------------------------------------------------------------*/
 pid_t _getpid(void)
@@ -232,12 +238,13 @@ int _kill_r(struct _reent *r, int pid, int sig)
 }
 /*---------------------------------------------------------------------------*/
 #ifdef MODULE_VTIMER
-int _gettimeofday(struct timeval *tp, void *restrict tzp) {
+int _gettimeofday(struct timeval *tp, void *restrict tzp)
+{
     (void) tzp;
     vtimer_gettimeofday(tp);
     return 0;
 }
 #endif
 
-void _init(void){}
-void _fini(void){}
+void _init(void) {}
+void _fini(void) {}

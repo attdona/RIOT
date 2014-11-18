@@ -287,7 +287,7 @@ int sixlowpan_lowpan_sendto(int if_id, const void *dest, int dest_len,
     }
     else {
         return sixlowpan_mac_send_ieee802154_frame(if_id, dest, dest_len, data,
-                                                   send_packet_length, mcast);
+                send_packet_length, mcast);
     }
 
     return data_len;
@@ -545,7 +545,8 @@ uint8_t handle_packet_frag_interval(lowpan_reas_buf_t *current_buf,
     current_interval = current_buf->interval_list_head;
 
     while (current_interval != NULL) {
-        if (is_in_interval(current_interval->start, current_interval->end, datagram_offset, datagram_offset + frag_size) == 1) {
+        if (is_in_interval(current_interval->start, current_interval->end, datagram_offset,
+                           datagram_offset + frag_size) == 1) {
             /* Interval is overlapping or the same as one of a previous fragment, discard fragment */
             return 0;
         }
@@ -841,6 +842,7 @@ void lowpan_read(uint8_t *data, uint8_t length, net_if_eui64_t *s_addr,
 
         DEBUG("Frag size is %u, offset is %u, datagram_size is %u\n",
               frag_size, byte_offset, datagram_size);
+
         if ((frag_size % 8) != 0) {
             if ((byte_offset + frag_size) != datagram_size) {
                 printf("ERROR: received invalid fragment\n");
@@ -1273,6 +1275,7 @@ void lowpan_iphc_decoding(uint8_t *data, uint8_t length, net_if_eui64_t *s_addr,
         /* 1: Source address compression uses stateful, context-based
          * compression.*/
         uint8_t sci = 0;
+
         if (cid) {
             sci = ipv6_hdr_fields[3] >> 4;
         }
@@ -1394,6 +1397,7 @@ void lowpan_iphc_decoding(uint8_t *data, uint8_t length, net_if_eui64_t *s_addr,
         }
         else {
             uint8_t m_prefix[2] = {0xff, 0x02};
+
             /* If M=1 and DAC=0: */
             switch (lowpan_iphc[1] & 0x03) {
                 case (0x01): {

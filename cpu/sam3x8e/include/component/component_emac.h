@@ -40,53 +40,53 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief EmacSa hardware registers */
 typedef struct {
-  RwReg   EMAC_SAxB;    /**< \brief (EmacSa Offset: 0x0) Specific Address 1 Bottom Register */
-  RwReg   EMAC_SAxT;    /**< \brief (EmacSa Offset: 0x4) Specific Address 1 Top Register */
+    RwReg   EMAC_SAxB;    /**< \brief (EmacSa Offset: 0x0) Specific Address 1 Bottom Register */
+    RwReg   EMAC_SAxT;    /**< \brief (EmacSa Offset: 0x4) Specific Address 1 Top Register */
 } EmacSa;
 /** \brief Emac hardware registers */
 #define EMACSA_NUMBER 4
 typedef struct {
-  RwReg   EMAC_NCR;     /**< \brief (Emac Offset: 0x00) Network Control Register */
-  RwReg   EMAC_NCFGR;   /**< \brief (Emac Offset: 0x04) Network Configuration Register */
-  RoReg   EMAC_NSR;     /**< \brief (Emac Offset: 0x08) Network Status Register */
-  RoReg   Reserved1[2];
-  RwReg   EMAC_TSR;     /**< \brief (Emac Offset: 0x14) Transmit Status Register */
-  RwReg   EMAC_RBQP;    /**< \brief (Emac Offset: 0x18) Receive Buffer Queue Pointer Register */
-  RwReg   EMAC_TBQP;    /**< \brief (Emac Offset: 0x1C) Transmit Buffer Queue Pointer Register */
-  RwReg   EMAC_RSR;     /**< \brief (Emac Offset: 0x20) Receive Status Register */
-  RwReg   EMAC_ISR;     /**< \brief (Emac Offset: 0x24) Interrupt Status Register */
-  WoReg   EMAC_IER;     /**< \brief (Emac Offset: 0x28) Interrupt Enable Register */
-  WoReg   EMAC_IDR;     /**< \brief (Emac Offset: 0x2C) Interrupt Disable Register */
-  RoReg   EMAC_IMR;     /**< \brief (Emac Offset: 0x30) Interrupt Mask Register */
-  RwReg   EMAC_MAN;     /**< \brief (Emac Offset: 0x34) Phy Maintenance Register */
-  RwReg   EMAC_PTR;     /**< \brief (Emac Offset: 0x38) Pause Time Register */
-  RwReg   EMAC_PFR;     /**< \brief (Emac Offset: 0x3C) Pause Frames Received Register */
-  RwReg   EMAC_FTO;     /**< \brief (Emac Offset: 0x40) Frames Transmitted Ok Register */
-  RwReg   EMAC_SCF;     /**< \brief (Emac Offset: 0x44) Single Collision Frames Register */
-  RwReg   EMAC_MCF;     /**< \brief (Emac Offset: 0x48) Multiple Collision Frames Register */
-  RwReg   EMAC_FRO;     /**< \brief (Emac Offset: 0x4C) Frames Received Ok Register */
-  RwReg   EMAC_FCSE;    /**< \brief (Emac Offset: 0x50) Frame Check Sequence Errors Register */
-  RwReg   EMAC_ALE;     /**< \brief (Emac Offset: 0x54) Alignment Errors Register */
-  RwReg   EMAC_DTF;     /**< \brief (Emac Offset: 0x58) Deferred Transmission Frames Register */
-  RwReg   EMAC_LCOL;    /**< \brief (Emac Offset: 0x5C) Late Collisions Register */
-  RwReg   EMAC_ECOL;    /**< \brief (Emac Offset: 0x60) Excessive Collisions Register */
-  RwReg   EMAC_TUND;    /**< \brief (Emac Offset: 0x64) Transmit Underrun Errors Register */
-  RwReg   EMAC_CSE;     /**< \brief (Emac Offset: 0x68) Carrier Sense Errors Register */
-  RwReg   EMAC_RRE;     /**< \brief (Emac Offset: 0x6C) Receive Resource Errors Register */
-  RwReg   EMAC_ROV;     /**< \brief (Emac Offset: 0x70) Receive Overrun Errors Register */
-  RwReg   EMAC_RSE;     /**< \brief (Emac Offset: 0x74) Receive Symbol Errors Register */
-  RwReg   EMAC_ELE;     /**< \brief (Emac Offset: 0x78) Excessive Length Errors Register */
-  RwReg   EMAC_RJA;     /**< \brief (Emac Offset: 0x7C) Receive Jabbers Register */
-  RwReg   EMAC_USF;     /**< \brief (Emac Offset: 0x80) Undersize Frames Register */
-  RwReg   EMAC_STE;     /**< \brief (Emac Offset: 0x84) SQE Test Errors Register */
-  RwReg   EMAC_RLE;     /**< \brief (Emac Offset: 0x88) Received Length Field Mismatch Register */
-  RoReg   Reserved2[1];
-  RwReg   EMAC_HRB;     /**< \brief (Emac Offset: 0x90) Hash Register Bottom [31:0] Register */
-  RwReg   EMAC_HRT;     /**< \brief (Emac Offset: 0x94) Hash Register Top [63:32] Register */
-  EmacSa  EMAC_SA[EMACSA_NUMBER]; /**< \brief (Emac Offset: 0x98) sa = 1 .. 4 */
-  RwReg   EMAC_TID;     /**< \brief (Emac Offset: 0xB8) Type ID Checking Register */
-  RoReg   Reserved3[1];
-  RwReg   EMAC_USRIO;   /**< \brief (Emac Offset: 0xC0) User Input/Output Register */
+    RwReg   EMAC_NCR;     /**< \brief (Emac Offset: 0x00) Network Control Register */
+    RwReg   EMAC_NCFGR;   /**< \brief (Emac Offset: 0x04) Network Configuration Register */
+    RoReg   EMAC_NSR;     /**< \brief (Emac Offset: 0x08) Network Status Register */
+    RoReg   Reserved1[2];
+    RwReg   EMAC_TSR;     /**< \brief (Emac Offset: 0x14) Transmit Status Register */
+    RwReg   EMAC_RBQP;    /**< \brief (Emac Offset: 0x18) Receive Buffer Queue Pointer Register */
+    RwReg   EMAC_TBQP;    /**< \brief (Emac Offset: 0x1C) Transmit Buffer Queue Pointer Register */
+    RwReg   EMAC_RSR;     /**< \brief (Emac Offset: 0x20) Receive Status Register */
+    RwReg   EMAC_ISR;     /**< \brief (Emac Offset: 0x24) Interrupt Status Register */
+    WoReg   EMAC_IER;     /**< \brief (Emac Offset: 0x28) Interrupt Enable Register */
+    WoReg   EMAC_IDR;     /**< \brief (Emac Offset: 0x2C) Interrupt Disable Register */
+    RoReg   EMAC_IMR;     /**< \brief (Emac Offset: 0x30) Interrupt Mask Register */
+    RwReg   EMAC_MAN;     /**< \brief (Emac Offset: 0x34) Phy Maintenance Register */
+    RwReg   EMAC_PTR;     /**< \brief (Emac Offset: 0x38) Pause Time Register */
+    RwReg   EMAC_PFR;     /**< \brief (Emac Offset: 0x3C) Pause Frames Received Register */
+    RwReg   EMAC_FTO;     /**< \brief (Emac Offset: 0x40) Frames Transmitted Ok Register */
+    RwReg   EMAC_SCF;     /**< \brief (Emac Offset: 0x44) Single Collision Frames Register */
+    RwReg   EMAC_MCF;     /**< \brief (Emac Offset: 0x48) Multiple Collision Frames Register */
+    RwReg   EMAC_FRO;     /**< \brief (Emac Offset: 0x4C) Frames Received Ok Register */
+    RwReg   EMAC_FCSE;    /**< \brief (Emac Offset: 0x50) Frame Check Sequence Errors Register */
+    RwReg   EMAC_ALE;     /**< \brief (Emac Offset: 0x54) Alignment Errors Register */
+    RwReg   EMAC_DTF;     /**< \brief (Emac Offset: 0x58) Deferred Transmission Frames Register */
+    RwReg   EMAC_LCOL;    /**< \brief (Emac Offset: 0x5C) Late Collisions Register */
+    RwReg   EMAC_ECOL;    /**< \brief (Emac Offset: 0x60) Excessive Collisions Register */
+    RwReg   EMAC_TUND;    /**< \brief (Emac Offset: 0x64) Transmit Underrun Errors Register */
+    RwReg   EMAC_CSE;     /**< \brief (Emac Offset: 0x68) Carrier Sense Errors Register */
+    RwReg   EMAC_RRE;     /**< \brief (Emac Offset: 0x6C) Receive Resource Errors Register */
+    RwReg   EMAC_ROV;     /**< \brief (Emac Offset: 0x70) Receive Overrun Errors Register */
+    RwReg   EMAC_RSE;     /**< \brief (Emac Offset: 0x74) Receive Symbol Errors Register */
+    RwReg   EMAC_ELE;     /**< \brief (Emac Offset: 0x78) Excessive Length Errors Register */
+    RwReg   EMAC_RJA;     /**< \brief (Emac Offset: 0x7C) Receive Jabbers Register */
+    RwReg   EMAC_USF;     /**< \brief (Emac Offset: 0x80) Undersize Frames Register */
+    RwReg   EMAC_STE;     /**< \brief (Emac Offset: 0x84) SQE Test Errors Register */
+    RwReg   EMAC_RLE;     /**< \brief (Emac Offset: 0x88) Received Length Field Mismatch Register */
+    RoReg   Reserved2[1];
+    RwReg   EMAC_HRB;     /**< \brief (Emac Offset: 0x90) Hash Register Bottom [31:0] Register */
+    RwReg   EMAC_HRT;     /**< \brief (Emac Offset: 0x94) Hash Register Top [63:32] Register */
+    EmacSa  EMAC_SA[EMACSA_NUMBER]; /**< \brief (Emac Offset: 0x98) sa = 1 .. 4 */
+    RwReg   EMAC_TID;     /**< \brief (Emac Offset: 0xB8) Type ID Checking Register */
+    RoReg   Reserved3[1];
+    RwReg   EMAC_USRIO;   /**< \brief (Emac Offset: 0xC0) User Input/Output Register */
 } Emac;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- EMAC_NCR : (EMAC Offset: 0x00) Network Control Register -------- */

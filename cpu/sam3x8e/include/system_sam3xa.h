@@ -1,4 +1,4 @@
-/*! \file *********************************************************************
+/*!\file *********************************************************************
  *
  * \brief CMSIS Cortex-M# Device Peripheral Access Layer Header File
  *           for SAM3 devices.

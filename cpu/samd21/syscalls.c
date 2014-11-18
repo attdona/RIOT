@@ -45,7 +45,7 @@
  * manage the heap
  */
 extern uint32_t _end;                       /* address of last used memory cell */
-caddr_t heap_top = (caddr_t)&_end + 4;
+caddr_t heap_top = (caddr_t) &_end + 4;
 
 #ifndef MODULE_UART0
 /**
@@ -67,11 +67,13 @@ void rx_cb(void *arg, char data)
     ringbuffer_add_one(&rx_buf, data);
     mutex_unlock(&uart_rx_mutex);
 #else
+
     if (uart0_handler_pid) {
         uart0_handle_incoming(data);
 
         uart0_notify_thread();
     }
+
 #endif
 }
 
@@ -105,9 +107,10 @@ void _fini(void)
  */
 void _exit(int n)
 {
-    printf("#! exit %i: resetting\n", n);
+    printf("#!exit %i: resetting\n", n);
     NVIC_SystemReset();
-    while(1);
+
+    while (1);
 }
 
 /**
@@ -191,10 +194,12 @@ int _open_r(struct _reent *r, const char *name, int mode)
 int _read_r(struct _reent *r, int fd, void *buffer, unsigned int count)
 {
 #ifndef MODULE_UART0
+
     while (rx_buf.avail == 0) {
         mutex_lock(&uart_rx_mutex);
     }
-    return ringbuffer_get(&rx_buf, (char*)buffer, rx_buf.avail);
+
+    return ringbuffer_get(&rx_buf, (char *)buffer, rx_buf.avail);
 #else
     r->_errno = ENODEV;
     return -1;
@@ -218,10 +223,12 @@ int _read_r(struct _reent *r, int fd, void *buffer, unsigned int count)
  */
 int _write_r(struct _reent *r, int fd, const void *data, unsigned int count)
 {
-    char *c = (char*)data;
+    char *c = (char *)data;
+
     for (int i = 0; i < count; i++) {
         uart_write_blocking(UART_0, c[i]);
     }
+
     return count;
 }
 
@@ -264,7 +271,7 @@ _off_t _lseek_r(struct _reent *r, int fd, _off_t pos, int dir)
  *
  * @return      TODO
  */
-int _fstat_r(struct _reent *r, int fd, struct stat * st)
+int _fstat_r(struct _reent *r, int fd, struct stat *st)
 {
     r->_errno = ENODEV;                     /* not implemented yet */
     return -1;
@@ -296,7 +303,8 @@ int _stat_r(struct _reent *r, char *name, struct stat *st)
 int _isatty_r(struct _reent *r, int fd)
 {
     r->_errno = 0;
-    if(fd == STDOUT_FILENO || fd == STDERR_FILENO) {
+
+    if (fd == STDOUT_FILENO || fd == STDERR_FILENO) {
         return 1;
     }
     else {
@@ -312,7 +320,7 @@ int _isatty_r(struct _reent *r, int fd)
  *
  * @return      TODO
  */
-int _unlink_r(struct _reent *r, char* path)
+int _unlink_r(struct _reent *r, char *path)
 {
     r->_errno = ENODEV;                     /* not implemented yet */
     return -1;

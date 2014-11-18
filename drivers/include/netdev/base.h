@@ -40,8 +40,9 @@ extern "C" {
 typedef enum {
     NETDEV_TYPE_UNKNOWN = 0,    /**< Type was not specified and may not
                                      understand this API */
-    NETDEV_TYPE_BASE,           /**< Device understands this API */
-} netdev_type_t;
+                          NETDEV_TYPE_BASE,           /**< Device understands this API */
+}
+netdev_type_t;
 
 /**
  * @brief   Definition of protocol families to determine which frame types a

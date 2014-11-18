@@ -32,7 +32,8 @@ size_t netdev_get_hlist_len(const netdev_hlist_t *hlist)
     do {
         length += ptr->header_len;
         clist_advance((clist_node_t **)&ptr);
-    } while (ptr != hlist);
+    }
+    while (ptr != hlist);
 
     return length;
 }

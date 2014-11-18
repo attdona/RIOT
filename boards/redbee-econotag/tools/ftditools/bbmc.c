@@ -281,7 +281,7 @@ int main(int argc, char **argv)
         memcpy(&layout, l, sizeof(struct layout));
     }
 
-#define override(x) if(x > 0) { layout.x = x; }
+#define override(x) if (x > 0) { layout.x = x; }
     override(interface);
     override(dir);
     override(reset_release);
@@ -302,7 +302,8 @@ int main(int argc, char **argv)
     }
 
     if ((ret = ftdi_set_interface(&ftdic, layout.interface)) < 0) {
-        fprintf(stderr, "couldn't set interface %d, err %d (%s)\n", layout.interface, ret, ftdi_get_error_string(&ftdic));
+        fprintf(stderr, "couldn't set interface %d, err %d (%s)\n", layout.interface, ret,
+                ftdi_get_error_string(&ftdic));
         return EXIT_FAILURE;
     }
 
@@ -339,7 +340,8 @@ int main(int argc, char **argv)
                    dev_index)) < 0) {
 #if __APPLE__
 
-        if ((ret == -5) && (0 == system("sudo kextunload /System/Library/Extensions/FTDIUSBSerialDriver.kext"))) {
+        if ((ret == -5)
+            && (0 == system("sudo kextunload /System/Library/Extensions/FTDIUSBSerialDriver.kext"))) {
             // Try again without the FTDI kext loaded this time
             atexit(&restore_ftdi_kext);
             ret = ftdi_usb_open_desc_index(
@@ -355,7 +357,8 @@ int main(int argc, char **argv)
         if (ret)
 #endif // __APPLE__
         {
-            fprintf(stderr, "couldn't open dev_index %d, err %d (%s)\n", dev_index, ret, ftdi_get_error_string(&ftdic));
+            fprintf(stderr, "couldn't open dev_index %d, err %d (%s)\n", dev_index, ret,
+                    ftdi_get_error_string(&ftdic));
             return EXIT_FAILURE;
         }
     }
@@ -454,6 +457,7 @@ int print_and_prompt(struct ftdi_device_list *devlist)
                                        manufacturer, 128,
                                        description, 128,
                                        serial, 128);
+
         if (0 > ret) {
             fprintf(stderr, "ftdi_usb_get_strings failed: %d (%s)\n",
                     ret, ftdi_get_error_string(&ftdic));

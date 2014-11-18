@@ -22,8 +22,7 @@
  *            E.g. no new readers will get into the critical section
  *            if a writer of the same or a higher priority already waits for the lock.
  */
-typedef struct pthread_rwlock
-{
+typedef struct pthread_rwlock {
     /**
      * @brief     The current amount of reader inside the critical section.
      * @details
@@ -47,8 +46,7 @@ typedef struct pthread_rwlock
 /**
  * @brief     Internal structure that stores one waiting thread.
  */
-typedef struct __pthread_rwlock_waiter_node
-{
+typedef struct __pthread_rwlock_waiter_node {
     bool is_writer; /**< `false`: reader; `true`: writer */
     tcb_t *thread; /**< waiting thread */
     priority_queue_node_t qnode; /**< Node to store in `pthread_rwlock_t::queue`. */

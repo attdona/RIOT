@@ -54,9 +54,9 @@ inline void __restore_context_isr(void)
 inline void __enter_isr(void)
 {
 #if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
-	__save_context_isr();
+    __save_context_isr();
 #else
-	__asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
+    __asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
 #endif
 
     __asm__("mov.w %0,r1" : : "i"(__isr_stack+MSP430_ISR_STACK_SIZE));
@@ -99,7 +99,8 @@ inline void __restore_context(unsigned int irqen)
      */
     if (irqen) {
         __asm__("bis.w #8, 0(r1)");
-    } else {
+    }
+    else {
         __asm__("bic.w #8, 0(r1)");
     }
 

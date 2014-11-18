@@ -40,8 +40,8 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Chipid hardware registers */
 typedef struct {
-  RoReg CHIPID_CIDR; /**< \brief (Chipid Offset: 0x0) Chip ID Register */
-  RoReg CHIPID_EXID; /**< \brief (Chipid Offset: 0x4) Chip ID Extension Register */
+    RoReg CHIPID_CIDR; /**< \brief (Chipid Offset: 0x0) Chip ID Register */
+    RoReg CHIPID_EXID; /**< \brief (Chipid Offset: 0x4) Chip ID Extension Register */
 } Chipid;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- CHIPID_CIDR : (CHIPID Offset: 0x0) Chip ID Register -------- */

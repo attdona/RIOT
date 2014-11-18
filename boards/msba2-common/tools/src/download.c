@@ -356,7 +356,7 @@ static void download_main(int event)
 
                         if (xtal < 10.0 || xtal > 25.0) {
                             printf("\r\n");
-                            printf("Warning: crystal frequency out of range (10.0 to 25.0), continuing anyway! (hope you know what you're doing)\r\n");
+                            printf("Warning: crystal frequency out of range (10.0 to 25.0), continuing anyway!(hope you know what you're doing)\r\n");
                         }
 
                         snprintf(buf, sizeof(buf), "%d\r\n", (int)(xtal * 1000.0 + 0.5));
