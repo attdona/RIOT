@@ -47,7 +47,6 @@ extern "C" {
  */
 #ifndef HWTIMER_SPEED
 #warning "HWTIMER_SPEED undefined. Set HWTIMER_SPEED to the number of ticks \
-
 per second for the current architecture."
 #endif
 
