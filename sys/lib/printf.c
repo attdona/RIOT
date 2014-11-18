@@ -9,9 +9,9 @@
 
 int putchar(int c);
 
-void puts(char *);
+void puts(const char *);
 
-void puts(char* s) {
+void puts(const char* s) {
 	char c;
 
 	// Loops through each character in string 's'
