@@ -52,9 +52,11 @@ int main(void)
             }
 
             printf("Got:");
+
             for (int j = 0; j < i; j++) {
                 printf(" 0x%02x", buf[j]);
             }
+
             printf("\n");
         }
 

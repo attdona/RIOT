@@ -57,10 +57,13 @@ u_quad_t __fixunssfdi(float f)
     }
 
 #ifdef notdef               /* this falls afoul of a GCC bug */
+
     if (f >= UQUAD_MAX) {
         return UQUAD_MAX;
     }
+
 #else                   /* so we wire in 2^64-1 instead */
+
     if (f >= 18446744073709551615.0) {    /* XXX */
         return (UQUAD_MAX);
     }

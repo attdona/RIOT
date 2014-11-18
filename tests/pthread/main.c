@@ -23,7 +23,8 @@
 
 #include "pthread.h"
 
-void *run(void *parameter) {
+void *run(void *parameter)
+{
     size_t n = (size_t) parameter;
     size_t factorial = 1;
 
@@ -41,7 +42,8 @@ void *run(void *parameter) {
     return NULL;
 }
 
-int main(void) {
+int main(void)
+{
     pthread_t th_id;
     pthread_attr_t th_attr;
 

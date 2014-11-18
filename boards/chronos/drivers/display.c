@@ -195,6 +195,7 @@ char *itoa(uint32_t n, uint8_t digits, uint8_t blanks)
 
     /* Remove specified number of leading '0', always keep last one */
     uint8_t i = 0;
+
     while ((i < digits1 - 1) && (itoa_str[i] == '0')) {
         if (blanks > 0) {
             /* Convert only specified number of leading '0' */
@@ -208,7 +209,8 @@ char *itoa(uint32_t n, uint8_t digits, uint8_t blanks)
     return (itoa_str);
 }
 
-void display_value1(uint8_t segments, uint32_t value, uint8_t digits, uint8_t blanks, uint8_t disp_mode)
+void display_value1(uint8_t segments, uint32_t value, uint8_t digits, uint8_t blanks,
+                    uint8_t disp_mode)
 {
     char *str;
 
@@ -287,7 +289,7 @@ void display_chars(uint8_t segments, char *str, uint8_t mode)
     uint8_t char_start = 0; /* Starting point for consecutive write */
 
     switch (segments) {
-        /* LINE1 */
+            /* LINE1 */
         case LCD_SEG_L1_3_0:
             length = 4;
             char_start = LCD_SEG_L1_3;
@@ -313,7 +315,7 @@ void display_chars(uint8_t segments, char *str, uint8_t mode)
             char_start = LCD_SEG_L1_3;
             break;
 
-        /* LINE2 */
+            /* LINE2 */
         case LCD_SEG_L2_5_0:
             length = 6;
             char_start = LCD_SEG_L2_5;
@@ -402,6 +404,7 @@ void set_blink_rate(uint8_t bits)
 void display_all_off(void)
 {
     uint8_t *lcdptr = (uint8_t *)0x0A20;
+
     for (uint8_t i = 1; i <= 12; i++) {
         *lcdptr = 0x00;
         lcdptr++;

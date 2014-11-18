@@ -41,12 +41,12 @@
 #   endif
 
 #   if defined (MODULE_MSP430_COMMON) || defined (MODULE_ATMEGA_COMMON)
-        typedef signed ssize_t;
+typedef signed ssize_t;
 #   endif
 #endif
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /**

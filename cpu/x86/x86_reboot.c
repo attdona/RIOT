@@ -48,7 +48,7 @@ static const struct idtr_t EMPTY_IDT = {
 
 void x86_load_empty_idt(void)
 {
-    asm volatile ("lidt %0" :: "m"(EMPTY_IDT));
+    asm volatile("lidt %0" :: "m"(EMPTY_IDT));
 }
 
 static bool fail_violently;
@@ -60,13 +60,15 @@ void NORETURN x86_kbc_reboot(void)
 
     while (1) {
         if (fail_violently) {
-            asm volatile ("int3"); /* Cause a tripple fault. Won't return. */
+            asm volatile("int3");  /* Cause a tripple fault. Won't return. */
         }
+
         fail_violently = true;
 
         for (unsigned i = 0; i < 0x100; ++i) {
             for (unsigned j = 0; j < 0x10000; ++j) {
                 uint8_t c = inb(KBC_STATUS);
+
                 if (c & KBC_OUTPUT_FULL) {
                     (void) inb(KBC_DATA);
                 }
@@ -77,7 +79,7 @@ void NORETURN x86_kbc_reboot(void)
             }
         }
 
-        asm volatile ("int3"); /* Cause a tripple fault. Won't return. */
+        asm volatile("int3");  /* Cause a tripple fault. Won't return. */
     }
 }
 
@@ -88,13 +90,16 @@ int reboot_arch(int mode)
 {
     switch (mode) {
         case RB_AUTOBOOT:
-            asm volatile ("cli");
+            asm volatile("cli");
+
             if (!reboot_twice) {
                 reboot_twice = true;
+
                 if (reboot_fun) {
                     reboot_fun();
                 }
             }
+
             x86_kbc_reboot();
 
         default:
@@ -114,6 +119,7 @@ bool x86_shutdown(void)
     if (!shutdown_fun) {
         return false;
     }
+
     return shutdown_fun();
 }
 

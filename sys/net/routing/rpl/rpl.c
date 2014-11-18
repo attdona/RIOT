@@ -172,7 +172,8 @@ void send_DIO(ipv6_addr_t *destination)
     mutex_unlock(&rpl_send_mutex);
 }
 
-void send_DAO(ipv6_addr_t *destination, uint8_t lifetime, bool default_lifetime, uint8_t start_index)
+void send_DAO(ipv6_addr_t *destination, uint8_t lifetime, bool default_lifetime,
+              uint8_t start_index)
 {
     DEBUG("Send DAO to %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, destination));
 
@@ -238,12 +239,16 @@ void recv_rpl_DAO_ACK(void)
 ipv6_addr_t *rpl_get_next_hop(ipv6_addr_t *addr)
 {
     DEBUGF("looking up the next hop to %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, addr));
+
     for (uint8_t i = 0; i < RPL_MAX_ROUTING_ENTRIES; i++) {
         if (rpl_routing_table[i].used) {
-            DEBUGF("checking %d: %s\n", i, ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, &rpl_routing_table[i].address));
+            DEBUGF("checking %d: %s\n", i, ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
+                    &rpl_routing_table[i].address));
         }
+
         if (rpl_routing_table[i].used && rpl_equal_id(&rpl_routing_table[i].address, addr)) {
-            DEBUGF("found %d: %s\n", i, ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, &rpl_routing_table[i].next_hop));
+            DEBUGF("found %d: %s\n", i, ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
+                    &rpl_routing_table[i].next_hop));
             return &rpl_routing_table[i].next_hop;
         }
     }

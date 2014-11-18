@@ -21,7 +21,8 @@ export FLASHER = mspdebug
 ifeq ($(strip $(PORT)),)
     export PORT = /dev/ttyUSB0
 endif
-export FFLAGS = -d $(PORT) -j uif "prog $(HEXFILE)"
+#export FFLAGS = -d $(PORT) -j uif "prog $(HEXFILE)"
+export FFLAGS = tilib "prog $(HEXFILE)"
 
 export INCLUDES += -I$(RIOTBOARD)/fram-launchpad/include
 export OFLAGS = -O ihex

@@ -50,8 +50,8 @@ Test *tests_core_cib_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_cib_put),
-        new_TestFixture(test_cib_get),
-        new_TestFixture(test_cib_avail),
+                        new_TestFixture(test_cib_get),
+                        new_TestFixture(test_cib_avail),
     };
 
     EMB_UNIT_TESTCALLER(core_cib_tests, set_up, NULL, fixtures);

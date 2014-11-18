@@ -37,6 +37,7 @@ static char stack[KERNEL_CONF_STACKSIZE_MAIN];
 static void *second_thread(void *arg)
 {
     (void) arg;
+
     while (1) {
         mutex_lock(&mutex);
 
@@ -47,6 +48,7 @@ static void *second_thread(void *arg)
         pthread_cond_signal(&cv);
         mutex_unlock_and_sleep(&mutex);
     }
+
     return NULL;
 }
 
@@ -54,10 +56,10 @@ int main(void)
 {
     count = 0;
     is_finished = 0;
-    expected_value = 1000*1000;
+    expected_value = 1000 * 1000;
     pthread_cond_init(&cv, NULL);
 
-    kernel_pid_t pid = thread_create(stack,sizeof(stack), PRIORITY_MAIN - 1,
+    kernel_pid_t pid = thread_create(stack, sizeof(stack), PRIORITY_MAIN - 1,
                                      CREATE_WOUT_YIELD | CREATE_STACKTEST,
                                      second_thread, NULL, "second_thread");
 

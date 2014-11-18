@@ -38,8 +38,10 @@ extern "C" {
 #endif
 
 /* These functions are defined in asmfunc.S */
-void Copy_al2un(unsigned char *dst, const unsigned long *src, int count);   /* Copy aligned to unaligned. */
-void Copy_un2al(unsigned long *dst, const unsigned char *src, int count);   /* Copy unaligned to aligned. */
+void Copy_al2un(unsigned char *dst, const unsigned long *src,
+                int count);   /* Copy aligned to unaligned. */
+void Copy_un2al(unsigned long *dst, const unsigned char *src,
+                int count);   /* Copy unaligned to aligned. */
 
 
 /* Status of Disk Functions */

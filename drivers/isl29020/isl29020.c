@@ -42,9 +42,11 @@ int isl29020_init(isl29020_t *dev, i2c_t i2c, uint8_t address,
     /* configure and enable the sensor */
     tmp = ISL29020_CMD_EN | ISL29020_CMD_MODE | ISL29020_RES_INT_16 | range | (mode << 5);
     res = i2c_write_reg(dev->i2c, address, ISL29020_REG_CMD, tmp);
+
     if (res < 1) {
         return -1;
     }
+
     return 0;
 }
 
@@ -56,9 +58,11 @@ int isl29020_read(isl29020_t *dev)
     /* read lightning value */
     res = i2c_read_reg(dev->i2c, dev->address, ISL29020_REG_LDATA, &low);
     res += i2c_read_reg(dev->i2c, dev->address, ISL29020_REG_HDATA, &high);
+
     if (res < 2) {
         return -1;
     }
+
     res = (high << 8) | low;
     DEBUG("ISL29020: Raw value: %i - high: %i, low: %i\n", res, high, low);
     /* calculate and return actually LUX value */
@@ -71,14 +75,18 @@ int isl29020_enable(isl29020_t *dev)
     char tmp;
 
     res = i2c_read_reg(dev->i2c, dev->address, ISL29020_REG_CMD, &tmp);
+
     if (res < 1) {
         return -1;
     }
+
     tmp |= ISL29020_CMD_EN;
     res = i2c_write_reg(dev->i2c, dev->address, ISL29020_REG_CMD, tmp);
+
     if (res < 1) {
         return -1;
     }
+
     return 0;
 }
 
@@ -88,13 +96,17 @@ int isl29020_disable(isl29020_t *dev)
     char tmp;
 
     res = i2c_read_reg(dev->i2c, dev->address, ISL29020_REG_CMD, &tmp);
+
     if (res < 1) {
         return -1;
     }
+
     tmp &= ~(ISL29020_CMD_EN);
     res = i2c_write_reg(dev->i2c, dev->address, ISL29020_REG_CMD, tmp);
+
     if (res < 1) {
         return -1;
     }
+
     return 0;
 }

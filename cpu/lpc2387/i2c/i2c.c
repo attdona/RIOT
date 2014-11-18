@@ -394,6 +394,7 @@ bool i2c_write(uint8_t i2c_interface, uint8_t slave_addr, uint8_t reg_addr,
 
     if ((tx_buff != NULL) && tx_buff_length < (I2C_BUFSIZE - 2)) {
         int32_t j = 0;
+
         for (int32_t i = 2; i < tx_buff_length + 2; i++) {
             i2c_master_buffer[i] = tx_buff[j];
             j++;

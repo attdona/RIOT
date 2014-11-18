@@ -37,6 +37,7 @@ int random_read(char *buf, unsigned int num)
 
     while (count < num) {
         while (NRF_RNG->EVENTS_VALRDY == 0);
+
         NRF_RNG->EVENTS_VALRDY = 0;
         buf[count++] = (char)NRF_RNG->VALUE;
     }

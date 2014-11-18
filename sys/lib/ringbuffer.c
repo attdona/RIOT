@@ -30,9 +30,11 @@
 static void add_tail(ringbuffer_t *restrict rb, char c)
 {
     unsigned pos = rb->start + rb->avail++;
+
     if (pos >= rb->size) {
         pos -= rb->size;
     }
+
     rb->buf[pos] = c;
 }
 
@@ -46,30 +48,37 @@ static void add_tail(ringbuffer_t *restrict rb, char c)
 static char get_head(ringbuffer_t *restrict rb)
 {
     char result = rb->buf[rb->start];
+
     if ((--rb->avail == 0) || (++rb->start == rb->size)) {
         rb->start = 0;
     }
+
     return result;
 }
 
 unsigned ringbuffer_add(ringbuffer_t *restrict rb, const char *buf, unsigned n)
 {
     unsigned i;
+
     for (i = 0; i < n; i++) {
         if (ringbuffer_full(rb)) {
             break;
         }
+
         add_tail(rb, buf[i]);
     }
+
     return i;
 }
 
 int ringbuffer_add_one(ringbuffer_t *restrict rb, char c)
 {
     int result = -1;
+
     if (ringbuffer_full(rb)) {
         result = (unsigned char) get_head(rb);
     }
+
     add_tail(rb, c);
     return result;
 }
@@ -89,10 +98,13 @@ unsigned ringbuffer_get(ringbuffer_t *restrict rb, char *buf, unsigned n)
     if (n > rb->avail) {
         n = rb->avail;
     }
+
     if (n > 0) {
         unsigned bytes_till_end = rb->size - rb->start;
+
         if (bytes_till_end >= n) {
             memcpy(buf, rb->buf + rb->start, n);
+
             if (bytes_till_end == n) {
                 rb->start = 0;
             }
@@ -105,8 +117,10 @@ unsigned ringbuffer_get(ringbuffer_t *restrict rb, char *buf, unsigned n)
             rb->start = n - bytes_till_end;
             memcpy(buf + bytes_till_end, rb->buf, rb->start);
         }
+
         rb->avail -= n;
     }
+
     return n;
 }
 

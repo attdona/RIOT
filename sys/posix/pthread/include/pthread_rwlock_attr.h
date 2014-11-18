@@ -15,8 +15,7 @@
  * @brief     Attributes for a new reader/writer lock.
  * @details   The options set in this struct will be ignored by pthread_rwlock_init().
  */
-typedef struct pthread_rwlockattr
-{
+typedef struct pthread_rwlockattr {
     /**
      * @brief     Whether to share lock with child processes.
      * @details   Valid values are `PTHREAD_PROCESS_SHARED` and `PTHREAD_PROCESS_PRIVATE`.

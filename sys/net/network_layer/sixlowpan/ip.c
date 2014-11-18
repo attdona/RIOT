@@ -72,7 +72,8 @@ int ipv6_send_packet(ipv6_hdr_t *packet)
     uint16_t length = IPV6_HDR_LEN + NTOHS(packet->length);
     ndp_neighbor_cache_t *nce;
 
-    DEBUGF("Got a packet to send to %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, &packet->destaddr));
+    DEBUGF("Got a packet to send to %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
+            &packet->destaddr));
     ipv6_net_if_get_best_src_addr(&packet->srcaddr, &packet->destaddr);
 
     if (!ipv6_addr_is_multicast(&packet->destaddr) &&
@@ -106,7 +107,8 @@ int ipv6_send_packet(ipv6_hdr_t *packet)
             return -1;
         }
 
-        DEBUG("Trying to find the next hop for %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, &packet->destaddr));
+        DEBUG("Trying to find the next hop for %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
+                &packet->destaddr));
         ipv6_addr_t *dest = ip_get_next_hop(&packet->destaddr);
 
         if (dest == NULL) {
@@ -323,6 +325,7 @@ static int is_our_address(ipv6_addr_t *addr)
     int if_counter = -1;
 
     DEBUGF("Is this my addres: %s?\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, addr));
+
     while ((if_id = net_if_iter_interfaces(if_id)) >= 0) {
         ipv6_net_if_ext_t *net_if_ext = ipv6_net_if_get_ext(if_id);
         ipv6_net_if_addr_t *myaddr = NULL;
@@ -332,7 +335,9 @@ static int is_our_address(ipv6_addr_t *addr)
         while ((myaddr = (ipv6_net_if_addr_t *)net_if_iter_addresses(if_id,
                          (net_if_addr_t **) &myaddr)) != NULL) {
             if_counter++;
-            DEBUGF("\tCompare with: %s?\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, (ipv6_addr_t*) myaddr->addr_data));
+            DEBUGF("\tCompare with: %s?\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
+                    (ipv6_addr_t *) myaddr->addr_data));
+
             if ((ipv6_get_addr_match(myaddr->addr_data, addr) >= net_if_ext->prefix) &&
                 (memcmp(&addr->uint8[prefix], &myaddr->addr_data->uint8[prefix], suffix) == 0)) {
                 return 1;
@@ -344,6 +349,7 @@ static int is_our_address(ipv6_addr_t *addr)
     if (if_counter >= 0) {
         return 0;
     }
+
     return -1;
 }
 
@@ -434,7 +440,8 @@ void *ipv6_process(void *arg)
         }
         /* destination is foreign address */
         else {
-            DEBUG("That's not for me, destination is %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, &ipv6_buf->destaddr));
+            DEBUG("That's not for me, destination is %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
+                    &ipv6_buf->destaddr));
             packet_length = IPV6_HDR_LEN + NTOHS(ipv6_buf->length);
             ndp_neighbor_cache_t *nce;
 
@@ -448,7 +455,7 @@ void *ipv6_process(void *arg)
             }
 
             if ((dest == NULL) || ((--ipv6_buf->hoplimit) == 0)) {
-                DEBUG("!!! Packet not for me, routing handler is set, but I "\
+                DEBUG("!!!Packet not for me, routing handler is set, but I "\
                       " have no idea where to send or the hop limit is exceeded.\n");
                 msg_reply(&m_recv_lowpan, &m_send_lowpan);
                 continue;
@@ -465,7 +472,8 @@ void *ipv6_process(void *arg)
                                         nce->lladdr_len,
                                         (uint8_t *)ipv6_get_buf_send(),
                                         packet_length);
-            } else {
+            }
+            else {
                 /* XXX: this is wrong, but until ND does work correctly,
                  *      this is the only way (aka the old way)*/
                 uint16_t raddr = dest->uint16[7];
@@ -574,7 +582,8 @@ ipv6_net_if_hit_t *ipv6_net_if_addr_match(ipv6_net_if_hit_t *hit,
 
                 if (memcmp(addr_entry->addr_data, addr, byte_al) == 0 &&
                     (addr_entry->addr_len % 8 == 0 ||
-                     ((addr_entry->addr_data->uint8[byte_al] - addr->uint8[byte_al]) & mask[addr_entry->addr_len - (byte_al * 8)]))) {
+                     ((addr_entry->addr_data->uint8[byte_al] - addr->uint8[byte_al]) &
+                      mask[addr_entry->addr_len - (byte_al * 8)]))) {
                     hit->if_id = if_id;
                     hit->addr = addr_entry;
                     return hit;
@@ -679,6 +688,7 @@ void ipv6_net_if_get_best_src_addr(ipv6_addr_t *src, const ipv6_addr_t *dest)
 
                     uint8_t bmatch = 0;
                     uint8_t tmp = ipv6_get_addr_match(dest, addr->addr_data);
+
                     if (tmp >= bmatch) {
                         bmatch = tmp;
                         tmp_addr = addr;
@@ -797,7 +807,7 @@ void ipv6_register_next_header_handler(uint8_t next_header, kernel_pid_t pid)
 }
 
 /* register routing function */
-void ipv6_iface_set_routing_provider(ipv6_addr_t *(*next_hop)(ipv6_addr_t *dest))
+void ipv6_iface_set_routing_provider(ipv6_addr_t * (*next_hop)(ipv6_addr_t *dest))
 {
     ip_get_next_hop = next_hop;
 }

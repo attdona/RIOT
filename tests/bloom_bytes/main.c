@@ -51,7 +51,7 @@ int main(void)
     hwtimer_init();
 
     bloom_t *bloom = bloom_new(1 << 12, 8, fnv_hash, sax_hash, sdbm_hash,
-                                      djb2_hash, kr_hash, dek_hash, rotating_hash, one_at_a_time_hash);
+                               djb2_hash, kr_hash, dek_hash, rotating_hash, one_at_a_time_hash);
 
     printf("Testing Bloom filter.\n\n");
     printf("m: %" PRIu32 " k: %" PRIu32 "\n\n", (uint32_t) bloom->m,

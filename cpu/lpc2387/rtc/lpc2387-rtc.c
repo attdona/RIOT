@@ -114,7 +114,8 @@ rtc_get_alarm(struct tm *localt)
         localt->tm_isdst = -1; /* not available */
     }
 
-    return (~RTC_AMR) & 0xff;                                       /* return which alarm fields are checked */
+    return (~RTC_AMR) &
+           0xff;                                       /* return which alarm fields are checked */
 }
 /*---------------------------------------------------------------------------*/
 void RTC_IRQHandler(void) __attribute__((interrupt("IRQ")));

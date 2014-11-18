@@ -50,9 +50,9 @@ Test *tests_core_lifo_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_lifo_empty),
-        new_TestFixture(test_lifo_insert),
-        new_TestFixture(test_lifo_get_one),
-        new_TestFixture(test_lifo_get_two),
+                        new_TestFixture(test_lifo_insert),
+                        new_TestFixture(test_lifo_get_one),
+                        new_TestFixture(test_lifo_get_two),
     };
 
     EMB_UNIT_TESTCALLER(core_lifo_tests, set_up, NULL, fixtures);

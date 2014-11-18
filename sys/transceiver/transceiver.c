@@ -81,7 +81,7 @@ ieee802154_packet_t transceiver_buffer[TRANSCEIVER_BUFFER_SIZE];
 #else
 radio_packet_t transceiver_buffer[TRANSCEIVER_BUFFER_SIZE];
 #endif
-uint8_t data_buffer[TRANSCEIVER_BUFFER_SIZE * PAYLOAD_SIZE];
+uint8_t data_buffer[TRANSCEIVER_BUFFER_SIZE *PAYLOAD_SIZE];
 
 /* message buffer */
 msg_t msg_buffer[TRANSCEIVER_MSG_BUFFER_SIZE];
@@ -112,7 +112,8 @@ static void receive_packet(uint16_t type, uint8_t pos);
 static void receive_cc110x_packet(radio_packet_t *trans_p);
 #endif
 #ifdef MODULE_CC110X_LEGACY_CSMA
-void cc1100_packet_monitor(void *payload, int payload_size, protocol_t protocol, packet_info_t *packet_info);
+void cc1100_packet_monitor(void *payload, int payload_size, protocol_t protocol,
+                           packet_info_t *packet_info);
 void receive_cc1100_packet(radio_packet_t *trans_p);
 #endif
 #ifdef MODULE_CC2420
@@ -172,7 +173,8 @@ void transceiver_init(transceiver_type_t t)
     }
 
     /* check if a non defined bit is set */
-    if (t & ~(TRANSCEIVER_CC1100 | TRANSCEIVER_CC2420 | TRANSCEIVER_MC1322X | TRANSCEIVER_NATIVE | TRANSCEIVER_AT86RF231)) {
+    if (t & ~(TRANSCEIVER_CC1100 | TRANSCEIVER_CC2420 | TRANSCEIVER_MC1322X | TRANSCEIVER_NATIVE |
+              TRANSCEIVER_AT86RF231)) {
         puts("Invalid transceiver type");
     }
     else {
@@ -183,7 +185,8 @@ void transceiver_init(transceiver_type_t t)
 /* Start the transceiver thread */
 kernel_pid_t transceiver_start(void)
 {
-    transceiver_pid = thread_create(transceiver_stack, TRANSCEIVER_STACK_SIZE, PRIORITY_MAIN - 3, CREATE_STACKTEST, run, NULL, "Transceiver");
+    transceiver_pid = thread_create(transceiver_stack, TRANSCEIVER_STACK_SIZE, PRIORITY_MAIN - 3,
+                                    CREATE_STACKTEST, run, NULL, "Transceiver");
 
     if (transceiver_pid == KERNEL_PID_UNDEF) {
         puts("Error creating transceiver thread");
@@ -238,6 +241,7 @@ uint8_t transceiver_register(transceiver_type_t t, kernel_pid_t pid)
 {
     int result = 0;
     unsigned state = disableIRQ();
+
     for (size_t i = 0; i < TRANSCEIVER_MAX_REGISTERED; i++) {
         if ((reg[i].pid == pid) || (reg[i].transceivers == TRANSCEIVER_NONE)) {
             reg[i].transceivers |= t;
@@ -248,6 +252,7 @@ uint8_t transceiver_register(transceiver_type_t t, kernel_pid_t pid)
             break;
         }
     }
+
     restoreIRQ(state);
     return result;
 }
@@ -257,6 +262,7 @@ uint8_t transceiver_unregister(transceiver_type_t t, kernel_pid_t pid)
 {
     int result = 0;
     unsigned state = disableIRQ();
+
     for (size_t i = 0; i < TRANSCEIVER_MAX_REGISTERED; ++i) {
         if (reg[i].pid == pid) {
             reg[i].transceivers &= ~t;
@@ -265,6 +271,7 @@ uint8_t transceiver_unregister(transceiver_type_t t, kernel_pid_t pid)
             break;
         }
     }
+
     restoreIRQ(state);
     return result;
 }
@@ -360,6 +367,7 @@ static void *run(void *arg)
                 break;
 
 #ifdef DBG_IGNORE
+
             case DBG_IGN:
                 *((int16_t *) cmd->data) = ignore_add(cmd->transceivers, cmd->data);
                 msg_reply(&m, &m);
@@ -423,7 +431,8 @@ static void receive_packet(uint16_t type, uint8_t pos)
     }
 
     /* search first free position in transceiver buffer */
-    for (i = 0; (i < TRANSCEIVER_BUFFER_SIZE) && (transceiver_buffer[transceiver_buffer_pos].processing); i++) {
+    for (i = 0; (i < TRANSCEIVER_BUFFER_SIZE)
+         && (transceiver_buffer[transceiver_buffer_pos].processing); i++) {
         if (++transceiver_buffer_pos == TRANSCEIVER_BUFFER_SIZE) {
             transceiver_buffer_pos = 0;
         }
@@ -483,7 +492,8 @@ static void receive_packet(uint16_t type, uint8_t pos)
 #ifdef DBG_IGNORE
 
         for (size_t j = 0; (j < TRANSCEIVER_MAX_IGNORED_ADDR) && (transceiver_ignored_addr[j]); j++) {
-            DEBUG("check if source (%u) is ignored -> %u\n", transceiver_buffer[transceiver_buffer_pos].src, transceiver_ignored_addr[j]);
+            DEBUG("check if source (%u) is ignored -> %u\n", transceiver_buffer[transceiver_buffer_pos].src,
+                  transceiver_ignored_addr[j]);
 
             if (transceiver_buffer[transceiver_buffer_pos].src == transceiver_ignored_addr[j]) {
                 DEBUG("ignored packet from %" PRIu16 "\n", transceiver_buffer[transceiver_buffer_pos].src);
@@ -500,7 +510,7 @@ static void receive_packet(uint16_t type, uint8_t pos)
 
     while (reg[i].transceivers != TRANSCEIVER_NONE) {
         if (reg[i].transceivers & t) {
-            m.content.ptr = (char *) &(transceiver_buffer[transceiver_buffer_pos]);
+            m.content.ptr = (char *) & (transceiver_buffer[transceiver_buffer_pos]);
             DEBUG("transceiver: Notify thread %" PRIkernel_pid "\n", reg[i].pid);
 
             if (msg_try_send(&m, reg[i].pid) && (m.type != ENOBUFFER)) {
@@ -533,11 +543,13 @@ static void receive_cc110x_packet(radio_packet_t *trans_p)
     trans_p->rssi = cc110x_rx_buffer[rx_buffer_pos].rssi;
     trans_p->lqi = cc110x_rx_buffer[rx_buffer_pos].lqi;
     trans_p->length = p.length - CC1100_HEADER_LENGTH;
-    memcpy((void *) &(data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]), p.data, CC1100_MAX_DATA_LENGTH);
+    memcpy((void *) & (data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]), p.data,
+           CC1100_MAX_DATA_LENGTH);
     eINT();
 
-    trans_p->data = (uint8_t *) &(data_buffer[transceiver_buffer_pos * CC1100_MAX_DATA_LENGTH]);
-    DEBUG("transceiver: Packet %p (%p) was from %hu to %hu, size: %u\n", trans_p, trans_p->data, trans_p->src, trans_p->dst, trans_p->length);
+    trans_p->data = (uint8_t *) & (data_buffer[transceiver_buffer_pos * CC1100_MAX_DATA_LENGTH]);
+    DEBUG("transceiver: Packet %p (%p) was from %hu to %hu, size: %u\n", trans_p, trans_p->data,
+          trans_p->src, trans_p->dst, trans_p->length);
 }
 #endif
 
@@ -550,11 +562,13 @@ void receive_cc1100_packet(radio_packet_t *trans_p)
     trans_p->rssi = cc1100_packet_info->rssi;
     trans_p->lqi = cc1100_packet_info->lqi;
     trans_p->length = cc1100_payload_size;
-    memcpy((void *) &(data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]), cc1100_payload, CC1100_MAX_DATA_LENGTH);
+    memcpy((void *) & (data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]), cc1100_payload,
+           CC1100_MAX_DATA_LENGTH);
     eINT();
 
-    trans_p->data = (uint8_t *) &(data_buffer[transceiver_buffer_pos * CC1100_MAX_DATA_LENGTH]);
-    DEBUG("transceiver: Packet %p (%p) was from %hu to %hu, size: %u\n", trans_p, trans_p->data, trans_p->src, trans_p->dst, trans_p->length);
+    trans_p->data = (uint8_t *) & (data_buffer[transceiver_buffer_pos * CC1100_MAX_DATA_LENGTH]);
+    DEBUG("transceiver: Packet %p (%p) was from %hu to %hu, size: %u\n", trans_p, trans_p->data,
+          trans_p->src, trans_p->dst, trans_p->length);
 }
 #endif
 
@@ -572,7 +586,8 @@ void receive_cc2420_packet(ieee802154_packet_t *trans_p)
     trans_p->lqi = p->lqi;
     memcpy(&data_buffer[transceiver_buffer_pos * CC2420_MAX_DATA_LENGTH],
            p->frame.payload, p->frame.payload_len);
-    trans_p->frame.payload = (uint8_t *) & (data_buffer[transceiver_buffer_pos * CC2420_MAX_DATA_LENGTH]);
+    trans_p->frame.payload = (uint8_t *) &
+                             (data_buffer[transceiver_buffer_pos * CC2420_MAX_DATA_LENGTH]);
     trans_p->frame.payload_len = p->frame.payload_len;
     eINT();
 
@@ -580,10 +595,14 @@ void receive_cc2420_packet(ieee802154_packet_t *trans_p)
 
     if (trans_p->frame.fcf.dest_addr_m == IEEE_802154_SHORT_ADDR_M) {
         if (trans_p->frame.fcf.src_addr_m == IEEE_802154_SHORT_ADDR_M) {
-            DEBUG("Packet %p was from %" PRIu16 " to %" PRIu16 ", size: %u\n", trans_p, *((uint16_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr), trans_p->frame.payload_len);
+            DEBUG("Packet %p was from %" PRIu16 " to %" PRIu16 ", size: %u\n", trans_p,
+                  *((uint16_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr),
+                  trans_p->frame.payload_len);
         }
         else if (trans_p->frame.fcf.src_addr_m == IEEE_802154_LONG_ADDR_M) {
-            DEBUG("Packet %p was from %016" PRIx64 " to %" PRIu16 ", size: %u\n", trans_p, *((uint64_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr), trans_p->frame.payload_len);
+            DEBUG("Packet %p was from %016" PRIx64 " to %" PRIu16 ", size: %u\n", trans_p,
+                  *((uint64_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr),
+                  trans_p->frame.payload_len);
 
         }
         else {
@@ -593,10 +612,14 @@ void receive_cc2420_packet(ieee802154_packet_t *trans_p)
     }
     else if (trans_p->frame.fcf.dest_addr_m == IEEE_802154_LONG_ADDR_M) {
         if (trans_p->frame.fcf.src_addr_m == IEEE_802154_SHORT_ADDR_M) {
-            DEBUG("Packet %p was from %" PRIu16 " to %016" PRIx64 ", size: %u\n", trans_p, *((uint16_t *) &trans_p->frame.src_addr[0]), *((uint64_t *) &trans_p->frame.dest_addr), trans_p->frame.payload_len);
+            DEBUG("Packet %p was from %" PRIu16 " to %016" PRIx64 ", size: %u\n", trans_p,
+                  *((uint16_t *) &trans_p->frame.src_addr[0]), *((uint64_t *) &trans_p->frame.dest_addr),
+                  trans_p->frame.payload_len);
         }
         else if (trans_p->frame.fcf.src_addr_m == IEEE_802154_LONG_ADDR_M) {
-            DEBUG("Packet %p was from %016" PRIx64 " to %016" PRIx64 ", size: %u\n", trans_p, *((uint64_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr), trans_p->frame.payload_len);
+            DEBUG("Packet %p was from %016" PRIx64 " to %016" PRIx64 ", size: %u\n", trans_p,
+                  *((uint64_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr),
+                  trans_p->frame.payload_len);
 
         }
         else {
@@ -608,6 +631,7 @@ void receive_cc2420_packet(ieee802154_packet_t *trans_p)
         DEBUG("Illegal destination address mode: %d\n", trans_p->frame.fcf.src_addr_m);
         return;
     }
+
 #endif
     DEBUG("transceiver: Content: %s\n", trans_p->frame.payload);
 }
@@ -621,11 +645,13 @@ void receive_mc1322x_packet(ieee802154_packet_t *trans_p)
     maca_pkt = maca_get_rx_packet();
     trans_p->lqi = maca_pkt->lqi;
     trans_p->length = maca_pkt->length;
-    memcpy((void *) &(data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]), maca_pkt->data, MACA_MAX_PAYLOAD_SIZE);
+    memcpy((void *) & (data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]), maca_pkt->data,
+           MACA_MAX_PAYLOAD_SIZE);
     maca_free_packet(maca_pkt);
     eINT();
 
-    trans_p->frame.payload = (uint8_t *) &(data_buffer[transceiver_buffer_pos * MACA_MAX_PAYLOAD_SIZE]);
+    trans_p->frame.payload = (uint8_t *) &
+                             (data_buffer[transceiver_buffer_pos * MACA_MAX_PAYLOAD_SIZE]);
 }
 #endif
 
@@ -643,9 +669,10 @@ void receive_nativenet_packet(radio_packet_t *trans_p)
 
     memcpy(trans_p, p, sizeof(radio_packet_t));
     memcpy(&(data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]), p->data, p->length);
-    trans_p->data = (uint8_t *) &(data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]);
+    trans_p->data = (uint8_t *) & (data_buffer[transceiver_buffer_pos * PAYLOAD_SIZE]);
 
-    DEBUG("Packet %p was from %" PRIu16 " to %" PRIu16 ", size: %" PRIu8 "\n", trans_p, trans_p->src, trans_p->dst, trans_p->length);
+    DEBUG("Packet %p was from %" PRIu16 " to %" PRIu16 ", size: %" PRIu8 "\n", trans_p, trans_p->src,
+          trans_p->dst, trans_p->length);
 
     /* reset interrupts */
     restoreIRQ(state);
@@ -665,7 +692,8 @@ void receive_at86rf231_packet(ieee802154_packet_t *trans_p)
     memcpy(&trans_p->frame, &p->frame, p->length);
     memcpy(&data_buffer[transceiver_buffer_pos * AT86RF231_MAX_DATA_LENGTH], p->frame.payload,
            p->frame.payload_len);
-    trans_p->frame.payload = (uint8_t *) & (data_buffer[transceiver_buffer_pos * AT86RF231_MAX_DATA_LENGTH]);
+    trans_p->frame.payload = (uint8_t *) &
+                             (data_buffer[transceiver_buffer_pos * AT86RF231_MAX_DATA_LENGTH]);
     trans_p->frame.payload_len = p->frame.payload_len;
     eINT();
 
@@ -673,19 +701,27 @@ void receive_at86rf231_packet(ieee802154_packet_t *trans_p)
 
     if (trans_p->frame.fcf.dest_addr_m == IEEE_802154_SHORT_ADDR_M) {
         if (trans_p->frame.fcf.src_addr_m == IEEE_802154_SHORT_ADDR_M) {
-            DEBUG("Packet %p was from %" PRIu16 " to %" PRIu16 ", size: %u\n", trans_p, *((uint16_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr), trans_p->frame.payload_len);
+            DEBUG("Packet %p was from %" PRIu16 " to %" PRIu16 ", size: %u\n", trans_p,
+                  *((uint16_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr),
+                  trans_p->frame.payload_len);
         }
         else {
-            DEBUG("Packet %p was from %016" PRIx64 " to %" PRIu16 ", size: %u\n", trans_p, *((uint64_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr), trans_p->frame.payload_len);
+            DEBUG("Packet %p was from %016" PRIx64 " to %" PRIu16 ", size: %u\n", trans_p,
+                  *((uint64_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr),
+                  trans_p->frame.payload_len);
 
         }
     }
     else {
         if (trans_p->frame.fcf.src_addr_m == IEEE_802154_SHORT_ADDR_M) {
-            DEBUG("Packet %p was from %" PRIu16 " to %016" PRIx64 ", size: %u\n", trans_p, *((uint16_t *) &trans_p->frame.src_addr[0]), *((uint64_t *) &trans_p->frame.dest_addr), trans_p->frame.payload_len);
+            DEBUG("Packet %p was from %" PRIu16 " to %016" PRIx64 ", size: %u\n", trans_p,
+                  *((uint16_t *) &trans_p->frame.src_addr[0]), *((uint64_t *) &trans_p->frame.dest_addr),
+                  trans_p->frame.payload_len);
         }
         else {
-            DEBUG("Packet %p was from %016" PRIx64 " to %016" PRIx64 ", size: %u\n", trans_p, *((uint64_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr), trans_p->frame.payload_len);
+            DEBUG("Packet %p was from %016" PRIx64 " to %016" PRIx64 ", size: %u\n", trans_p,
+                  *((uint64_t *) &trans_p->frame.src_addr[0]), *((uint16_t *) &trans_p->frame.dest_addr),
+                  trans_p->frame.payload_len);
 
         }
     }
@@ -721,6 +757,7 @@ static int8_t send_packet(transceiver_type_t t, void *pkt)
 #else
     radio_packet_t *p = (radio_packet_t *)pkt;
     DEBUG("transceiver: Send packet to %" PRIu16 "\n", p->dst);
+
     for (size_t i = 0; i < p->length; i++) {
         DEBUG("%02x ", p->data[i]);
     }
@@ -1164,7 +1201,8 @@ static void set_monitor(transceiver_type_t t, void *mode)
 }
 
 #ifdef MODULE_CC110X_LEGACY_CSMA
-void cc1100_packet_monitor(void *payload, int payload_size, protocol_t protocol, packet_info_t *packet_info)
+void cc1100_packet_monitor(void *payload, int payload_size, protocol_t protocol,
+                           packet_info_t *packet_info)
 {
     (void) protocol;
 

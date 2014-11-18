@@ -22,7 +22,8 @@
 #include "shell_commands.h"
 #include "diskio.h"
 
-static inline uint8_t sector_read(unsigned char *read_buf, unsigned long sector, unsigned long length, unsigned long offset)
+static inline uint8_t sector_read(unsigned char *read_buf, unsigned long sector,
+                                  unsigned long length, unsigned long offset)
 {
     if (MCI_read(read_buf, sector, 1) == RES_OK) {
         printf("[disk] Read sector %lu (%lu):\n", sector, offset);
@@ -48,6 +49,7 @@ void _get_sectorsize(int argc, char **argv)
     (void) argv;
 
     unsigned short ssize;
+
     if (MCI_ioctl(GET_SECTOR_SIZE, &ssize) == RES_OK) {
         printf("[disk] sector size is %u\n", ssize);
     }
@@ -62,6 +64,7 @@ void _get_blocksize(int argc, char **argv)
     (void) argv;
 
     unsigned long bsize;
+
     if (MCI_ioctl(GET_BLOCK_SIZE, &bsize) == RES_OK) {
         printf("[disk] block size is %lu\n", bsize);
     }
@@ -76,6 +79,7 @@ void _get_sectorcount(int argc, char **argv)
     (void) argv;
 
     unsigned long scount;
+
     if (MCI_ioctl(GET_SECTOR_COUNT, &scount) == RES_OK) {
         printf("[disk] sector count is %lu\n", scount);
     }
@@ -92,7 +96,8 @@ void _read_sector(int argc, char **argv)
 
         unsigned long sectornr = atol(argv[1]);
 
-        if ((MCI_ioctl(GET_SECTOR_COUNT, &scount) == RES_OK) && (MCI_ioctl(GET_SECTOR_SIZE, &ssize) == RES_OK)) {
+        if ((MCI_ioctl(GET_SECTOR_COUNT, &scount) == RES_OK)
+            && (MCI_ioctl(GET_SECTOR_SIZE, &ssize) == RES_OK)) {
             unsigned char read_buf[ssize];
 
             if (sector_read(read_buf, sectornr, ssize, 0)) {
@@ -122,7 +127,8 @@ void _read_bytes(int argc, char **argv)
     length = atoi(argv[2]);
 
     /* get card info */
-    if ((MCI_ioctl(GET_SECTOR_COUNT, &scount) == RES_OK) && (MCI_ioctl(GET_SECTOR_SIZE, &ssize) == RES_OK)) {
+    if ((MCI_ioctl(GET_SECTOR_COUNT, &scount) == RES_OK)
+        && (MCI_ioctl(GET_SECTOR_SIZE, &ssize) == RES_OK)) {
         /* calculate sector and offset position */
         sector = (offset / ssize) + 1;
         offset = (offset % ssize);

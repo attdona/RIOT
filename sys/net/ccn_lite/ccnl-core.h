@@ -218,13 +218,13 @@ struct ccnl_content_s {
   do { if ((l)) (l)->prev = (e); \
        (e)->next = (l); \
        (l) = (e); \
-  } while(0)
+  } while (0)
 
 #define DBL_LINKED_LIST_REMOVE(l,e) \
   do { if ((l) == (e)) (l) = (e)->next; \
        if ((e)->prev) (e)->prev->next = (e)->next; \
        if ((e)->next) (e)->next->prev = (e)->prev; \
-  } while(0)
+  } while (0)
 
 // ----------------------------------------------------------------------
 // collect the USE_* macros in a string

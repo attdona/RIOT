@@ -36,7 +36,8 @@ int main(int argc, char **argv)
         float interval;
 
         if (argc < 9) {
-            fprintf(stderr, "Usage: %s r_addr if_name tty_dev ping_id result_dir skeleton_file ping_count interval\n", argv[0]);
+            fprintf(stderr,
+                    "Usage: %s r_addr if_name tty_dev ping_id result_dir skeleton_file ping_count interval\n", argv[0]);
             return -1;
         }
 

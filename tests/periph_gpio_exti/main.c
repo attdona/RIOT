@@ -31,97 +31,113 @@ uint32_t state = 0;
 uint32_t old_state = 0;
 
 #if GPIO_0_EN
-void g0_cb(void *arg){
+void g0_cb(void *arg)
+{
     puts("GPIO_0 triggered");
 }
 #endif
 
 #if GPIO_1_EN
-void g1_cb(void *arg){
+void g1_cb(void *arg)
+{
     puts("GPIO_1 triggered");
 }
 #endif
 
 #if GPIO_2_EN
-void g2_cb(void *arg){
+void g2_cb(void *arg)
+{
     puts("GPIO_2 triggered");
 }
 #endif
 
 #if GPIO_3_EN
-void g3_cb(void *arg){
+void g3_cb(void *arg)
+{
     puts("GPIO_3 triggered");
 }
 #endif
 
 #if GPIO_4_EN
-void g4_cb(void *arg){
+void g4_cb(void *arg)
+{
     puts("GPIO_4 triggered");
 }
 #endif
 
 #if GPIO_5_EN
-void g5_cb(void *arg){
+void g5_cb(void *arg)
+{
     puts("GPIO_5 triggered");
 }
 #endif
 
 #if GPIO_6_EN
-void g6_cb(void *arg){
+void g6_cb(void *arg)
+{
     puts("GPIO_6 triggered");
 }
 #endif
 
 #if GPIO_7_EN
-void g7_cb(void *arg){
+void g7_cb(void *arg)
+{
     puts("GPIO_7 triggered");
 }
 #endif
 
 #if GPIO_8_EN
-void g8_cb(void *arg){
+void g8_cb(void *arg)
+{
     puts("GPIO_8 triggered");
 }
 #endif
 
 #if GPIO_9_EN
-void g9_cb(void *arg){
+void g9_cb(void *arg)
+{
     puts("GPIO_9 triggered");
 }
 #endif
 
 #if GPIO_10_EN
-void g10_cb(void *arg){
+void g10_cb(void *arg)
+{
     puts("GPIO_10 triggered");
 }
 #endif
 
 #if GPIO_11_EN
-void g11_cb(void *arg){
+void g11_cb(void *arg)
+{
     puts("GPIO_11 triggered");
 }
 #endif
 
 #if GPIO_12_EN
-void g12_cb(void *arg){
+void g12_cb(void *arg)
+{
     puts("GPIO_12 triggered");
 }
 #endif
 
 #if GPIO_13_EN
-void g13_cb(void *arg){
+void g13_cb(void *arg)
+{
     puts("GPIO_13 triggered");
 }
 #endif
 
 #if GPIO_14_EN
-void g14_cb(void *arg){
+void g14_cb(void *arg)
+{
     puts("GPIO_14 triggered");
 }
 #endif
 
 #if GPIO_15_EN
-void g15_cb(void *arg){
+void g15_cb(void *arg)
+{
     puts("GPIO_15 triggered");
 }
 #endif

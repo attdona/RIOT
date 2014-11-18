@@ -42,6 +42,7 @@ void spi_poweron(spi_t dev)
 {
     switch (dev) {
 #if SPI_0_EN
+
         case SPI_0:
             SPI_0_CLKEN();
             SPI_0_MISO_PORT_CLKEN();
@@ -56,8 +57,10 @@ void spi_poweroff(spi_t dev)
 {
     switch (dev) {
 #if SPI_0_EN
+
         case SPI_0:
             while (!(SPI_0_DEV->SPI_SR & SPI_SR_SPIENS)); /* not busy anymore */
+
             SPI_0_CLKDIS();
             NVIC_DisableIRQ(SPI_0_IRQ);
             break;
@@ -95,10 +98,12 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
 
     switch (dev) {
 #if SPI_0_EN
+
         case SPI_0:
             spi_port = SPI_0_DEV;
             break;
 #endif /* SPI_0_EN */
+
         default:
             return -2;
     }
@@ -159,6 +164,7 @@ int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char data))
 
     switch (dev) {
 #if SPI_0_EN
+
         case SPI_0:
             spi_port = SPI_0_DEV;
             NVIC_SetPriority(SPI_0_IRQ, SPI_0_IRQ_PRIO);
@@ -168,6 +174,7 @@ int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char data))
             PIOA->PIO_OER |= PIO_PA28A_SPI0_NPCS0;
             break;
 #endif /* SPI_0_EN */
+
         default:
             return -1;
     }
@@ -226,6 +233,7 @@ int spi_conf_pins(spi_t dev)
 {
     switch (dev) {
 #if SPI_0_EN
+
         case SPI_0:
             /***************** PIO-Init *****************/
             /* Push-pull configuration */
@@ -267,6 +275,7 @@ int spi_conf_pins(spi_t dev)
 
             break;
 #endif /* SPI_0_EN */
+
         default:
             return -1;
     }
@@ -280,10 +289,12 @@ int spi_transfer_byte(spi_t dev, char out, char *in)
 
     switch (dev) {
 #if SPI_0_EN
+
         case SPI_0:
             spi_port = SPI_0_DEV;
             break;
 #endif /* SPI_0_EN */
+
         default:
             return -1;
     }
@@ -373,6 +384,7 @@ void spi_transmission_begin(spi_t dev, char reset_val)
 {
     switch (dev) {
 #if SPI_0_EN
+
         case SPI_0:
             SPI_0_DEV->SPI_TDR = SPI_TDR_TD(reset_val);
             break;

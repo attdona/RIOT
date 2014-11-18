@@ -53,7 +53,12 @@ inline void __restore_context_isr(void)
 
 inline void __enter_isr(void)
 {
-	__asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+    __save_context_isr();
+#else
+    __asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
+#endif
+
     __asm__("mov.w %0,r1" : : "i"(__isr_stack+MSP430_ISR_STACK_SIZE));
     __inISR = 1;
 }
@@ -65,7 +70,15 @@ inline void __exit_isr(void)
     if (sched_context_switch_request) {
         sched_run();
     }
+
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+    __restore_context_isr();
+    __asm__("reti");
+#else
     __asm__("mov.w %0,r1" : : "m"(sched_active_thread->sp));
+#endif
+
+
 }
 
 inline void __save_context(void)
@@ -86,7 +99,8 @@ inline void __restore_context(unsigned int irqen)
      */
     if (irqen) {
         __asm__("bis.w #8, 0(r1)");
-    } else {
+    }
+    else {
         __asm__("bic.w #8, 0(r1)");
     }
 

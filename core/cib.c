@@ -6,17 +6,17 @@
  * directory for more details.
  */
 
- /**
- * @ingroup     core_util
- * @{
- *
- * @file        cib.c
- * @brief       Circular integer buffer implementation
- *
- * @author      Kaspar Schleiser <kaspar@schleiser.de>
- *
- * @}
- */
+/**
+* @ingroup     core_util
+* @{
+*
+* @file        cib.c
+* @brief       Circular integer buffer implementation
+*
+* @author      Kaspar Schleiser <kaspar@schleiser.de>
+*
+* @}
+*/
 
 #include "cib.h"
 

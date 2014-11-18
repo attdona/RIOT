@@ -84,7 +84,8 @@ typedef enum IRQn
     MACTIMER_IRQn         = 146, /**<    MAC Timer                             */
 
     PERIPH_COUNT_IRQn     = (MACTIMER_IRQn + 1) /**< Number of peripheral IDs */
-} IRQn_Type;
+}
+IRQn_Type;
 
 /** @name Cortex-M3 core interrupt handlers
  * @{

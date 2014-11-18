@@ -46,13 +46,15 @@
  *              RFC 4861, section 7.3.2
  *          </a>.
  */
-typedef enum __attribute__((packed)) {
+typedef enum __attribute__((packed))
+{
     NDP_NCE_STATUS_INCOMPLETE,
     NDP_NCE_STATUS_REACHABLE,
     NDP_NCE_STATUS_STALE,
     NDP_NCE_STATUS_DELAY,
     NDP_NCE_STATUS_PROBE,
-} ndp_nce_state_t;
+}
+ndp_nce_state_t;
 
 /**
  * @brief   Neighbor cache entry type according to
@@ -60,11 +62,13 @@ typedef enum __attribute__((packed)) {
  *              RFC 6775, section 3.5
  *          </a>.
  */
-typedef enum __attribute__((packed)) {
+typedef enum __attribute__((packed))
+{
     NDP_NCE_TYPE_GC = 1,        ///< Garbage-collectible.
     NDP_NCE_TYPE_REGISTERED,    ///< Registered.
     NDP_NCE_TYPE_TENTATIVE      ///< Tentetive.
-} ndp_nce_type_t;
+}
+ndp_nce_type_t;
 
 /**
  * @brief   Prefix list type to store information spread by prefix
@@ -104,11 +108,13 @@ typedef struct __attribute__((packed)) ndp_prefix_info_t {
  * @brief   Default router list to store information spread by
  *          router advertisement.
  */
-typedef struct __attribute__((packed)) {
+typedef struct __attribute__((packed))
+{
     ipv6_addr_t addr;       ///< Address of router.
     timex_t inval_time;     ///< remaining time until this entry is
     ///< invalid.
-} ndp_default_router_list_t;
+}
+ndp_default_router_list_t;
 
 /**
  * @brief   Neighbor cache as defined in
@@ -116,7 +122,8 @@ typedef struct __attribute__((packed)) {
  *              RFC 4861, section 5.1
  *          </a>.
  */
-typedef struct __attribute__((packed)) {
+typedef struct __attribute__((packed))
+{
     int if_id;                  ///< Interface the IPv6 address is reachable
     ///< over
     ndp_nce_type_t type;        ///< Type of neighbor cache entry.
@@ -128,7 +135,8 @@ typedef struct __attribute__((packed)) {
     uint8_t lladdr_len;         ///< Length of link-layer address of the
     ///< neighbor
     timex_t ltime;              ///< lifetime of entry.
-} ndp_neighbor_cache_t;
+}
+ndp_neighbor_cache_t;
 
 /**
  * @brief   Authoritive border router cache as defined in
@@ -136,11 +144,13 @@ typedef struct __attribute__((packed)) {
  *              RFC 6775
  *          </a>.
  */
-typedef struct __attribute__((packed)) {
+typedef struct __attribute__((packed))
+{
     uint16_t version;                       ///< version of entry.
     ipv6_addr_t abr_addr;                   ///< Addres of ABR.
     uint8_t cids[NDP_6LOWPAN_CONTEXT_MAX];  ///< context IDs.
-} ndp_a6br_cache_t;
+}
+ndp_a6br_cache_t;
 
 ndp_default_router_list_t *ndp_default_router_list_search(ipv6_addr_t *ipaddr);
 uint8_t ndp_neighbor_cache_add(int if_id, const ipv6_addr_t *ipaddr,

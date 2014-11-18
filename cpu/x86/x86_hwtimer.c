@@ -74,8 +74,8 @@ static void ASM_FUN_ATTRIBUTES nop_nop_nop(void)
 static uint64_t ASM_FUN_ATTRIBUTES rdtsc(void)
 {
     uint64_t result;
-    asm volatile ("cpuid" :: "a"(0) : "ebx", "ecx", "edx");
-    asm volatile ("rdtsc" : "=A"(result));
+    asm volatile("cpuid" :: "a"(0) : "ebx", "ecx", "edx");
+    asm volatile("rdtsc" : "=A"(result));
     return result;
 }
 
@@ -92,31 +92,39 @@ static void measure_nop_nop_nops_per_tick(void)
 {
     x86_rtc_set_periodic_callback(flip_periodic_interrupt_called);
     x86_rtc_set_periodic(TICK_HZ_REG_A, 0, KERNEL_PID_FIRST, true);
+
     for (unsigned i = 0; i < NNN_TICK_ITERATIONS; ++i) {
         periodic_interrupt_called = false;
 
         eINT();
+
         while (!periodic_interrupt_called) {
             nop_nop_nop();
         }
+
         while (periodic_interrupt_called) {
             nop_nop_nop();
         }
+
         uint64_t counting_start = rdtsc();
+
         while (!periodic_interrupt_called) {
             ++nop_nop_nops_per_tick;
             nop_nop_nop();
         }
+
         dINT();
         uint64_t counting_end = rdtsc();
 
         ts_per_nop_nop_nop += counting_end - counting_start;
     }
+
     x86_rtc_set_periodic_callback(NULL);
     x86_rtc_set_periodic(RTC_REG_A_HZ_OFF, 0, KERNEL_PID_UNDEF, false);
 
     /* instructions_per_second = nop_nop_nops_per_second * ts_per_nop_nop_nop: */
-    instructions_per_second = nop_nop_nops_per_tick * TICK_HZ_VAL * ts_per_nop_nop_nop / nop_nop_nops_per_tick / NNN_TICK_ITERATIONS;
+    instructions_per_second = nop_nop_nops_per_tick * TICK_HZ_VAL * ts_per_nop_nop_nop /
+                              nop_nop_nops_per_tick / NNN_TICK_ITERATIONS;
     /* nop_nop_nops_per_second = nop_nop_nops_per_tick / TICK_HZ_VAL: */
     nop_nop_nops_per_second = (nop_nop_nops_per_tick * TICK_HZ_VAL) / NNN_TICK_ITERATIONS;
     ts_per_nop_nop_nop /= nop_nop_nops_per_tick;
@@ -126,7 +134,8 @@ static void measure_nop_nop_nops_per_tick(void)
 static void update_cb(uint8_t reg_c)
 {
     periodic_interrupt_called = reg_c & RTC_REG_C_IRQ_UPDATE;
-    DEBUG("DEBUG update_cb(0x%02hhx): periodic_interrupt_called = %u\n", reg_c, periodic_interrupt_called);
+    DEBUG("DEBUG update_cb(0x%02hhx): periodic_interrupt_called = %u\n", reg_c,
+          periodic_interrupt_called);
 }
 
 static void init_bases(void)
@@ -136,9 +145,11 @@ static void init_bases(void)
 
     eINT();
     periodic_interrupt_called = false;
+
     while (!periodic_interrupt_called) {
-        asm volatile ("hlt");
+        asm volatile("hlt");
     }
+
     dINT();
 
     x86_rtc_read(&rtc_base);
@@ -191,16 +202,21 @@ static bool timer_unlink(unsigned i)
     if (timers[i].next) {
         timers[i].next->prev = timers[i].prev;
     }
+
     if (timers[i].prev) {
         timers[i].prev->next = timers[i].next;
     }
+
     if (was_start) {
         timers_start = timers[i].next;
     }
+
     timers[i].next = timers[i].prev = NULL;
+
     if (was_start && timers[i].enabled) {
         do_yield = set_next_alarm(false);
     }
+
     timers[i].enabled = false;
 
     return do_yield;
@@ -211,7 +227,8 @@ static void *hwtimer_tick_handler(void *arg)
     (void) arg;
 
     msg_t msg_array[2];
-    msg_init_queue(msg_array, sizeof (msg_array) / sizeof (*msg_array));
+    msg_init_queue(msg_array, sizeof(msg_array) / sizeof(*msg_array));
+
     while (1) {
         msg_t m;
         msg_receive(&m);
@@ -257,8 +274,8 @@ static bool set_next_alarm(bool may_call)
 
         /* prevent overflows */
         int64_t us_future = ts_future;
-        us_future *= (int64_t) (US_PER_SECOND / 0x1000);
-        us_future /= (int64_t) (instructions_per_second / 0x1000);
+        us_future *= (int64_t)(US_PER_SECOND / 0x1000);
+        us_future /= (int64_t)(instructions_per_second / 0x1000);
 
         unsigned timer_i = timers_start - timers;
 
@@ -268,6 +285,7 @@ static bool set_next_alarm(bool may_call)
         if (us_future <= START_MAX_US_PREMATURELY) {
             DEBUG("      callback(%u) (%lli µs prematurely), may_call=%u\n",
                   timer_i, us_future, may_call);
+
             if (!may_call) {
                 msg_t m;
                 msg_send_int(&m, hwtimer_pid);
@@ -278,9 +296,11 @@ static bool set_next_alarm(bool may_call)
 
                 eINT();
                 hwtimer_callback(timer_i);
+
                 if (do_yield) {
                     thread_yield();
                 }
+
                 dINT();
 
                 continue;
@@ -288,6 +308,7 @@ static bool set_next_alarm(bool may_call)
         }
 
         us_future -= START_MAX_US_PREMATURELY / 2;
+
         if (us_future > 5 * US_PER_SECOND) {
             us_future -= US_PER_SECOND;
 
@@ -301,16 +322,21 @@ static bool set_next_alarm(bool may_call)
             x86_rtc_read(&rtc_now);
 
             rtc_now.second += seconds;
+
             if (rtc_now.second >= 60) {
                 rtc_now.second -= 60;
                 ++minutes;
             }
+
             rtc_now.minute += minutes;
+
             if (rtc_now.minute >= 60) {
                 rtc_now.minute -= 60;
                 ++hours;
             }
+
             rtc_now.hour += hours;
+
             if (rtc_now.hour > 24) {
                 rtc_now.hour -= 24;
             }
@@ -331,6 +357,7 @@ static bool set_next_alarm(bool may_call)
         else {
             /* TODO: this has to work without an epic if-else construct */
             unsigned hz;
+
             if ((unsigned long) us_future >= 1 * US_PER_SECOND / 2) {
                 hz = RTC_REG_A_HZ_2;
             }
@@ -394,7 +421,7 @@ void hwtimer_arch_init(void (*handler)(int), uint32_t fcpu)
 
     hwtimer_callback = handler;
     hwtimer_pid = thread_create(hwtimer_stack,
-                                sizeof (hwtimer_stack),
+                                sizeof(hwtimer_stack),
                                 1,
                                 CREATE_STACKTEST,
                                 hwtimer_tick_handler,
@@ -424,10 +451,12 @@ void hwtimer_arch_enable_interrupt(void)
     bool do_yield = false;
 
     unsigned old_state = disableIRQ();
+
     if (!hwtimer_ie) {
         hwtimer_ie = true;
         do_yield = set_next_alarm(false);
     }
+
     restoreIRQ(old_state);
 
     if (do_yield) {
@@ -438,10 +467,12 @@ void hwtimer_arch_enable_interrupt(void)
 void hwtimer_arch_disable_interrupt(void)
 {
     unsigned old_state = disableIRQ();
+
     if (hwtimer_ie) {
         stop_alarms();
         hwtimer_ie = false;
     }
+
     restoreIRQ(old_state);
 }
 
@@ -468,6 +499,7 @@ void hwtimer_arch_set_absolute(unsigned long value_us_, short timer)
     uint64_t now_us = ((now_ts - ts_base) * US_PER_SECOND) / instructions_per_second;
 
     uint64_t future_us = value_us_;
+
     if (value_us_ < now_us) {
         future_us += 0x10000ull * 0x10000ull;
     }
@@ -481,6 +513,7 @@ void hwtimer_arch_set_absolute(unsigned long value_us_, short timer)
 
     if (timers_start) {
         struct alarm_time *prev = timers_start;
+
         while (1) {
             if (prev->ts_absolute_alarm < timers[timer].ts_absolute_alarm) {
                 if (prev->next) {
@@ -495,6 +528,7 @@ void hwtimer_arch_set_absolute(unsigned long value_us_, short timer)
             else {
                 timers[timer].next = prev;
                 timers[timer].prev = prev->prev;
+
                 if (timers[timer].prev) {
                     timers[timer].prev->next = &timers[timer];
                 }
@@ -502,6 +536,7 @@ void hwtimer_arch_set_absolute(unsigned long value_us_, short timer)
                     timers_start = &timers[timer];
                     new_top = true;
                 }
+
                 prev->prev = &timers[timer];
                 break;
             }
@@ -513,6 +548,7 @@ void hwtimer_arch_set_absolute(unsigned long value_us_, short timer)
     }
 
     bool do_yield = false;
+
     if (new_top) {
         do_yield = set_next_alarm(false);
     }
@@ -529,14 +565,17 @@ void hwtimer_arch_unset(short timer)
     bool do_yield = false;
 
     unsigned old_state = disableIRQ();
+
     if (timers[timer].enabled) {
         bool new_top = timers[timer].prev == NULL;
         timers[timer].enabled = false;
         timer_unlink(timer);
+
         if (new_top) {
             do_yield = set_next_alarm(false);
         }
     }
+
     restoreIRQ(old_state);
 
     if (do_yield) {

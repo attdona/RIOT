@@ -39,6 +39,7 @@ int pwm_init(pwm_t dev, pwm_mode_t mode, unsigned int frequency, unsigned int re
 
     switch (dev) {
 #if PWM_0_EN
+
         case PWM_0:
             /* select function PWM[3] for pins */
             PWM_0_PORT &= ~((3 << PWM_0_CH0_PIN * 2) |
@@ -89,24 +90,29 @@ int pwm_set(pwm_t dev, int channel, unsigned int value)
 {
     switch (dev) {
 #if PWM_0_EN
+
         case PWM_0:
             switch (channel) {
                 case 0:
                     PWM_0_CH0_MR = value;
                     PWM1LER |= (1 << PWM_0_CH0);
                     break;
+
                 case 1:
                     PWM_0_CH1_MR = value;
                     PWM1LER |= (1 << PWM_0_CH1);
                     break;
+
                 case 2:
                     PWM_0_CH2_MR = value;
                     PWM1LER |= (1 << PWM_0_CH2);
                     break;
+
                 default:
                     return -2;
                     break;
             }
+
             break;
 #endif
     }
@@ -118,6 +124,7 @@ void pwm_start(pwm_t dev)
 {
     switch (dev) {
 #if PWM_0_EN
+
         case PWM_0:
             PWM1TCR |= BIT0;
             break;
@@ -129,6 +136,7 @@ void pwm_stop(pwm_t dev)
 {
     switch (dev) {
 #if PWM_0_EN
+
         case PWM_0:
             PWM1TCR &= ~(BIT0);
             break;
@@ -140,6 +148,7 @@ void pwm_poweron(pwm_t dev)
 {
     switch (dev) {
 #if PWM_0_EN
+
         case PWM_0:
             PCONP |= PCPWM1;
             break;
@@ -151,6 +160,7 @@ void pwm_poweroff(pwm_t dev)
 {
     switch (dev) {
 #if PWM_0_EN
+
         case PWM_0:
             PCONP &= ~(PCPWM1);
             break;

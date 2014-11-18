@@ -40,10 +40,10 @@ extern "C" {
 #endif
 
 typedef struct __TestCase   TestCase;
-typedef struct __TestCase*  TestCaseRef;/*compatible embUnit1.0*/
+typedef struct __TestCase  *TestCaseRef;/*compatible embUnit1.0*/
 
 struct __TestCase {
-    TestImplement* isa;
+    TestImplement *isa;
     char *name;
     void(*setUp)(void);
     void(*tearDown)(void);

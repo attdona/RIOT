@@ -68,7 +68,7 @@ int ccnl_frag_RX_CCNx2013(RX_datagram callback, struct ccnl_relay_s *relay,
 int ccnl_is_fragment(unsigned char *data, int datalen);
 #else
 # define ccnl_frag_new(e,u)   NULL
-# define ccnl_frag_destroy(e) do{}while(0)
+# define ccnl_frag_destroy(e) do{}while (0)
 # define ccnl_frag_handle_fragment(r,f,data,len)    ccnl_buf_new(data,len)
 # define ccnl_is_fragment(d,l)  0
 #endif // USE_FRAG
@@ -88,8 +88,8 @@ ccnl_prefix_clone_strip(struct ccnl_prefix_s *p, int strip);
 
 // ----------------------------------------------------------------------
 
-# define ccnl_sched_CTS_done(S,C,L) do{}while(0)
-# define ccnl_sched_destroy(S)      do{}while(0)
+# define ccnl_sched_CTS_done(S,C,L) do{}while (0)
+# define ccnl_sched_destroy(S)      do{}while (0)
 
 char *ccnl_prefix_to_path(struct ccnl_prefix_s *pr);
 

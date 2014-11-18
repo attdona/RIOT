@@ -89,7 +89,7 @@
 #endif
 
 #ifdef MODULE_NET_IF
-void auto_init_net_if(void)
+void auto_init_net_if (void)
 {
     transceiver_type_t transceivers = 0;
 #ifdef MODULE_AT86RF231
@@ -224,7 +224,7 @@ void auto_init(void)
 #endif
 #ifdef MODULE_NET_IF
     DEBUG("Auto init net_if module.\n");
-    auto_init_net_if();
+    auto_init_net_if ();
 #endif
 #ifdef MODULE_SIXLOWPAN
     DEBUG("Auto init 6LoWPAN module.\n");

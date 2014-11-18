@@ -31,7 +31,7 @@
 #define MAXCOUNT 100
 #define MAXDIFF 10000
 
-char timer_stack[KERNEL_CONF_STACKSIZE_MAIN*4];
+char timer_stack[KERNEL_CONF_STACKSIZE_MAIN * 4];
 
 struct timer_msg {
     vtimer_t timer;
@@ -43,12 +43,12 @@ struct timer_msg {
 
 timex_t now;
 
-struct timer_msg timer_msgs[] = { { .interval = { .seconds = 0, .microseconds = 100000}, .msg = "T1", .start={0}, .count=0 },
-                                  { .interval = { .seconds = 0, .microseconds = 200000}, .msg = "T2", .start={0}, .count=0 },
-                                  { .interval = { .seconds = 0, .microseconds = 300000}, .msg = "T3", .start={0}, .count=0 },
-                                  { .interval = { .seconds = 0, .microseconds = 500000}, .msg = "T4", .start={0}, .count=0 },
-                                  { .interval = { .seconds = 0, .microseconds = 700000}, .msg = "T5", .start={0}, .count=0 },
-                                  { .interval = { .seconds = 1, .microseconds = 100000}, .msg = "T6", .start={0}, .count=0 },
+struct timer_msg timer_msgs[] = { { .interval = { .seconds = 0, .microseconds = 100000}, .msg = "T1", .start = {0}, .count = 0 },
+    { .interval = { .seconds = 0, .microseconds = 200000}, .msg = "T2", .start = {0}, .count = 0 },
+    { .interval = { .seconds = 0, .microseconds = 300000}, .msg = "T3", .start = {0}, .count = 0 },
+    { .interval = { .seconds = 0, .microseconds = 500000}, .msg = "T4", .start = {0}, .count = 0 },
+    { .interval = { .seconds = 0, .microseconds = 700000}, .msg = "T5", .start = {0}, .count = 0 },
+    { .interval = { .seconds = 1, .microseconds = 100000}, .msg = "T6", .start = {0}, .count = 0 },
 };
 
 void *timer_thread(void *arg)
@@ -66,14 +66,15 @@ void *timer_thread(void *arg)
 
         vtimer_now(&now);
 
-        if (tmsg->start.seconds==0 && tmsg->start.microseconds == 0) {
+        if (tmsg->start.seconds == 0 && tmsg->start.microseconds == 0) {
             printf("Initializing \"%s\".\n", tmsg->msg);
             tmsg->start = now;
-        } else {
+        }
+        else {
             tmsg->count++;
         }
 
-        uint64_t should = timex_uint64(tmsg->interval)*tmsg->count+timex_uint64(tmsg->start);
+        uint64_t should = timex_uint64(tmsg->interval) * tmsg->count + timex_uint64(tmsg->start);
         int64_t diff = should - timex_uint64(now);
 
         printf("now=%02" PRIu32 ":%02" PRIu32 " -> every %" PRIu32 ".%" PRIu32 "s: %s diff=%" PRId64 "\n",
@@ -104,15 +105,15 @@ int main(void)
 {
     msg_t m;
     kernel_pid_t pid = thread_create(
-                  timer_stack,
-                  sizeof(timer_stack),
-                  PRIORITY_MAIN - 1,
-                  CREATE_STACKTEST,
-                  timer_thread,
-                  NULL,
-                  "timer");
+                           timer_stack,
+                           sizeof(timer_stack),
+                           PRIORITY_MAIN - 1,
+                           CREATE_STACKTEST,
+                           timer_thread,
+                           NULL,
+                           "timer");
 
-    for (unsigned i = 0; i < sizeof(timer_msgs)/sizeof(struct timer_msg); i++) {
+    for (unsigned i = 0; i < sizeof(timer_msgs) / sizeof(struct timer_msg); i++) {
         printf("Sending timer msg %u...\n", i);
         m.content.ptr = (char *) &timer_msgs[i];
         msg_try_send(&m, pid);

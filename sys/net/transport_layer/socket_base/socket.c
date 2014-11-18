@@ -10,7 +10,7 @@
  * @ingroup socket_base
  * @{
  * @file    socket.c
- * @brief   functions for BSD socket API, methods return default values and 
+ * @brief   functions for BSD socket API, methods return default values and
  *          will be overwritten by appropriate transport layer protocols.
  * @author  Oliver Gesch <oliver.gesch@googlemail.com>
  * @author  Cenk Gündoğan <cnkgndgn@gmail.com>
@@ -84,7 +84,7 @@ int32_t __attribute__((weak)) tcp_recv(int s, void *buf, uint32_t len, int flags
 }
 
 int32_t __attribute__((weak)) udp_recvfrom(int s, void *buf, uint32_t len, int flags,
-                                sockaddr6_t *from, uint32_t *fromlen)
+        sockaddr6_t *from, uint32_t *fromlen)
 {
     (void) s;
     (void) buf;
@@ -97,7 +97,7 @@ int32_t __attribute__((weak)) udp_recvfrom(int s, void *buf, uint32_t len, int f
 }
 
 int32_t __attribute__((weak)) udp_sendto(int s, const void *buf, uint32_t len, int flags,
-                              sockaddr6_t *to, uint32_t tolen)
+        sockaddr6_t *to, uint32_t tolen)
 {
     (void) s;
     (void) buf;
@@ -310,7 +310,7 @@ int32_t socket_base_recv(int s, void *buf, uint32_t len, int flags)
 }
 
 int32_t socket_base_recvfrom(int s, void *buf, uint32_t len, int flags,
-                                sockaddr6_t *from, uint32_t *fromlen)
+                             sockaddr6_t *from, uint32_t *fromlen)
 {
     if (udp_socket_compliancy(s)) {
         return udp_recvfrom(s, buf, len, flags, from, fromlen);
@@ -324,7 +324,7 @@ int32_t socket_base_recvfrom(int s, void *buf, uint32_t len, int flags,
 }
 
 int32_t socket_base_sendto(int s, const void *buf, uint32_t len, int flags,
-                              sockaddr6_t *to, uint32_t tolen)
+                           sockaddr6_t *to, uint32_t tolen)
 {
     if (udp_socket_compliancy(s)) {
         return udp_sendto(s, buf, len, flags, to, tolen);

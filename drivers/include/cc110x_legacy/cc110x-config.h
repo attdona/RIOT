@@ -87,7 +87,8 @@ typedef struct {
     unsigned _RSSI      : 8;    ///< The RSSI value of last received packet
     unsigned RSSI_SEND  : 8;    ///< The RSSI value of the last send unicast packet of this node
     unsigned _LQI       : 8;    ///< The LQI value of the last received packet
-    unsigned LL_ACK     : 1;    ///< Is set if Link-Level ACK is received, otherwise 0 (reset on new burst)
+unsigned LL_ACK     :
+    1;    ///< Is set if Link-Level ACK is received, otherwise 0 (reset on new burst)
     unsigned CAA        : 1;    ///< The status of the air (1 = air free, 0 = air not free)
     unsigned CRC_STATE  : 1;    ///< The CRC status of last received packet (1 = OK, 0 = not OK)
     unsigned SEQ        : 1;    ///< Sequence number (toggles between 0 and 1)

@@ -51,6 +51,7 @@ int main(void)
     puts("Connect an LED or scope to PWM pins to see something\n");
 
     res = pwm_init(DEV, MODE, FREQU, STEPS);
+
     if (res == 0) {
         puts("PWM successfully initialized.\n");
     }
@@ -65,6 +66,7 @@ int main(void)
         }
 
         state += step;
+
         if (state <= 0 || state >= STEPS) {
             step = -step;
         }

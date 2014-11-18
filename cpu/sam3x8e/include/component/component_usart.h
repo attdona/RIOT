@@ -40,39 +40,39 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Usart hardware registers */
 typedef struct {
-  WoReg US_CR;         /**< \brief (Usart Offset: 0x0000) Control Register */
-  RwReg US_MR;         /**< \brief (Usart Offset: 0x0004) Mode Register */
-  WoReg US_IER;        /**< \brief (Usart Offset: 0x0008) Interrupt Enable Register */
-  WoReg US_IDR;        /**< \brief (Usart Offset: 0x000C) Interrupt Disable Register */
-  RoReg US_IMR;        /**< \brief (Usart Offset: 0x0010) Interrupt Mask Register */
-  RoReg US_CSR;        /**< \brief (Usart Offset: 0x0014) Channel Status Register */
-  RoReg US_RHR;        /**< \brief (Usart Offset: 0x0018) Receiver Holding Register */
-  WoReg US_THR;        /**< \brief (Usart Offset: 0x001C) Transmitter Holding Register */
-  RwReg US_BRGR;       /**< \brief (Usart Offset: 0x0020) Baud Rate Generator Register */
-  RwReg US_RTOR;       /**< \brief (Usart Offset: 0x0024) Receiver Time-out Register */
-  RwReg US_TTGR;       /**< \brief (Usart Offset: 0x0028) Transmitter Timeguard Register */
-  RoReg Reserved1[5];
-  RwReg US_FIDI;       /**< \brief (Usart Offset: 0x0040) FI DI Ratio Register */
-  RoReg US_NER;        /**< \brief (Usart Offset: 0x0044) Number of Errors Register */
-  RoReg Reserved2[1];
-  RwReg US_IF;         /**< \brief (Usart Offset: 0x004C) IrDA Filter Register */
-  RwReg US_MAN;        /**< \brief (Usart Offset: 0x0050) Manchester Encoder Decoder Register */
-  RwReg US_LINMR;      /**< \brief (Usart Offset: 0x0054) LIN Mode Register */
-  RwReg US_LINIR;      /**< \brief (Usart Offset: 0x0058) LIN Identifier Register */
-  RoReg Reserved3[34];
-  RwReg US_WPMR;       /**< \brief (Usart Offset: 0xE4) Write Protect Mode Register */
-  RoReg US_WPSR;       /**< \brief (Usart Offset: 0xE8) Write Protect Status Register */
-  RoReg Reserved4[5];
-  RwReg US_RPR;        /**< \brief (Usart Offset: 0x100) Receive Pointer Register */
-  RwReg US_RCR;        /**< \brief (Usart Offset: 0x104) Receive Counter Register */
-  RwReg US_TPR;        /**< \brief (Usart Offset: 0x108) Transmit Pointer Register */
-  RwReg US_TCR;        /**< \brief (Usart Offset: 0x10C) Transmit Counter Register */
-  RwReg US_RNPR;       /**< \brief (Usart Offset: 0x110) Receive Next Pointer Register */
-  RwReg US_RNCR;       /**< \brief (Usart Offset: 0x114) Receive Next Counter Register */
-  RwReg US_TNPR;       /**< \brief (Usart Offset: 0x118) Transmit Next Pointer Register */
-  RwReg US_TNCR;       /**< \brief (Usart Offset: 0x11C) Transmit Next Counter Register */
-  WoReg US_PTCR;       /**< \brief (Usart Offset: 0x120) Transfer Control Register */
-  RoReg US_PTSR;       /**< \brief (Usart Offset: 0x124) Transfer Status Register */
+    WoReg US_CR;         /**< \brief (Usart Offset: 0x0000) Control Register */
+    RwReg US_MR;         /**< \brief (Usart Offset: 0x0004) Mode Register */
+    WoReg US_IER;        /**< \brief (Usart Offset: 0x0008) Interrupt Enable Register */
+    WoReg US_IDR;        /**< \brief (Usart Offset: 0x000C) Interrupt Disable Register */
+    RoReg US_IMR;        /**< \brief (Usart Offset: 0x0010) Interrupt Mask Register */
+    RoReg US_CSR;        /**< \brief (Usart Offset: 0x0014) Channel Status Register */
+    RoReg US_RHR;        /**< \brief (Usart Offset: 0x0018) Receiver Holding Register */
+    WoReg US_THR;        /**< \brief (Usart Offset: 0x001C) Transmitter Holding Register */
+    RwReg US_BRGR;       /**< \brief (Usart Offset: 0x0020) Baud Rate Generator Register */
+    RwReg US_RTOR;       /**< \brief (Usart Offset: 0x0024) Receiver Time-out Register */
+    RwReg US_TTGR;       /**< \brief (Usart Offset: 0x0028) Transmitter Timeguard Register */
+    RoReg Reserved1[5];
+    RwReg US_FIDI;       /**< \brief (Usart Offset: 0x0040) FI DI Ratio Register */
+    RoReg US_NER;        /**< \brief (Usart Offset: 0x0044) Number of Errors Register */
+    RoReg Reserved2[1];
+    RwReg US_IF;         /**< \brief (Usart Offset: 0x004C) IrDA Filter Register */
+    RwReg US_MAN;        /**< \brief (Usart Offset: 0x0050) Manchester Encoder Decoder Register */
+    RwReg US_LINMR;      /**< \brief (Usart Offset: 0x0054) LIN Mode Register */
+    RwReg US_LINIR;      /**< \brief (Usart Offset: 0x0058) LIN Identifier Register */
+    RoReg Reserved3[34];
+    RwReg US_WPMR;       /**< \brief (Usart Offset: 0xE4) Write Protect Mode Register */
+    RoReg US_WPSR;       /**< \brief (Usart Offset: 0xE8) Write Protect Status Register */
+    RoReg Reserved4[5];
+    RwReg US_RPR;        /**< \brief (Usart Offset: 0x100) Receive Pointer Register */
+    RwReg US_RCR;        /**< \brief (Usart Offset: 0x104) Receive Counter Register */
+    RwReg US_TPR;        /**< \brief (Usart Offset: 0x108) Transmit Pointer Register */
+    RwReg US_TCR;        /**< \brief (Usart Offset: 0x10C) Transmit Counter Register */
+    RwReg US_RNPR;       /**< \brief (Usart Offset: 0x110) Receive Next Pointer Register */
+    RwReg US_RNCR;       /**< \brief (Usart Offset: 0x114) Receive Next Counter Register */
+    RwReg US_TNPR;       /**< \brief (Usart Offset: 0x118) Transmit Next Pointer Register */
+    RwReg US_TNCR;       /**< \brief (Usart Offset: 0x11C) Transmit Next Counter Register */
+    WoReg US_PTCR;       /**< \brief (Usart Offset: 0x120) Transfer Control Register */
+    RoReg US_PTSR;       /**< \brief (Usart Offset: 0x124) Transfer Status Register */
 } Usart;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- US_CR : (USART Offset: 0x0000) Control Register -------- */

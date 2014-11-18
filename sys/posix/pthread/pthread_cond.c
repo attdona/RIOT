@@ -120,7 +120,8 @@ int pthread_cond_wait(struct pthread_cond_t *cond, struct mutex_t *mutex)
     return 0;
 }
 
-int pthread_cond_timedwait(struct pthread_cond_t *cond, struct mutex_t *mutex, const struct timespec *abstime)
+int pthread_cond_timedwait(struct pthread_cond_t *cond, struct mutex_t *mutex,
+                           const struct timespec *abstime)
 {
     timex_t now, then, reltime;
 
@@ -143,19 +144,22 @@ int pthread_cond_signal(struct pthread_cond_t *cond)
 
     priority_queue_node_t *head = priority_queue_remove_head(&(cond->queue));
     int other_prio = -1;
+
     if (head != NULL) {
         tcb_t *other_thread = (tcb_t *) sched_threads[head->data];
+
         if (other_thread) {
             other_prio = other_thread->priority;
             sched_set_status(other_thread, STATUS_PENDING);
         }
+
         head->data = -1u;
     }
 
     restoreIRQ(old_state);
 
     if (other_prio >= 0) {
-        sched_switch(other_prio);
+        sched_switch (other_prio);
     }
 
     return 0;
@@ -174,22 +178,25 @@ int pthread_cond_broadcast(struct pthread_cond_t *cond)
 
     while (1) {
         priority_queue_node_t *head = priority_queue_remove_head(&(cond->queue));
+
         if (head == NULL) {
             break;
         }
 
         tcb_t *other_thread = (tcb_t *) sched_threads[head->data];
+
         if (other_thread) {
             other_prio = max_prio(other_prio, other_thread->priority);
             sched_set_status(other_thread, STATUS_PENDING);
         }
+
         head->data = -1u;
     }
 
     restoreIRQ(old_state);
 
     if (other_prio >= 0) {
-        sched_switch(other_prio);
+        sched_switch (other_prio);
     }
 
     return 0;

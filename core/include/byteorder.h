@@ -33,72 +33,84 @@ extern "C" {
  * @details        This is a wrapper around an uint16_t to catch missing conversions
  *                 between different byte orders at compile time.
  */
-typedef union __attribute__((packed)) {
+typedef union __attribute__((packed))
+{
     uint8_t      u8[2]; /**< 8 bit representation */
     uint16_t    u16;    /**< 16 bit representation */
-} le_uint16_t;
+}
+le_uint16_t;
 
 /**
  * @brief          A 32 bit integer in little endian.
  * @details        This is a wrapper around an uint32_t to catch missing conversions
  *                 between different byte orders at compile time.
  */
-typedef union __attribute__((packed)) {
+typedef union __attribute__((packed))
+{
     uint8_t      u8[4]; /**< 8 bit representation */
     uint16_t    u16[2]; /**< 16 bit representation */
     uint32_t    u32;    /**< 32 bit representation */
     le_uint16_t l16[2]; /**< little endian 16 bit representation */
-} le_uint32_t;
+}
+le_uint32_t;
 
 /**
  * @brief          A 64 bit integer in little endian.
  * @details        This is a wrapper around an uint64_t to catch missing conversions
  *                 between different byte orders at compile time.
  */
-typedef union __attribute__((packed)) {
+typedef union __attribute__((packed))
+{
     uint8_t      u8[8]; /**< 8 bit representation */
     uint16_t    u16[4]; /**< 16 bit representation */
     uint32_t    u32[2]; /**< 32 bit representation */
     uint64_t    u64;    /**< 64 bit representation */
     le_uint16_t l16[4]; /**< little endian 16 bit representation */
     le_uint32_t l32[2]; /**< little endian 32 bit representation */
-} le_uint64_t;
+}
+le_uint64_t;
 
 /**
  * @brief          A 16 bit integer in big endian aka network byte order.
  * @details        This is a wrapper around an uint16_t to catch missing conversions
  *                 between different byte orders at compile time.
  */
-typedef union __attribute__((packed)) {
+typedef union __attribute__((packed))
+{
     uint8_t      u8[2]; /**< 8 bit representation */
     uint16_t    u16;    /**< 16 bit representation */
-} be_uint16_t;
+}
+be_uint16_t;
 
 /**
  * @brief          A 32 bit integer in big endian aka network byte order.
  * @details        This is a wrapper around an uint32_t to catch missing conversions
  *                 between different byte orders at compile time.
  */
-typedef union __attribute__((packed)) {
+typedef union __attribute__((packed))
+{
     uint8_t      u8[4]; /**< 8 bit representation */
     uint16_t    u16[2]; /**< 16 bit representation */
     uint32_t    u32;    /**< 32 bit representation */
     be_uint16_t b16[2]; /**< big endian 16 bit representation */
-} be_uint32_t;
+}
+be_uint32_t;
 
 /**
  * @brief          A 64 bit integer in big endian aka network byte order.
  * @details        This is a wrapper around an uint64_t to catch missing conversions
  *                 between different byte orders at compile time.
  */
-typedef union __attribute__((packed)) {
+typedef union __attribute__((packed))
+{
     uint8_t      u8[8]; /**< 8 bit representation */
     uint16_t    u16[4]; /**< 16 bit representation */
     uint32_t    u32[2]; /**< 32 bit representation */
     uint64_t    u64;    /**< 64 bit representation */
     be_uint16_t b16[4]; /**< big endian 16 bit representation */
     be_uint32_t b32[2]; /**< big endian 32 bit representation */
-} be_uint64_t;
+}
+be_uint64_t;
 
 /**
  * @brief A 16 bit integer in network byte order.

@@ -36,19 +36,25 @@ static void _settime_handler(char **argv)
         short i1, i2, i3;
 
         int res = sscanf(argv[1], "%6hd-%6hd-%6hd", &i1, &i2, &i3);
+
         if (res != 3) {
             break;
         }
 
         struct tm now;
+
         now.tm_year = i1 - 1900;
+
         now.tm_mon = i2 - 1;
+
         now.tm_mday = i3;
 
         res = sscanf(argv[2], "%6hd:%6hd:%6hd", &i1, &i2, &i3);
+
         if (res != 3) {
             break;
         }
+
         now.tm_hour = i1;
         now.tm_min = i2;
         now.tm_sec = i3;
@@ -56,7 +62,8 @@ static void _settime_handler(char **argv)
         rtc_set_localtime(&now);
         puts("OK");
         return;
-    } while (0);
+    }
+    while (0);
 
     printf("Usage: %s YYYY-MM-DD hh:mm:ss\n", argv[0]);
 }

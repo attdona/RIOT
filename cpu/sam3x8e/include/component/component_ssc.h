@@ -40,27 +40,27 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Ssc hardware registers */
 typedef struct {
-  WoReg SSC_CR;        /**< \brief (Ssc Offset: 0x0) Control Register */
-  RwReg SSC_CMR;       /**< \brief (Ssc Offset: 0x4) Clock Mode Register */
-  RoReg Reserved1[2];
-  RwReg SSC_RCMR;      /**< \brief (Ssc Offset: 0x10) Receive Clock Mode Register */
-  RwReg SSC_RFMR;      /**< \brief (Ssc Offset: 0x14) Receive Frame Mode Register */
-  RwReg SSC_TCMR;      /**< \brief (Ssc Offset: 0x18) Transmit Clock Mode Register */
-  RwReg SSC_TFMR;      /**< \brief (Ssc Offset: 0x1C) Transmit Frame Mode Register */
-  RoReg SSC_RHR;       /**< \brief (Ssc Offset: 0x20) Receive Holding Register */
-  WoReg SSC_THR;       /**< \brief (Ssc Offset: 0x24) Transmit Holding Register */
-  RoReg Reserved2[2];
-  RoReg SSC_RSHR;      /**< \brief (Ssc Offset: 0x30) Receive Sync. Holding Register */
-  RwReg SSC_TSHR;      /**< \brief (Ssc Offset: 0x34) Transmit Sync. Holding Register */
-  RwReg SSC_RC0R;      /**< \brief (Ssc Offset: 0x38) Receive Compare 0 Register */
-  RwReg SSC_RC1R;      /**< \brief (Ssc Offset: 0x3C) Receive Compare 1 Register */
-  RoReg SSC_SR;        /**< \brief (Ssc Offset: 0x40) Status Register */
-  WoReg SSC_IER;       /**< \brief (Ssc Offset: 0x44) Interrupt Enable Register */
-  WoReg SSC_IDR;       /**< \brief (Ssc Offset: 0x48) Interrupt Disable Register */
-  RoReg SSC_IMR;       /**< \brief (Ssc Offset: 0x4C) Interrupt Mask Register */
-  RoReg Reserved3[37];
-  RwReg SSC_WPMR;      /**< \brief (Ssc Offset: 0xE4) Write Protect Mode Register */
-  RoReg SSC_WPSR;      /**< \brief (Ssc Offset: 0xE8) Write Protect Status Register */
+    WoReg SSC_CR;        /**< \brief (Ssc Offset: 0x0) Control Register */
+    RwReg SSC_CMR;       /**< \brief (Ssc Offset: 0x4) Clock Mode Register */
+    RoReg Reserved1[2];
+    RwReg SSC_RCMR;      /**< \brief (Ssc Offset: 0x10) Receive Clock Mode Register */
+    RwReg SSC_RFMR;      /**< \brief (Ssc Offset: 0x14) Receive Frame Mode Register */
+    RwReg SSC_TCMR;      /**< \brief (Ssc Offset: 0x18) Transmit Clock Mode Register */
+    RwReg SSC_TFMR;      /**< \brief (Ssc Offset: 0x1C) Transmit Frame Mode Register */
+    RoReg SSC_RHR;       /**< \brief (Ssc Offset: 0x20) Receive Holding Register */
+    WoReg SSC_THR;       /**< \brief (Ssc Offset: 0x24) Transmit Holding Register */
+    RoReg Reserved2[2];
+    RoReg SSC_RSHR;      /**< \brief (Ssc Offset: 0x30) Receive Sync. Holding Register */
+    RwReg SSC_TSHR;      /**< \brief (Ssc Offset: 0x34) Transmit Sync. Holding Register */
+    RwReg SSC_RC0R;      /**< \brief (Ssc Offset: 0x38) Receive Compare 0 Register */
+    RwReg SSC_RC1R;      /**< \brief (Ssc Offset: 0x3C) Receive Compare 1 Register */
+    RoReg SSC_SR;        /**< \brief (Ssc Offset: 0x40) Status Register */
+    WoReg SSC_IER;       /**< \brief (Ssc Offset: 0x44) Interrupt Enable Register */
+    WoReg SSC_IDR;       /**< \brief (Ssc Offset: 0x48) Interrupt Disable Register */
+    RoReg SSC_IMR;       /**< \brief (Ssc Offset: 0x4C) Interrupt Mask Register */
+    RoReg Reserved3[37];
+    RwReg SSC_WPMR;      /**< \brief (Ssc Offset: 0xE4) Write Protect Mode Register */
+    RoReg SSC_WPSR;      /**< \brief (Ssc Offset: 0xE8) Write Protect Status Register */
 } Ssc;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- SSC_CR : (SSC Offset: 0x0) Control Register -------- */

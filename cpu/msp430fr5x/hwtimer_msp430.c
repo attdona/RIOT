@@ -17,6 +17,7 @@
  * @author      Milan Babel <babel@inf.fu-berlin.de>
  * @author      Kévin Roussel <Kevin.Roussel@inria.fr>
  *
+ *
  * @}
  */
 
@@ -29,7 +30,7 @@
 
 extern void (*int_handler)(int);
 extern void timer_unset(short timer);
-extern volatile uint16_t overflow_interrupt[HWTIMER_MAXTIMERS+1];
+extern volatile uint16_t overflow_interrupt[HWTIMER_MAXTIMERS + 1];
 extern volatile uint16_t timer_round;
 
 void timerA_init(void)
@@ -50,7 +51,6 @@ void timerA_init(void)
     TB0CTL |= MC_2;
 }
 
-//interrupt(TIMERA0_VECTOR) __attribute__((naked)) timer_isr_ccr0(void)
 ISRV(TIMERB0_VECTOR, timer_isr_ccr0)
 {
     __enter_isr();
@@ -63,12 +63,12 @@ ISRV(TIMERB0_VECTOR, timer_isr_ccr0)
     __exit_isr();
 }
 
-//interrupt(TIMERA1_VECTOR) __attribute__((naked)) timer_isr(void)
 ISRV(TIMERB1_VECTOR,  timer_isr)
 {
     __enter_isr();
 
     short taiv_reg = TB0IV;
+
     if (taiv_reg == 0x0E) {
         /* TAIV = 0x0E means overflow */
         DEBUG("Overflow\n");
@@ -83,8 +83,9 @@ ISRV(TIMERB1_VECTOR,  timer_isr)
             the timer's counter has overflowed but *before*
             timer_round incrementation has occured (when
             interrupts are disabled for any reason), thus
-            effectively setting the timer one round in the past! */
+            effectively setting the timer one round in the past!*/
         int16_t round_delta = overflow_interrupt[timer] - timer_round;
+
         /* in order to correctly handle timer_round overflow,
            we must fire the timer when, for example,
            timer_round == 0 and overflow_interrupt[timer] == 65535;

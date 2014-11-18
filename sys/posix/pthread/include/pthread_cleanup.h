@@ -12,8 +12,7 @@
 /**
  * @brief   Internal structure for pthread_cleanup_push()
  */
-typedef struct __pthread_cleanup_datum
-{
+typedef struct __pthread_cleanup_datum {
     /** Cleanup handler to call next. */
     struct __pthread_cleanup_datum *__next;
 

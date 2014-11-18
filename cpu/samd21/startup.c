@@ -58,12 +58,12 @@ void reset_handler(void)
     uint32_t *src = &_etext;
 
     /* load data section from flash to ram */
-    for (dst = &_srelocate; dst < &_erelocate; ) {
+    for (dst = &_srelocate; dst < &_erelocate;) {
         *(dst++) = *(src++);
     }
 
     /* default bss section to zero */
-    for (dst = &_szero; dst < &_ezero; ) {
+    for (dst = &_szero; dst < &_ezero;) {
         *(dst++) = 0;
     }
 
@@ -80,123 +80,137 @@ void reset_handler(void)
  */
 void dummy_handler(void)
 {
-    while (1) {asm ("nop");}
+    while (1) {
+        asm("nop");
+    }
 }
 
 
 void isr_nmi(void)
 {
-    while (1) {asm ("nop");}
+    while (1) {
+        asm("nop");
+    }
 }
 
 void isr_mem_manage(void)
 {
-    while (1) {asm ("nop");}
+    while (1) {
+        asm("nop");
+    }
 }
 
 void isr_debug_mon(void)
 {
-    while (1) {asm ("nop");}
+    while (1) {
+        asm("nop");
+    }
 }
 
 void isr_hard_fault(void)
 {
-    while (1) {asm ("nop");}
+    while (1) {
+        asm("nop");
+    }
 }
 
 void isr_bus_fault(void)
 {
-    while (1) {asm ("nop");}
+    while (1) {
+        asm("nop");
+    }
 }
 
 void isr_usage_fault(void)
 {
-    while (1) {asm ("nop");}
+    while (1) {
+        asm("nop");
+    }
 }
 
 /* Cortex-M specific interrupt vectors */
-void isr_svc(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_pendsv(void)               __attribute__ ((weak, alias("dummy_handler")));
-void isr_systick(void)              __attribute__ ((weak, alias("dummy_handler")));
+void isr_svc(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_pendsv(void)               __attribute__((weak, alias("dummy_handler")));
+void isr_systick(void)              __attribute__((weak, alias("dummy_handler")));
 
 /* SAMR21 specific interrupt vector */
-void isr_pm(void)                   __attribute__ ((weak, alias("dummy_handler")));
-void isr_sysctrl(void)              __attribute__ ((weak, alias("dummy_handler")));
-void isr_wdt(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_rtc(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_eic(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_nvmctrl(void)              __attribute__ ((weak, alias("dummy_handler")));
-void isr_dmac(void)                 __attribute__ ((weak, alias("dummy_handler")));
-void isr_usb(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_evsys(void)                __attribute__ ((weak, alias("dummy_handler")));
-void isr_sercom0(void)              __attribute__ ((weak, alias("dummy_handler")));
-void isr_sercom1(void)              __attribute__ ((weak, alias("dummy_handler")));
-void isr_sercom2(void)              __attribute__ ((weak, alias("dummy_handler")));
-void isr_sercom3(void)              __attribute__ ((weak, alias("dummy_handler")));
-void isr_sercom4(void)              __attribute__ ((weak, alias("dummy_handler")));
-void isr_sercom5(void)              __attribute__ ((weak, alias("dummy_handler")));
-void isr_tcc0(void)                 __attribute__ ((weak, alias("dummy_handler")));
-void isr_tcc1(void)                 __attribute__ ((weak, alias("dummy_handler")));
-void isr_tcc2(void)                 __attribute__ ((weak, alias("dummy_handler")));
-void isr_tc3(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_tc4(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_tc5(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_tc6(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_tc7(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_adc(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_ac(void)                   __attribute__ ((weak, alias("dummy_handler")));
-void isr_dac(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_ptc(void)                  __attribute__ ((weak, alias("dummy_handler")));
-void isr_i2c(void)                  __attribute__ ((weak, alias("dummy_handler")));
+void isr_pm(void)                   __attribute__((weak, alias("dummy_handler")));
+void isr_sysctrl(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_wdt(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_rtc(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_eic(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_nvmctrl(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_dmac(void)                 __attribute__((weak, alias("dummy_handler")));
+void isr_usb(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_evsys(void)                __attribute__((weak, alias("dummy_handler")));
+void isr_sercom0(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_sercom1(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_sercom2(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_sercom3(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_sercom4(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_sercom5(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_tcc0(void)                 __attribute__((weak, alias("dummy_handler")));
+void isr_tcc1(void)                 __attribute__((weak, alias("dummy_handler")));
+void isr_tcc2(void)                 __attribute__((weak, alias("dummy_handler")));
+void isr_tc3(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_tc4(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_tc5(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_tc6(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_tc7(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_adc(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_ac(void)                   __attribute__((weak, alias("dummy_handler")));
+void isr_dac(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_ptc(void)                  __attribute__((weak, alias("dummy_handler")));
+void isr_i2c(void)                  __attribute__((weak, alias("dummy_handler")));
 
 /* interrupt vector table */
-__attribute__ ((section(".vectors")))
+__attribute__((section(".vectors")))
 const void *interrupt_vector[] = {
     /* Stack pointer */
-    (void*) (&_estack),             /* pointer to the top of the empty stack */
+    (void *)(&_estack),             /* pointer to the top of the empty stack */
     /* Cortex-M handlers */
-    (void*) reset_handler,          /* entry point of the program */
-    (void*) isr_nmi,                /* non maskable interrupt handler */
-    (void*) isr_hard_fault,         /* if you end up here its not good */
-    (void*) isr_mem_manage,         /* memory controller interrupt */
-    (void*) isr_bus_fault,          /* also not good to end up here */
-    (void*) isr_usage_fault,        /* autsch */
-    (void*) (0UL),                  /* Reserved */
-    (void*) (0UL),                  /* Reserved */
-    (void*) (0UL),                  /* Reserved */
-    (void*) (0UL),                  /* Reserved */
-    (void*) isr_svc,                /* system call interrupt */
-    (void*) isr_debug_mon,          /* debug interrupt */
-    (void*) (0UL),                  /* Reserved */
-    (void*) isr_pendsv,             /* pendSV interrupt, used for task switching in RIOT */
-    (void*) isr_systick,            /* SysTick interrupt, not used in RIOT */
+    (void *) reset_handler,         /* entry point of the program */
+    (void *) isr_nmi,               /* non maskable interrupt handler */
+    (void *) isr_hard_fault,        /* if you end up here its not good */
+    (void *) isr_mem_manage,        /* memory controller interrupt */
+    (void *) isr_bus_fault,         /* also not good to end up here */
+    (void *) isr_usage_fault,       /* autsch */
+    (void *)(0UL),                  /* Reserved */
+    (void *)(0UL),                  /* Reserved */
+    (void *)(0UL),                  /* Reserved */
+    (void *)(0UL),                  /* Reserved */
+    (void *) isr_svc,               /* system call interrupt */
+    (void *) isr_debug_mon,         /* debug interrupt */
+    (void *)(0UL),                  /* Reserved */
+    (void *) isr_pendsv,            /* pendSV interrupt, used for task switching in RIOT */
+    (void *) isr_systick,           /* SysTick interrupt, not used in RIOT */
     /* Atmel specific peripheral handlers */
-    (void*) isr_pm,                 /*  0 Power Manager */
-    (void*) isr_sysctrl,            /*  1 System Control */
-    (void*) isr_wdt,                /*  2 Watchdog Timer */
-    (void*) isr_rtc,                /*  3 Real-Time Counter */
-    (void*) isr_eic,                /*  4 External Interrupt Controller */
-    (void*) isr_nvmctrl,            /*  5 Non-Volatile Memory Controller */
-    (void*) isr_dmac,               /*  6 Direct Memory Access Controller */
-    (void*) isr_usb,                /*  7 Universal Serial Bus */
-    (void*) isr_evsys,              /*  8 Event System Interface */
-    (void*) isr_sercom0,            /*  9 Serial Communication Interface 0 */
-    (void*) isr_sercom1,            /* 10 Serial Communication Interface 1 */
-    (void*) isr_sercom2,            /* 11 Serial Communication Interface 2 */
-    (void*) isr_sercom3,            /* 12 Serial Communication Interface 3 */
-    (void*) isr_sercom4,            /* 13 Serial Communication Interface 4 */
-    (void*) isr_sercom5,            /* 14 Serial Communication Interface 5 */
-    (void*) isr_tcc0,               /* 15 Timer Counter Control 0 */
-    (void*) isr_tcc1,               /* 16 Timer Counter Control 1 */
-    (void*) isr_tcc2,               /* 17 Timer Counter Control 2 */
-    (void*) isr_tc3,                /* 18 Basic Timer Counter 0 */
-    (void*) isr_tc4,                /* 19 Basic Timer Counter 1 */
-    (void*) isr_tc5,                /* 20 Basic Timer Counter 2 */
-    (void*) isr_tc6,                /* 21 Basic Timer Counter 3 */
-    (void*) isr_tc7,                /* 22 Basic Timer Counter 4 */
-    (void*) isr_adc,                /* 23 Analog Digital Converter */
-    (void*) isr_ac,                 /* 24 Analog Comparators */
-    (void*) isr_dac,                /* 25 Digital Analog Converter */
-    (void*) isr_ptc,                /* 26 Peripheral Touch Controller */
-    (void*) isr_i2c                 /* 27 Inter-IC Sound Interface */
+    (void *) isr_pm,                /*  0 Power Manager */
+    (void *) isr_sysctrl,           /*  1 System Control */
+    (void *) isr_wdt,               /*  2 Watchdog Timer */
+    (void *) isr_rtc,               /*  3 Real-Time Counter */
+    (void *) isr_eic,               /*  4 External Interrupt Controller */
+    (void *) isr_nvmctrl,           /*  5 Non-Volatile Memory Controller */
+    (void *) isr_dmac,              /*  6 Direct Memory Access Controller */
+    (void *) isr_usb,               /*  7 Universal Serial Bus */
+    (void *) isr_evsys,             /*  8 Event System Interface */
+    (void *) isr_sercom0,           /*  9 Serial Communication Interface 0 */
+    (void *) isr_sercom1,           /* 10 Serial Communication Interface 1 */
+    (void *) isr_sercom2,           /* 11 Serial Communication Interface 2 */
+    (void *) isr_sercom3,           /* 12 Serial Communication Interface 3 */
+    (void *) isr_sercom4,           /* 13 Serial Communication Interface 4 */
+    (void *) isr_sercom5,           /* 14 Serial Communication Interface 5 */
+    (void *) isr_tcc0,              /* 15 Timer Counter Control 0 */
+    (void *) isr_tcc1,              /* 16 Timer Counter Control 1 */
+    (void *) isr_tcc2,              /* 17 Timer Counter Control 2 */
+    (void *) isr_tc3,               /* 18 Basic Timer Counter 0 */
+    (void *) isr_tc4,               /* 19 Basic Timer Counter 1 */
+    (void *) isr_tc5,               /* 20 Basic Timer Counter 2 */
+    (void *) isr_tc6,               /* 21 Basic Timer Counter 3 */
+    (void *) isr_tc7,               /* 22 Basic Timer Counter 4 */
+    (void *) isr_adc,               /* 23 Analog Digital Converter */
+    (void *) isr_ac,                /* 24 Analog Comparators */
+    (void *) isr_dac,               /* 25 Digital Analog Converter */
+    (void *) isr_ptc,               /* 26 Peripheral Touch Controller */
+    (void *) isr_i2c                /* 27 Inter-IC Sound Interface */
 };

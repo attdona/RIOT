@@ -51,6 +51,7 @@ quad_t __moddi3(quad_t a, quad_t b)
         ua = -ua;
         neg = 1;
     }
+
     if (b < 0) {
         ub = -ub;
     }

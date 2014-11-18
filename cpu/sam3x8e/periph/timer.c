@@ -66,12 +66,14 @@ int timer_init(tim_t dev, unsigned int ticks_per_us, void (*callback)(int))
     /* select the timer and enable the timer specific peripheral clocks */
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             tim = TIMER_0_DEV;
             PMC->PMC_PCER0 = (1 << ID_TC0) | (1 << ID_TC1) | (1 << ID_TC2);
             break;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             tim = TIMER_1_DEV;
             PMC->PMC_PCER0 = (1 << ID_TC3) | (1 << ID_TC4);
@@ -79,11 +81,13 @@ int timer_init(tim_t dev, unsigned int ticks_per_us, void (*callback)(int))
             break;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             tim = TIMER_2_DEV;
             PMC->PMC_PCER1 = (1 << (ID_TC6 - 32)) | (1 << (ID_TC7 - 32)) | (1 << (ID_TC8 - 32));
             break;
 #endif
+
         case TIMER_UNDEFINED:
         default:
             return -1;
@@ -108,7 +112,7 @@ int timer_init(tim_t dev, unsigned int ticks_per_us, void (*callback)(int))
      * - let TIOA2 signal be toggled when TC_CV == TC_RC
      */
     tim->TC_CHANNEL[2].TC_CMR = TC_CMR_TCCLKS_TIMER_CLOCK1 | TC_CMR_WAVE
-                              | TC_CMR_WAVSEL_UP_RC | TC_CMR_ACPC_TOGGLE;
+                                | TC_CMR_WAVSEL_UP_RC | TC_CMR_ACPC_TOGGLE;
 
     /* configure the frequency of channel 2 to 1us * ticks_per_us
      *
@@ -139,20 +143,24 @@ int timer_set_absolute(tim_t dev, int channel, unsigned int value)
     /* get timer base register address */
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             tim = TIMER_0_DEV;
             break;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             tim = TIMER_1_DEV;
             break;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             tim = TIMER_2_DEV;
             break;
 #endif
+
         case TIMER_UNDEFINED:
         default:
             return -1;
@@ -164,26 +172,32 @@ int timer_set_absolute(tim_t dev, int channel, unsigned int value)
             tim->TC_CHANNEL[0].TC_RA = value;
             tim->TC_CHANNEL[0].TC_IER = TC_IER_CPAS;
             break;
+
         case 1:
             tim->TC_CHANNEL[0].TC_RB = value;
             tim->TC_CHANNEL[0].TC_IER = TC_IER_CPBS;
             break;
+
         case 2:
             tim->TC_CHANNEL[0].TC_RC = value;
             tim->TC_CHANNEL[0].TC_IER = TC_IER_CPCS;
             break;
+
         case 3:
             tim->TC_CHANNEL[1].TC_RA = value;
             tim->TC_CHANNEL[1].TC_IER = TC_IER_CPAS;
             break;
+
         case 4:
             tim->TC_CHANNEL[1].TC_RB = value;
             tim->TC_CHANNEL[1].TC_IER = TC_IER_CPBS;
             break;
+
         case 5:
             tim->TC_CHANNEL[1].TC_RC = value;
             tim->TC_CHANNEL[1].TC_IER = TC_IER_CPCS;
             break;
+
         default:
             return -1;
     }
@@ -198,20 +212,24 @@ int timer_clear(tim_t dev, int channel)
     /* get timer base register address */
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             tim = TIMER_0_DEV;
             break;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             tim = TIMER_1_DEV;
             break;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             tim = TIMER_2_DEV;
             break;
 #endif
+
         case TIMER_UNDEFINED:
         default:
             return -1;
@@ -222,21 +240,27 @@ int timer_clear(tim_t dev, int channel)
         case 0:
             tim->TC_CHANNEL[0].TC_IDR = TC_IDR_CPAS;
             break;
+
         case 1:
             tim->TC_CHANNEL[0].TC_IDR = TC_IDR_CPBS;
             break;
+
         case 2:
             tim->TC_CHANNEL[0].TC_IDR = TC_IDR_CPCS;
             break;
+
         case 3:
             tim->TC_CHANNEL[1].TC_IDR = TC_IDR_CPAS;
             break;
+
         case 4:
             tim->TC_CHANNEL[1].TC_IDR = TC_IDR_CPBS;
             break;
+
         case 5:
             tim->TC_CHANNEL[1].TC_IDR = TC_IDR_CPCS;
             break;
+
         default:
             return -1;
     }
@@ -252,17 +276,21 @@ unsigned int timer_read(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             return TIMER_0_DEV->TC_CHANNEL[0].TC_CV;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             return TIMER_1_DEV->TC_CHANNEL[0].TC_CV;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             return TIMER_2_DEV->TC_CHANNEL[0].TC_CV;
 #endif
+
         case TIMER_UNDEFINED:
         default:
             return 0;
@@ -276,20 +304,24 @@ void timer_stop(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             TIMER_0_DEV->TC_CHANNEL[2].TC_CCR = TC_CCR_CLKDIS;
             break;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             TIMER_1_DEV->TC_CHANNEL[2].TC_CCR = TC_CCR_CLKDIS;
             break;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             TIMER_2_DEV->TC_CHANNEL[2].TC_CCR = TC_CCR_CLKDIS;
             break;
 #endif
+
         case TIMER_UNDEFINED:
             break;
     }
@@ -299,20 +331,24 @@ void timer_start(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             TIMER_0_DEV->TC_CHANNEL[2].TC_CCR = TC_CCR_CLKEN;
             break;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             TIMER_1_DEV->TC_CHANNEL[2].TC_CCR = TC_CCR_CLKEN;
             break;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             TIMER_2_DEV->TC_CHANNEL[2].TC_CCR = TC_CCR_CLKEN;
             break;
 #endif
+
         case TIMER_UNDEFINED:
             break;
     }
@@ -322,23 +358,27 @@ void timer_irq_enable(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             NVIC_EnableIRQ(TC0_IRQn);
             NVIC_EnableIRQ(TC1_IRQn);
             break;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             NVIC_EnableIRQ(TC3_IRQn);
             NVIC_EnableIRQ(TC4_IRQn);
             break;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             NVIC_EnableIRQ(TC6_IRQn);
             NVIC_EnableIRQ(TC7_IRQn);
             break;
 #endif
+
         case TIMER_UNDEFINED:
             break;
     }
@@ -348,23 +388,27 @@ void timer_irq_disable(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             NVIC_DisableIRQ(TC0_IRQn);
             NVIC_DisableIRQ(TC1_IRQn);
             break;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             NVIC_DisableIRQ(TC3_IRQn);
             NVIC_DisableIRQ(TC4_IRQn);
             break;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             NVIC_DisableIRQ(TC6_IRQn);
             NVIC_DisableIRQ(TC7_IRQn);
             break;
 #endif
+
         case TIMER_UNDEFINED:
             break;
     }
@@ -374,23 +418,27 @@ void timer_reset(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
+
         case TIMER_0:
             TIMER_0_DEV->TC_CHANNEL[0].TC_CCR = TC_CCR_SWTRG;
             TIMER_0_DEV->TC_CHANNEL[1].TC_CCR = TC_CCR_SWTRG;
             break;
 #endif
 #if TIMER_1_EN
+
         case TIMER_1:
             TIMER_1_DEV->TC_CHANNEL[0].TC_CCR = TC_CCR_SWTRG;
             TIMER_1_DEV->TC_CHANNEL[1].TC_CCR = TC_CCR_SWTRG;
             break;
 #endif
 #if TIMER_2_EN
+
         case TIMER_2:
             TIMER_2_DEV->TC_CHANNEL[0].TC_CCR = TC_CCR_SWTRG;
             TIMER_2_DEV->TC_CHANNEL[1].TC_CCR = TC_CCR_SWTRG;
             break;
 #endif
+
         case TIMER_UNDEFINED:
             break;
     }
@@ -398,11 +446,12 @@ void timer_reset(tim_t dev)
 
 
 #if TIMER_0_EN
-__attribute__ ((naked))
+__attribute__((naked))
 void TIMER_0_ISR1(void)
 {
     ISR_ENTER();
     uint32_t status = TIMER_0_DEV->TC_CHANNEL[0].TC_SR;
+
     if (status & TC_SR_CPAS) {
         TIMER_0_DEV->TC_CHANNEL[0].TC_IDR = TC_IDR_CPAS;
         config[TIMER_0].cb(0);
@@ -415,14 +464,16 @@ void TIMER_0_ISR1(void)
         TIMER_0_DEV->TC_CHANNEL[0].TC_IDR = TC_IDR_CPCS;
         config[TIMER_0].cb(2);
     }
+
     ISR_EXIT();
 }
 
-__attribute__ ((naked))
+__attribute__((naked))
 void TIMER_0_ISR2(void)
 {
     ISR_ENTER();
     uint32_t status = TIMER_0_DEV->TC_CHANNEL[1].TC_SR;
+
     if (status & TC_SR_CPAS) {
         TIMER_0_DEV->TC_CHANNEL[1].TC_IDR = TC_IDR_CPAS;
         config[TIMER_0].cb(3);
@@ -435,60 +486,70 @@ void TIMER_0_ISR2(void)
         TIMER_0_DEV->TC_CHANNEL[1].TC_IDR = TC_IDR_CPCS;
         config[TIMER_0].cb(5);
     }
+
     ISR_EXIT();
 }
 #endif /* TIMER_0_EN */
 
 
 #if TIMER_1_EN
-__attribute__ ((naked))
+__attribute__((naked))
 void TIMER_1_ISR1(void)
 {
     ISR_ENTER();
     uint32_t status = TIMER_1_DEV->TC_CHANNEL[0].TC_SR;
+
     if (status & TC_SR_CPAS) {
         TIMER_1_DEV->TC_CHANNEL[0].TC_IDR = TC_IDR_CPAS;
         config[TIMER_1].cb(0);
     }
+
     if (status & TC_SR_CPBS) {
         TIMER_1_DEV->TC_CHANNEL[0].TC_IDR = TC_IDR_CPBS;
         config[TIMER_1].cb(1);
     }
+
     if (status & TC_SR_CPCS) {
         TIMER_1_DEV->TC_CHANNEL[0].TC_IDR = TC_IDR_CPCS;
         config[TIMER_1].cb(2);
     }
+
     ISR_EXIT();
 }
 
-__attribute__ ((naked))
+__attribute__((naked))
 void TIMER_1_ISR2(void)
 {
     ISR_ENTER();
     uint32_t status = TIMER_1_DEV->TC_CHANNEL[1].TC_SR;
+
     if (status & TC_SR_CPAS) {
         TIMER_1_DEV->TC_CHANNEL[1].TC_IDR = TC_IDR_CPAS;
         config[TIMER_1].cb(3);
     }
+
     if (status & TC_SR_CPBS) {
         TIMER_1_DEV->TC_CHANNEL[1].TC_IDR = TC_IDR_CPBS;
         config[TIMER_1].cb(4);
     }
+
     if (status & TC_SR_CPCS) {
         TIMER_1_DEV->TC_CHANNEL[1].TC_IDR = TC_IDR_CPCS;
         config[TIMER_1].cb(5);
     }
+
     ISR_EXIT();
 }
 #endif /* TIMER_1_EN */
 
 
 #if TIMER_2_EN
-__attribute__ ((naked))
+__attribute__((naked))
 void TIMER_2_ISR1(void)
 {
     ISR_ENTER();
     uint32_t status = TIMER_2_DEV->TC_CHANNEL[0].TC_SR;
+
     if (status & TC_SR_CPAS) {
         TIMER_2_DEV->TC_CHANNEL[0].TC_IDR = TC_IDR_CPAS;
         config[TIMER_2].cb(0);
@@ -501,14 +562,16 @@ void TIMER_2_ISR1(void)
         TIMER_2_DEV->TC_CHANNEL[0].TC_IDR = TC_IDR_CPCS;
         config[TIMER_2].cb(2);
     }
+
     ISR_EXIT();
 }
 
-__attribute__ ((naked))
+__attribute__((naked))
 void TIMER_2_ISR2(void)
 {
     ISR_ENTER();
     uint32_t status = TIMER_2_DEV->TC_CHANNEL[1].TC_SR;
+
     if (status & TC_SR_CPAS) {
         TIMER_2_DEV->TC_CHANNEL[1].TC_IDR = TC_IDR_CPAS;
         config[TIMER_2].cb(3);
@@ -521,6 +584,7 @@ void TIMER_2_ISR2(void)
         TIMER_2_DEV->TC_CHANNEL[1].TC_IDR = TC_IDR_CPCS;
         config[TIMER_2].cb(5);
     }
+
     ISR_EXIT();
 }
 #endif /* TIMER_2_EN */

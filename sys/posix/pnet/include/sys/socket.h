@@ -63,7 +63,7 @@ struct __attribute__((packed)) sockaddr_storage {
  * @brief  *level* value for getsockopt() or setsockopt().
  */
 #define SOL_SOCKET 1    ///< Options to be accessed at socket level, not
-                        ///< protocol level.
+///< protocol level.
 
 /**
  * @brief   *option_name* value for getsockopt() or setsockopt()

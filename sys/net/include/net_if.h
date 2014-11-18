@@ -95,12 +95,14 @@ typedef uint8_t net_if_l3p_t;
 /**
  * @brief Data type to represent an EUI-64.
  */
-typedef union __attribute__((packed)) {
+typedef union __attribute__((packed))
+{
     uint8_t uint8[8];   ///< split into 8 8-bit words.
     uint16_t uint16[4]; ///< split into 4 16-bit words.
     uint32_t uint32[2]; ///< split into 2 32-bit words.
     uint64_t uint64;    ///< as one 64-bit word.
-} net_if_eui64_t;
+}
+net_if_eui64_t;
 
 /**
  * @brief   list type for upper layer address of an interface.

@@ -45,13 +45,14 @@ static void callback(void *done_)
     *done = 1;
 }
 
-static void run_test(const char *name, unsigned (*test)(unsigned))
+static void run_test(const char *name, unsigned(*test)(unsigned))
 {
     volatile int done = 0;
     unsigned i = 0;
     unsigned long count = 0;
 
     hwtimer_set(TIMEOUT, callback, (void *) &done);
+
     do {
         if (i++ == -1u) {
             i = 1;
@@ -70,9 +71,10 @@ static void run_test(const char *name, unsigned (*test)(unsigned))
         }
 
         ++count;
-    } while (done == 0);
+    }
+    while (done == 0);
 
-    printf("+ %s: %lu iterations per second\r\n", name, (4*PER_ITERATION) * count / TIMEOUT_S);
+    printf("+ %s: %lu iterations per second\r\n", name, (4 * PER_ITERATION) * count / TIMEOUT_S);
 }
 
 #define run_test(test) run_test(#test, test)

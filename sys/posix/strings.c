@@ -26,7 +26,7 @@ int strncasecmp(const char *s1, const char *s2, size_t n)
         s2++;
     }
 
-    return (tolower((unsigned char) *s1) - tolower((unsigned char) *s2));
+    return (tolower((unsigned char) * s1) - tolower((unsigned char) * s2));
 }
 
 /**

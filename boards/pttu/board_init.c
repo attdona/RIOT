@@ -33,15 +33,19 @@ void init_clks1(void)
     // Disconnect PLL
     PLLCON &= ~0x0002;
     pllfeed();
-    while (PLLSTAT & BIT25);            // wait until PLL is disconnected before disabling - deadlock otherwise
+
+    while (PLLSTAT &
+           BIT25);            // wait until PLL is disconnected before disabling - deadlock otherwise
 
     // Disable PLL
     PLLCON &= ~0x0001;
     pllfeed();
+
     while (PLLSTAT & BIT24);            // wait until PLL is disabled
 
     SCS |= 0x20;                        // Enable main OSC
-    while( !(SCS & 0x40) );             // Wait until main OSC is usable
+
+    while (!(SCS & 0x40));              // Wait until main OSC is usable
 
     /* select main OSC, 16MHz, as the PLL clock source */
     CLKSRCSEL = 0x0001;
@@ -164,7 +168,8 @@ void bl_init_ports(void)
 
 
     // No Pullups on any port
-    int nopullup = BIT1 + BIT3 + BIT5 + BIT7 + BIT9 + BIT11 + BIT13 + BIT15 + BIT17 + BIT19 + BIT21 + BIT23 + BIT25 + BIT27 + BIT29 + BIT31;
+    int nopullup = BIT1 + BIT3 + BIT5 + BIT7 + BIT9 + BIT11 + BIT13 + BIT15 + BIT17 + BIT19 + BIT21 +
+                   BIT23 + BIT25 + BIT27 + BIT29 + BIT31;
     PINMODE0 = nopullup - BIT13 - BIT15 - BIT17 - BIT19;
     PINMODE1 = BIT1 + BIT3 + BIT5 + BIT7 + BIT9 + BIT11 + BIT13 + BIT15 + BIT17 + BIT19 + BIT21;
     PINMODE2 = nopullup;

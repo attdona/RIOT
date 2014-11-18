@@ -40,9 +40,9 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Rstc hardware registers */
 typedef struct {
-  WoReg RSTC_CR; /**< \brief (Rstc Offset: 0x00) Control Register */
-  RoReg RSTC_SR; /**< \brief (Rstc Offset: 0x04) Status Register */
-  RwReg RSTC_MR; /**< \brief (Rstc Offset: 0x08) Mode Register */
+    WoReg RSTC_CR; /**< \brief (Rstc Offset: 0x00) Control Register */
+    RoReg RSTC_SR; /**< \brief (Rstc Offset: 0x04) Status Register */
+    RwReg RSTC_MR; /**< \brief (Rstc Offset: 0x08) Mode Register */
 } Rstc;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- RSTC_CR : (RSTC Offset: 0x00) Control Register -------- */

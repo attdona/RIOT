@@ -48,7 +48,8 @@ typedef enum {
 #if PWM_3_EN
     PWM_3,              /*< 4th PWM device */
 #endif
-} pwm_t;
+}
+pwm_t;
 
 /**
  * @brief Definition of available PWM modes

@@ -39,8 +39,10 @@ int random_read(char *buf, unsigned int num)
     while (count < num) {
         /* wait for random data to be ready to read */
         while (!(RNG->SR & RNG_SR_DRDY));
+
         /* read next 4 bytes */
         tmp = RNG->DR;
+
         /* copy data into result vector */
         for (int i = 0; i < 4 && count < num; i++) {
             buf[count++] = (char)tmp;

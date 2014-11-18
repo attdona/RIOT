@@ -64,7 +64,7 @@ static void mutex_wait(struct mutex_t *mutex)
         return;
     }
 
-    sched_set_status((tcb_t*) sched_active_thread, STATUS_MUTEX_BLOCKED);
+    sched_set_status((tcb_t *) sched_active_thread, STATUS_MUTEX_BLOCKED);
 
     priority_queue_node_t n;
     n.priority = (unsigned int) sched_active_thread->priority;
@@ -84,17 +84,19 @@ static void mutex_wait(struct mutex_t *mutex)
 
 void mutex_unlock(struct mutex_t *mutex)
 {
-    DEBUG("%s: unlocking mutex. val: %u pid: %" PRIkernel_pid "\n", sched_active_thread->name, mutex->val, sched_active_pid);
+    DEBUG("%s: unlocking mutex. val: %u pid: %" PRIkernel_pid "\n", sched_active_thread->name,
+          mutex->val, sched_active_pid);
     unsigned irqstate = disableIRQ();
 
     if (mutex->val != 0) {
         priority_queue_node_t *next = priority_queue_remove_head(&(mutex->queue));
+
         if (next) {
             tcb_t *process = (tcb_t *) next->data;
             DEBUG("%s: waking up waiter.\n", process->name);
             sched_set_status(process, STATUS_PENDING);
 
-            sched_switch(process->priority);
+            sched_switch (process->priority);
         }
         else {
             mutex->val = 0;
@@ -106,11 +108,13 @@ void mutex_unlock(struct mutex_t *mutex)
 
 void mutex_unlock_and_sleep(struct mutex_t *mutex)
 {
-    DEBUG("%s: unlocking mutex. val: %u pid: %" PRIkernel_pid ", and taking a nap\n", sched_active_thread->name, mutex->val, sched_active_pid);
+    DEBUG("%s: unlocking mutex. val: %u pid: %" PRIkernel_pid ", and taking a nap\n",
+          sched_active_thread->name, mutex->val, sched_active_pid);
     unsigned irqstate = disableIRQ();
 
     if (mutex->val != 0) {
         priority_queue_node_t *next = priority_queue_remove_head(&(mutex->queue));
+
         if (next) {
             tcb_t *process = (tcb_t *) next->data;
             DEBUG("%s: waking up waiter.\n", process->name);
@@ -120,8 +124,9 @@ void mutex_unlock_and_sleep(struct mutex_t *mutex)
             mutex->val = 0;
         }
     }
+
     DEBUG("%s: going to sleep.\n", sched_active_thread->name);
-    sched_set_status((tcb_t*) sched_active_thread, STATUS_SLEEPING);
+    sched_set_status((tcb_t *) sched_active_thread, STATUS_SLEEPING);
     restoreIRQ(irqstate);
     thread_yield_higher();
 }

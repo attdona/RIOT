@@ -46,6 +46,7 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, uart_tx_cb_t t
 {
     /* initialize basic functionality */
     int res = uart_init_blocking(uart, baudrate);
+
     if (res != 0) {
         return res;
     }
@@ -59,16 +60,19 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, uart_tx_cb_t t
     switch (uart) {
         case UART_0:
             UART_0_DEV->UART_IER = UART_IER_RXRDY;
-        break;
+            break;
     }
+
     return 0;
 }
 
 int uart_init_blocking(uart_t uart, uint32_t baudrate)
 {
     uint16_t clock_divider = F_CPU / (16 * baudrate);
+
     switch (uart) {
 #if UART_0_EN
+
         case UART_0:
             /* configure PINS */
             UART_0_PORT->PIO_PDR = UART_0_PINS;
@@ -83,6 +87,7 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
             break;
 #endif
     }
+
     return 0;
 }
 
@@ -103,6 +108,7 @@ int uart_write(uart_t uart, char data)
             UART_0_DEV->UART_THR = data;
             break;
     }
+
     return 1;
 }
 
@@ -111,9 +117,11 @@ int uart_read_blocking(uart_t uart, char *data)
     switch (uart) {
         case UART_0:
             while (!(UART_0_DEV->UART_SR & UART_SR_RXRDY));
+
             *data = (char)UART_0_DEV->UART_RHR;
             break;
     }
+
     return 1;
 }
 
@@ -122,9 +130,11 @@ int uart_write_blocking(uart_t uart, char data)
     switch (uart) {
         case UART_0:
             while (!(UART_0_DEV->UART_SR & UART_SR_TXRDY));
+
             UART_0_DEV->UART_THR = data;
             break;
     }
+
     return 1;
 }
 

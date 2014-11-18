@@ -68,16 +68,20 @@ ssize_t x86_uart_write(const char *buf, size_t len)
     if (!UART_PORT) {
         return -1;
     }
+
     (void) buf;
 
     size_t written = 0;
+
     while (written < len) {
         while (!is_output_empty()) {
-            asm volatile ("pause");
+            asm volatile("pause");
         }
+
         outb(UART_PORT + THR, buf[written]);
         ++written;
     }
+
     return written;
 }
 
@@ -88,13 +92,16 @@ ssize_t x86_uart_read(char *buf, size_t len)
     }
 
     size_t read = 0;
+
     while (read < len) {
         while (!is_input_empty()) {
-            asm volatile ("pause");
+            asm volatile("pause");
         }
+
         buf[read] = inb(UART_PORT + RBR);
         ++read;
     }
+
     return read;
 }
 
@@ -102,18 +109,23 @@ ssize_t x86_uart_read(char *buf, size_t len)
 static void com_handler(uint8_t irq_num)
 {
     (void) irq_num; /* == UART_IRQ */
+
     switch (inb(UART_PORT + IIR) & IIR_INT_MASK) {
         case IIR_INT_BR: {
             while (is_input_empty()) {
-                asm volatile ("pause");
+                asm volatile("pause");
             }
+
             do {
                 uint8_t c = inb(UART_PORT + RBR);
                 uart0_handle_incoming(c);
-            } while (!is_input_empty());
+            }
+            while (!is_input_empty());
+
             uart0_notify_thread();
             break;
         }
+
         case IIR_INT_TH:
         case IIR_INT_LS:
         case IIR_INT_TO:

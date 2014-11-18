@@ -40,14 +40,14 @@ extern "C" {
 #endif
 
 typedef struct __TestResult     TestResult;
-typedef struct __TestResult*    TestResultRef;/*downward compatible*/
+typedef struct __TestResult    *TestResultRef;/*downward compatible*/
 
 typedef struct __TestImplement  TestImplement;
-typedef struct __TestImplement* TestImplementRef;/*downward compatible*/
+typedef struct __TestImplement *TestImplementRef;/*downward compatible*/
 
-typedef char*(*TestNameFunction)(void*);
-typedef void(*TestRunFunction)(void*,TestResult*);
-typedef int(*TestCountTestCasesFunction)(void*);
+typedef char *(*TestNameFunction)(void *);
+typedef void(*TestRunFunction)(void *, TestResult *);
+typedef int(*TestCountTestCasesFunction)(void *);
 
 struct __TestImplement {
     TestNameFunction name;
@@ -56,10 +56,10 @@ struct __TestImplement {
 };
 
 typedef struct __Test   Test;
-typedef struct __Test*  TestRef;/*downward compatible*/
+typedef struct __Test  *TestRef;/*downward compatible*/
 
 struct __Test {
-    TestImplement* isa;
+    TestImplement *isa;
 };
 
 #define Test_name(s)            ((Test*)s)->isa->name(s)

@@ -40,20 +40,20 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Rtc hardware registers */
 typedef struct {
-  RwReg RTC_CR;        /**< \brief (Rtc Offset: 0x00) Control Register */
-  RwReg RTC_MR;        /**< \brief (Rtc Offset: 0x04) Mode Register */
-  RwReg RTC_TIMR;      /**< \brief (Rtc Offset: 0x08) Time Register */
-  RwReg RTC_CALR;      /**< \brief (Rtc Offset: 0x0C) Calendar Register */
-  RwReg RTC_TIMALR;    /**< \brief (Rtc Offset: 0x10) Time Alarm Register */
-  RwReg RTC_CALALR;    /**< \brief (Rtc Offset: 0x14) Calendar Alarm Register */
-  RoReg RTC_SR;        /**< \brief (Rtc Offset: 0x18) Status Register */
-  WoReg RTC_SCCR;      /**< \brief (Rtc Offset: 0x1C) Status Clear Command Register */
-  WoReg RTC_IER;       /**< \brief (Rtc Offset: 0x20) Interrupt Enable Register */
-  WoReg RTC_IDR;       /**< \brief (Rtc Offset: 0x24) Interrupt Disable Register */
-  RoReg RTC_IMR;       /**< \brief (Rtc Offset: 0x28) Interrupt Mask Register */
-  RoReg RTC_VER;       /**< \brief (Rtc Offset: 0x2C) Valid Entry Register */
-  RoReg Reserved1[45];
-  RwReg RTC_WPMR;      /**< \brief (Rtc Offset: 0xE4) Write Protect Mode Register */
+    RwReg RTC_CR;        /**< \brief (Rtc Offset: 0x00) Control Register */
+    RwReg RTC_MR;        /**< \brief (Rtc Offset: 0x04) Mode Register */
+    RwReg RTC_TIMR;      /**< \brief (Rtc Offset: 0x08) Time Register */
+    RwReg RTC_CALR;      /**< \brief (Rtc Offset: 0x0C) Calendar Register */
+    RwReg RTC_TIMALR;    /**< \brief (Rtc Offset: 0x10) Time Alarm Register */
+    RwReg RTC_CALALR;    /**< \brief (Rtc Offset: 0x14) Calendar Alarm Register */
+    RoReg RTC_SR;        /**< \brief (Rtc Offset: 0x18) Status Register */
+    WoReg RTC_SCCR;      /**< \brief (Rtc Offset: 0x1C) Status Clear Command Register */
+    WoReg RTC_IER;       /**< \brief (Rtc Offset: 0x20) Interrupt Enable Register */
+    WoReg RTC_IDR;       /**< \brief (Rtc Offset: 0x24) Interrupt Disable Register */
+    RoReg RTC_IMR;       /**< \brief (Rtc Offset: 0x28) Interrupt Mask Register */
+    RoReg RTC_VER;       /**< \brief (Rtc Offset: 0x2C) Valid Entry Register */
+    RoReg Reserved1[45];
+    RwReg RTC_WPMR;      /**< \brief (Rtc Offset: 0xE4) Write Protect Mode Register */
 } Rtc;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- RTC_CR : (RTC Offset: 0x00) Control Register -------- */

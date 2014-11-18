@@ -22,7 +22,8 @@
 
 NORETURN void sched_task_return(void);
 
-unsigned int atomic_set_return(unsigned int* p, unsigned int uiVal) {
+unsigned int atomic_set_return(unsigned int *p, unsigned int uiVal)
+{
     //unsigned int cspr = disableIRQ();     //crashes
     dINT();
     unsigned int uiOldVal = *p;
@@ -32,13 +33,15 @@ unsigned int atomic_set_return(unsigned int* p, unsigned int uiVal) {
     return uiOldVal;
 }
 
-NORETURN void cpu_switch_context_exit(void){
+NORETURN void cpu_switch_context_exit(void)
+{
     sched_run();
     sched_task_return();
 }
 
 
-void thread_yield_higher(void) {
+void thread_yield_higher(void)
+{
     asm("svc 0x01\n");
 }
 
@@ -53,8 +56,8 @@ void SVC_Handler(void)
     restore_context();
 }
 
- /* kernel functions */
-void ctx_switch(void)
+/* kernel functions */
+void ctx_switch (void)
 {
     /* Save return address on stack */
     /* stmfd   sp!, {lr} */
@@ -87,7 +90,7 @@ NORETURN void sched_task_return(void)
     asm("pop        {r4}"); /* skip exception return */
     asm(" pop       {r4-r11}");
     asm(" pop       {r0-r3,r12,lr}"); /* simulate register restor from stack */
-//  asm("pop        {r4}"); /*foo*/
+    //  asm("pop        {r4}"); /*foo*/
     asm("pop        {pc}");
 
     UNREACHABLE();
@@ -111,10 +114,10 @@ NORETURN void sched_task_return(void)
  *
  *
  */
-char * thread_stack_init(void *(*task_func)(void *), void *arg, void *stack_start, int stack_size)
+char *thread_stack_init(void * (*task_func)(void *), void *arg, void *stack_start, int stack_size)
 {
-    unsigned int * stk;
-    stk = (unsigned int *) ((uintptr_t) stack_start + stack_size);
+    unsigned int *stk;
+    stk = (unsigned int *)((uintptr_t) stack_start + stack_size);
 
     /* marker */
     stk--;
@@ -170,5 +173,5 @@ char * thread_stack_init(void *(*task_func)(void *), void *arg, void *stack_star
     stk--;
     *stk = (unsigned int) 0xfffffff9; // return to taskmode main stack pointer
 
-    return (char*) stk;
+    return (char *) stk;
 }

@@ -73,8 +73,7 @@
 /**
  * @brief           This type is unused right now, and only exists for POSIX compatibility.
  */
-typedef struct pthread_mutexattr
-{
+typedef struct pthread_mutexattr {
     int pshared;    /**< Whether to share the mutex with child processes. */
     int kind;       /**< Type of the mutex. */
     int protocol;   /**< Priority inheritance of the mutex. */

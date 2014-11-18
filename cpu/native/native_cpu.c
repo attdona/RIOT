@@ -68,14 +68,16 @@ int reboot_arch(int mode)
 {
     (void) mode;
 
-    printf("\n\n\t\t!! REBOOT !!\n\n");
+    printf("\n\n\t\t!!REBOOT !!\n\n");
 #ifdef MODULE_UART0
     /* TODO: close stdio fds */
 #endif
 #ifdef MODULE_NATIVENET
+
     if (_native_tap_fd != -1) {
         real_close(_native_tap_fd);
     }
+
 #endif
 
     if (real_execve(_native_argv[0], _native_argv, NULL) == -1) {
@@ -100,7 +102,8 @@ char *thread_stack_init(thread_task_func_t task_func, void *arg, void *stack_sta
     ucontext_t *p;
 
     VALGRIND_STACK_REGISTER(stack_start, (char *) stack_start + stacksize);
-    VALGRIND_DEBUG("VALGRIND_STACK_REGISTER(%p, %p)\n", stack_start, (void*)((int)stack_start + stacksize));
+    VALGRIND_DEBUG("VALGRIND_STACK_REGISTER(%p, %p)\n", stack_start,
+                   (void *)((int)stack_start + stacksize));
 
     DEBUG("thread_stack_init()\n");
 
@@ -128,7 +131,7 @@ char *thread_stack_init(thread_task_func_t task_func, void *arg, void *stack_sta
         err(EXIT_FAILURE, "thread_stack_init(): sigemptyset()");
     }
 
-    makecontext(p, (void (*)(void)) task_func, 1, arg);
+    makecontext(p, (void ( *)(void)) task_func, 1, arg);
 
     return (char *) p;
 }
@@ -138,6 +141,7 @@ void isr_cpu_switch_context_exit(void)
     ucontext_t *ctx;
 
     DEBUG("XXX: cpu_switch_context_exit()\n");
+
     if ((sched_context_switch_request == 1) || (sched_active_thread == NULL)) {
         sched_run();
     }
@@ -153,16 +157,19 @@ void isr_cpu_switch_context_exit(void)
     if (setcontext(ctx) == -1) {
         err(EXIT_FAILURE, "cpu_switch_context_exit(): setcontext():");
     }
+
     errx(EXIT_FAILURE, "2 this should have never been reached!!");
 }
 
 void cpu_switch_context_exit(void)
 {
 #ifdef NATIVE_AUTO_EXIT
+
     if (sched_num_threads <= 1) {
         DEBUG("cpu_switch_context_exit(): last task has ended. exiting.\n");
         exit(EXIT_SUCCESS);
     }
+
 #endif
 
     if (_native_in_isr == 0) {
@@ -172,14 +179,17 @@ void cpu_switch_context_exit(void)
         native_isr_context.uc_stack.ss_size = SIGSTKSZ;
         native_isr_context.uc_stack.ss_flags = 0;
         makecontext(&native_isr_context, isr_cpu_switch_context_exit, 0);
+
         if (setcontext(&native_isr_context) == -1) {
             err(EXIT_FAILURE, "cpu_switch_context_exit: swapcontext");
         }
+
         errx(EXIT_FAILURE, "1 this should have never been reached!!");
     }
     else {
         isr_cpu_switch_context_exit();
     }
+
     errx(EXIT_FAILURE, "3 this should have never been reached!!");
 }
 
@@ -193,6 +203,7 @@ void isr_thread_yield(void)
 
     native_interrupts_enabled = 1;
     _native_in_isr = 0;
+
     if (setcontext(ctx) == -1) {
         err(EXIT_FAILURE, "isr_thread_yield(): setcontext()");
     }
@@ -201,6 +212,7 @@ void isr_thread_yield(void)
 void thread_yield_higher(void)
 {
     ucontext_t *ctx = (ucontext_t *)(sched_active_thread->sp);
+
     if (_native_in_isr == 0) {
         _native_in_isr = 1;
         dINT();
@@ -208,9 +220,11 @@ void thread_yield_higher(void)
         native_isr_context.uc_stack.ss_size = SIGSTKSZ;
         native_isr_context.uc_stack.ss_flags = 0;
         makecontext(&native_isr_context, isr_thread_yield, 0);
+
         if (swapcontext(ctx, &native_isr_context) == -1) {
             err(EXIT_FAILURE, "thread_yield_higher: swapcontext");
         }
+
         eINT();
     }
     else {
@@ -229,7 +243,8 @@ void native_cpu_init(void)
     end_context.uc_stack.ss_flags = 0;
     makecontext(&end_context, sched_task_exit, 0);
     VALGRIND_STACK_REGISTER(__end_stack, __end_stack + sizeof(__end_stack));
-    VALGRIND_DEBUG("VALGRIND_STACK_REGISTER(%p, %p)\n", __end_stack, (void*)((int)__end_stack + sizeof(__end_stack)));
+    VALGRIND_DEBUG("VALGRIND_STACK_REGISTER(%p, %p)\n", __end_stack,
+                   (void *)((int)__end_stack + sizeof(__end_stack)));
 
     DEBUG("RIOT native cpu initialized.\n");
 }

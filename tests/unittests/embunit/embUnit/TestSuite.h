@@ -40,13 +40,13 @@ extern "C" {
 #endif
 
 typedef struct __TestSuite  TestSuite;
-typedef struct __TestSuite* TestSuiteRef;/*downward compatible*/
+typedef struct __TestSuite *TestSuiteRef;/*downward compatible*/
 
 struct __TestSuite {
-    TestImplement* isa;
+    TestImplement *isa;
     char *name;
     int numberOfTests;
-    Test** tests;
+    Test **tests;
 };
 
 extern const TestImplement TestSuiteImplement;

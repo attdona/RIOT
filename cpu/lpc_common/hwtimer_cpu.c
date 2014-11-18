@@ -34,7 +34,8 @@ static void timer_irq(void) __attribute__((interrupt("IRQ")));
 
 inline static unsigned long get_base_address(short timer)
 {
-    return (volatile unsigned long)(TMR0_BASE_ADDR + (timer / 8) * 0x6C000 + (timer / 4 - (timer / 8) * 2) * 0x4000);
+    return (volatile unsigned long)(TMR0_BASE_ADDR + (timer / 8) * 0x6C000 + (timer / 4 -
+                                    (timer / 8) * 2) * 0x4000);
 }
 
 static void timer_irq(void)
@@ -160,7 +161,8 @@ void hwtimer_arch_set(unsigned long offset, short timer)
     /* Calculate match register value */
     unsigned long value = *VULP(base + TXTC) + offset;
     *addr = value;                                  /* set match register */
-    *VULP(base + TXIR) = 0x01 << timer;             /* reset interrupt register value for corresponding match register */
+    *VULP(base + TXIR) = 0x01 <<
+                         timer;             /* reset interrupt register value for corresponding match register */
     *VULP(base + TXMCR) &= ~(7 << (3 * timer));     /* Clear all bits */
     *VULP(base + TXMCR) |= (MR0I << (3 * timer));   /* enable interrupt for match register */
     restoreIRQ(cpsr);
@@ -178,7 +180,8 @@ void hwtimer_arch_set_absolute(unsigned long value, short timer)
     volatile unsigned long *addr = VULP(base + TXMR0 + 4 * timer);
     /* Calculate match register value */
     *addr = value;                                  /* set match register */
-    *VULP(base + TXIR) = 0x01 << timer;             /* reset interrupt register value for corresponding match register */
+    *VULP(base + TXIR) = 0x01 <<
+                         timer;             /* reset interrupt register value for corresponding match register */
     *VULP(base + TXMCR) &= ~(7 << (3 * timer));     /* Clear all bits */
     *VULP(base + TXMCR) |= (MR0I << (3 * timer));   /* enable interrupt for match register */
 }
@@ -190,7 +193,8 @@ void hwtimer_arch_unset(short timer)
     volatile unsigned long base = get_base_address(timer);
     timer %= 4;
     *VULP(base + TXMCR) &= ~(MR0I << (3 * timer));  /* disable interrupt for match register */
-    *VULP(base + TXIR) = 0x01 << timer;             /* reset interrupt register value for corresponding match register */
+    *VULP(base + TXIR) = 0x01 <<
+                         timer;             /* reset interrupt register value for corresponding match register */
 }
 
 /*---------------------------------------------------------------------------*/

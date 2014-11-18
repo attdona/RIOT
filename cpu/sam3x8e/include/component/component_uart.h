@@ -40,26 +40,26 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Uart hardware registers */
 typedef struct {
-  WoReg UART_CR;       /**< \brief (Uart Offset: 0x0000) Control Register */
-  RwReg UART_MR;       /**< \brief (Uart Offset: 0x0004) Mode Register */
-  WoReg UART_IER;      /**< \brief (Uart Offset: 0x0008) Interrupt Enable Register */
-  WoReg UART_IDR;      /**< \brief (Uart Offset: 0x000C) Interrupt Disable Register */
-  RoReg UART_IMR;      /**< \brief (Uart Offset: 0x0010) Interrupt Mask Register */
-  RoReg UART_SR;       /**< \brief (Uart Offset: 0x0014) Status Register */
-  RoReg UART_RHR;      /**< \brief (Uart Offset: 0x0018) Receive Holding Register */
-  WoReg UART_THR;      /**< \brief (Uart Offset: 0x001C) Transmit Holding Register */
-  RwReg UART_BRGR;     /**< \brief (Uart Offset: 0x0020) Baud Rate Generator Register */
-  RoReg Reserved1[55];
-  RwReg UART_RPR;      /**< \brief (Uart Offset: 0x100) Receive Pointer Register */
-  RwReg UART_RCR;      /**< \brief (Uart Offset: 0x104) Receive Counter Register */
-  RwReg UART_TPR;      /**< \brief (Uart Offset: 0x108) Transmit Pointer Register */
-  RwReg UART_TCR;      /**< \brief (Uart Offset: 0x10C) Transmit Counter Register */
-  RwReg UART_RNPR;     /**< \brief (Uart Offset: 0x110) Receive Next Pointer Register */
-  RwReg UART_RNCR;     /**< \brief (Uart Offset: 0x114) Receive Next Counter Register */
-  RwReg UART_TNPR;     /**< \brief (Uart Offset: 0x118) Transmit Next Pointer Register */
-  RwReg UART_TNCR;     /**< \brief (Uart Offset: 0x11C) Transmit Next Counter Register */
-  WoReg UART_PTCR;     /**< \brief (Uart Offset: 0x120) Transfer Control Register */
-  RoReg UART_PTSR;     /**< \brief (Uart Offset: 0x124) Transfer Status Register */
+    WoReg UART_CR;       /**< \brief (Uart Offset: 0x0000) Control Register */
+    RwReg UART_MR;       /**< \brief (Uart Offset: 0x0004) Mode Register */
+    WoReg UART_IER;      /**< \brief (Uart Offset: 0x0008) Interrupt Enable Register */
+    WoReg UART_IDR;      /**< \brief (Uart Offset: 0x000C) Interrupt Disable Register */
+    RoReg UART_IMR;      /**< \brief (Uart Offset: 0x0010) Interrupt Mask Register */
+    RoReg UART_SR;       /**< \brief (Uart Offset: 0x0014) Status Register */
+    RoReg UART_RHR;      /**< \brief (Uart Offset: 0x0018) Receive Holding Register */
+    WoReg UART_THR;      /**< \brief (Uart Offset: 0x001C) Transmit Holding Register */
+    RwReg UART_BRGR;     /**< \brief (Uart Offset: 0x0020) Baud Rate Generator Register */
+    RoReg Reserved1[55];
+    RwReg UART_RPR;      /**< \brief (Uart Offset: 0x100) Receive Pointer Register */
+    RwReg UART_RCR;      /**< \brief (Uart Offset: 0x104) Receive Counter Register */
+    RwReg UART_TPR;      /**< \brief (Uart Offset: 0x108) Transmit Pointer Register */
+    RwReg UART_TCR;      /**< \brief (Uart Offset: 0x10C) Transmit Counter Register */
+    RwReg UART_RNPR;     /**< \brief (Uart Offset: 0x110) Receive Next Pointer Register */
+    RwReg UART_RNCR;     /**< \brief (Uart Offset: 0x114) Receive Next Counter Register */
+    RwReg UART_TNPR;     /**< \brief (Uart Offset: 0x118) Transmit Next Pointer Register */
+    RwReg UART_TNCR;     /**< \brief (Uart Offset: 0x11C) Transmit Next Counter Register */
+    WoReg UART_PTCR;     /**< \brief (Uart Offset: 0x120) Transfer Control Register */
+    RoReg UART_PTSR;     /**< \brief (Uart Offset: 0x124) Transfer Status Register */
 } Uart;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- UART_CR : (UART Offset: 0x0000) Control Register -------- */

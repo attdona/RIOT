@@ -44,6 +44,7 @@ void init_clks1(void)
     pllfeed();
 
     while (PLLSTAT & BIT25);  /* wait until PLL is disconnected before
+
                                * disabling - deadlock otherwise */
 
     // Disable PLL

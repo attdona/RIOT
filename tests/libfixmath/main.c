@@ -94,7 +94,8 @@ static void unary_ops(void)
             { "exp", fix16_exp },
         };
 
-        for (fix16_t input = fix16_from_dbl(-10.0); input < fix16_from_dbl(+10.0); input += fix16_from_dbl(0.25)) {
+        for (fix16_t input = fix16_from_dbl(-10.0); input < fix16_from_dbl(+10.0);
+             input += fix16_from_dbl(0.25)) {
             for (unsigned o = 0; o < sizeof(ops) / sizeof(*ops); ++o) {
                 fix16_t result = ops[o].fun(input);
 
@@ -119,7 +120,8 @@ static void unary_ops(void)
             { "tan", fix16_tan },
         };
 
-        for (fix16_t input = fix16_from_dbl(-M_PI/2); input < fix16_from_dbl(+M_PI/2); input += fix16_from_dbl(0.05)) {
+        for (fix16_t input = fix16_from_dbl(-M_PI / 2); input < fix16_from_dbl(+M_PI / 2);
+             input += fix16_from_dbl(0.05)) {
             for (unsigned o = 0; o < sizeof(ops) / sizeof(*ops); ++o) {
                 fix16_t result = ops[o].fun(input);
 
@@ -142,7 +144,8 @@ static void unary_ops(void)
             { "acos", fix16_acos },
         };
 
-        for (fix16_t input = fix16_from_dbl(-1.0); input < fix16_from_dbl(+1.0); input += fix16_from_dbl(0.05)) {
+        for (fix16_t input = fix16_from_dbl(-1.0); input < fix16_from_dbl(+1.0);
+             input += fix16_from_dbl(0.05)) {
             for (unsigned o = 0; o < sizeof(ops) / sizeof(*ops); ++o) {
                 fix16_t result = ops[o].fun(input);
 
@@ -168,7 +171,8 @@ static void unary_ops(void)
             { "slog2", fix16_slog2 },
         };
 
-        for (fix16_t input = fix16_from_dbl(0.05); input < fix16_from_dbl(+10.0); input += fix16_from_dbl(0.25)) {
+        for (fix16_t input = fix16_from_dbl(0.05); input < fix16_from_dbl(+10.0);
+             input += fix16_from_dbl(0.25)) {
             for (unsigned o = 0; o < sizeof(ops) / sizeof(*ops); ++o) {
                 fix16_t result = ops[o].fun(input);
 

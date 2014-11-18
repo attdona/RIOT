@@ -40,29 +40,29 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Hsmci hardware registers */
 typedef struct {
-  WoReg HSMCI_CR;        /**< \brief (Hsmci Offset: 0x00) Control Register */
-  RwReg HSMCI_MR;        /**< \brief (Hsmci Offset: 0x04) Mode Register */
-  RwReg HSMCI_DTOR;      /**< \brief (Hsmci Offset: 0x08) Data Timeout Register */
-  RwReg HSMCI_SDCR;      /**< \brief (Hsmci Offset: 0x0C) SD/SDIO Card Register */
-  RwReg HSMCI_ARGR;      /**< \brief (Hsmci Offset: 0x10) Argument Register */
-  WoReg HSMCI_CMDR;      /**< \brief (Hsmci Offset: 0x14) Command Register */
-  RwReg HSMCI_BLKR;      /**< \brief (Hsmci Offset: 0x18) Block Register */
-  RwReg HSMCI_CSTOR;     /**< \brief (Hsmci Offset: 0x1C) Completion Signal Timeout Register */
-  RoReg HSMCI_RSPR[4];   /**< \brief (Hsmci Offset: 0x20) Response Register */
-  RoReg HSMCI_RDR;       /**< \brief (Hsmci Offset: 0x30) Receive Data Register */
-  WoReg HSMCI_TDR;       /**< \brief (Hsmci Offset: 0x34) Transmit Data Register */
-  RoReg Reserved1[2];
-  RoReg HSMCI_SR;        /**< \brief (Hsmci Offset: 0x40) Status Register */
-  WoReg HSMCI_IER;       /**< \brief (Hsmci Offset: 0x44) Interrupt Enable Register */
-  WoReg HSMCI_IDR;       /**< \brief (Hsmci Offset: 0x48) Interrupt Disable Register */
-  RoReg HSMCI_IMR;       /**< \brief (Hsmci Offset: 0x4C) Interrupt Mask Register */
-  RwReg HSMCI_DMA;       /**< \brief (Hsmci Offset: 0x50) DMA Configuration Register */
-  RwReg HSMCI_CFG;       /**< \brief (Hsmci Offset: 0x54) Configuration Register */
-  RoReg Reserved2[35];
-  RwReg HSMCI_WPMR;      /**< \brief (Hsmci Offset: 0xE4) Write Protection Mode Register */
-  RoReg HSMCI_WPSR;      /**< \brief (Hsmci Offset: 0xE8) Write Protection Status Register */
-  RoReg Reserved3[69];
-  RwReg HSMCI_FIFO[256]; /**< \brief (Hsmci Offset: 0x200) FIFO Memory Aperture0 */
+    WoReg HSMCI_CR;        /**< \brief (Hsmci Offset: 0x00) Control Register */
+    RwReg HSMCI_MR;        /**< \brief (Hsmci Offset: 0x04) Mode Register */
+    RwReg HSMCI_DTOR;      /**< \brief (Hsmci Offset: 0x08) Data Timeout Register */
+    RwReg HSMCI_SDCR;      /**< \brief (Hsmci Offset: 0x0C) SD/SDIO Card Register */
+    RwReg HSMCI_ARGR;      /**< \brief (Hsmci Offset: 0x10) Argument Register */
+    WoReg HSMCI_CMDR;      /**< \brief (Hsmci Offset: 0x14) Command Register */
+    RwReg HSMCI_BLKR;      /**< \brief (Hsmci Offset: 0x18) Block Register */
+    RwReg HSMCI_CSTOR;     /**< \brief (Hsmci Offset: 0x1C) Completion Signal Timeout Register */
+    RoReg HSMCI_RSPR[4];   /**< \brief (Hsmci Offset: 0x20) Response Register */
+    RoReg HSMCI_RDR;       /**< \brief (Hsmci Offset: 0x30) Receive Data Register */
+    WoReg HSMCI_TDR;       /**< \brief (Hsmci Offset: 0x34) Transmit Data Register */
+    RoReg Reserved1[2];
+    RoReg HSMCI_SR;        /**< \brief (Hsmci Offset: 0x40) Status Register */
+    WoReg HSMCI_IER;       /**< \brief (Hsmci Offset: 0x44) Interrupt Enable Register */
+    WoReg HSMCI_IDR;       /**< \brief (Hsmci Offset: 0x48) Interrupt Disable Register */
+    RoReg HSMCI_IMR;       /**< \brief (Hsmci Offset: 0x4C) Interrupt Mask Register */
+    RwReg HSMCI_DMA;       /**< \brief (Hsmci Offset: 0x50) DMA Configuration Register */
+    RwReg HSMCI_CFG;       /**< \brief (Hsmci Offset: 0x54) Configuration Register */
+    RoReg Reserved2[35];
+    RwReg HSMCI_WPMR;      /**< \brief (Hsmci Offset: 0xE4) Write Protection Mode Register */
+    RoReg HSMCI_WPSR;      /**< \brief (Hsmci Offset: 0xE8) Write Protection Status Register */
+    RoReg Reserved3[69];
+    RwReg HSMCI_FIFO[256]; /**< \brief (Hsmci Offset: 0x200) FIFO Memory Aperture0 */
 } Hsmci;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- HSMCI_CR : (HSMCI Offset: 0x00) Control Register -------- */

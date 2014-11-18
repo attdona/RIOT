@@ -128,6 +128,7 @@ uint8_t cc2420_get_cca(void)
 {
     uint8_t status;
     long count = 0;
+
     do {
         unsigned int sr = disableIRQ();
         cc2420_spi_select();
@@ -135,10 +136,13 @@ uint8_t cc2420_get_cca(void)
         cc2420_spi_unselect();
         restoreIRQ(sr);
         count++;
+
         if (count >= MAX_RSSI_WAIT) {
             core_panic(0x2420, "cc2420_get_cca(): RSSI never valid!");
         }
-    } while (!(status & CC2420_STATUS_RSSI_VALID));
+    }
+    while (!(status & CC2420_STATUS_RSSI_VALID));
+
     return CC2420_GIO1;
 }
 
@@ -153,30 +157,42 @@ uint8_t cc2420_txrx(uint8_t data)
 {
     /* Wait for SPI to be ready for transmission */
     long count = 0;
+
     do {
         count++;
+
         if (count >= MAX_SPI_WAIT) {
             core_panic(0x2420, "cc2420_txrx(): SPI never ready for TX!");
         }
-    } while (!(IFG2 & UCB0TXIFG));
+    }
+    while (!(IFG2 & UCB0TXIFG));
+
     /* Transmit data byte to CC2420, and wait for end of transmission */
     IFG2 &= ~UCB0RXIFG;
     UCB0TXBUF = data;
     count = 0;
+
     do {
         count++;
+
         if (count >= MAX_SPI_WAIT) {
             core_panic(0x2420, "cc2420_txrx(): couldn't send byte!");
         }
-    } while (UCB0STAT & UCBUSY);
+    }
+    while (UCB0STAT & UCBUSY);
+
     /* Read the byte that CC2420 has (normally, during TX) returned */
     count = 0;
+
     do {
         count++;
+
         if (count >= MAX_SPI_WAIT) {
             core_panic(0x2420, "cc2420_txrx(): couldn't receive byte!");
         }
-    } while (!(IFG2 & UCB0RXIFG));
+    }
+    while (!(IFG2 & UCB0RXIFG));
+
     /* Return received byte */
     return UCB0RXBUF;
 }
@@ -187,7 +203,8 @@ void cc2420_spi_select(void)
     CC2420_CS_LOW;
 }
 
-void cc2420_spi_unselect(void) {
+void cc2420_spi_unselect(void)
+{
     CC2420_CS_HIGH;
 }
 
@@ -245,11 +262,11 @@ void cc2420_spi_init(void)
 /*
  * CC2420 receive interrupt
  */
-interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc2420_isr(void)
+interrupt(PORT1_VECTOR) __attribute__((naked)) cc2420_isr(void)
 {
     __enter_isr();
 
-     /* Check if FIFOP signal is raising => RX interrupt */
+    /* Check if FIFOP signal is raising => RX interrupt */
     if ((P1IFG & CC2420_FIFOP_PIN) != 0) {
         P1IFG &= ~CC2420_FIFOP_PIN;
         cc2420_rx_irq();
@@ -258,6 +275,7 @@ interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc2420_isr(void)
     /* GIO0 is falling => check if FIFOP is high, indicating an RXFIFO overflow */
     else if ((P1IFG & CC2420_GIO0_PIN) != 0) {
         P1IFG &= ~CC2420_GIO0_PIN;
+
         if (cc2420_get_fifop()) {
             cc2420_rxoverflow_irq();
             DEBUG("[CC2420] rxfifo overflow");

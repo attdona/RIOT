@@ -148,11 +148,11 @@ Test *tests_pktqueue_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_pktqueue_remove_head_empty),
-        new_TestFixture(test_pktqueue_remove_head_one),
-        new_TestFixture(test_pktqueue_add_one),
-        new_TestFixture(test_pktqueue_add_two_equal),
-        new_TestFixture(test_pktqueue_add_two_distinct),
-        new_TestFixture(test_pktqueue_remove_one),
+                        new_TestFixture(test_pktqueue_remove_head_one),
+                        new_TestFixture(test_pktqueue_add_one),
+                        new_TestFixture(test_pktqueue_add_two_equal),
+                        new_TestFixture(test_pktqueue_add_two_distinct),
+                        new_TestFixture(test_pktqueue_remove_one),
     };
 
     EMB_UNIT_TESTCALLER(pktqueue_tests, set_up, NULL, fixtures);

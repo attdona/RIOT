@@ -45,26 +45,27 @@
 #include "cpu.h"
 
 /*---------------------------------------------------------------------------*/
-static void init_ports(void) {
-	/* Turn everything off, device drivers enable what is needed. */
+static void init_ports(void)
+{
+    /* Turn everything off, device drivers enable what is needed. */
 
-	/* All configured for digital I/O */
-	P1SEL0 = 0;
-	P1SEL1 = 0;
+    /* All configured for digital I/O */
+    P1SEL0 = 0;
+    P1SEL1 = 0;
 
-	P2SEL0 = 0;
-	P2SEL1 = 0;
+    P2SEL0 = 0;
+    P2SEL1 = 0;
 
-	P3SEL0 = 0;
-	P3SEL1 = 0;
+    P3SEL0 = 0;
+    P3SEL1 = 0;
 
-	P4SEL0 = 0;
-	P4SEL1 = 0;
+    P4SEL0 = 0;
+    P4SEL1 = 0;
 
-	PJSEL0 = 0;
-	PJSEL1 = 0;
+    PJSEL0 = 0;
+    PJSEL1 = 0;
 
-	/* All available inputs */
+    /* All available inputs */
 
     PADIR = 0x0000;
     PAREN = 0xFFFF;
@@ -76,68 +77,69 @@ static void init_ports(void) {
 
     PJDIR = 0x00;
     PJREN = 0xFF;
-    PJOUT=  0x00;
+    PJOUT =  0x00;
     PJSEL0 |= 0x10;     /* PJ.4 Configured for ext clock function on these pins */
 
-	P1IE = 0;
-	P2IE = 0;
-	P3IE = 0;
-	P4IE = 0;
+    P1IE = 0;
+    P2IE = 0;
+    P3IE = 0;
+    P4IE = 0;
 
 }
 
 /*---------------------------------------------------------------------------*/
 /* msp430-ld may align _end incorrectly. Workaround in cpu_init. */
 #if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
- #define end _end
+#define end _end
 #endif
 
 extern int end; /* Not in sys/unistd.h */
 
 static char *cur_break = (char *) &end;
 
-void msp430_cpu_init(void) {
+void msp430_cpu_init(void)
+{
 
-	dint();
-	init_ports();
-	//  lpm_init();
+    dint();
+    init_ports();
+    //  lpm_init();
 
-	WDTCTL = WDTPW | WDTHOLD;                 // Stop Watchdog
+    WDTCTL = WDTPW | WDTHOLD;                 // Stop Watchdog
 
-	// Configure GPIO
-	P2SEL1 |= BIT0 | BIT1;                    // USCI_A0 UART operation
-	P2SEL0 &= ~(BIT0 | BIT1);
+    // Configure GPIO
+    P2SEL1 |= BIT0 | BIT1;                    // USCI_A0 UART operation
+    P2SEL0 &= ~(BIT0 | BIT1);
 
-	// Disable the GPIO power-on default high-impedance mode to activate
-	// previously configured port settings
-	PM5CTL0 &= ~LOCKLPM5;
+    // Disable the GPIO power-on default high-impedance mode to activate
+    // previously configured port settings
+    PM5CTL0 &= ~LOCKLPM5;
 
-	// Startup clock system with max DCO setting ~8MHz
-	CSCTL0_H = CSKEY >> 8;                    // Unlock clock registers
-	CSCTL1 = DCOFSEL_3 | DCORSEL;             // Set DCO to 8MHz
-	CSCTL2 = SELA__LFXTCLK | SELS__DCOCLK | SELM__DCOCLK;
-	CSCTL3 = DIVA__1 | DIVS__1 | DIVM__1;     // Set all dividers
-	CSCTL0_H = 0;                             // Lock CS registers
+    // Startup clock system with max DCO setting ~8MHz
+    CSCTL0_H = CSKEY >> 8;                    // Unlock clock registers
+    CSCTL1 = DCOFSEL_3 | DCORSEL;             // Set DCO to 8MHz
+    CSCTL2 = SELA__LFXTCLK | SELS__DCOCLK | SELM__DCOCLK;
+    CSCTL3 = DIVA__1 | DIVS__1 | DIVM__1;     // Set all dividers
+    CSCTL0_H = 0;                             // Lock CS registers
 
-	// Configure USCI_A0 for UART mode
-	UCA0CTLW0 = UCSWRST;                      // Put eUSCI in reset
-	UCA0CTLW0 |= UCSSEL__SMCLK;               // CLK = SMCLK
-	// Baud Rate calculation
-	// 8000000/(16*9600) = 52.083
-	// Fractional portion = 0.083
-	// User's Guide Table 21-4: UCBRSx = 0x04
-	// UCBRFx = int ( (52.083-52)*16) = 1
-	UCA0BR0 = 52;                             // 8000000/16/9600
-	UCA0BR1 = 0x00;
-	UCA0MCTLW |= UCOS16 | UCBRF_1;
-	UCA0CTLW0 &= ~UCSWRST;                    // Initialize eUSCI
-	UCA0IE |= UCRXIE;                         // Enable USCI_A0 RX interrupt
+    // Configure USCI_A0 for UART mode
+    UCA0CTLW0 = UCSWRST;                      // Put eUSCI in reset
+    UCA0CTLW0 |= UCSSEL__SMCLK;               // CLK = SMCLK
+    // Baud Rate calculation
+    // 8000000/(16*9600) = 52.083
+    // Fractional portion = 0.083
+    // User's Guide Table 21-4: UCBRSx = 0x04
+    // UCBRFx = int ( (52.083-52)*16) = 1
+    UCA0BR0 = 52;                             // 8000000/16/9600
+    UCA0BR1 = 0x00;
+    UCA0MCTLW |= UCOS16 | UCBRF_1;
+    UCA0CTLW0 &= ~UCSWRST;                    // Initialize eUSCI
+    UCA0IE |= UCRXIE;                         // Enable USCI_A0 RX interrupt
 
-	eint();
+    eint();
 
-	if ((uintptr_t) cur_break & 1) { /* Workaround for msp430-ld bug!*/
-		cur_break++;
-	}
+    if ((uintptr_t) cur_break & 1) { /* Workaround for msp430-ld bug!*/
+        cur_break++;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -151,42 +153,45 @@ void msp430_cpu_init(void) {
  * be used to check if cur_break and the stack pointer meet during
  * runtime.
  */
-void *sbrk(int incr) {
-	char *stack_pointer;
+void *sbrk(int incr)
+{
+    char *stack_pointer;
 
-	asmv("mov r1, %0" : "=r"(stack_pointer));
-	stack_pointer -= STACK_EXTRA;
+asmv("mov r1, %0" : "=r"(stack_pointer));
+    stack_pointer -= STACK_EXTRA;
 
-	if (incr > (stack_pointer - cur_break)) {
-		return (void *) -1; /* ENOMEM */
-	}
+    if (incr > (stack_pointer - cur_break)) {
+        return (void *) - 1; /* ENOMEM */
+    }
 
-	void *old_break = cur_break;
-	cur_break += incr;
-	/*
-	 * If the stack was never here then [old_break .. cur_break] should
-	 * be filled with zeros.
-	 */
-	return old_break;
+    void *old_break = cur_break;
+    cur_break += incr;
+    /*
+     * If the stack was never here then [old_break .. cur_break] should
+     * be filled with zeros.
+     */
+    return old_break;
 }
 /*---------------------------------------------------------------------------*/
 /*
  * Mask all interrupts that can be masked.
  */
-int splhigh_(void) {
-	/* Clear the GIE (General Interrupt Enable) flag. */
-	int sr;
-	asmv("mov r2, %0" : "=r"(sr));
-	asmv("bic %0, r2" : : "i"(GIE));
-	return sr & GIE; /* Ignore other sr bits. */
+int splhigh_(void)
+{
+    /* Clear the GIE (General Interrupt Enable) flag. */
+    int sr;
+asmv("mov r2, %0" : "=r"(sr));
+asmv("bic %0, r2" : : "i"(GIE));
+    return sr & GIE; /* Ignore other sr bits. */
 }
 /*---------------------------------------------------------------------------*/
 /*
  * Restore previous interrupt mask.
  */
-void splx_(int sr) {
-	/* If GIE was set, restore it. */
-	asmv("bis %0, r2" : : "r"(sr));
+void splx_(int sr)
+{
+    /* If GIE was set, restore it. */
+asmv("bis %0, r2" : : "r"(sr));
 }
 /*---------------------------------------------------------------------------*/
 

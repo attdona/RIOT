@@ -41,12 +41,12 @@
 
 static inline void __attribute__((always_inline)) dINT(void)
 {
-    asm volatile ("cli");
+    asm volatile("cli");
 }
 
 static inline void __attribute__((always_inline)) eINT(void)
 {
-    asm volatile ("sti");
+    asm volatile("sti");
 }
 
 /**
@@ -58,8 +58,8 @@ static inline void __attribute__((always_inline)) eINT(void)
 static inline void __attribute__((always_inline, noreturn)) x86_hlt(void)
 {
     while (1) {
-        asm volatile ("cli");
-        asm volatile ("hlt");
+        asm volatile("cli");
+        asm volatile("hlt");
     }
 }
 

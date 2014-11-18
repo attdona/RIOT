@@ -36,31 +36,34 @@
 #include "TestListener.h"
 #include "TestResult.h"
 
-void TestResult_init(TestResult* self,TestListner* listner)
+void TestResult_init(TestResult *self, TestListner *listner)
 {
     self->runCount = 0;
     self->failureCount = 0;
     self->listener = listner;
 }
 
-void TestResult_startTest(TestResult* self,Test* test)
+void TestResult_startTest(TestResult *self, Test *test)
 {
     self->runCount++;
+
     if (self->listener) {
         TestListner_startTest(self->listener, test);
     }
 }
 
-void TestResult_endTest(TestResult* self,Test* test)
+void TestResult_endTest(TestResult *self, Test *test)
 {
     if (self->listener) {
         TestListner_endTest(self->listener, test);
     }
 }
 
-void TestResult_addFailure(TestResult* self,Test* test,const char* msg,int line,const char* file)
+void TestResult_addFailure(TestResult *self, Test *test, const char *msg, int line,
+                           const char *file)
 {
     self->failureCount++;
+
     if (self->listener) {
         TestListner_addFailure(self->listener, test, msg, line, file);
     }

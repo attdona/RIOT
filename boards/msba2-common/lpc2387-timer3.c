@@ -27,7 +27,7 @@
 
 void  benchmark_init(void)
 {
-    PCLKSEL1 = (PCLKSEL1 & ~(BIT14|BIT15)) | (1 << 14); // CCLK to PCLK divider
+    PCLKSEL1 = (PCLKSEL1 & ~(BIT14 | BIT15)) | (1 << 14); // CCLK to PCLK divider
     PCONP |= PCTIM3;
     T3TCR = 0;                                          // disable timer
     T3MCR = 0;                                          // disable interrupt

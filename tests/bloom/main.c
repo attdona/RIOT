@@ -29,7 +29,7 @@
 int main(void)
 {
     bloom_t *bloom = bloom_new(1 << 7, 6, fnv_hash, sax_hash, sdbm_hash,
-                                      djb2_hash, kr_hash, dek_hash, rotating_hash, one_at_a_time_hash);
+                               djb2_hash, kr_hash, dek_hash, rotating_hash, one_at_a_time_hash);
 
     printf("Testing Bloom filter.\n\n");
     printf("m: %zd\nk: %zd\n\n", bloom->m, bloom->k);
