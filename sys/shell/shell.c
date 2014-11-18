@@ -65,7 +65,7 @@ static shell_command_handler_t find_handler(const shell_command_t *command_list,
 static void print_help(const shell_command_t *command_list)
 {
     printf("%-20s %s\n", "Command", "Description");
-    puts("---------------------------------------");
+    puts("---------------------------------------\n");
 
     const shell_command_t *command_lists[] = {
         command_list,

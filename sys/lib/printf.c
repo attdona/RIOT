@@ -82,11 +82,8 @@ void printf(char *format, ...)
         	c = *format++;
 
         	// RIOT uses %-xxs printf format
-        	if (c == '-') {
+        	while ((c <= '9') && (c >= '-')) {
         		c = *format++;
-        		while ((c <= '9') && (c >= '0')) {
-        			c = *format++;
-        		}
         	}
 
             switch (c) {
