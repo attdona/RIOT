@@ -79,7 +79,17 @@ void printf(char *format, ...)
 
     while ((c = *format++)) {
         if (c == '%') {
-            switch (c = *format++) {
+        	c = *format++;
+
+        	// RIOT uses %-xxs printf format
+        	if (c == '-') {
+        		c = *format++;
+        		while ((c <= '9') && (c >= '0')) {
+        			c = *format++;
+        		}
+        	}
+
+            switch (c) {
                 case 's':                       // String
                     puts(va_arg(a, char *));
                     break;
