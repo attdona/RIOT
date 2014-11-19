@@ -43,8 +43,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/drivers/cc110x_legacy}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/sys/posix/pthread/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/sys/posix/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/sys/net/include}&quot;"/>
 								</option>
-								<option id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.OPT_FOR_SPACE.862095741" name="Optimize for space rather than speed (-Os)" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.OPT_FOR_SPACE" value="false" valueType="boolean"/>
+								<option id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.OPT_FOR_SPACE.862095741" name="Optimize for space rather than speed (-Os)" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.OPT_FOR_SPACE" value="true" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.DEBUG.760531275" name="Generate debug information (-g)" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.DEBUG" value="true" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.STRICT_DWARF.1621435469" name="Don't emit DWARF additions beyond selected version (-gstrict-dwarf)" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.STRICT_DWARF" value="false" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.DEFINE.1162983227" name="Define symbols (-D)" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.DEFINE" valueType="definedSymbols">
@@ -59,6 +60,7 @@
 									<listOptionValue builtIn="false" value="MODULE_MSP430_COMMON"/>
 									<listOptionValue builtIn="false" value="MODULE_ONEWAY_MALLOC"/>
 									<listOptionValue builtIn="false" value="MODULE_SYS"/>
+									<listOptionValue builtIn="false" value="MODULE_PS"/>
 									<listOptionValue builtIn="false" value="RIOT_VERSION=&quot;\&quot;2014.05-917-g4936-NBW7110003316\&quot;&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.OTHER_FLAGS.1365707565" name="Other flags" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.OTHER_FLAGS" valueType="stringList">
@@ -86,6 +88,29 @@
 							<tool id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.hex.1562749336" name="GNU Objcopy Utility" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.hex"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1381510682.1019691307" name="shell.c" rcbsApplicability="disable" resourcePath="sys/shell/shell.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.exe.compilerDebug.389296979.1448161609">
+						<tool id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.exe.compilerDebug.389296979.1448161609" name="GNU Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.exe.compilerDebug.389296979">
+							<option id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.DEFINE.1973242836" name="Define symbols (-D)" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.DEFINE" valueType="definedSymbols">
+								<listOptionValue builtIn="false" value="__MSP430FR5969__"/>
+								<listOptionValue builtIn="false" value="DEVELHELP=1"/>
+								<listOptionValue builtIn="false" value="CPU_MSP430FR5x"/>
+								<listOptionValue builtIn="false" value="MODULE_CC110X_LEGACY"/>
+								<listOptionValue builtIn="false" value="MODULE_VTIMER"/>
+								<listOptionValue builtIn="false" value="MODULE_AUTO_INIT"/>
+								<listOptionValue builtIn="false" value="MODULE_CORE"/>
+								<listOptionValue builtIn="false" value="MODULE_CPU"/>
+								<listOptionValue builtIn="false" value="MODULE_MSP430_COMMON"/>
+								<listOptionValue builtIn="false" value="MODULE_ONEWAY_MALLOC"/>
+								<listOptionValue builtIn="false" value="MODULE_SYS"/>
+								<listOptionValue builtIn="false" value="MODULE_PS"/>
+								<listOptionValue builtIn="false" value="MODULE_SHELL_COMMANDS"/>
+								<listOptionValue builtIn="false" value="RIOT_VERSION=&quot;\&quot;2014.05-917-g4936-NBW7110003316\&quot;&quot;"/>
+							</option>
+							<inputType id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__C_SRCS.1880762970" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__C_SRCS"/>
+							<inputType id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__CPP_SRCS.2114642384" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__CPP_SRCS"/>
+							<inputType id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__ASM_SRCS.484968456" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__ASM_SRCS"/>
+						</tool>
+					</fileInfo>
 					<folderInfo id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1381510682.453173660" name="/" resourcePath="sys/oneway-malloc">
 						<toolChain id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.exe.DebugToolchain.50923208" name="TI Build Tools" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.exe.DebugToolchain" unusedChildren="">
 							<option id="com.ti.ccstudio.buildDefinitions.core.OPT_TAGS.1737299440.139834628" superClass="com.ti.ccstudio.buildDefinitions.core.OPT_TAGS.1737299440"/>
@@ -113,8 +138,31 @@
 							<tool id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.hex.2136144441" name="GNU Objcopy Utility" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.hex.1562749336"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1381510682.243413594" name="auto_init.c" rcbsApplicability="disable" resourcePath="sys/auto_init/auto_init.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.exe.compilerDebug.389296979.521631797">
+						<tool id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.exe.compilerDebug.389296979.521631797" name="GNU Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.exe.compilerDebug.389296979">
+							<option id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.DEFINE.689008534" name="Define symbols (-D)" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compilerID.DEFINE" valueType="definedSymbols">
+								<listOptionValue builtIn="false" value="__MSP430FR5969__"/>
+								<listOptionValue builtIn="false" value="DEVELHELP=1"/>
+								<listOptionValue builtIn="false" value="CPU_MSP430FR5x"/>
+								<listOptionValue builtIn="false" value="MODULE_CC110X_LEGACY"/>
+								<listOptionValue builtIn="false" value="MODULE_NET_IF"/>
+								<listOptionValue builtIn="false" value="MODULE_VTIMER"/>
+								<listOptionValue builtIn="false" value="MODULE_AUTO_INIT"/>
+								<listOptionValue builtIn="false" value="MODULE_CORE"/>
+								<listOptionValue builtIn="false" value="MODULE_CPU"/>
+								<listOptionValue builtIn="false" value="MODULE_MSP430_COMMON"/>
+								<listOptionValue builtIn="false" value="MODULE_ONEWAY_MALLOC"/>
+								<listOptionValue builtIn="false" value="MODULE_SYS"/>
+								<listOptionValue builtIn="false" value="MODULE_UART0"/>
+								<listOptionValue builtIn="false" value="RIOT_VERSION=&quot;\&quot;2014.05-917-g4936-NBW7110003316\&quot;&quot;"/>
+							</option>
+							<inputType id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__C_SRCS.675001062" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__C_SRCS"/>
+							<inputType id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__CPP_SRCS.325361256" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__CPP_SRCS"/>
+							<inputType id="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__ASM_SRCS.958681691" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.MSP430_GNU_4.0.compiler.inputType__ASM_SRCS"/>
+						</tool>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="examples/hello-world/main.c|cpu/msp430-common/msp430-main.c|sys/posix/pnet|sys/net/transport_layer|sys/net/routing|sys/net/network_layer|sys/net/link_layer|sys/net/crosslayer|sys/net/ccn_lite|tests|sys/shell|sys/random|sys/quad_math|sys/pipe|sys/ping|sys/hashes|sys/crypto|sys/cbor|sys/bloom|examples/rpl_udp|examples/riot_and_cpp|examples/default|examples/ccn-lite-relay|examples/ccn-lite-client|drivers/srf08|drivers/srf02|drivers/sht11|drivers/servo|drivers/rgbled|drivers/pir|drivers/netdev|drivers/ltc4150|drivers/lm75a|drivers/isl29020|drivers/cc2420|drivers/cc110x_legacy_csma|drivers/at86rf231|dist/tools|cpu/x86|cpu/stm32f4|cpu/stm32f3|cpu/stm32f1|cpu/stm32f0|cpu/samd21|cpu/sam3x8e|cpu/nrf51822|cpu/native|cpu/msp430x16x|cpu/mc1322x|cpu/lpc2387|cpu/lpc1768|cpu/lpc_common|cpu/cortex-m4_common|cpu/cortex-m3_common|cpu/cortex-m0_common|cpu/cc430|cpu/cc2538|cpu/atmega2560|cpu/atmega_common|cpu/arm_common|boards/chronos|boards/z1|boards/yunjia-nrf51822|boards/x86-multiboot-common|boards/wsn430-v1_4|boards/wsn430-v1_3b|boards/wsn430-common|boards/udoo|boards/telosb|boards/stm32f4discovery|boards/stm32f3discovery|boards/stm32f0discovery|boards/samr21-xpro|boards/redbee-econotag|boards/qemu-i386|boards/pttu|boards/pca10005|boards/pca10000|boards/openmote|boards/native|boards/msbiot|boards/msba2-common|boards/msba2|boards/msb-430h|boards/msb-430-common|boards/msb-430|boards/mbed_lpc1768|boards/iot-lab_M3|boards/cc2538dk|boards/avsextrem|boards/arduino-mega2560|boards/arduino-due|msp430f1611.ld" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="sys/net/link_layer/protocol-multiplex|sys/net/link_layer/ieee802154|examples/ipc_pingpong/main.c|examples/shell/main.c|sys/shell/commands/sc_transceiver.c|sys/shell/commands/sc_sht11.c|sys/shell/commands/sc_rtc.c|sys/shell/commands/sc_net_if.c|sys/shell/commands/sc_mersenne.c|sys/shell/commands/sc_ltc4150.c|sys/shell/commands/sc_id.c|sys/shell/commands/sc_heap.c|sys/shell/commands/sc_disk.c|sys/shell/commands/sc_cc110x_legacy_csma.c|sys/shell/commands/sc_rpl.c|sys/shell/commands/sc_x86_lspci.c|examples/hello-world/main.c|cpu/msp430-common/msp430-main.c|sys/posix/pnet|sys/net/transport_layer|sys/net/routing|sys/net/network_layer|sys/net/crosslayer|sys/net/ccn_lite|tests|sys/random|sys/quad_math|sys/pipe|sys/ping|sys/hashes|sys/crypto|sys/cbor|sys/bloom|examples/rpl_udp|examples/riot_and_cpp|examples/default|examples/ccn-lite-relay|examples/ccn-lite-client|drivers/srf08|drivers/srf02|drivers/sht11|drivers/servo|drivers/rgbled|drivers/pir|drivers/netdev|drivers/ltc4150|drivers/lm75a|drivers/isl29020|drivers/cc2420|drivers/cc110x_legacy_csma|drivers/at86rf231|dist/tools|cpu/x86|cpu/stm32f4|cpu/stm32f3|cpu/stm32f1|cpu/stm32f0|cpu/samd21|cpu/sam3x8e|cpu/nrf51822|cpu/native|cpu/msp430x16x|cpu/mc1322x|cpu/lpc2387|cpu/lpc1768|cpu/lpc_common|cpu/cortex-m4_common|cpu/cortex-m3_common|cpu/cortex-m0_common|cpu/cc430|cpu/cc2538|cpu/atmega2560|cpu/atmega_common|cpu/arm_common|boards/chronos|boards/z1|boards/yunjia-nrf51822|boards/x86-multiboot-common|boards/wsn430-v1_4|boards/wsn430-v1_3b|boards/wsn430-common|boards/udoo|boards/telosb|boards/stm32f4discovery|boards/stm32f3discovery|boards/stm32f0discovery|boards/samr21-xpro|boards/redbee-econotag|boards/qemu-i386|boards/pttu|boards/pca10005|boards/pca10000|boards/openmote|boards/native|boards/msbiot|boards/msba2-common|boards/msba2|boards/msb-430h|boards/msb-430-common|boards/msb-430|boards/mbed_lpc1768|boards/iot-lab_M3|boards/cc2538dk|boards/avsextrem|boards/arduino-mega2560|boards/arduino-due|msp430f1611.ld" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -172,7 +220,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="tests|boards/z1|boards/yunjia-nrf51822|boards/x86-multiboot-common|boards/wsn430-v1_4|boards/wsn430-v1_3b|boards/wsn430-common|boards/udoo|boards/telosb|boards/stm32f4discovery|boards/stm32f3discovery|boards/stm32f0discovery|boards/samr21-xpro|boards/redbee-econotag|boards/qemu-i386|boards/pttu|boards/pca10005|boards/pca10000|boards/openmote|boards/native|boards/msbiot|boards/msba2-common|boards/msba2|boards/msb-430h|boards/msb-430-common|boards/msb-430|boards/mbed_lpc1768|boards/iot-lab_M3|boards/cc2538dk|boards/avsextrem|boards/arduino-mega2560|boards/arduino-due|msp430fr5969.ld" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="examples/radio/main.c|tests|boards/z1|boards/yunjia-nrf51822|boards/x86-multiboot-common|boards/wsn430-v1_4|boards/wsn430-v1_3b|boards/wsn430-common|boards/udoo|boards/telosb|boards/stm32f4discovery|boards/stm32f3discovery|boards/stm32f0discovery|boards/samr21-xpro|boards/redbee-econotag|boards/qemu-i386|boards/pttu|boards/pca10005|boards/pca10000|boards/openmote|boards/native|boards/msbiot|boards/msba2-common|boards/msba2|boards/msb-430h|boards/msb-430-common|boards/msb-430|boards/mbed_lpc1768|boards/iot-lab_M3|boards/cc2538dk|boards/avsextrem|boards/arduino-mega2560|boards/arduino-due|msp430fr5969.ld" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

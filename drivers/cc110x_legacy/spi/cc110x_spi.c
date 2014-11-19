@@ -29,7 +29,7 @@
 //                      CC1100 SPI access
 /*---------------------------------------------------------------------------*/
 
-uint8_t cc110x_writeburst_reg(uint8_t addr, char *src, uint8_t count)
+uint8_t cc110x_writeburst_reg(uint8_t addr, const char *src, uint8_t count)
 {
     int i = 0;
     unsigned int cpsr = disableIRQ();

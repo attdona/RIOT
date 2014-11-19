@@ -58,7 +58,7 @@
  */
 
 // 400 kbps, MSK, X-tal: 26 MHz (Chip Revision F)
-char cc110x_conf[] = {
+const char cc110x_conf[] = {
     0x06, // IOCFG2
     0x2E, // IOCFG1
     0x0E, // IOCFG0
@@ -103,7 +103,7 @@ char cc110x_conf[] = {
 };
 
 uint8_t pa_table_index = PATABLE; ///< Current PATABLE Index
-uint8_t pa_table[] = {        ///< PATABLE with available output powers
+uint8_t const pa_table[] = {        ///< PATABLE with available output powers
     0x00,         ///< -52 dBm
     0x03,         ///< -30 dBm
     0x0D,         ///< -20 dBm

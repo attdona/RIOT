@@ -68,6 +68,10 @@
 #endif
 #include "debug.h"
 
+#ifndef _MEMORY_AREA_
+#define _MEMORY_AREA_
+#endif
+
 /*------------------------------------------------------------------------------------*/
 /* used transceiver types */
 transceiver_type_t transceivers = TRANSCEIVER_NONE;
@@ -81,10 +85,10 @@ ieee802154_packet_t transceiver_buffer[TRANSCEIVER_BUFFER_SIZE];
 #else
 radio_packet_t transceiver_buffer[TRANSCEIVER_BUFFER_SIZE];
 #endif
-uint8_t data_buffer[TRANSCEIVER_BUFFER_SIZE *PAYLOAD_SIZE];
+uint8_t _MEMORY_AREA_ data_buffer[TRANSCEIVER_BUFFER_SIZE *PAYLOAD_SIZE];
 
 /* message buffer */
-msg_t msg_buffer[TRANSCEIVER_MSG_BUFFER_SIZE];
+msg_t _MEMORY_AREA_ msg_buffer[TRANSCEIVER_MSG_BUFFER_SIZE];
 
 uint32_t response; ///< response bytes for messages to upper layer threads
 

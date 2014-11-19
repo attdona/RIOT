@@ -35,7 +35,7 @@ extern "C" {
  *
  * @return Written bytes
  */
-uint8_t cc110x_writeburst_reg(uint8_t addr, char *buffer, uint8_t count);
+uint8_t cc110x_writeburst_reg(uint8_t addr, const char *buffer, uint8_t count);
 
 /**
  * @brief Read a set of bytes using burst mode (if available)

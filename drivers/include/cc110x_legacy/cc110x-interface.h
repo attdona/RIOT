@@ -67,7 +67,7 @@ extern "C" {
 /** @} */
 
 extern volatile cc110x_flags rflags;    ///< Radio flags
-extern char cc110x_conf[];
+extern const char cc110x_conf[];
 
 /**
  * @brief   CC1100 layer 0 protocol

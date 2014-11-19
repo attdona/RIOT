@@ -27,7 +27,7 @@
 #include "debug.h"
 
 /* some externals */
-extern uint8_t pa_table[];              ///< PATABLE with available output powers
+extern uint8_t const pa_table[];              ///< PATABLE with available output powers
 extern uint8_t pa_table_index;          ///< Current PATABLE Index
 
 /* global variables */

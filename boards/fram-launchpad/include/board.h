@@ -32,6 +32,9 @@
 #define BV(x) (1 << x)
 #endif
 
+#define _MEMORY_AREA_ __attribute__((section(".fram")))
+
+
 #if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
 #define ISRV(a,b) void __attribute__((interrupt (a))) __attribute__((naked)) b(void)
 #else

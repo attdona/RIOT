@@ -47,7 +47,8 @@ MEMORY {
   INFOB            : ORIGIN = 0x1900, LENGTH = 0x0080 /* END=0x197F, size 128 */
   INFOC            : ORIGIN = 0x1880, LENGTH = 0x0080 /* END=0x18FF, size 128 */
   INFOD            : ORIGIN = 0x1800, LENGTH = 0x0080 /* END=0x187F, size 128 */
-  ROM              : ORIGIN = 0x4400, LENGTH = 0xBB80 /* END=0xFF7F, size 48000 */
+  FRAM			   : ORIGIN = 0x4400, LENGTH = 0x0400
+  ROM              : ORIGIN = 0x4800, LENGTH = 0xF800 /* END=0x13FFF, size 64k */
   VECT1            : ORIGIN = 0xFF90, LENGTH = 0x0002
   VECT2            : ORIGIN = 0xFF92, LENGTH = 0x0002
   VECT3            : ORIGIN = 0xFF94, LENGTH = 0x0002
@@ -233,6 +234,8 @@ SECTIONS
     KEEP (*(.fini))
     KEEP (*(.tm_clone_table))
   } > ROM
+
+  .fram : {} > FRAM
 
   .data : {
     . = ALIGN(2);
