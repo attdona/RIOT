@@ -24,8 +24,9 @@ RIOTBASE ?= $(CURDIR)/../..
 # development process:
 CFLAGS += -DDEVELHELP
 
+
 # Change this to 0 show compiler invocation lines by default:
-QUIET ?= 1
+QUIET ?= 0
 
 # Modules to include:
 
@@ -35,6 +36,7 @@ USEMODULE += shell_commands
 USEMODULE += ps
 USEMODULE += vtimer
 USEMODULE += defaulttransceiver
+USEMODULE += cc110x_spi
 
 FEATURES_OPTIONAL += transceiver
 
