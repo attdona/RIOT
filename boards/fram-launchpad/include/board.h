@@ -28,6 +28,8 @@
 #include <stdint.h>
 #include <msp430.h>
 
+#define CC110L_RADIO
+
 #ifndef BV
 #define BV(x) (1 << x)
 #endif
@@ -38,10 +40,23 @@
 #if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
 #define ISRV(a,b) void __attribute__((interrupt (a))) __attribute__((naked)) b(void)
 #else
-#define ISRV(a,b) void __attribute__((interrupt(a))) b(void)
+#define ISRV(a,b) void __attribute__((interrupt(a))) __attribute__((naked)) b(void)
 #define __bic_status_register   _bic_SR_register
 #define __bis_status_register   _bis_SR_register
 #define __read_status_register  _get_SR_register
+
+// avoid macro putchar substitution
+#undef putchar
+
+//#undef PRId32
+//#undef PRIi32
+//#undef PRIo32
+//#undef PRIu32
+
+//#define PRId32 __STRINGIFY(l)
+//#define PRIi32 __STRINGIFY(l)
+//#define PRIo32 __STRINGIFY(l)
+//#define PRIu32 __STRINGIFY(l)
 #endif
 
 //numbers of A Timers

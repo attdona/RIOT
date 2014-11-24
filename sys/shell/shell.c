@@ -33,6 +33,8 @@
 #include "shell.h"
 #include "shell_commands.h"
 
+static inline void print_prompt(shell_t *shell) __attribute__((always_inline));
+
 static shell_command_handler_t find_handler(const shell_command_t *command_list, char *command)
 {
     const shell_command_t *command_lists[] = {

@@ -66,6 +66,8 @@ void clist_add(clist_node_t **node, clist_node_t *new_node);
  */
 void clist_remove(clist_node_t **list, clist_node_t *node);
 
+static inline void clist_advance(clist_node_t **list) __attribute__((always_inline));
+
 /**
  * @brief Advances the circle list.
  *

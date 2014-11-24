@@ -17,7 +17,7 @@
 #include "cc110x_legacy.h"
 
 
-extern inline void __exit_isr(void);
+//extern inline void __exit_isr(void);
 
 //#define CC1100_GDO0         (P1IN & 0x08)   // read serial I/O (GDO0)
 //#define CC1100_GDO1         (P5IN & 0x04)   // read serial I/O (GDO1)
@@ -191,12 +191,15 @@ void cc110x_init_interrupts(void)
     unsigned int state = disableIRQ(); /* Disable all interrupts */
 
     /* Reset interrupt trigger */
-    CC110L_GDO2_PORT(SEL0) &= ~(BV(CC110L_GDO2_PIN) | BV(CC110L_GDO0_PIN));
-    CC110L_GDO2_PORT(SEL1) &= ~(BV(CC110L_GDO2_PIN) | BV(CC110L_GDO0_PIN));
+    CC110L_GDO2_PORT(SEL0) &= ~BV(CC110L_GDO2_PIN);
+    CC110L_GDO2_PORT(SEL1) &= ~BV(CC110L_GDO2_PIN);
     CC110L_GDO2_PORT(IES) |= BV(CC110L_GDO2_PIN);
     CC110L_GDO2_PORT(IE)  |= BV(CC110L_GDO2_PIN);
     CC110L_GDO2_PORT(IFG) &= ~BV(CC110L_GDO2_PIN);
 
+    CC110L_GDO0_PORT(SEL0) &= ~BV(CC110L_GDO0_PIN);
+    CC110L_GDO0_PORT(SEL1) &= ~BV(CC110L_GDO0_PIN);
+    CC110L_GDO0_PORT(IES) |= BV(CC110L_GDO0_PIN);
     CC110L_GDO0_PORT(IE)  &= ~BV(CC110L_GDO0_PIN);
     CC110L_GDO0_PORT(IFG) &= ~BV(CC110L_GDO0_PIN);
 
@@ -243,7 +246,8 @@ void cc110x_spi_init(void)
     UCB0CTLW0 |= UCMST | UCSYNC | UCCKPL | UCMSB; // 3-pin, 8-bit SPI master
     // Clock polarity high, MSB
     UCB0CTLW0 |= UCSSEL__SMCLK;                // SMCLK
-    UCB0BR0 = 0x01;                           // /2
+    //UCB0BR0 = 0x01;                           // /2
+    UCB0BR0 = 0x08;
     UCB0BR1 = 0;                              //
 
     //UCB0MCTLW = 0;                            // No modulation
@@ -264,24 +268,40 @@ void cc110x_spi_init(void)
  * CC1100 receive interrupt
  */
 //interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc110x_isr(void){
-ISRV(PORT1_VECTOR, cc110x_isr)
+
+ISRV(PORT1_VECTOR, cc110x_gdo0)
 {
     __enter_isr();
 
     /* Check IFG */
-    if ((P1IFG & 0x10) != 0) {
-        P1IFG &= ~0x10;
-        cc110x_gdo2_irq();
-    }
-    else if ((P2IFG & 0x08) != 0) {
+    if ((CC110L_GDO0_PORT(IFG) & BV(CC110L_GDO0_PIN)) != 0) {
+    	CC110L_GDO0_PORT(IFG) &= ~BV(CC110L_GDO0_PIN);
         cc110x_gdo0_irq();
-        P1IE &= ~0x08;                // Disable interrupt for GDO0
-        P1IFG &= ~0x08;                // Clear IFG for GDO0
     }
     else {
-        puts("cc110x_isr(): unexpected IFG!");
+        puts("cc110x_gdo0(): unexpected IFG!");
         /* Should not occur - only GDO1 and GDO2 interrupts are enabled */
     }
 
     __exit_isr();
 }
+
+
+ISRV(PORT4_VECTOR, cc110x_gdo2)
+{
+    __enter_isr();
+
+    /* Check IFG */
+    if ((CC110L_GDO2_PORT(IFG) & BV(CC110L_GDO2_PIN)) != 0) {
+    	CC110L_GDO2_PORT(IFG) &= ~BV(CC110L_GDO2_PIN);
+        cc110x_gdo2_irq();
+    }
+    else {
+        puts("cc110x_gdo2(): unexpected IFG!");
+        /* Should not occur - only GDO1 and GDO2 interrupts are enabled */
+    }
+
+    __exit_isr();
+}
+
+

@@ -30,6 +30,8 @@
 extern "C" {
 #endif
 
+static inline kernel_pid_t thread_getpid(void) __attribute__((always_inline));
+
 /**
  * @brief Describes an illegal thread status
  */

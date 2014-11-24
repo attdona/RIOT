@@ -32,7 +32,7 @@
 #include "board_uart0.h"
 
 // TODO insert if GCC ...
-#undef putchar
+//#undef putchar
 
 
 #ifdef MODULE_LTC4150
@@ -150,6 +150,17 @@ static void shell_putchar(int c)
 int main(void)
 {
     shell_t shell;
+
+    PMMCTL0_H = PMMPW_H;
+    PMMIFG = 0;
+
+    uint16_t val;
+
+    val = SYSRSTIV;
+    while (val != 0) {
+    	val = SYSRSTIV;
+    }
+
     (void) posix_open(uart0_handler_pid, 0);
 
 #ifdef MODULE_LTC4150

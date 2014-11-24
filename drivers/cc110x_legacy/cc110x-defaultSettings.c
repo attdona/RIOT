@@ -20,6 +20,7 @@
  */
 
 #include "cc110x_legacy.h"
+#include "board.h"
 
 // Default PA table index (output power)
 #define PATABLE                 (11)
@@ -56,7 +57,90 @@
  *             23 |    230 | 915.61
  *             24 |    240 | 917.61
  */
+#ifdef CC110L_RADIO
+const char cc110x_conf[] = {
+    0x06,  // IOCFG2 Asserts when sync word has been sent/received, de-asserts at the end of the packet
+    0x2E,  // IOCFG1 High impedance (3-state)
+    0x0E,  // IOCFG0 Carrier sense. High if RSSI level is above threshold. Cleared when entering IDLE mode
+    0x47,   // FIFOTHR            RX FIFO and TX FIFO Thresholds
+    0xD3,   // SYNC1              Sync Word, High Byte
+    0x91,   // SYNC0              Sync Word, Low Byte
+    0xFF,   // PKTLEN             Packet Length
+    0x04,   // PKTCTRL1           Packet Automation Control
+    0x05,   // PKTCTRL0           Packet Automation Control
+    0x00,   // ADDR               Device Address
+    0x00,   // CHANNR             Channel number
+    0x06,   // FSCTRL1            Frequency Synthesizer Control
+    0x00,   // FSCTRL0            Frequency Synthesizer Control
+    0x20,   // FREQ2              Frequency Control Word, High Byte
+    0x25,   // FREQ1              Frequency Control Word, Middle Byte
+    0xED,   // FREQ0              Frequency Control Word, Low Byte
+    0xF5,   // MDMCFG4            Modem Configuration
+    0x75,   // MDMCFG3            Modem Configuration
+    0x03,   // MDMCFG2            Modem Configuration
+    0x22,   // MDMCFG1            Modem Configuration
+    0xE5,   // MDMCFG0            Modem Configuration
+    0x14,   // DEVIATN            Modem Deviation Setting
+    0x07,   // MCSM2              Main Radio Control State Machine Configuration
+    0x30,   // MCSM1              Main Radio Control State Machine Configuration
+    0x18,   // MCSM0              Main Radio Control State Machine Configuration
+    0x16,   // FOCCFG             Frequency Offset Compensation Configuration
+    0x6C,   // BSCFG              Bit Synchronization Configuration
+    0x03,   // AGCCTRL2           AGC Control
+    0x40,   // AGCCTRL1           AGC Control
+    0x91,   // AGCCTRL0           AGC Control
+    0xFB,   // RESERVED_0X20      Use setting from SmartRF Studio
+    0x56,   // FREND1             Front End RX Configuration
+    0x10,   // FREND0             Front End TX Configuration
+    0xE9,   // FSCAL3             Frequency Synthesizer Calibration
+    0x2A,   // FSCAL2             Frequency Synthesizer Calibration
+    0x00,   // FSCAL1             Frequency Synthesizer Calibration
+    0x1F,   // FSCAL0             Frequency Synthesizer Calibration
+};
 
+#if 0
+// 1.2 kbps, 2-FSK, X-tal: 27 MHz
+const char cc110x_conf[] = {
+    0x06,  // IOCFG2 Asserts when sync word has been sent/received, de-asserts at the end of the packet
+    0x2E,  // IOCFG1 High impedance (3-state)
+    0x0E,  // IOCFG0 Carrier sense. High if RSSI level is above threshold. Cleared when entering IDLE mode
+    0x4F,  // FIFOTHR
+    0xD3,  // SYNC1
+    0x91,  // SYNC0
+    0x3D,  // PKTLEN
+    0x06,  // PKTCTRL1
+    0x45,  // PKTCTRL0
+    0xFF,  // ADDR
+    0x00,  // CHANNR
+    0x06,  // FSCTRL1
+    0x00,  // FSCTRL0
+    0x20,  // FREQ2
+    0x25,  // FREQ1
+    0xED,  // FREQ0
+    0xF5,  // MDMCFG4
+    0x75,  // MDMCFG3
+    0x03,  // MDMCFG2
+    0x22,  // MDMCFG1
+    0xE5,  // MDMCFG0
+    0x14,  // DEVIATN
+    0x07,  // MCSM2
+    0x32,  // 0x30 MCSM1
+    0x18,  // MCSM0
+    0x16,  // FOCCFG
+    0x6C,  // BSCFG
+    0x03,  // AGCCTRL2
+    0x40,  // AGCCTRL1
+    0x91,  // AGCCTRL0
+    0xFB,  // RESERVED_0X20
+    0x56,  // FREND1
+    0x10,  // FREND0
+    0xE9,  // FSCAL3
+    0x2A,  // FSCAL2
+    0x00,  // FSCAL1
+    0x1F  // FSCAL0
+};
+#endif
+#else
 // 400 kbps, MSK, X-tal: 26 MHz (Chip Revision F)
 const char cc110x_conf[] = {
     0x06, // IOCFG2
@@ -101,6 +185,7 @@ const char cc110x_conf[] = {
     0x1F, // FSCAL0
     0x00  // padding to 4 bytes
 };
+#endif
 
 uint8_t pa_table_index = PATABLE; ///< Current PATABLE Index
 uint8_t const pa_table[] = {        ///< PATABLE with available output powers

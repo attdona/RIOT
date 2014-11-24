@@ -62,6 +62,9 @@ static uint32_t hwtimer_next_absolute;
 
 static uint32_t seconds = 0;
 
+static inline priority_queue_node_t *timer_get_node(vtimer_t *timer) __attribute__((always_inline));
+static inline vtimer_t *node_get_timer(priority_queue_node_t *node) __attribute__((always_inline));
+
 static inline priority_queue_node_t *timer_get_node(vtimer_t *timer)
 {
     if (!timer) {

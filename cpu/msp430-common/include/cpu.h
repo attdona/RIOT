@@ -13,6 +13,8 @@
 #define eint __eint
 #define  dint __dint
 
+
+
 /**
  * @defgroup    msp430 TI MSP430
  * @ingroup     cpu
@@ -38,6 +40,16 @@
 extern volatile int __inISR;
 extern char __isr_stack[MSP430_ISR_STACK_SIZE];
 
+inline void __enter_isr(void) __attribute__((always_inline));
+inline void __exit_isr(void) __attribute__((always_inline));
+inline void __save_context_isr(void) __attribute__((always_inline));
+inline void __restore_context_isr(void) __attribute__((always_inline));
+inline void __save_context(void) __attribute__((always_inline));
+inline void __restore_context(unsigned int irqen) __attribute__((always_inline));
+inline void eINT(void) __attribute__((always_inline));
+inline void dINT(void) __attribute__((always_inline));
+
+
 inline void __save_context_isr(void)
 {
     __asm__("pushm.w #12,R15");
@@ -56,7 +68,8 @@ inline void __enter_isr(void)
 #if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
     __save_context_isr();
 #else
-    __asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
+    //__asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
+    __save_context_isr();
 #endif
 
     __asm__("mov.w %0,r1" : : "i"(__isr_stack+MSP430_ISR_STACK_SIZE));
@@ -75,7 +88,14 @@ inline void __exit_isr(void)
     __restore_context_isr();
     __asm__("reti");
 #else
-    __asm__("mov.w %0,r1" : : "m"(sched_active_thread->sp));
+    //__asm__("mov.w %0,r1" : : "m"(sched_active_thread->sp));
+
+    // only for compiling with no optimization
+    //__asm__("reti");
+    __restore_context_isr();
+    __asm__("reti");
+
+
 #endif
 
 

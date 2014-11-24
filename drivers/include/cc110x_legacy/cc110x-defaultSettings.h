@@ -74,7 +74,7 @@ extern "C" {
 #define T_PACKET_INTERVAL       (3800)
 
 // The size of the configuration array for CC1100 in bytes
-#define CC1100_CONF_SIZE        (39)
+#define CC1100_CONF_SIZE        (37) //(39)
 
 // The default channel number (0-24) for CC1100
 #define CC1100_DEFAULT_CHANNR   (0)

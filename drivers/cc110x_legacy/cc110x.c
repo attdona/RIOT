@@ -68,7 +68,8 @@ void cc110x_init(kernel_pid_t tpid)
     cc110x_writeburst_reg(0x00, cc110x_conf, CC1100_CONF_SIZE);
 
     /* Write PATABLE (power settings) */
-    cc110x_write_reg(CC1100_PATABLE, pa_table[pa_table_index]);
+    //cc110x_write_reg(CC1100_PATABLE, pa_table[pa_table_index]);
+    cc110x_write_reg(CC1100_PATABLE, 0xC0);
 
     /* Initialize Radio Flags */
     rflags._RSSI         = 0x00;
@@ -352,7 +353,7 @@ int16_t cc110x_get_channel(void)
 static void reset(void)
 {
     cc110x_wakeup_from_rx();
-#ifdef MODULE_CC110x_SPI
+#ifdef MODULE_CC110X_SPI
     cc110x_spi_select();
 #endif
     cc110x_strobe(CC1100_SRES);
@@ -361,7 +362,7 @@ static void reset(void)
 
 static void power_up_reset(void)
 {
-#ifdef MODULE_CC110x_SPI
+#ifdef MODULE_CC110X_SPI
     cc110x_spi_unselect();
     cc110x_spi_cs();
     cc110x_spi_unselect();

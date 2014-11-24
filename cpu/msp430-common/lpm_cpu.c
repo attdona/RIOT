@@ -27,6 +27,10 @@
 
 #include "lpm.h"
 
+inline void lpm_awake(void) __attribute__((always_inline));
+inline void lpm_begin_awake(void) __attribute__((always_inline));
+inline void lpm_end_awake(void) __attribute__((always_inline));
+
 /* Initialise the MSP430 power-saving mechanisms. */
 void lpm_init(void)
 {

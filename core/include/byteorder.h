@@ -127,110 +127,111 @@ typedef be_uint32_t network_uint32_t;
  */
 typedef be_uint64_t network_uint64_t;
 
+
 /**
  * @brief          Convert from little endian to big endian, 16 bit.
  * @param[in]      v   The integer in little endian.
  * @returns        `v` converted to big endian.
  */
-static inline be_uint16_t byteorder_ltobs(le_uint16_t v);
+static inline be_uint16_t byteorder_ltobs(le_uint16_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from little endian to big endian, 32 bit.
  * @param[in]      v   The integer in little endian.
  * @returns        `v` converted to big endian.
  */
-static inline be_uint32_t byteorder_ltobl(le_uint32_t v);
+static inline be_uint32_t byteorder_ltobl(le_uint32_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from little endian to big endian, 64 bit.
  * @param[in]      v   The integer in little endian.
  * @returns        `v` converted to big endian.
  */
-static inline be_uint64_t byteorder_ltobll(le_uint64_t v);
+static inline be_uint64_t byteorder_ltobll(le_uint64_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from big endian to little endian, 16 bit.
  * @param[in]      v   The integer in big endian.
  * @returns        `v` converted to little endian.
  */
-static inline le_uint16_t byteorder_btols(be_uint16_t v);
+static inline le_uint16_t byteorder_btols(be_uint16_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from big endian to little endian, 32 bit.
  * @param[in]      v   The integer in big endian.
  * @returns        `v` converted to little endian.
  */
-static inline le_uint32_t byteorder_btoll(be_uint32_t v);
+static inline le_uint32_t byteorder_btoll(be_uint32_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from big endian to little endian, 64 bit.
  * @param[in]      v   The integer in big endian.
  * @returns        `v` converted to little endian.
  */
-static inline le_uint64_t byteorder_btolll(be_uint64_t v);
+static inline le_uint64_t byteorder_btolll(be_uint64_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from host byte order to network byte order, 16 bit.
  * @param[in]      v   The integer in host byte order.
  * @returns        `v` converted to network byte order.
  */
-static inline network_uint16_t byteorder_htons(uint16_t v);
+static inline network_uint16_t byteorder_htons(uint16_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from host byte order to network byte order, 32 bit.
  * @param[in]      v   The integer in host byte order.
  * @returns        `v` converted to network byte order.
  */
-static inline network_uint32_t byteorder_htonl(uint32_t v);
+static inline network_uint32_t byteorder_htonl(uint32_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from host byte order to network byte order, 64 bit.
  * @param[in]      v   The integer in host byte order.
  * @returns        `v` converted to network byte order.
  */
-static inline network_uint64_t byteorder_htonll(uint64_t v);
+static inline network_uint64_t byteorder_htonll(uint64_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from network byte order to host byte order, 16 bit.
  * @param[in]      v   The integer in network byte order.
  * @returns        `v` converted to host byte order.
  */
-static inline uint16_t byteorder_ntohs(network_uint16_t v);
+static inline uint16_t byteorder_ntohs(network_uint16_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from network byte order to host byte order, 32 bit.
  * @param[in]      v   The integer in network byte order.
  * @returns        `v` converted to host byte order.
  */
-static inline uint32_t byteorder_ntohl(network_uint32_t v);
+static inline uint32_t byteorder_ntohl(network_uint32_t v) __attribute__((always_inline));
 
 /**
  * @brief          Convert from network byte order to host byte order, 64 bit.
  * @param[in]      v   The integer in network byte order.
  * @returns        `v` converted to host byte order.
  */
-static inline uint64_t byteorder_ntohll(network_uint64_t v);
+static inline uint64_t byteorder_ntohll(network_uint64_t v) __attribute__((always_inline));
 
 /**
  * @brief          Swap byte order, 16 bit.
  * @param[in]      v   The integer to swap.
  * @returns        The swapped integer.
  */
-static inline uint16_t byteorder_swaps(uint16_t v);
+static inline uint16_t byteorder_swaps(uint16_t v) __attribute__((always_inline));
 
 /**
  * @brief          Swap byte order, 32 bit.
  * @param[in]      v   The integer to swap.
  * @returns        The swapped integer.
  */
-static inline uint32_t byteorder_swapl(uint32_t v);
+static inline uint32_t byteorder_swapl(uint32_t v) __attribute__((always_inline));
 
 /**
  * @brief          Swap byte order, 64 bit.
  * @param[in]      v   The integer to swap.
  * @returns        The swapped integer.
  */
-static inline uint64_t byteorder_swapll(uint64_t v);
+static inline uint64_t byteorder_swapll(uint64_t v) __attribute__((always_inline));
 
 
 /* **************************** IMPLEMENTATION ***************************** */

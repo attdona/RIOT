@@ -82,6 +82,8 @@ extern "C" {
  */
 typedef int16_t kernel_pid_t;
 
+static inline int pid_is_valid(kernel_pid_t pid) __attribute__((always_inline));
+
 /**
  * @brief   Determine if the given pid is valid
  *
