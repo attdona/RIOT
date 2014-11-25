@@ -19,7 +19,7 @@
  * @}
  */
 
-#include <stdio.h>
+//#include <stdio.h>
 
 #include "cpu-conf.h"
 #include "chardev_thread.h"
@@ -30,6 +30,11 @@
 #include "irq.h"
 
 #include "board_uart0.h"
+
+
+int putchar(int c);
+void puts(char *);
+
 
 #ifndef UART0_BUFSIZE
 #define UART0_BUFSIZE       (128)

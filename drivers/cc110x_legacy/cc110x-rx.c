@@ -40,7 +40,7 @@ static uint8_t is_ignored(radio_address_t addr);
 static uint8_t receive_packet_variable(uint8_t *rxBuffer, radio_packet_length_t length);
 static uint8_t receive_packet(uint8_t *rxBuffer, radio_packet_length_t length);
 
-rx_buffer_t cc110x_rx_buffer[RX_BUF_SIZE];          ///< RX buffer
+rx_buffer_t cc110x_rx_buffer[RX_BUF_SIZE] __attribute((section(".fram")));          ///< RX buffer
 volatile uint8_t rx_buffer_next;        ///< Next packet in RX queue
 
 void cc110x_rx_handler(void)
@@ -52,7 +52,8 @@ void cc110x_rx_handler(void)
     rflags.MAN_WOR  = 0;
     cc110x_statistic.packets_in++;
 
-    res = receive_packet((uint8_t *)&(cc110x_rx_buffer[rx_buffer_next].packet), sizeof(cc110x_packet_t));
+    res = receive_packet((uint8_t *) & (cc110x_rx_buffer[rx_buffer_next].packet),
+                         sizeof(cc110x_packet_t));
 
     if (res) {
         /* If we are sending a burst, don't accept packets.

@@ -20,13 +20,34 @@
  */
 
 #include <stdio.h>
+#include "vtimer.h"
+
+void * memset(void * buff, int val, size_t len) {
+	while(len--) {
+		((char *)buff)[len] = val;
+	}
+	return buff;
+}
+
+void * memcpy(void* target, const void *source, size_t len) {
+	return target;
+}
 
 int main(void)
 {
-    puts("Hello World!");
+	timex_t period;
 
-    printf("You are running RIOT on a(n) %s board.\n", RIOT_BOARD);
-    printf("This board features a(n) %s MCU.\n", RIOT_MCU);
+	period.seconds = 1;
+	period.microseconds = 0;
 
+    puts("Hello World!\n");
+
+    //printf("You are running RIOT on a(n) %s board.\n", RIOT_BOARD);
+    //printf("This board features a(n) %s MCU.\n", RIOT_MCU);
+
+    while(1) {
+    	vtimer_sleep(period);
+    	printf("ola\n");
+    }
     return 0;
 }

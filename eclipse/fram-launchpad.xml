@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="C Source File">
+<includepath>${CG_TOOL_INCLUDE_PATH}</includepath>
+<includepath>${CCS_BASE_ROOT}/msp430/include_gcc</includepath>
+<includepath workspace_path="true">/${ProjName}/core/include</includepath>
+<includepath workspace_path="true">/${ProjName}/drivers/include</includepath>
+<includepath workspace_path="true">/${ProjName}/sys/include</includepath>
+<includepath workspace_path="true">/${ProjName}/boards/fram-launchpad/include</includepath>
+<includepath workspace_path="true">/${ProjName}/boards/fram-launchpad/drivers/include</includepath>
+<includepath workspace_path="true">/${ProjName}/cpu/msp430fr5x/include</includepath>
+<includepath workspace_path="true">/${ProjName}/cpu/msp430-common/include</includepath>
+<includepath workspace_path="true">/${ProjName}/sys/oneway-malloc/include</includepath>
+
+</language>
+<language name="Assembly Source File">
+<includepath>${CG_TOOL_INCLUDE_PATH}</includepath>
+<includepath>${CCS_BASE_ROOT}/msp430/include_gcc</includepath>
+<includepath workspace_path="true">/${ProjName}/core/include</includepath>
+<includepath workspace_path="true">/${ProjName}/drivers/include</includepath>
+<includepath workspace_path="true">/${ProjName}/sys/include</includepath>
+<includepath workspace_path="true">/${ProjName}/boards/fram-launchpad/include</includepath>
+<includepath workspace_path="true">/${ProjName}/boards/fram-launchpad/drivers/include</includepath>
+<includepath workspace_path="true">/${ProjName}/cpu/msp430fr5x/include</includepath>
+<includepath workspace_path="true">/${ProjName}/cpu/msp430-common/include</includepath>
+<includepath workspace_path="true">/${ProjName}/sys/oneway-malloc/include</includepath>
+
+</language>
+<language name="C++ Source File">
+<includepath>${CG_TOOL_INCLUDE_PATH}</includepath>
+<includepath>${CCS_BASE_ROOT}/msp430/include_gcc</includepath>
+<includepath workspace_path="true">/${ProjName}/core/include</includepath>
+<includepath workspace_path="true">/${ProjName}/drivers/include</includepath>
+<includepath workspace_path="true">/${ProjName}/sys/include</includepath>
+<includepath workspace_path="true">/${ProjName}/boards/fram-launchpad/include</includepath>
+<includepath workspace_path="true">/${ProjName}/boards/fram-launchpad/drivers/include</includepath>
+<includepath workspace_path="true">/${ProjName}/cpu/msp430fr5x/include</includepath>
+<includepath workspace_path="true">/${ProjName}/cpu/msp430-common/include</includepath>
+<includepath workspace_path="true">/${ProjName}/sys/oneway-malloc/include</includepath>
+
+</language>
+<language name="Linker Command File">
+
+</language>
+<language name="Linker Command File">
+
+</language>
+<language name="Linker Command File">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="C Source File">
+<macro>
+<name>DEVELHELP</name><value/>
+</macro>
+<macro>
+<name>MODULE_CC110X_NG</name><value/>
+</macro>
+<macro>
+<name>MODULE_AUTO_INIT</name><value/>
+</macro>
+<macro>
+<name>MODULE_CORE</name><value/>
+</macro>
+<macro>
+<name>MODULE_CPU</name><value/>
+</macro>
+<macro>
+<name>MODULE_MSP430_COMMON</name><value/>
+</macro>
+<macro>
+<name>MODULE_ONEWAY_MALLOC</name><value/>
+</macro>
+<macro>
+<name>MODULE_SYS</name><value/>
+</macro>
+<macro>
+<name>RIOT_VERSION</name><value>'"2014.05-917-g4936-NBW7110003316"'</value>
+</macro>
+
+</language>
+<language name="Assembly Source File">
+<macro>
+<name>DEVELHELP</name><value/>
+</macro>
+<macro>
+<name>MODULE_CC110X_NG</name><value/>
+</macro>
+<macro>
+<name>MODULE_AUTO_INIT</name><value/>
+</macro>
+<macro>
+<name>MODULE_CORE</name><value/>
+</macro>
+<macro>
+<name>MODULE_CPU</name><value/>
+</macro>
+<macro>
+<name>MODULE_MSP430_COMMON</name><value/>
+</macro>
+<macro>
+<name>MODULE_ONEWAY_MALLOC</name><value/>
+</macro>
+<macro>
+<name>MODULE_SYS</name><value/>
+</macro>
+<macro>
+<name>RIOT_VERSION</name><value>'"2014.05-917-g4936-NBW7110003316"'</value>
+</macro>
+
+</language>
+<language name="C++ Source File">
+<macro>
+<name>DEVELHELP</name><value/>
+</macro>
+<macro>
+<name>MODULE_CC110X_NG</name><value/>
+</macro>
+<macro>
+<name>MODULE_AUTO_INIT</name><value/>
+</macro>
+<macro>
+<name>MODULE_CORE</name><value/>
+</macro>
+<macro>
+<name>MODULE_CPU</name><value/>
+</macro>
+<macro>
+<name>MODULE_MSP430_COMMON</name><value/>
+</macro>
+<macro>
+<name>MODULE_ONEWAY_MALLOC</name><value/>
+</macro>
+<macro>
+<name>MODULE_SYS</name><value/>
+</macro>
+<macro>
+<name>RIOT_VERSION</name><value>'"2014.05-917-g4936-NBW7110003316"'</value>
+</macro>
+
+</language>
+<language name="Linker Command File">
+
+</language>
+<language name="Linker Command File">
+
+</language>
+<language name="Linker Command File">
+
+</language>
+</section>
+</cdtprojectproperties>

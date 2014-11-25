@@ -10,6 +10,11 @@
 #ifndef _CPU_H
 #define _CPU_H
 
+#define eint __eint
+#define  dint __dint
+
+
+
 /**
  * @defgroup    msp430 TI MSP430
  * @ingroup     cpu
@@ -21,8 +26,7 @@
  * @{
  */
 
-#include <stdio.h>
-#include <legacymsp430.h>
+//#include <stdio.h>
 
 #include <msp430.h>
 #include "board.h"
@@ -36,48 +40,38 @@
 extern volatile int __inISR;
 extern char __isr_stack[MSP430_ISR_STACK_SIZE];
 
-//#define eINT()  eint()
-//#define dINT()  dint()
+inline void __enter_isr(void) __attribute__((always_inline));
+inline void __exit_isr(void) __attribute__((always_inline));
+inline void __save_context_isr(void) __attribute__((always_inline));
+inline void __restore_context_isr(void) __attribute__((always_inline));
+inline void __save_context(void) __attribute__((always_inline));
+inline void __restore_context(unsigned int irqen) __attribute__((always_inline));
+inline void eINT(void) __attribute__((always_inline));
+inline void dINT(void) __attribute__((always_inline));
+
 
 inline void __save_context_isr(void)
 {
-    __asm__("push r15");
-    __asm__("push r14");
-    __asm__("push r13");
-    __asm__("push r12");
-    __asm__("push r11");
-    __asm__("push r10");
-    __asm__("push r9");
-    __asm__("push r8");
-    __asm__("push r7");
-    __asm__("push r6");
-    __asm__("push r5");
-    __asm__("push r4");
-
+    __asm__("pushm.w #12,R15");
     __asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
 }
 
 inline void __restore_context_isr(void)
 {
     __asm__("mov.w %0,r1" : : "m"(sched_active_thread->sp));
-
-    __asm__("pop r4");
-    __asm__("pop r5");
-    __asm__("pop r6");
-    __asm__("pop r7");
-    __asm__("pop r8");
-    __asm__("pop r9");
-    __asm__("pop r10");
-    __asm__("pop r11");
-    __asm__("pop r12");
-    __asm__("pop r13");
-    __asm__("pop r14");
-    __asm__("pop r15");
+    __asm__("popm.w #12,R15");
 }
+
 
 inline void __enter_isr(void)
 {
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
     __save_context_isr();
+#else
+    //__asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
+    __save_context_isr();
+#endif
+
     __asm__("mov.w %0,r1" : : "i"(__isr_stack+MSP430_ISR_STACK_SIZE));
     __inISR = 1;
 }
@@ -90,8 +84,21 @@ inline void __exit_isr(void)
         sched_run();
     }
 
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
     __restore_context_isr();
     __asm__("reti");
+#else
+    //__asm__("mov.w %0,r1" : : "m"(sched_active_thread->sp));
+
+    // only for compiling with no optimization
+    //__asm__("reti");
+    __restore_context_isr();
+    __asm__("reti");
+
+
+#endif
+
+
 }
 
 inline void __save_context(void)
@@ -112,7 +119,8 @@ inline void __restore_context(unsigned int irqen)
      */
     if (irqen) {
         __asm__("bis.w #8, 0(r1)");
-    } else {
+    }
+    else {
         __asm__("bic.w #8, 0(r1)");
     }
 

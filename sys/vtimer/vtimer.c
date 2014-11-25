@@ -366,6 +366,7 @@ int vtimer_sleep(timex_t time)
     t.absolute = time;
 
     ret = vtimer_set(&t);
+
     mutex_lock(&mutex);
     return ret;
 }

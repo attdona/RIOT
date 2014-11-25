@@ -14,6 +14,13 @@
 #include "sched.h"
 #include "thread.h"
 
+//extern inline void __enter_isr(void);
+//extern inline void __save_context(void);
+//extern inline void __save_context_isr(void);
+
+//extern inline void __restore_context(unsigned int irqen);
+//extern inline void __restore_context_isr(void);
+
 volatile int __inISR = 0;
 
 char __isr_stack[MSP430_ISR_STACK_SIZE];
@@ -57,7 +64,17 @@ NORETURN void cpu_switch_context_exit(void)
  * To "fix" this, we put a return in section .fini9 to make main
  * behave like a regular function. This enables a common
  * thread_stack_init behavior. */
-__attribute__((section (".fini9"))) void __main_epilogue(void) { __asm__("ret"); }
+__attribute__((section(".fini9"))) void __main_epilogue(void)
+{
+    __asm__("ret");
+}
+
+
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+#define REGS_SIZE 14
+#else
+#define REGS_SIZE 11
+#endif
 
 //----------------------------------------------------------------------------
 // Processor specific routine - here for MSP
@@ -84,12 +101,19 @@ char *thread_stack_init(thread_task_func_t task_func, void *arg, void *stack_sta
     *stackptr = GIE;
     --stackptr;
 
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+
+#else
+    /* ti mspgcc 4.9 set arg into R12 */
+    stackptr = stackptr - 3;
+#endif
+
     /* set argument to task_func */
     *stackptr = (unsigned short) arg;
     --stackptr;
 
     /* Space for registers. */
-    for (unsigned int i = 14; i > 4; i--) {
+    for (unsigned int i = REGS_SIZE; i > 4; i--) {
         *stackptr = i;
         --stackptr;
     }

@@ -23,6 +23,7 @@
 
 #include "thread.h"
 #include "msg.h"
+#include "vtimer.h"
 
 void *second_thread(void *arg)
 {
@@ -33,7 +34,7 @@ void *second_thread(void *arg)
 
     while (1) {
         msg_receive(&m);
-        printf("2nd: Got msg from %" PRIkernel_pid "\n", m.sender_pid);
+        //printf("2nd: Got msg from %" PRIkernel_pid "\n", m.sender_pid);
         m.content.value++;
         msg_reply(&m, &m);
     }
@@ -41,10 +42,14 @@ void *second_thread(void *arg)
     return NULL;
 }
 
-char second_thread_stack[KERNEL_CONF_STACKSIZE_MAIN];
+char second_thread_stack[KERNEL_CONF_STACKSIZE_DEFAULT];
 
 int main(void)
 {
+	timex_t sleep_time;
+	sleep_time.microseconds = 0;
+	sleep_time.seconds = 1;
+
     printf("Starting IPC Ping-pong example...\n");
     printf("1st thread started, pid: %" PRIkernel_pid "\n", thread_getpid());
 
@@ -58,6 +63,8 @@ int main(void)
 
     while (1) {
         msg_send_receive(&m, &m, pid);
-        printf("1st: Got msg with content %u\n", (unsigned int)m.content.value);
+        //printf("1st: Got msg with content %u\n", (unsigned int)m.content.value);
+        printf("%u\n", (unsigned int)m.content.value);
+        vtimer_sleep(sleep_time);
     }
 }

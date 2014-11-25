@@ -33,6 +33,9 @@
 #include "shell.h"
 #include "shell_commands.h"
 
+//void puts(const char* s);
+//void printf(char *format, ...);
+
 static shell_command_handler_t find_handler(const shell_command_t *command_list, char *command)
 {
     const shell_command_t *command_lists[] = {

@@ -22,6 +22,9 @@
 #include "atomic.h"
 #include "cpu.h"
 
+//extern inline void dINT(void);
+//extern inline void eINT(void);
+
 unsigned int atomic_set_return(unsigned int *val, unsigned int set)
 {
     dINT();

@@ -31,6 +31,7 @@
 #define EOVERFLOW   (65)
 #endif
 
+#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
 typedef unsigned long time_t;
 
 struct timespec {
@@ -38,13 +39,14 @@ struct timespec {
     long  tv_nsec;    /* Nanoseconds */
 };
 
+typedef int clockid_t;
+
+#endif
+
 /* TODO: remove once msp430 libc supports struct timeval */
 struct timeval {
     time_t tv_sec;
     time_t tv_usec;
 };
-
-/* TODO: remove once msp430 libc supports clockid_t */
-typedef int clockid_t;
 
 #endif /* MSP430_TYPES_H */

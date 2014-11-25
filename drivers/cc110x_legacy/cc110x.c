@@ -27,7 +27,7 @@
 #include "debug.h"
 
 /* some externals */
-extern uint8_t pa_table[];              ///< PATABLE with available output powers
+extern uint8_t const pa_table[];              ///< PATABLE with available output powers
 extern uint8_t pa_table_index;          ///< Current PATABLE Index
 
 /* global variables */
@@ -68,7 +68,8 @@ void cc110x_init(kernel_pid_t tpid)
     cc110x_writeburst_reg(0x00, cc110x_conf, CC1100_CONF_SIZE);
 
     /* Write PATABLE (power settings) */
-    cc110x_write_reg(CC1100_PATABLE, pa_table[pa_table_index]);
+    //cc110x_write_reg(CC1100_PATABLE, pa_table[pa_table_index]);
+    cc110x_write_reg(CC1100_PATABLE, 0xC0);
 
     /* Initialize Radio Flags */
     rflags._RSSI         = 0x00;
@@ -210,7 +211,7 @@ char *cc110x_get_marc_state(void)
         cc110x_switch_to_rx();
     }
 
-    switch(state) {
+    switch (state) {
             /* Note: it is not possible to read back the SLEEP or XOFF state numbers
              * because setting CSn low will make the chip enter the IDLE mode from the
              * SLEEP (0) or XOFF (2) states. */
@@ -266,7 +267,7 @@ char *cc110x_get_marc_state(void)
 
 char *cc110x_state_to_text(uint8_t state)
 {
-    switch(state) {
+    switch (state) {
         case RADIO_UNKNOWN:
             return "Unknown";
 
@@ -352,7 +353,7 @@ int16_t cc110x_get_channel(void)
 static void reset(void)
 {
     cc110x_wakeup_from_rx();
-#ifdef MODULE_CC110x_SPI
+#ifdef MODULE_CC110X_SPI
     cc110x_spi_select();
 #endif
     cc110x_strobe(CC1100_SRES);
@@ -361,7 +362,7 @@ static void reset(void)
 
 static void power_up_reset(void)
 {
-#ifdef MODULE_CC110x_SPI
+#ifdef MODULE_CC110X_SPI
     cc110x_spi_unselect();
     cc110x_spi_cs();
     cc110x_spi_unselect();
@@ -399,7 +400,7 @@ static int rd_set_mode(int mode)
         result = RADIO_MODE_ON;
     }
 
-    switch(mode) {
+    switch (mode) {
         case RADIO_MODE_ON:
             DEBUG("Enabling rx mode\n");
             cc110x_init_interrupts();           /* Enable interrupts */

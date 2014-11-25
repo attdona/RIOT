@@ -148,7 +148,7 @@ static int _hwtimer_set(unsigned long offset, void (*callback)(void*), void *ptr
 {
     DEBUG("_hwtimer_set: offset=%lu callback=%p ptr=%p absolute=%d\n", offset, callback, ptr, absolute);
 
-    unsigned state;
+    unsigned state = 0;
 
     if (!inISR()) {
         state = disableIRQ();

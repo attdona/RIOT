@@ -18,20 +18,20 @@
 
 void (*int_handler)(int);
 extern void timerA_init(void);
-volatile uint16_t overflow_interrupt[HWTIMER_MAXTIMERS+1];
+volatile uint16_t overflow_interrupt[HWTIMER_MAXTIMERS + 1];
 volatile uint16_t timer_round;
 
 #ifdef CC430
-  /* CC430 have "TimerA0", "TimerA1" and so on... */
-  #define CNT_CTRL_BASE_REG  (TA0CCTL0)
-  #define CNT_COMP_BASE_REG  (TA0CCR0)
-  #define TIMER_VAL_REG      (TA0R)
+/* CC430 have "TimerA0", "TimerA1" and so on... */
+#define CNT_CTRL_BASE_REG  (TA0CCTL0)
+#define CNT_COMP_BASE_REG  (TA0CCR0)
+#define TIMER_VAL_REG      (TA0R)
 #else
-  /* ... while other MSP430 MCUs have "TimerA", "TimerB".
-     Cheers for TI and its consistency! */
-  #define CNT_CTRL_BASE_REG  (TACCTL0)
-  #define CNT_COMP_BASE_REG  (TACCR0)
-  #define TIMER_VAL_REG      (TAR)
+/* ... while other MSP430 MCUs have "TimerA", "TimerB".
+   Cheers for TI and its consistency!*/
+#define CNT_CTRL_BASE_REG  (TIMER_CCTL0)
+#define CNT_COMP_BASE_REG  (TIMER_CCR0)
+#define TIMER_VAL_REG      (TIMER_COUNTER)
 #endif
 
 static void timer_disable_interrupt(short timer)
@@ -51,10 +51,12 @@ static void timer_enable_interrupt(short timer)
 static void timer_set_nostart(uint32_t value, short timer)
 {
     volatile unsigned int *ptr = &CNT_COMP_BASE_REG + (timer);
+
     /* ensure we won't set the timer to a "past" tick */
     if (value <= hwtimer_arch_now()) {
         value = hwtimer_arch_now() + 2;
     }
+
     overflow_interrupt[timer] = (uint16_t)(value >> 16);
     *ptr = (value & 0xFFFF);
 }

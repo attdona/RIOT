@@ -420,7 +420,8 @@ void display_symbol(uint8_t symbol, uint8_t mode);
  *              uint8_t blanks          Number of leadings blanks in itoa result string
  * @return      none
  * ************************************************************************************************/
-void display_value1(uint8_t segments, uint32_t value, uint8_t digits, uint8_t blanks, uint8_t disp_mode);
+void display_value1(uint8_t segments, uint32_t value, uint8_t digits, uint8_t blanks,
+                    uint8_t disp_mode);
 
 /* Integer to string conversion  */
 /* *************************************************************************************************
