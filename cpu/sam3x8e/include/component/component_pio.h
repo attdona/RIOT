@@ -40,60 +40,60 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Pio hardware registers */
 typedef struct {
-    WoReg PIO_PER;       /**< \brief (Pio Offset: 0x0000) PIO Enable Register */
-    WoReg PIO_PDR;       /**< \brief (Pio Offset: 0x0004) PIO Disable Register */
-    RoReg PIO_PSR;       /**< \brief (Pio Offset: 0x0008) PIO Status Register */
-    RoReg Reserved1[1];
-    WoReg PIO_OER;       /**< \brief (Pio Offset: 0x0010) Output Enable Register */
-    WoReg PIO_ODR;       /**< \brief (Pio Offset: 0x0014) Output Disable Register */
-    RoReg PIO_OSR;       /**< \brief (Pio Offset: 0x0018) Output Status Register */
-    RoReg Reserved2[1];
-    WoReg PIO_IFER;      /**< \brief (Pio Offset: 0x0020) Glitch Input Filter Enable Register */
-    WoReg PIO_IFDR;      /**< \brief (Pio Offset: 0x0024) Glitch Input Filter Disable Register */
-    RoReg PIO_IFSR;      /**< \brief (Pio Offset: 0x0028) Glitch Input Filter Status Register */
-    RoReg Reserved3[1];
-    WoReg PIO_SODR;      /**< \brief (Pio Offset: 0x0030) Set Output Data Register */
-    WoReg PIO_CODR;      /**< \brief (Pio Offset: 0x0034) Clear Output Data Register */
-    RwReg PIO_ODSR;      /**< \brief (Pio Offset: 0x0038) Output Data Status Register */
-    RoReg PIO_PDSR;      /**< \brief (Pio Offset: 0x003C) Pin Data Status Register */
-    WoReg PIO_IER;       /**< \brief (Pio Offset: 0x0040) Interrupt Enable Register */
-    WoReg PIO_IDR;       /**< \brief (Pio Offset: 0x0044) Interrupt Disable Register */
-    RoReg PIO_IMR;       /**< \brief (Pio Offset: 0x0048) Interrupt Mask Register */
-    RoReg PIO_ISR;       /**< \brief (Pio Offset: 0x004C) Interrupt Status Register */
-    WoReg PIO_MDER;      /**< \brief (Pio Offset: 0x0050) Multi-driver Enable Register */
-    WoReg PIO_MDDR;      /**< \brief (Pio Offset: 0x0054) Multi-driver Disable Register */
-    RoReg PIO_MDSR;      /**< \brief (Pio Offset: 0x0058) Multi-driver Status Register */
-    RoReg Reserved4[1];
-    WoReg PIO_PUDR;      /**< \brief (Pio Offset: 0x0060) Pull-up Disable Register */
-    WoReg PIO_PUER;      /**< \brief (Pio Offset: 0x0064) Pull-up Enable Register */
-    RoReg PIO_PUSR;      /**< \brief (Pio Offset: 0x0068) Pad Pull-up Status Register */
-    RoReg Reserved5[1];
-    RwReg PIO_ABSR;      /**< \brief (Pio Offset: 0x0070) Peripheral AB Select Register */
-    RoReg Reserved6[3];
-    WoReg PIO_SCIFSR;    /**< \brief (Pio Offset: 0x0080) System Clock Glitch Input Filter Select Register */
-    WoReg PIO_DIFSR;     /**< \brief (Pio Offset: 0x0084) Debouncing Input Filter Select Register */
-    RoReg PIO_IFDGSR;    /**< \brief (Pio Offset: 0x0088) Glitch or Debouncing Input Filter Clock Selection Status Register */
-    RwReg PIO_SCDR;      /**< \brief (Pio Offset: 0x008C) Slow Clock Divider Debouncing Register */
-    RoReg Reserved7[4];
-    WoReg PIO_OWER;      /**< \brief (Pio Offset: 0x00A0) Output Write Enable */
-    WoReg PIO_OWDR;      /**< \brief (Pio Offset: 0x00A4) Output Write Disable */
-    RoReg PIO_OWSR;      /**< \brief (Pio Offset: 0x00A8) Output Write Status Register */
-    RoReg Reserved8[1];
-    WoReg PIO_AIMER;     /**< \brief (Pio Offset: 0x00B0) Additional Interrupt Modes Enable Register */
-    WoReg PIO_AIMDR;     /**< \brief (Pio Offset: 0x00B4) Additional Interrupt Modes Disables Register */
-    RoReg PIO_AIMMR;     /**< \brief (Pio Offset: 0x00B8) Additional Interrupt Modes Mask Register */
-    RoReg Reserved9[1];
-    WoReg PIO_ESR;       /**< \brief (Pio Offset: 0x00C0) Edge Select Register */
-    WoReg PIO_LSR;       /**< \brief (Pio Offset: 0x00C4) Level Select Register */
-    RoReg PIO_ELSR;      /**< \brief (Pio Offset: 0x00C8) Edge/Level Status Register */
-    RoReg Reserved10[1];
-    WoReg PIO_FELLSR;    /**< \brief (Pio Offset: 0x00D0) Falling Edge/Low Level Select Register */
-    WoReg PIO_REHLSR;    /**< \brief (Pio Offset: 0x00D4) Rising Edge/ High Level Select Register */
-    RoReg PIO_FRLHSR;    /**< \brief (Pio Offset: 0x00D8) Fall/Rise - Low/High Status Register */
-    RoReg Reserved11[1];
-    RoReg PIO_LOCKSR;    /**< \brief (Pio Offset: 0x00E0) Lock Status */
-    RwReg PIO_WPMR;      /**< \brief (Pio Offset: 0x00E4) Write Protect Mode Register */
-    RoReg PIO_WPSR;      /**< \brief (Pio Offset: 0x00E8) Write Protect Status Register */
+  WoReg PIO_PER;       /**< \brief (Pio Offset: 0x0000) PIO Enable Register */
+  WoReg PIO_PDR;       /**< \brief (Pio Offset: 0x0004) PIO Disable Register */
+  RoReg PIO_PSR;       /**< \brief (Pio Offset: 0x0008) PIO Status Register */
+  RoReg Reserved1[1];
+  WoReg PIO_OER;       /**< \brief (Pio Offset: 0x0010) Output Enable Register */
+  WoReg PIO_ODR;       /**< \brief (Pio Offset: 0x0014) Output Disable Register */
+  RoReg PIO_OSR;       /**< \brief (Pio Offset: 0x0018) Output Status Register */
+  RoReg Reserved2[1];
+  WoReg PIO_IFER;      /**< \brief (Pio Offset: 0x0020) Glitch Input Filter Enable Register */
+  WoReg PIO_IFDR;      /**< \brief (Pio Offset: 0x0024) Glitch Input Filter Disable Register */
+  RoReg PIO_IFSR;      /**< \brief (Pio Offset: 0x0028) Glitch Input Filter Status Register */
+  RoReg Reserved3[1];
+  WoReg PIO_SODR;      /**< \brief (Pio Offset: 0x0030) Set Output Data Register */
+  WoReg PIO_CODR;      /**< \brief (Pio Offset: 0x0034) Clear Output Data Register */
+  RwReg PIO_ODSR;      /**< \brief (Pio Offset: 0x0038) Output Data Status Register */
+  RoReg PIO_PDSR;      /**< \brief (Pio Offset: 0x003C) Pin Data Status Register */
+  WoReg PIO_IER;       /**< \brief (Pio Offset: 0x0040) Interrupt Enable Register */
+  WoReg PIO_IDR;       /**< \brief (Pio Offset: 0x0044) Interrupt Disable Register */
+  RoReg PIO_IMR;       /**< \brief (Pio Offset: 0x0048) Interrupt Mask Register */
+  RoReg PIO_ISR;       /**< \brief (Pio Offset: 0x004C) Interrupt Status Register */
+  WoReg PIO_MDER;      /**< \brief (Pio Offset: 0x0050) Multi-driver Enable Register */
+  WoReg PIO_MDDR;      /**< \brief (Pio Offset: 0x0054) Multi-driver Disable Register */
+  RoReg PIO_MDSR;      /**< \brief (Pio Offset: 0x0058) Multi-driver Status Register */
+  RoReg Reserved4[1];
+  WoReg PIO_PUDR;      /**< \brief (Pio Offset: 0x0060) Pull-up Disable Register */
+  WoReg PIO_PUER;      /**< \brief (Pio Offset: 0x0064) Pull-up Enable Register */
+  RoReg PIO_PUSR;      /**< \brief (Pio Offset: 0x0068) Pad Pull-up Status Register */
+  RoReg Reserved5[1];
+  RwReg PIO_ABSR;      /**< \brief (Pio Offset: 0x0070) Peripheral AB Select Register */
+  RoReg Reserved6[3];
+  WoReg PIO_SCIFSR;    /**< \brief (Pio Offset: 0x0080) System Clock Glitch Input Filter Select Register */
+  WoReg PIO_DIFSR;     /**< \brief (Pio Offset: 0x0084) Debouncing Input Filter Select Register */
+  RoReg PIO_IFDGSR;    /**< \brief (Pio Offset: 0x0088) Glitch or Debouncing Input Filter Clock Selection Status Register */
+  RwReg PIO_SCDR;      /**< \brief (Pio Offset: 0x008C) Slow Clock Divider Debouncing Register */
+  RoReg Reserved7[4];
+  WoReg PIO_OWER;      /**< \brief (Pio Offset: 0x00A0) Output Write Enable */
+  WoReg PIO_OWDR;      /**< \brief (Pio Offset: 0x00A4) Output Write Disable */
+  RoReg PIO_OWSR;      /**< \brief (Pio Offset: 0x00A8) Output Write Status Register */
+  RoReg Reserved8[1];
+  WoReg PIO_AIMER;     /**< \brief (Pio Offset: 0x00B0) Additional Interrupt Modes Enable Register */
+  WoReg PIO_AIMDR;     /**< \brief (Pio Offset: 0x00B4) Additional Interrupt Modes Disables Register */
+  RoReg PIO_AIMMR;     /**< \brief (Pio Offset: 0x00B8) Additional Interrupt Modes Mask Register */
+  RoReg Reserved9[1];
+  WoReg PIO_ESR;       /**< \brief (Pio Offset: 0x00C0) Edge Select Register */
+  WoReg PIO_LSR;       /**< \brief (Pio Offset: 0x00C4) Level Select Register */
+  RoReg PIO_ELSR;      /**< \brief (Pio Offset: 0x00C8) Edge/Level Status Register */
+  RoReg Reserved10[1];
+  WoReg PIO_FELLSR;    /**< \brief (Pio Offset: 0x00D0) Falling Edge/Low Level Select Register */
+  WoReg PIO_REHLSR;    /**< \brief (Pio Offset: 0x00D4) Rising Edge/ High Level Select Register */
+  RoReg PIO_FRLHSR;    /**< \brief (Pio Offset: 0x00D8) Fall/Rise - Low/High Status Register */
+  RoReg Reserved11[1];
+  RoReg PIO_LOCKSR;    /**< \brief (Pio Offset: 0x00E0) Lock Status */
+  RwReg PIO_WPMR;      /**< \brief (Pio Offset: 0x00E4) Write Protect Mode Register */
+  RoReg PIO_WPSR;      /**< \brief (Pio Offset: 0x00E8) Write Protect Status Register */
 } Pio;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- PIO_PER : (PIO Offset: 0x0000) PIO Enable Register -------- */

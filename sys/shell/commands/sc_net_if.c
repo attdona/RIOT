@@ -325,8 +325,7 @@ void _net_if_ifconfig_add_ipv6(int if_id, int argc, char **argv)
     net_if_addr_t addr;
 
     if (argc > 5) {
-        if (strcmp(argv[4], "multicast") == 0 || strcmp(argv[4], "anycast") == 0
-            || strcmp(argv[4], "unicast") == 0) {
+        if (strcmp(argv[4], "multicast") == 0 || strcmp(argv[4], "anycast") == 0 || strcmp(argv[4], "unicast") == 0) {
             type = argv[4];
             addr_str = argv[5];
         }
@@ -629,7 +628,6 @@ void _net_if_ifconfig_list(int if_id)
         }
 
 #ifdef MODULE_SIXLOWPAN
-
         if (addr_ptr->addr_protocol & NET_IF_L3P_IPV6) {
             char addr_str[IPV6_MAX_ADDR_STR_LEN];
             printf("            inet6 addr: ");
@@ -663,7 +661,6 @@ void _net_if_ifconfig_list(int if_id)
                 printf("error in conversion\n");
             }
         }
-
 #endif
     }
 

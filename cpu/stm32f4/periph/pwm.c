@@ -41,7 +41,6 @@ int pwm_init(pwm_t dev, pwm_mode_t mode, unsigned int frequency, unsigned int re
 
     switch (dev) {
 #if PWM_0_EN
-
         case PWM_0:
             tim = PWM_0_DEV;
             port = PWM_0_PORT;
@@ -56,7 +55,6 @@ int pwm_init(pwm_t dev, pwm_mode_t mode, unsigned int frequency, unsigned int re
             break;
 #endif
 #if PWM_1_EN
-
         case PWM_1:
             tim = PWM_1_DEV;
             port = PWM_1_PORT;
@@ -76,12 +74,10 @@ int pwm_init(pwm_t dev, pwm_mode_t mode, unsigned int frequency, unsigned int re
     for (int i = 0; i < channels; i++) {
         port->MODER &= ~(3 << (pins[i] * 2));
         port->MODER |= (2 << (pins[i] * 2));
-
         if (pins[i] < 8) {
             port->AFR[0] &= ~(0xf << (pins[i] * 4));
             port->AFR[0] |= (af << (pins[i] * 4));
-        }
-        else {
+        } else {
             port->AFR[1] &= ~(0xf << ((pins[i] - 8) * 4));
             port->AFR[1] |= (af << ((pins[i] - 8) * 4));
         }
@@ -103,7 +99,6 @@ int pwm_init(pwm_t dev, pwm_mode_t mode, unsigned int frequency, unsigned int re
     if (resolution > 0xffff || (resolution * frequency) > pwm_clk) {
         return -2;
     }
-
     tim->PSC = (pwm_clk / (resolution * frequency)) - 1;
     tim->ARR = resolution - 1;
 
@@ -115,14 +110,12 @@ int pwm_init(pwm_t dev, pwm_mode_t mode, unsigned int frequency, unsigned int re
             tim->CCMR2 |= (TIM_CCMR2_OC3M_1 | TIM_CCMR2_OC3M_2 |
                            TIM_CCMR2_OC4M_1 | TIM_CCMR2_OC4M_2);
             break;
-
         case PWM_RIGHT:
             tim->CCMR1 |= (TIM_CCMR1_OC1M_0 | TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2 |
                            TIM_CCMR1_OC2M_0 | TIM_CCMR1_OC2M_1 | TIM_CCMR1_OC2M_2);
             tim->CCMR2 |= (TIM_CCMR2_OC3M_0 | TIM_CCMR2_OC3M_1 | TIM_CCMR2_OC3M_2 |
                            TIM_CCMR2_OC4M_0 | TIM_CCMR2_OC4M_1 | TIM_CCMR2_OC4M_2);
             break;
-
         case PWM_CENTER:
             tim->CR1 |= (TIM_CR1_CMS_0 | TIM_CR1_CMS_1);
             break;
@@ -146,13 +139,11 @@ int pwm_set(pwm_t dev, int channel, unsigned int value)
 
     switch (dev) {
 #if PWM_0_EN
-
         case PWM_0:
             tim = PWM_0_DEV;
             break;
 #endif
 #if PWM_1_EN
-
         case PWM_1:
             tim = PWM_1_DEV;
             break;
@@ -168,19 +159,15 @@ int pwm_set(pwm_t dev, int channel, unsigned int value)
         case 0:
             tim->CCR1 = value;
             break;
-
         case 1:
             tim->CCR2 = value;
             break;
-
         case 2:
             tim->CCR3 = value;
             break;
-
         case 3:
             tim->CCR4 = value;
             break;
-
         default:
             return -1;
     }
@@ -192,13 +179,11 @@ void pwm_start(pwm_t dev)
 {
     switch (dev) {
 #if PWM_0_EN
-
         case PWM_0:
             PWM_0_DEV->CR1 |= TIM_CR1_CEN;
             break;
 #endif
 #if PWM_1_EN
-
         case PWM_1:
             PWM_1_DEV->CR1 |= TIM_CR1_CEN;
             break;
@@ -210,13 +195,11 @@ void pwm_stop(pwm_t dev)
 {
     switch (dev) {
 #if PWM_0_EN
-
         case PWM_0:
             PWM_0_DEV->CR1 &= ~(TIM_CR1_CEN);
             break;
 #endif
 #if PWM_1_EN
-
         case PWM_1:
             PWM_1_DEV->CR1 &= ~(TIM_CR1_CEN);
             break;
@@ -228,13 +211,11 @@ void pwm_poweron(pwm_t dev)
 {
     switch (dev) {
 #if PWM_0_EN
-
         case PWM_0:
             PWM_0_CLKEN();
             break;
 #endif
 #if PWM_1_EN
-
         case PWM_1:
             PWM_1_CLKEN();
             break;
@@ -246,13 +227,11 @@ void pwm_poweroff(pwm_t dev)
 {
     switch (dev) {
 #if PWM_0_EN
-
         case PWM_0:
             PWM_0_CLKDIS();
             break;
 #endif
 #if PWM_1_EN
-
         case PWM_1:
             PWM_1_CLKDIS();
             break;

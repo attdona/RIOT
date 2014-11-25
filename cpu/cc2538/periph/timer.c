@@ -52,25 +52,21 @@ int timer_init(tim_t dev, unsigned int ticks_per_us, void (*callback)(int))
     /* select the timer and enable the timer specific peripheral clocks */
     switch (dev) {
 #if TIMER_0_EN
-
         case TIMER_0:
             gptimer = TIMER_0_DEV;
             break;
 #endif
 #if TIMER_1_EN
-
         case TIMER_1:
             gptimer = TIMER_1_DEV;
             break;
 #endif
 #if TIMER_2_EN
-
         case TIMER_2:
             gptimer = TIMER_2_DEV;
             break;
 #endif
 #if TIMER_3_EN
-
         case TIMER_3:
             gptimer = TIMER_3_DEV;
             break;
@@ -120,30 +116,25 @@ int timer_set_absolute(tim_t dev, int channel, unsigned int value)
     /* get timer base register address */
     switch (dev) {
 #if TIMER_0_EN
-
         case TIMER_0:
             gptimer = TIMER_0_DEV;
             break;
 #endif
 #if TIMER_1_EN
-
         case TIMER_1:
             gptimer = TIMER_1_DEV;
             break;
 #endif
 #if TIMER_2_EN
-
         case TIMER_2:
             gptimer = TIMER_2_DEV;
             break;
 #endif
 #if TIMER_3_EN
-
         case TIMER_3:
             gptimer = TIMER_3_DEV;
             break;
 #endif
-
         case TIMER_UNDEFINED:
         default:
             return -1;
@@ -173,25 +164,21 @@ int timer_clear(tim_t dev, int channel)
     /* get timer base register address */
     switch (dev) {
 #if TIMER_0_EN
-
         case TIMER_0:
             gptimer = TIMER_0_DEV;
             break;
 #endif
 #if TIMER_1_EN
-
         case TIMER_1:
             gptimer = TIMER_1_DEV;
             break;
 #endif
 #if TIMER_2_EN
-
         case TIMER_2:
             gptimer = TIMER_2_DEV;
             break;
 #endif
 #if TIMER_3_EN
-
         case TIMER_3:
             gptimer = TIMER_3_DEV;
             break;
@@ -226,22 +213,18 @@ unsigned int timer_read(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
-
         case TIMER_0:
             return TIMER_0_DEV->TAR;
 #endif
 #if TIMER_1_EN
-
         case TIMER_1:
             return TIMER_1_DEV->TAR;
 #endif
 #if TIMER_2_EN
-
         case TIMER_2:
             return TIMER_2_DEV->TAR;
 #endif
 #if TIMER_3_EN
-
         case TIMER_3:
             return TIMER_3_DEV->TAR;
 #endif
@@ -259,28 +242,24 @@ void timer_stop(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
-
         case TIMER_0:
             TIMER_0_DEV->CTLbits.TAEN = 0;
             TIMER_0_DEV->CTLbits.TBEN = 0;
             break;
 #endif
 #if TIMER_1_EN
-
         case TIMER_1:
             TIMER_1_DEV->CTLbits.TAEN = 0;
             TIMER_1_DEV->CTLbits.TBEN = 0;
             break;
 #endif
 #if TIMER_2_EN
-
         case TIMER_2:
             TIMER_2_DEV->CTLbits.TAEN = 0;
             TIMER_2_DEV->CTLbits.TBEN = 0;
             break;
 #endif
 #if TIMER_3_EN
-
         case TIMER_3:
             TIMER_3_DEV->CTLbits.TAEN = 0;
             TIMER_3_DEV->CTLbits.TBEN = 0;
@@ -296,28 +275,24 @@ void timer_start(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
-
         case TIMER_0:
             TIMER_0_DEV->CTLbits.TAEN = 1;
             TIMER_0_DEV->CTLbits.TBEN = 1;
             break;
 #endif
 #if TIMER_1_EN
-
         case TIMER_1:
             TIMER_1_DEV->CTLbits.TAEN = 1;
             TIMER_1_DEV->CTLbits.TBEN = 1;
             break;
 #endif
 #if TIMER_2_EN
-
         case TIMER_2:
             TIMER_2_DEV->CTLbits.TAEN = 1;
             TIMER_2_DEV->CTLbits.TBEN = 1;
             break;
 #endif
 #if TIMER_3_EN
-
         case TIMER_3:
             TIMER_3_DEV->CTLbits.TAEN = 1;
             TIMER_3_DEV->CTLbits.TBEN = 1;
@@ -333,7 +308,6 @@ void timer_irq_enable(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
-
         case TIMER_0:
             NVIC_SetPriority(TIMER_0_IRQn_1, TIMER_IRQ_PRIO);
             NVIC_SetPriority(TIMER_0_IRQn_2, TIMER_IRQ_PRIO);
@@ -342,7 +316,6 @@ void timer_irq_enable(tim_t dev)
             break;
 #endif
 #if TIMER_1_EN
-
         case TIMER_1:
             NVIC_SetPriority(TIMER_1_IRQn_1, TIMER_IRQ_PRIO);
             NVIC_SetPriority(TIMER_1_IRQn_2, TIMER_IRQ_PRIO);
@@ -351,7 +324,6 @@ void timer_irq_enable(tim_t dev)
             break;
 #endif
 #if TIMER_2_EN
-
         case TIMER_2:
             NVIC_SetPriority(TIMER_2_IRQn_1, TIMER_IRQ_PRIO);
             NVIC_SetPriority(TIMER_2_IRQn_2, TIMER_IRQ_PRIO);
@@ -360,7 +332,6 @@ void timer_irq_enable(tim_t dev)
             break;
 #endif
 #if TIMER_3_EN
-
         case TIMER_3:
             NVIC_SetPriority(TIMER_3_IRQn_1, TIMER_IRQ_PRIO);
             NVIC_SetPriority(TIMER_3_IRQn_2, TIMER_IRQ_PRIO);
@@ -379,28 +350,24 @@ void timer_irq_disable(tim_t dev)
 {
     switch (dev) {
 #if TIMER_0_EN
-
         case TIMER_0:
             NVIC_DisableIRQ(TIMER_0_IRQn_1);
             NVIC_DisableIRQ(TIMER_0_IRQn_2);
             break;
 #endif
 #if TIMER_1_EN
-
         case TIMER_1:
             NVIC_DisableIRQ(TIMER_1_IRQn_1);
             NVIC_DisableIRQ(TIMER_1_IRQn_2);
             break;
 #endif
 #if TIMER_2_EN
-
         case TIMER_2:
             NVIC_DisableIRQ(TIMER_2_IRQn_1);
             NVIC_DisableIRQ(TIMER_2_IRQn_2);
             break;
 #endif
 #if TIMER_3_EN
-
         case TIMER_3:
             NVIC_DisableIRQ(TIMER_3_IRQn_1);
             NVIC_DisableIRQ(TIMER_3_IRQn_2);
@@ -425,10 +392,7 @@ __attribute__((naked))
 void TIMER_0_ISR_1(void)
 {
     ISR_ENTER();
-
-    if (config[0].cb != NULL) {
-        config[0].cb(0);
-    }
+    if (config[0].cb != NULL) config[0].cb(0);
 
     if (sched_context_switch_request) {
         thread_yield();
@@ -441,10 +405,7 @@ __attribute__((naked))
 void TIMER_0_ISR_2(void)
 {
     ISR_ENTER();
-
-    if (config[0].cb != NULL) {
-        config[0].cb(1);
-    }
+    if (config[0].cb != NULL) config[0].cb(1);
 
     if (sched_context_switch_request) {
         thread_yield();
@@ -460,10 +421,7 @@ __attribute__((naked))
 void TIMER_1_ISR_1(void)
 {
     ISR_ENTER();
-
-    if (config[1].cb != NULL) {
-        config[1].cb(0);
-    }
+    if (config[1].cb != NULL) config[1].cb(0);
 
     if (sched_context_switch_request) {
         thread_yield();
@@ -476,10 +434,7 @@ __attribute__((naked))
 void TIMER_1_ISR_2(void)
 {
     ISR_ENTER();
-
-    if (config[1].cb != NULL) {
-        config[1].cb(1);
-    }
+    if (config[1].cb != NULL) config[1].cb(1);
 
     if (sched_context_switch_request) {
         thread_yield();
@@ -495,10 +450,7 @@ __attribute__((naked))
 void TIMER_2_ISR_1(void)
 {
     ISR_ENTER();
-
-    if (config[2].cb != NULL) {
-        config[2].cb(0);
-    }
+    if (config[2].cb != NULL) config[2].cb(0);
 
     if (sched_context_switch_request) {
         thread_yield();
@@ -511,10 +463,7 @@ __attribute__((naked))
 void TIMER_2_ISR_2(void)
 {
     ISR_ENTER();
-
-    if (config[2].cb != NULL) {
-        config[2].cb(1);
-    }
+    if (config[2].cb != NULL) config[2].cb(1);
 
     if (sched_context_switch_request) {
         thread_yield();
@@ -530,10 +479,7 @@ __attribute__((naked))
 void TIMER_3_ISR_1(void)
 {
     ISR_ENTER();
-
-    if (config[3].cb != NULL) {
-        config[3].cb(0);
-    }
+    if (config[3].cb != NULL) config[3].cb(0);
 
     if (sched_context_switch_request) {
         thread_yield();
@@ -546,10 +492,7 @@ __attribute__((naked))
 void TIMER_3_ISR_2(void)
 {
     ISR_ENTER();
-
-    if (config[3].cb != NULL) {
-        config[3].cb(1);
-    }
+    if (config[3].cb != NULL) config[3].cb(1);
 
     if (sched_context_switch_request) {
         thread_yield();

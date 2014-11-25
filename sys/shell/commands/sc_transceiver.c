@@ -204,7 +204,6 @@ void _transceiver_get_set_channel_handler(int argc, char **argv)
     }
 
     msg_send_receive(&mesg, &mesg, transceiver_pid);
-
     if (c == -1) {
         puts("[transceiver] Error setting/getting channel");
     }
@@ -219,7 +218,6 @@ void _transceiver_send_handler(int argc, char **argv)
         puts("Transceiver not initialized");
         return;
     }
-
     if (argc != 3) {
         printf("Usage:\t%s <ADDR> <MSG>\n", argv[0]);
         return;
@@ -241,7 +239,7 @@ void _transceiver_send_handler(int argc, char **argv)
 
 #if MODULE_AT86RF231 || MODULE_CC2420 || MODULE_MC1322X
     memset(&p, 0, sizeof(ieee802154_packet_t));
-    p.frame.payload = (uint8_t *) text_msg;
+    p.frame.payload = (uint8_t*) text_msg;
     p.frame.payload_len = strlen(text_msg) + 1;
     p.frame.fcf.dest_addr_m = IEEE_802154_SHORT_ADDR_M;
     p.frame.fcf.src_addr_m = IEEE_802154_SHORT_ADDR_M;
@@ -258,11 +256,9 @@ void _transceiver_send_handler(int argc, char **argv)
     mesg.content.ptr = (char *) &tcmd;
 
 #if MODULE_AT86RF231 || MODULE_CC2420 || MODULE_MC1322X
-    printf("[transceiver] Sending packet of length %" PRIu16 " to %" PRIu16 ": %s\n",
-           p.frame.payload_len, p.frame.dest_addr[1], (char *) p.frame.payload);
+    printf("[transceiver] Sending packet of length %" PRIu16 " to %" PRIu16 ": %s\n", p.frame.payload_len, p.frame.dest_addr[1], (char*) p.frame.payload);
 #else
-    printf("[transceiver] Sending packet of length %" PRIu16 " to %" PRIu16 ": %s\n", p.length, p.dst,
-           (char *) p.data);
+    printf("[transceiver] Sending packet of length %" PRIu16 " to %" PRIu16 ": %s\n", p.length, p.dst, (char*) p.data);
 #endif
     msg_send_receive(&mesg, &mesg, transceiver_pid);
     int8_t response = mesg.content.value;
@@ -310,8 +306,7 @@ void _transceiver_get_set_pan_handler(int argc, char **argv)
     tcmd.data = &p;
 
     msg_t mesg;
-    mesg.content.ptr = (char *) &tcmd;
-
+    mesg.content.ptr = (char*) &tcmd;
     if (argc > 1) {
         p = atoi(argv[1]);
         printf("[transceiver] Trying to set pan %" PRIi32 "\n", p);
@@ -320,9 +315,7 @@ void _transceiver_get_set_pan_handler(int argc, char **argv)
     else {
         mesg.type = GET_PAN;
     }
-
     msg_send_receive(&mesg, &mesg, transceiver_pid);
-
     if (p == -1) {
         puts("[transceiver] Error setting/getting pan");
     }
@@ -342,13 +335,11 @@ void _transceiver_set_ignore_handler(int argc, char **argv)
     }
     else if (argc < 2) {
         printf("[transceiver] Ignored link layer addresses: ");
-
         for (uint8_t i = 0; i < TRANSCEIVER_MAX_IGNORED_ADDR; i++) {
             if (transceiver_ignored_addr[i]) {
                 printf("%" PRIu16 " ", transceiver_ignored_addr[i]);
             }
         }
-
         puts("");
         return;
     }
@@ -364,7 +355,7 @@ void _transceiver_set_ignore_handler(int argc, char **argv)
     tcmd.data = &a;
 
     msg_t mesg;
-    mesg.content.ptr = (char *) &tcmd;
+    mesg.content.ptr = (char*) &tcmd;
 
     a = atoi(argv[1]);
     printf("[transceiver] trying to add address %" PRIu16 " to the ignore list \n", a);
@@ -372,7 +363,6 @@ void _transceiver_set_ignore_handler(int argc, char **argv)
     msg_send_receive(&mesg, &mesg, transceiver_pid);
 
     int16_t response = a;
-
     if (response == -1) {
         printf("Error: ignore list full\n");
     }

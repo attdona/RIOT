@@ -45,7 +45,6 @@ static inline int priority_min(int a, int b)
     if (a == -1) {
         return b;
     }
-
     return a < b ? a : b;
 }
 
@@ -81,11 +80,9 @@ int pthread_barrier_wait(pthread_barrier_t *barrier)
              * wake up loop has ended. Otherwise the thread could run into the
              * the barrier again before `barrier->count` was reset. */
             mutex_lock(&barrier->mutex);
-
             if (node.cont) {
                 break;
             }
-
             mutex_unlock_and_sleep(&barrier->mutex);
         }
     }
@@ -98,7 +95,6 @@ int pthread_barrier_wait(pthread_barrier_t *barrier)
         int count = 1; /* Count number of woken up threads.
                         * The first thread is the current thread. */
         pthread_barrier_waiting_node_t *next;
-
         for (next = barrier->next; next; next = next->next) {
             ++count;
             next->cont = 1;
@@ -107,7 +103,6 @@ int pthread_barrier_wait(pthread_barrier_t *barrier)
             switch_prio = priority_min(switch_prio, other->priority);
             sched_set_status(other, STATUS_PENDING);
         }
-
         barrier->next = NULL;
         barrier->count = count;
     }
@@ -115,7 +110,7 @@ int pthread_barrier_wait(pthread_barrier_t *barrier)
     mutex_unlock(&barrier->mutex);
 
     if (switch_prio != -1) {
-        sched_switch (switch_prio);
+        sched_switch(switch_prio);
     }
 
     return 0;

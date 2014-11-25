@@ -22,7 +22,7 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 #define CONFIG_KEY      (0x1701)    /**< key to identify configuration             */

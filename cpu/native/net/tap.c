@@ -127,7 +127,7 @@ void _native_handle_tap_input(void)
         if (select(_native_tap_fd + 1, &rfds, NULL, NULL, &t) == 1) {
             int sig = SIGIO;
             extern int _sig_pipefd[2];
-            extern ssize_t (*real_write)(int fd, const void * buf, size_t count);
+            extern ssize_t (*real_write)(int fd, const void *buf, size_t count);
             real_write(_sig_pipefd[1], &sig, sizeof(int));
             _native_sigpend++;
             DEBUG("_native_handle_tap_input: sigpend++\n");
@@ -215,7 +215,7 @@ int _native_marshall_ethernet(uint8_t *framebuf, radio_packet_t *packet)
      * Linux does this on its own, but it doesn't hurt to do it here.
      * As of now only tuntaposx needs this. */
     if (data_len < ETHERMIN) {
-        DEBUG("padding data!(%d -> ", data_len);
+        DEBUG("padding data! (%d -> ", data_len);
         data_len = ETHERMIN;
         DEBUG("%d)\n", data_len);
     }

@@ -58,10 +58,9 @@ void chardev_loop(ringbuffer_t *rb)
         if (m.sender_pid != pid) {
             DEBUG("Receiving message from another thread: ");
 
-            switch (m.type) {
+            switch(m.type) {
                 case OPEN:
                     DEBUG("OPEN\n");
-
                     if (reader_pid == KERNEL_PID_UNDEF) {
                         reader_pid = m.sender_pid;
                         /* no error */
@@ -76,21 +75,19 @@ void chardev_loop(ringbuffer_t *rb)
 
                 case READ:
                     DEBUG("READ\n");
-
                     if (m.sender_pid != reader_pid) {
                         m.content.value = -EINVAL;
                         r = NULL;
                         msg_reply(&m, &m);
                     }
                     else {
-                        r = (struct posix_iop_t *)(void *)m.content.ptr;
+                        r = (struct posix_iop_t *)(void*)m.content.ptr;
                     }
 
                     break;
 
                 case CLOSE:
                     DEBUG("CLOSE\n");
-
                     if (m.sender_pid == reader_pid) {
                         DEBUG("uart0_thread: closing file from %" PRIkernel_pid "\n", reader_pid);
                         reader_pid = KERNEL_PID_UNDEF;
@@ -115,8 +112,7 @@ void chardev_loop(ringbuffer_t *rb)
             DEBUG("Data is available\n");
             unsigned state = disableIRQ();
             int nbytes = min(r->nbytes, rb->avail);
-            DEBUG("uart0_thread [%i]: sending %i bytes received from %" PRIkernel_pid " to pid %" PRIkernel_pid
-                  "\n", pid, nbytes, m.sender_pid, reader_pid);
+            DEBUG("uart0_thread [%i]: sending %i bytes received from %" PRIkernel_pid " to pid %" PRIkernel_pid "\n", pid, nbytes, m.sender_pid, reader_pid);
             ringbuffer_get(rb, r->buffer, nbytes);
             r->nbytes = nbytes;
 

@@ -67,11 +67,11 @@ Test *tests_core_atomic_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_atomic_set_return_null_null),
-                        new_TestFixture(test_atomic_set_return_one_null),
-                        new_TestFixture(test_atomic_set_return_null_one),
-                        new_TestFixture(test_atomic_set_return_limit_null),
-                        new_TestFixture(test_atomic_set_return_null_limit),
-                        new_TestFixture(test_atomic_set_return_null_random),
+        new_TestFixture(test_atomic_set_return_one_null),
+        new_TestFixture(test_atomic_set_return_null_one),
+        new_TestFixture(test_atomic_set_return_limit_null),
+        new_TestFixture(test_atomic_set_return_null_limit),
+        new_TestFixture(test_atomic_set_return_null_random),
     };
 
     EMB_UNIT_TESTCALLER(core_atomic_tests, NULL, NULL,

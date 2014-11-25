@@ -47,13 +47,12 @@ void udp_server(int argc, char **argv)
     (void) argv;
 
     kernel_pid_t udp_server_thread_pid = thread_create(udp_server_stack_buffer,
-                                         sizeof(udp_server_stack_buffer),
-                                         PRIORITY_MAIN, CREATE_STACKTEST,
-                                         init_udp_server,
-                                         NULL,
-                                         "init_udp_server");
-    printf("UDP SERVER ON PORT %d (THREAD PID: %" PRIkernel_pid ")\n", HTONS(SERVER_PORT),
-           udp_server_thread_pid);
+                                                       sizeof(udp_server_stack_buffer),
+                                                       PRIORITY_MAIN, CREATE_STACKTEST,
+                                                       init_udp_server,
+                                                       NULL,
+                                                       "init_udp_server");
+    printf("UDP SERVER ON PORT %d (THREAD PID: %" PRIkernel_pid ")\n", HTONS(SERVER_PORT), udp_server_thread_pid);
 }
 
 static void *init_udp_server(void *arg)
@@ -79,8 +78,7 @@ static void *init_udp_server(void *arg)
     }
 
     while (1) {
-        int32_t recsize = socket_base_recvfrom(sock, (void *)buffer_main, UDP_BUFFER_SIZE, 0, &sa,
-                                               &fromlen);
+        int32_t recsize = socket_base_recvfrom(sock, (void *)buffer_main, UDP_BUFFER_SIZE, 0, &sa, &fromlen);
 
         if (recsize < 0) {
             printf("ERROR: recsize < 0!\n");
@@ -135,8 +133,8 @@ void udp_send(int argc, char **argv)
     sa.sin6_port = HTONS(SERVER_PORT);
 
     bytes_sent = socket_base_sendto(sock, (char *)text,
-                                    strlen(text) + 1, 0, &sa,
-                                    sizeof(sa));
+                                       strlen(text) + 1, 0, &sa,
+                                       sizeof(sa));
 
     if (bytes_sent < 0) {
         printf("Error sending packet!\n");

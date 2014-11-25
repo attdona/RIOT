@@ -46,9 +46,9 @@ char second_thread_stack[KERNEL_CONF_STACKSIZE_DEFAULT];
 
 int main(void)
 {
-    timex_t sleep_time;
-    sleep_time.microseconds = 0;
-    sleep_time.seconds = 1;
+	timex_t sleep_time;
+	sleep_time.microseconds = 0;
+	sleep_time.seconds = 1;
 
     printf("Starting IPC Ping-pong example...\n");
     printf("1st thread started, pid: %" PRIkernel_pid "\n", thread_getpid());
@@ -56,8 +56,8 @@ int main(void)
     msg_t m;
 
     kernel_pid_t pid = thread_create(second_thread_stack, sizeof(second_thread_stack),
-                                     PRIORITY_MAIN - 1, CREATE_STACKTEST,
-                                     second_thread, NULL, "pong");
+                            PRIORITY_MAIN - 1, CREATE_STACKTEST,
+                            second_thread, NULL, "pong");
 
     m.content.value = 1;
 

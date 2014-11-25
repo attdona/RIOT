@@ -37,20 +37,17 @@ static void *first_thread(void *arg)
     (void) arg;
 
     puts("1st starting.");
-
     for (unsigned i = 0; i < LIMIT; ++i) {
         msg_t m;
         m.content.value = i;
         msg_send_receive(&m, &m, pids[1]);
 
         DEBUG("%u: Got msg with content %i\n", i, m.content.value);
-
         if (m.content.value != i + 1) {
             puts("ERROR. 1st");
             return NULL;
         }
     }
-
     puts("1st done.");
 
     return NULL;
@@ -61,7 +58,6 @@ static void *second_thread(void *arg)
     (void) arg;
 
     puts("2nd starting.");
-
     while (1) {
         msg_t m1;
         msg_receive(&m1);
@@ -70,7 +66,6 @@ static void *second_thread(void *arg)
         msg_t m2;
         m2.content.value = m1.content.value + 1;
         msg_send_receive(&m2, &m2, pids[2]);
-
         if (m2.content.value != m1.content.value) {
             puts("ERROR. 2nd");
             return NULL;
@@ -78,12 +73,10 @@ static void *second_thread(void *arg)
 
         ++m1.content.value;
         msg_reply(&m1, &m1);
-
         if (m1.content.value == LIMIT) {
             break;
         }
     }
-
     puts("2nd done.");
 
     return NULL;
@@ -94,7 +87,6 @@ static void *third_thread(void *arg)
     (void) arg;
 
     puts("3rd starting.");
-
     while (1) {
         msg_t m;
         msg_receive(&m);
@@ -107,7 +99,6 @@ static void *third_thread(void *arg)
             break;
         }
     }
-
     puts("3rd done.");
 
     return NULL;

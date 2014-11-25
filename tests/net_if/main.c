@@ -353,7 +353,6 @@ int test_net_if_get_set_pan_id(int iface)
 
 #if MODULE_AT86RF231 || MODULE_CC2420 || MODULE_MC1322X
     int32_t res = net_if_get_pan_id(iface);
-
     if (res < 0) {
         printf("FAILED: net_if_get_pan_id(%d) failed\n", iface);
         return 0;

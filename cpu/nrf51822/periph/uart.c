@@ -54,7 +54,6 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, uart_tx_cb_t t
 
     /* initialize UART in blocking mode fist */
     res = uart_init_blocking(uart, baudrate);
-
     if (res != 0) {
         return res;
     }
@@ -70,70 +69,54 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
         case 1200:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud1200;
             break;
-
         case 2400:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud2400;
             break;
-
         case 4800:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud4800;
             break;
-
         case 9600:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud9600;
             break;
-
         case 14400:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud14400;
             break;
-
         case 19200:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud19200;
             break;
-
         case 28800:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud28800;
             break;
-
         case 38400:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud38400;
             break;
-
         case 57600:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud57600;
             break;
-
         case 76800:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud76800;
             break;
-
         case 115200:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud115200;
             break;
-
         case 230400:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud230400;
             break;
-
         case 250000:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud250000;
             break;
-
         case 460800:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud460800;
             break;
-
         case 921600:
             baudrate_real = UART_BAUDRATE_BAUDRATE_Baud921600;
             break;
-
         default:
             return -1;
     }
 
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             /* power on UART device */
             UART_0_DEV->POWER = 1;
@@ -205,10 +188,8 @@ int uart_read_blocking(uart_t uart, char *data)
     switch (uart) {
         case UART_0:
             DEBUG("READING CHAR\n");
-
             /* wait for until data was received (RXDRDY == 1) */
             while (UART_0_DEV->EVENTS_RXDRDY != 1);
-
             DEBUG("RXDRDY was set\n");
             /* reset RXDRDY flag */
             UART_0_DEV->EVENTS_RXDRDY = 0;
@@ -227,10 +208,8 @@ int uart_write_blocking(uart_t uart, char data)
         case UART_0:
             /* write data into transmit register */
             UART_0_DEV->TXD = (uint8_t)data;
-
             /* wait for any transmission to be done */
             while (UART_0_DEV->EVENTS_TXDRDY == 0);
-
             /* reset ready flag */
             UART_0_DEV->EVENTS_TXDRDY = 0;
             break;
@@ -243,12 +222,10 @@ void uart_poweron(uart_t uart)
 {
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             UART_0_DEV->POWER = 1;
             break;
 #endif
-
         default:
             return;
     }
@@ -258,12 +235,10 @@ void uart_poweroff(uart_t uart)
 {
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             UART_0_DEV->POWER = 0;
             break;
 #endif
-
         default:
             return;
     }

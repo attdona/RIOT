@@ -22,7 +22,7 @@
 #include "arch/atomic_arch.h"
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 /**

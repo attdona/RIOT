@@ -55,8 +55,7 @@ typedef enum {
 #if I2C_3_EN
     I2C_3,                  /**< I2C device 3 */
 #endif
-}
-i2c_t;
+} i2c_t;
 
 /**
  * @brief define I2C bus speed values

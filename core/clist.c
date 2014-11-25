@@ -63,7 +63,6 @@ void clist_remove(clist_node_t **list, clist_node_t *node)
 void clist_print(clist_node_t *clist)
 {
     clist_node_t *start = clist, *node = start;
-
     if (!start) {
         return;
     }
@@ -75,8 +74,7 @@ void clist_print(clist_node_t *clist)
         if (clist == start) {
             break;
         }
-    }
-    while (node != start);
+    } while (node != start);
 }
 
 #endif

@@ -41,7 +41,7 @@
 /*---------------------------------------------------------------------------*/
 
 typedef struct hwtimer_t {
-    void (*callback)(void *);
+    void (*callback)(void*);
     void *data;
 } hwtimer_t;
 
@@ -58,9 +58,8 @@ static void multiplexer(int source)
     timer[source].callback(timer[source].data);
 }
 
-static void hwtimer_releasemutex(void *mutex)
-{
-    mutex_unlock((mutex_t *) mutex);
+static void hwtimer_releasemutex(void* mutex) {
+    mutex_unlock((mutex_t*) mutex);
 }
 
 void hwtimer_spin(unsigned long ticks)
@@ -131,7 +130,6 @@ void hwtimer_wait(unsigned long ticks)
     mutex_t mutex = MUTEX_INIT;
     mutex_lock(&mutex);
     int res = hwtimer_set(ticks - (HWTIMER_WAIT_OVERHEAD), hwtimer_releasemutex, &mutex);
-
     if (res == -1) {
         mutex_unlock(&mutex);
         hwtimer_spin(ticks);
@@ -146,7 +144,7 @@ void hwtimer_wait(unsigned long ticks)
 /*---------------------------------------------------------------------------*/
 
 
-static int _hwtimer_set(unsigned long offset, void (*callback)(void *), void *ptr, bool absolute)
+static int _hwtimer_set(unsigned long offset, void (*callback)(void*), void *ptr, bool absolute)
 {
     DEBUG("_hwtimer_set: offset=%lu callback=%p ptr=%p absolute=%d\n", offset, callback, ptr, absolute);
 
@@ -188,12 +186,12 @@ static int _hwtimer_set(unsigned long offset, void (*callback)(void *), void *pt
     return n;
 }
 
-int hwtimer_set(unsigned long offset, void (*callback)(void *), void *ptr)
+int hwtimer_set(unsigned long offset, void (*callback)(void*), void *ptr)
 {
     return _hwtimer_set(offset, callback, ptr, false);
 }
 
-int hwtimer_set_absolute(unsigned long offset, void (*callback)(void *), void *ptr)
+int hwtimer_set_absolute(unsigned long offset, void (*callback)(void*), void *ptr)
 {
     return _hwtimer_set(offset, callback, ptr, true);
 }

@@ -68,9 +68,9 @@ extern ssize_t (*real_write)(int fd, const void *buf, size_t count);
 extern size_t (*real_fread)(void *ptr, size_t size, size_t nmemb, FILE *stream);
 extern void (*real_clearerr)(FILE *stream);
 extern void (*real_free)(void *ptr);
-extern void *(*real_calloc)(size_t nmemb, size_t size);
-extern void *(*real_malloc)(size_t size);
-extern void *(*real_realloc)(void *ptr, size_t size);
+extern void* (*real_calloc)(size_t nmemb, size_t size);
+extern void* (*real_malloc)(size_t size);
+extern void* (*real_realloc)(void *ptr, size_t size);
 /* The ... is a hack to save includes: */
 extern int (*real_bind)(int socket, ...);
 extern int (*real_close)(int);
@@ -85,7 +85,7 @@ extern int (*real_pause)(void);
 extern int (*real_pipe)(int[2]);
 extern int (*real_printf)(const char *format, ...);
 extern int (*real_unlink)(const char *);
-extern FILE *(*real_fopen)(const char *path, const char *mode);
+extern FILE* (*real_fopen)(const char *path, const char *mode);
 
 /**
  * data structures

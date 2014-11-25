@@ -51,7 +51,7 @@ static clist_node_t *sched_runqueues[SCHED_PRIO_LEVELS];
 static uint32_t runqueue_bitcache = 0;
 
 #if SCHEDSTATISTICS
-static void (*sched_cb)(uint32_t timestamp, uint32_t value) = NULL;
+static void (*sched_cb) (uint32_t timestamp, uint32_t value) = NULL;
 schedstat sched_pidlist[KERNEL_PID_LAST + 1];
 #endif
 
@@ -71,27 +71,19 @@ void sched_run(void)
         }
 
 #ifdef SCHED_TEST_STACK
-
-        if (*((unsigned int *)my_active_thread->stack_start) != (unsigned int)
-            my_active_thread->stack_start) {
-            printf("scheduler(): stack overflow detected, task=%s pid=%" PRIkernel_pid "\n",
-                   my_active_thread->name, my_active_thread->pid);
+        if (*((unsigned int *)my_active_thread->stack_start) != (unsigned int) my_active_thread->stack_start) {
+            printf("scheduler(): stack overflow detected, task=%s pid=%" PRIkernel_pid "\n", my_active_thread->name, my_active_thread->pid);
         }
-
 #endif
 
 #ifdef SCHEDSTATISTICS
-
         if (sched_pidlist[my_active_thread->pid].laststart) {
-            sched_pidlist[my_active_thread->pid].runtime_ticks += time -
-                    sched_pidlist[my_active_thread->pid].laststart;
+            sched_pidlist[my_active_thread->pid].runtime_ticks += time - sched_pidlist[my_active_thread->pid].laststart;
         }
-
 #endif
     }
 
-    DEBUG("\nscheduler: previous task: %s\n",
-          (my_active_thread == NULL) ? "none" : my_active_thread->name);
+    DEBUG("\nscheduler: previous task: %s\n", (my_active_thread == NULL) ? "none" : my_active_thread->name);
 
     /* The bitmask in runqueue_bitcache is never empty,
      * since the threading should not be started before at least the idle thread was started.
@@ -105,11 +97,9 @@ void sched_run(void)
 #if SCHEDSTATISTICS
     sched_pidlist[my_next_pid].laststart = time;
     sched_pidlist[my_next_pid].schedules++;
-
     if ((sched_cb) && (my_next_pid != sched_active_pid)) {
         sched_cb(time, my_next_pid);
     }
-
 #endif
 
     sched_active_pid = my_next_pid;
@@ -161,13 +151,12 @@ void sched_set_status(tcb_t *process, unsigned int status)
     process->status = status;
 }
 
-void sched_switch (uint16_t other_prio)
+void sched_switch(uint16_t other_prio)
 {
     int in_isr = inISR();
     uint16_t current_prio = sched_active_thread->priority;
 
-    DEBUG("%s: %" PRIu16 " %" PRIu16 " %i\n", sched_active_thread->name, current_prio, other_prio,
-          in_isr);
+    DEBUG("%s: %" PRIu16 " %" PRIu16 " %i\n", sched_active_thread->name, current_prio, other_prio, in_isr);
 
     if (current_prio > other_prio) {
         if (in_isr) {
@@ -197,11 +186,9 @@ void thread_yield(void)
 {
     unsigned old_state = disableIRQ();
     tcb_t *me = (tcb_t *)sched_active_thread;
-
     if (me->status >= STATUS_ON_RUNQUEUE) {
         clist_advance(&sched_runqueues[me->priority]);
     }
-
     restoreIRQ(old_state);
 
     thread_yield_higher();

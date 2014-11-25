@@ -42,6 +42,5 @@ int servo_set(servo_t *dev, unsigned int pos)
     else if (pos < dev->min) {
         pos = dev->min;
     }
-
     return pwm_set(dev->device, dev->channel, pos);
 }

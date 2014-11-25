@@ -238,8 +238,7 @@ static icmpv6_ndp_opt_aro_t *get_opt_aro_buf(uint8_t ext_len, uint8_t opt_len)
     return ((icmpv6_ndp_opt_aro_t *) &buffer[LLHDR_ICMPV6HDR_LEN + ext_len + opt_len]);
 }
 
-void icmpv6_send_echo_request(ipv6_addr_t *destaddr, uint16_t id, uint16_t seq, uint8_t *data,
-                              size_t data_len)
+void icmpv6_send_echo_request(ipv6_addr_t *destaddr, uint16_t id, uint16_t seq, uint8_t *data, size_t data_len)
 {
     uint16_t packet_length;
 
@@ -278,8 +277,7 @@ void icmpv6_send_echo_request(ipv6_addr_t *destaddr, uint16_t id, uint16_t seq, 
     ipv6_send_packet(ipv6_buf);
 }
 
-void icmpv6_send_echo_reply(ipv6_addr_t *destaddr, uint16_t id, uint16_t seq, uint8_t *data,
-                            size_t data_len)
+void icmpv6_send_echo_reply(ipv6_addr_t *destaddr, uint16_t id, uint16_t seq, uint8_t *data, size_t data_len)
 {
     uint16_t packet_length;
 
@@ -427,7 +425,6 @@ void recv_echo_repl(void)
             printf("\n");
         }
     }
-
 #endif
 }
 
@@ -459,7 +456,6 @@ void recv_rtr_sol(void)
         }
 
         int if_id = 0;  // TODO, get this somehow
-
         if (nbr_entry != NULL) {
             /* found neighbor in cache, update values and check addr */
             if (memcmp(&llao[2], &nbr_entry->lladdr, lladdr_len) == 0) {
@@ -649,15 +645,13 @@ void icmpv6_send_router_adv(ipv6_addr_t *addr, uint8_t sllao, uint8_t mtu, uint8
 
             if (opt_6co_hdr_buf->c_length > 64) {
                 memset((void *)opt_6co_prefix_buf, 0, 16);
-                memcpy((void *)opt_6co_prefix_buf, (void *) &contexts[i].prefix.uint8[0],
-                       opt_6co_hdr_buf->c_length / 8);
+                memcpy((void *)opt_6co_prefix_buf, (void *) &contexts[i].prefix.uint8[0], opt_6co_hdr_buf->c_length / 8);
                 icmpv6_opt_hdr_len += 16;
                 packet_length += 16;
             }
             else {
                 memset((void *)opt_6co_prefix_buf, 0, 8);
-                memcpy((void *)opt_6co_prefix_buf, (void *) &contexts[i].prefix.uint8[0],
-                       opt_6co_hdr_buf->c_length / 8);
+                memcpy((void *)opt_6co_prefix_buf, (void *) &contexts[i].prefix.uint8[0], opt_6co_hdr_buf->c_length / 8);
                 icmpv6_opt_hdr_len += 8;
                 packet_length += 8;
             }
@@ -729,7 +723,6 @@ void recv_rtr_adv(void)
         ipv6_net_if_ext_t *iface;
 
         iface = ipv6_net_if_get_ext(if_id);
-
         if (iface) {
             iface->adv_reachable_time = NTOHL(rtr_adv_buf->reachable_time);
         }
@@ -739,7 +732,6 @@ void recv_rtr_adv(void)
         ipv6_net_if_ext_t *iface;
 
         iface = ipv6_net_if_get_ext(if_id);
-
         if (iface) {
             iface->adv_retrans_timer = NTOHL(rtr_adv_buf->retrans_timer);
         }
@@ -1310,7 +1302,6 @@ void recv_nbr_adv(void)
 
         if (nbr_entry != NULL) {
             int8_t new_ll = -1;
-
             if (llao != 0) {
                 new_ll = memcmp(&llao[2], &(nbr_entry->lladdr),
                                 nbr_entry->lladdr_len);
@@ -1318,7 +1309,6 @@ void recv_nbr_adv(void)
             }
 
             int if_id = 0;  // TODO, get this somehow
-
             if (nbr_entry->state == NDP_NCE_STATUS_INCOMPLETE) {
                 if (llao == NULL) {
                     return;
@@ -1541,7 +1531,6 @@ int ndp_addr_is_on_link(ipv6_addr_t *dest_addr)
 
     while ((if_id = net_if_iter_interfaces(if_id)) >= 0) {
         ndp_prefix_info_t *pi;
-
         if ((pi = ndp_prefix_info_search(if_id, dest_addr, 128))) {
             return (pi->flags & ICMPV6_NDP_OPT_PI_FLAG_ON_LINK) != 0;
         }
@@ -1786,7 +1775,7 @@ int ndp_add_prefix_info(int if_id, const ipv6_addr_t *prefix,
     }
 
     if ((prefix_info_count >= PREFIX_BUF_LEN) ||
-        (prefix_buf_count >= sizeof(prefix_buf))) {
+            (prefix_buf_count >= sizeof(prefix_buf))) {
         return SIXLOWERROR_ARRAYFULL;
     }
 

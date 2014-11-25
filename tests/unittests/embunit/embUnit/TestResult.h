@@ -43,12 +43,12 @@ extern "C" {
 /*typedef struct __TestResult*      TestResultRef;*//* -> Test.h*/
 
 typedef struct __TestListner    TestListner;
-typedef struct __TestListner   *TestListnerRef;/*downward compatible*/
+typedef struct __TestListner*   TestListnerRef;/*downward compatible*/
 
 struct __TestResult {
     unsigned short runCount;
     unsigned short failureCount;
-    TestListner *listener;
+    TestListner* listener;
 };
 
 #define new_TestResult(listener)\
@@ -58,11 +58,10 @@ struct __TestResult {
         (TestListner*)listener,\
     }
 
-void TestResult_init(TestResult *self, TestListner *listner);
-void TestResult_startTest(TestResult *self, Test *test);
-void TestResult_endTest(TestResult *self, Test *test);
-void TestResult_addFailure(TestResult *self, Test *test, const char *msg, int line,
-                           const char *file);
+void TestResult_init(TestResult* self,TestListner* listner);
+void TestResult_startTest(TestResult* self,Test* test);
+void TestResult_endTest(TestResult* self,Test* test);
+void TestResult_addFailure(TestResult* self,Test* test,const char* msg,int line,const char* file);
 
 #ifdef  __cplusplus
 }

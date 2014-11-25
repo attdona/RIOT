@@ -71,9 +71,9 @@ static void riot_ccn_appserver(int argc, char **argv)
     }
 
     _appserver_pid = thread_create(
-                         appserver_stack, sizeof(appserver_stack),
-                         PRIORITY_MAIN - 1, CREATE_STACKTEST,
-                         ccnl_riot_appserver_start, (void *) _relay_pid, "appserver");
+            appserver_stack, sizeof(appserver_stack),
+            PRIORITY_MAIN - 1, CREATE_STACKTEST,
+            ccnl_riot_appserver_start, (void *) _relay_pid, "appserver");
     DEBUG("ccn-lite appserver on thread_id %" PRIkernel_pid "...\n", _appserver_pid);
 }
 #endif
@@ -89,8 +89,7 @@ static void riot_ccn_express_interest(int argc, char **argv)
 
     DEBUG("in='%s'\n", small_buf);
 
-    int content_len = ccnl_riot_client_get(_relay_pid, small_buf,
-                                           (char *) big_buf); // small_buf=name to request
+    int content_len = ccnl_riot_client_get(_relay_pid, small_buf, (char *) big_buf); // small_buf=name to request
 
     if (content_len == 0) {
         puts("riot_get returned 0 bytes...aborting!");
@@ -150,7 +149,6 @@ static void riot_ccn_transceiver_start(kernel_pid_t _relay_pid)
 
     /* register for transceiver events */
     uint8_t reg = transceiver_register(TRANSCEIVER, _relay_pid);
-
     if (reg != 1) {
         DEBUG("transceiver register failed\n");
     }
@@ -164,7 +162,6 @@ static void riot_ccn_transceiver_start(kernel_pid_t _relay_pid)
     mesg.content.ptr = (char *) &tcmd;
     mesg.type = SET_CHANNEL;
     msg_send_receive(&mesg, &mesg, transceiver_pid);
-
     if (c == -1) {
         puts("[transceiver] Error setting/getting channel");
     }
@@ -182,9 +179,9 @@ static void riot_ccn_relay_start(void)
     }
 
     _relay_pid = thread_create(
-                     relay_stack, sizeof(relay_stack),
-                     PRIORITY_MAIN - 2, CREATE_STACKTEST,
-                     ccnl_riot_relay_start, NULL, "relay");
+            relay_stack, sizeof(relay_stack),
+            PRIORITY_MAIN - 2, CREATE_STACKTEST,
+            ccnl_riot_relay_start, NULL, "relay");
     DEBUG("ccn-lite relay on thread_id %" PRIkernel_pid "...\n", _relay_pid);
 
     riot_ccn_transceiver_start(_relay_pid);

@@ -9,10 +9,10 @@
 /**
  * @ingroup         cpu_nrf51822
  * @{
- *
+ * 
  * @file
  * @brief           CPU specific hwtimer configuration options
- *
+ * 
  * @author          Hauke Petersen <hauke.peterse@fu-berlin.de>
  */
 

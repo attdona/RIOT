@@ -101,8 +101,7 @@ extern "C" {
 /**
  *  Structure to represent a cc2420 packet.
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__ ((packed)) {
     /* @{ */
     uint8_t length;             /** < the length of the frame of the frame including fcs*/
     ieee802154_frame_t frame;   /** < the ieee802154 frame */
@@ -110,8 +109,7 @@ typedef struct __attribute__((packed))
     uint8_t lqi;                /** < the link quality indicator */
     bool crc;                   /** < 1 if crc was successfull, 0 otherwise */
     /* @} */
-}
-cc2420_packet_t;
+} cc2420_packet_t;
 
 /**
  * @brief Initialize the CC2420 transceiver.
@@ -377,28 +375,23 @@ extern cc2420_packet_t cc2420_rx_buffer[CC2420_RX_BUF_SIZE];
 /* setter functions wrappers, to maintain compatibility with both
    ieee802154_radio_driver_t and transceiver module */
 
-static inline void do_set_channel(unsigned int chan)
-{
+static inline void do_set_channel(unsigned int chan) {
     cc2420_set_channel(chan);
 }
 
-static inline void do_set_address(uint16_t addr)
-{
+static inline void do_set_address(uint16_t addr) {
     cc2420_set_address(addr);
 }
 
-static inline void do_set_long_address(uint64_t addr)
-{
+static inline void do_set_long_address(uint64_t addr) {
     cc2420_set_address_long(addr);
 }
 
-static inline void do_set_pan_id(uint16_t pan)
-{
+static inline void do_set_pan_id(uint16_t pan) {
     cc2420_set_pan(pan);
 }
 
-static inline void do_set_tx_power(int pow)
-{
+static inline void do_set_tx_power(int pow) {
     cc2420_set_tx_power(pow);
 }
 

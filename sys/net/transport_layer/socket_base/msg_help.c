@@ -43,11 +43,9 @@ int socket_base_net_msg_reply(msg_t *m, msg_t *reply, uint16_t message)
 int socket_base_net_msg_send(msg_t *m, kernel_pid_t pid, bool block, uint16_t message)
 {
     m->type = message;
-
     if (block) {
-        return  msg_send(m, pid);
-    }
-    else {
+       return  msg_send(m, pid);
+    } else {
         return msg_try_send(m, pid);
     }
 }

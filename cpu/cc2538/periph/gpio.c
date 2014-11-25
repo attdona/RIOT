@@ -56,102 +56,102 @@ static gpio_state_t gpio_config[GPIO_NUMOF];
 
 const uint32_t enable_lut = 0
 #if GPIO_0_EN
-                            | BIT(0)
+    | BIT(0)
 #endif
 #if GPIO_1_EN
-                            | BIT(1)
+    | BIT(1)
 #endif
 #if GPIO_2_EN
-                            | BIT(2)
+    | BIT(2)
 #endif
 #if GPIO_3_EN
-                            | BIT(3)
+    | BIT(3)
 #endif
 #if GPIO_4_EN
-                            | BIT(4)
+    | BIT(4)
 #endif
 #if GPIO_5_EN
-                            | BIT(5)
+    | BIT(5)
 #endif
 #if GPIO_6_EN
-                            | BIT(6)
+    | BIT(6)
 #endif
 #if GPIO_7_EN
-                            | BIT(7)
+    | BIT(7)
 #endif
 #if GPIO_8_EN
-                            | BIT(8)
+    | BIT(8)
 #endif
 #if GPIO_9_EN
-                            | BIT(9)
+    | BIT(9)
 #endif
 #if GPIO_10_EN
-                            | BIT(10)
+    | BIT(10)
 #endif
 #if GPIO_11_EN
-                            | BIT(11)
+    | BIT(11)
 #endif
 #if GPIO_12_EN
-                            | BIT(12)
+    | BIT(12)
 #endif
 #if GPIO_13_EN
-                            | BIT(13)
+    | BIT(13)
 #endif
 #if GPIO_14_EN
-                            | BIT(14)
+    | BIT(14)
 #endif
 #if GPIO_15_EN
-                            | BIT(15)
+    | BIT(15)
 #endif
 #if GPIO_16_EN
-                            | BIT(16)
+    | BIT(16)
 #endif
 #if GPIO_17_EN
-                            | BIT(17)
+    | BIT(17)
 #endif
 #if GPIO_18_EN
-                            | BIT(18)
+    | BIT(18)
 #endif
 #if GPIO_19_EN
-                            | BIT(19)
+    | BIT(19)
 #endif
 #if GPIO_20_EN
-                            | BIT(20)
+    | BIT(20)
 #endif
 #if GPIO_21_EN
-                            | BIT(21)
+    | BIT(21)
 #endif
 #if GPIO_22_EN
-                            | BIT(22)
+    | BIT(22)
 #endif
 #if GPIO_23_EN
-                            | BIT(23)
+    | BIT(23)
 #endif
 #if GPIO_24_EN
-                            | BIT(24)
+    | BIT(24)
 #endif
 #if GPIO_25_EN
-                            | BIT(25)
+    | BIT(25)
 #endif
 #if GPIO_26_EN
-                            | BIT(26)
+    | BIT(26)
 #endif
 #if GPIO_27_EN
-                            | BIT(27)
+    | BIT(27)
 #endif
 #if GPIO_28_EN
-                            | BIT(28)
+    | BIT(28)
 #endif
 #if GPIO_29_EN
-                            | BIT(29)
+    | BIT(29)
 #endif
 #if GPIO_30_EN
-                            | BIT(30)
+    | BIT(30)
 #endif
 #if GPIO_31_EN
-                            | BIT(31)
+    | BIT(31)
 #endif
-                            ;
+;
 
 const unsigned int pin_lut[] = {
 #if GPIO_0_EN
@@ -397,11 +397,10 @@ int gpio_init_int(gpio_t dev, gpio_pp_t pullup, gpio_flank_t flank, gpio_cb_t cb
 {
     int res, pin, irq_num;
     uint32_t mask;
-    cc2538_gpio_t *instance;
+    cc2538_gpio_t* instance;
 
     /* Note: gpio_init_in() also checks if the gpio is enabled. */
     res = gpio_init_in(dev, pullup);
-
     if (res < 0) {
         return res;
     }
@@ -418,7 +417,7 @@ int gpio_init_int(gpio_t dev, gpio_pp_t pullup, gpio_flank_t flank, gpio_cb_t cb
     /* Enable power-up interrupts for this GPIO port: */
     SYS_CTRL_IWE |= BIT(GPIO_NUM_TO_PORT_NUM(pin));
 
-    switch (flank) {
+    switch(flank) {
         case GPIO_FALLING:
             instance->IBE         &= ~mask;     /**< Not both edges */
             instance->IEV         &= ~mask;     /**< Falling edge */
@@ -530,7 +529,7 @@ __attribute__((naked))
 void isr_gpioa(void)
 {
     int mis, bit;
-    gpio_state_t *state;
+    gpio_state_t* state;
 
     ISR_ENTER();
     asm("push {r4-r5}");
@@ -562,7 +561,7 @@ __attribute__((naked))
 void isr_gpiob(void)
 {
     int mis, bit;
-    gpio_state_t *state;
+    gpio_state_t* state;
 
     ISR_ENTER();
     asm("push {r4-r5}");
@@ -594,7 +593,7 @@ __attribute__((naked))
 void isr_gpioc(void)
 {
     int mis, bit;
-    gpio_state_t *state;
+    gpio_state_t* state;
 
     ISR_ENTER();
     asm("push {r4-r5}");
@@ -626,7 +625,7 @@ __attribute__((naked))
 void isr_gpiod(void)
 {
     int mis, bit;
-    gpio_state_t *state;
+    gpio_state_t* state;
 
     ISR_ENTER();
     asm("push {r4-r5}");

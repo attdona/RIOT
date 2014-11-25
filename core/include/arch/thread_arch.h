@@ -22,7 +22,7 @@
 #include "attributes.h"
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 #include "kernel_internal.h"
@@ -53,8 +53,7 @@ extern "C" {
  *
  * @return                  pointer to the new top of the stack
  */
-char *thread_arch_stack_init(thread_task_func_t task_func, void *arg, void *stack_start,
-                             int stack_size);
+char *thread_arch_stack_init(thread_task_func_t task_func, void *arg, void *stack_start, int stack_size);
 
 /**
  * @brief Print the current stack to stdout

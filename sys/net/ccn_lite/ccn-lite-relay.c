@@ -112,28 +112,24 @@ void ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
 void ccnl_ageing(void *relay, void *aux)
 {
     ccnl_do_ageing(relay, aux);
-    ccnl_set_timer(TIMEOUT_TO_US(CCNL_CHECK_TIMEOUT_SEC, CCNL_CHECK_TIMEOUT_USEC), ccnl_ageing, relay,
-                   0);
+    ccnl_set_timer(TIMEOUT_TO_US(CCNL_CHECK_TIMEOUT_SEC, CCNL_CHECK_TIMEOUT_USEC), ccnl_ageing, relay, 0);
 }
 
 void ccnl_retransmit(void *relay, void *aux)
 {
     ccnl_do_retransmit(relay, aux);
-    ccnl_set_timer(TIMEOUT_TO_US(CCNL_CHECK_RETRANSMIT_SEC, CCNL_CHECK_RETRANSMIT_USEC),
-                   ccnl_retransmit, relay, 0);
+    ccnl_set_timer(TIMEOUT_TO_US(CCNL_CHECK_RETRANSMIT_SEC, CCNL_CHECK_RETRANSMIT_USEC), ccnl_retransmit, relay, 0);
 }
 
 void ccnl_nonce_timeout(void *relay, void *aux)
 {
     ccnl_do_nonce_timeout(relay, aux);
-    ccnl_set_timer(TIMEOUT_TO_US(CCNL_NONCE_TIMEOUT_SEC, CCNL_NONCE_TIMEOUT_USEC), ccnl_nonce_timeout,
-                   relay, 0);
+    ccnl_set_timer(TIMEOUT_TO_US(CCNL_NONCE_TIMEOUT_SEC, CCNL_NONCE_TIMEOUT_USEC), ccnl_nonce_timeout, relay, 0);
 }
 
 // ----------------------------------------------------------------------
 
-void ccnl_relay_config(struct ccnl_relay_s *relay, int max_cache_entries, int fib_threshold_prefix,
-                       int fib_threshold_aggregate)
+void ccnl_relay_config(struct ccnl_relay_s *relay, int max_cache_entries, int fib_threshold_prefix, int fib_threshold_aggregate)
 {
     struct ccnl_if_s *i;
 
@@ -194,16 +190,13 @@ void ccnl_relay_config(struct ccnl_relay_s *relay, int max_cache_entries, int fi
     }
 
     /* create default boardcast face on transceiver interface */
-    struct ccnl_face_s *f = ccnl_get_face_or_create(relay, RIOT_TRANS_IDX, RIOT_BROADCAST);
+    struct ccnl_face_s * f = ccnl_get_face_or_create(relay, RIOT_TRANS_IDX, RIOT_BROADCAST);
     f->flags |= CCNL_FACE_FLAGS_STATIC;
     i->broadcast_face = f;
 
-    ccnl_set_timer(TIMEOUT_TO_US(CCNL_CHECK_TIMEOUT_SEC, CCNL_CHECK_TIMEOUT_USEC), ccnl_ageing, relay,
-                   0);
-    ccnl_set_timer(TIMEOUT_TO_US(CCNL_CHECK_RETRANSMIT_SEC, CCNL_CHECK_RETRANSMIT_USEC),
-                   ccnl_retransmit, relay, 0);
-    ccnl_set_timer(TIMEOUT_TO_US(CCNL_NONCE_TIMEOUT_SEC, CCNL_NONCE_TIMEOUT_USEC), ccnl_nonce_timeout,
-                   relay, 0);
+    ccnl_set_timer(TIMEOUT_TO_US(CCNL_CHECK_TIMEOUT_SEC, CCNL_CHECK_TIMEOUT_USEC), ccnl_ageing, relay, 0);
+    ccnl_set_timer(TIMEOUT_TO_US(CCNL_CHECK_RETRANSMIT_SEC, CCNL_CHECK_RETRANSMIT_USEC), ccnl_retransmit, relay, 0);
+    ccnl_set_timer(TIMEOUT_TO_US(CCNL_NONCE_TIMEOUT_SEC, CCNL_NONCE_TIMEOUT_USEC), ccnl_nonce_timeout, relay, 0);
 }
 
 #if RIOT_CCNL_POPULATE
@@ -242,7 +235,6 @@ void ccnl_populate_cache(struct ccnl_relay_s *ccnl, unsigned char *buf, int data
         }
 
         c->flags |= CCNL_CONTENT_FLAGS_STATIC;
-
         if (!ccnl_content_add2cache(ccnl, c)) {
             // content store error
             free_content(c);
@@ -317,7 +309,6 @@ int ccnl_io_loop(struct ccnl_relay_s *ccnl)
         msg_receive(&in);
 
         mutex_lock(&ccnl->global_lock);
-
         switch (in.type) {
             case PKT_PENDING:
                 /* msg from transceiver */
@@ -354,7 +345,6 @@ int ccnl_io_loop(struct ccnl_relay_s *ccnl)
                 break;
 
 #if RIOT_CCNL_POPULATE
-
             case (CCNL_RIOT_POPULATE):
                 /* cmd to polulate the cache */
                 DEBUGMSG(1, "\tSrc:\t%" PRIkernel_pid "\n", in.sender_pid);
@@ -364,35 +354,28 @@ int ccnl_io_loop(struct ccnl_relay_s *ccnl)
                 break;
 #endif
 #if ENABLE_DEBUG
-
             case (CCNL_RIOT_PRINT_STAT):
-
                 /* cmd to print face statistics */
                 for (struct ccnl_face_s *f = ccnl->faces; f; f = f->next) {
                     ccnl_face_print_stat(f);
                 }
-
                 break;
 #endif
-
             case (CCNL_RIOT_CONFIG_CACHE):
                 /* cmd to configure the size of the cache at runtime */
                 ccnl->max_cache_entries = in.content.value;
                 DEBUGMSG(1, "max_cache_entries set to %d\n", ccnl->max_cache_entries);
                 break;
-
             case (ENOBUFFER):
                 /* transceiver has not enough buffer to store incoming packets, one packet is dropped  */
                 DEBUGMSG(1, "transceiver: one packet is dropped because buffers are full\n");
                 break;
-
             default:
                 DEBUGMSG(1, "%s Packet waiting\n", riot_ccnl_event_to_string(in.type));
                 DEBUGMSG(1, "\tSrc:\t%" PRIkernel_pid "\n", in.sender_pid);
                 DEBUGMSG(1, "\tdropping it...\n");
                 break;
         }
-
         mutex_unlock(&ccnl->global_lock);
     }
 
@@ -413,15 +396,13 @@ void *ccnl_riot_relay_start(void *arg)
     theRelay->riot_pid = sched_active_pid;
     mutex_init(&theRelay->global_lock);
 
-    DEBUGMSG(1, "This is ccn-lite-relay, starting at %lu:%lu\n", theRelay->startup_time.tv_sec,
-             theRelay->startup_time.tv_usec);
+    DEBUGMSG(1, "This is ccn-lite-relay, starting at %lu:%lu\n", theRelay->startup_time.tv_sec, theRelay->startup_time.tv_usec);
     DEBUGMSG(1, "  compile time: %s %s\n", __DATE__, __TIME__);
     DEBUGMSG(1, "  max_cache_entries: %d\n", CCNL_DEFAULT_MAX_CACHE_ENTRIES);
     DEBUGMSG(1, "  threshold_prefix: %d\n", CCNL_DEFAULT_THRESHOLD_PREFIX);
     DEBUGMSG(1, "  threshold_aggregate: %d\n", CCNL_DEFAULT_THRESHOLD_AGGREGATE);
 
-    ccnl_relay_config(theRelay, CCNL_DEFAULT_MAX_CACHE_ENTRIES, CCNL_DEFAULT_THRESHOLD_PREFIX,
-                      CCNL_DEFAULT_THRESHOLD_AGGREGATE);
+    ccnl_relay_config(theRelay, CCNL_DEFAULT_MAX_CACHE_ENTRIES, CCNL_DEFAULT_THRESHOLD_PREFIX, CCNL_DEFAULT_THRESHOLD_AGGREGATE);
 
     theRelay->riot_helper_pid = riot_start_helper_thread();
 
@@ -444,7 +425,6 @@ void *ccnl_riot_relay_helper_start(void *arg)
     (void) arg;
     unsigned long us = CCNL_CHECK_RETRANSMIT_USEC;
     mutex_lock(&theRelay->stop_lock);
-
     while (!theRelay->halt_flag) {
         mutex_lock(&theRelay->global_lock);
         ccnl_run_events();

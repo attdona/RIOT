@@ -72,13 +72,11 @@ void rx_cb(void *arg, char data)
     ringbuffer_add_one(&rx_buf, data);
     mutex_unlock(&uart_rx_mutex);
 #else
-
     if (uart0_handler_pid) {
         uart0_handle_incoming(data);
 
         uart0_notify_thread();
     }
-
 #endif
 }
 
@@ -112,7 +110,7 @@ void _fini(void)
  */
 void _exit(int n)
 {
-    printf("#!exit %i: resetting\n", n);
+    printf("#! exit %i: resetting\n", n);
     NVIC_SystemReset();
 
     while (1);
@@ -130,11 +128,10 @@ void _exit(int n)
 caddr_t _sbrk_r(struct _reent *r, size_t incr)
 {
     unsigned int state = disableIRQ();
-
     if ((uintptr_t)heap_top + incr > SRAM_BASE + SRAM_LENGTH) {
         restoreIRQ(state);
         r->_errno = ENOMEM;
-        return (caddr_t) - 1;
+        return (caddr_t)-1;
     }
     else {
         caddr_t res = heap_top;
@@ -204,14 +201,12 @@ int _open_r(struct _reent *r, const char *name, int mode)
 int _read_r(struct _reent *r, int fd, void *buffer, unsigned int count)
 {
 #ifndef MODULE_UART0
-
     while (rx_buf.avail == 0) {
         mutex_lock(&uart_rx_mutex);
     }
-
-    return ringbuffer_get(&rx_buf, (char *)buffer, rx_buf.avail);
+    return ringbuffer_get(&rx_buf, (char*)buffer, rx_buf.avail);
 #else
-    char *res = (char *)buffer;
+    char *res = (char*)buffer;
     res[0] = (char)uart0_readc();
     return 1;
 #endif

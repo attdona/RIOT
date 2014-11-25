@@ -76,7 +76,7 @@
 /* Ensure that @p stream is big enough to fit @p bytes bytes, otherwise return 0 */
 #define CBOR_ENSURE_SIZE(stream, bytes) do { \
     if (stream->pos + bytes >= stream->size) { return 0; } \
-} while (0)
+} while(0)
 
 /* Extra defines not related to the protocol itself */
 #define CBOR_STREAM_PRINT_BUFFERSIZE 1024 /* bytes */

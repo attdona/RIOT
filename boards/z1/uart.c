@@ -76,12 +76,10 @@ int putchar(int c)
     if (c == '\n') {
         putchar('\r');
     }
-
     /* wait for a previous transmission to end */
     while ((IFG2 & UCA0TXIFG) == 0) {
         __asm__("nop");
     }
-
     /* load TX byte buffer */
     UCA0TXBUF = (uint8_t) c;
 
@@ -97,12 +95,12 @@ uint8_t uart_readByte(void)
 /**
  * \brief the interrupt handler for UART reception
  */
-interrupt(USCIAB0RX_VECTOR) __attribute__((naked)) usart1irq(void)
+interrupt(USCIAB0RX_VECTOR) __attribute__ ((naked)) usart1irq(void)
 {
     __enter_isr();
 
 #ifndef MODULE_UART0
-    int __attribute__((unused)) c;
+    int __attribute__ ((unused)) c;
 #else
     int c;
 #endif
@@ -112,24 +110,19 @@ interrupt(USCIAB0RX_VECTOR) __attribute__((naked)) usart1irq(void)
         if (UCA0STAT & UCFE) {
             puts("UART RX framing error");
         }
-
         if (UCA0STAT & UCOE) {
             puts("UART RX overrun error");
         }
-
         if (UCA0STAT & UCPE) {
             puts("UART RX parity error");
         }
-
         if (UCA0STAT & UCBRK) {
             puts("UART RX break condition -> error");
         }
-
         /* Clear error flags by forcing a dummy read. */
         c = UCA0RXBUF;
 #ifdef MODULE_UART0
-    }
-    else if (uart0_handler_pid != KERNEL_PID_UNDEF) {
+    } else if (uart0_handler_pid != KERNEL_PID_UNDEF) {
         /* All went well -> let's signal the reception to adequate callbacks */
         c = UCA0RXBUF;
         uart0_handle_incoming(c);

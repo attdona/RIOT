@@ -6,23 +6,23 @@
  * directory for more details.
  */
 
-/**
-* @addtogroup  core_util
-* @{
-*
-* @file        cib.h
-* @brief       Circular integer buffer interface
-* @details     This structure provides an organizational interface
-*              and combined with an memory array forms a circular buffer.
-*
-* @author      unknown, propably Kaspar Schleiser <kaspar@schleiser.de>
-*/
+ /**
+ * @addtogroup  core_util
+ * @{
+ *
+ * @file        cib.h
+ * @brief       Circular integer buffer interface
+ * @details     This structure provides an organizational interface
+ *              and combined with an memory array forms a circular buffer.
+ *
+ * @author      unknown, propably Kaspar Schleiser <kaspar@schleiser.de>
+ */
 
 #ifndef __CIB_H
 #define __CIB_H
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 /**

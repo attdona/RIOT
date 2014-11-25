@@ -13,7 +13,7 @@ RIOTBASE ?= $(CURDIR)/../..
 CFLAGS += -DDEVELHELP -fno-builtin
 
 # Change this to 0 show compiler invocation lines by default:
-QUIET ?= 0
+QUIET ?= 1
 
 USEMODULE += uart0
 USEMODULE += vtimer

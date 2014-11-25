@@ -23,9 +23,8 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
-
 
 /**
  * data type for priority queue nodes
@@ -43,9 +42,6 @@ typedef struct queue {
     priority_queue_node_t *first;        /**< first queue node */
 } priority_queue_t;
 
-static inline void priority_queue_node_init(priority_queue_node_t *priority_queue_node) __attribute__((always_inline));
-static inline void priority_queue_init(priority_queue_t *priority_queue) __attribute__((always_inline));
-
 /**
  * @brief Static initializer for priority_queue_node_t.
  */
@@ -60,7 +56,7 @@ static inline void priority_queue_init(priority_queue_t *priority_queue) __attri
  *          pre-allocated priority_queue_node_t object, must not be NULL.
  */
 static inline void priority_queue_node_init(
-    priority_queue_node_t *priority_queue_node)
+        priority_queue_node_t *priority_queue_node)
 {
     priority_queue_node_t qn = PRIORITY_QUEUE_NODE_INIT;
     *priority_queue_node = qn;

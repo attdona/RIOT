@@ -205,8 +205,7 @@ size_t cbor_serialize_byte_string(cbor_stream_t *s, const char *val);
  * @param length Length of destination array
  * @return Number of bytes written into @p val
  */
-size_t cbor_deserialize_byte_string(const cbor_stream_t *stream, size_t offset, char *val,
-                                    size_t length);
+size_t cbor_deserialize_byte_string(const cbor_stream_t *stream, size_t offset, char *val, size_t length);
 size_t cbor_serialize_unicode_string(cbor_stream_t *s, const char *val);
 /**
  * Deserialize unicode string from @p stream to @p val
@@ -215,8 +214,7 @@ size_t cbor_serialize_unicode_string(cbor_stream_t *s, const char *val);
  * @param length Length of destination array
  * @return Number of bytes written into @p val
  */
-size_t cbor_deserialize_unicode_string(const cbor_stream_t *stream, size_t offset, char *val,
-                                       size_t length);
+size_t cbor_deserialize_unicode_string(const cbor_stream_t *stream, size_t offset, char *val, size_t length);
 
 /**
  * Serialize array of length @p array_length

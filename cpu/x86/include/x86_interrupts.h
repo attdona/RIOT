@@ -117,8 +117,7 @@ struct idt_desc {
  * @param   orig_ctx     (Changable) register set of the calling thread
  * @param   error_code   Related error code (if applies, otherwise 0)
  */
-typedef void (*x86_intr_handler_t)(uint8_t intr_num, struct x86_pushad *orig_ctx,
-                                   unsigned long error_code);
+typedef void (*x86_intr_handler_t)(uint8_t intr_num, struct x86_pushad *orig_ctx, unsigned long error_code);
 
 /**
  * @brief   Set callback function for interrupt.

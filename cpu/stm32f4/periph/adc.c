@@ -39,7 +39,6 @@ int adc_init(adc_t dev, adc_precision_t precision)
 
     switch (dev) {
 #if ADC_0_EN
-
         case ADC_0:
             adc = ADC_0_DEV;
             ADC_0_PORT_CLKEN();
@@ -47,14 +46,12 @@ int adc_init(adc_t dev, adc_precision_t precision)
             break;
 #endif
 #if ADC_1_EN
-
         case ADC_1:
             adc = ADC_1_DEV;
             ADC_1_PORT_CLKEN();
             ADC_1_PORT->MODER |= (3 << (ADC_1_CH0_PIN * 2) | 3 << (ADC_1_CH1_PIN * 2));
             break;
 #endif
-
         default:
             return -1;
     }
@@ -71,21 +68,17 @@ int adc_init(adc_t dev, adc_precision_t precision)
             adc->CR1 |= ADC_CR1_RES_0 | ADC_CR1_RES_1;
             adc_config[dev].max_value = 0x3f;
             break;
-
         case ADC_RES_8BIT:
             adc->CR1 |= ADC_CR1_RES_1;
             adc_config[dev].max_value = 0xff;
             break;
-
         case ADC_RES_10BIT:
             adc->CR1 |= ADC_CR1_RES_0;
             adc_config[dev].max_value = 0x3ff;
             break;
-
         case ADC_RES_12BIT:
             adc_config[dev].max_value = 0xfff;
             break;
-
         case ADC_RES_14BIT:
         case ADC_RES_16BIT:
             adc_poweroff(dev);
@@ -108,53 +101,41 @@ int adc_sample(adc_t dev, int channel)
 
     switch (dev) {
 #if ADC_0_EN
-
         case ADC_0:
             adc = ADC_0_DEV;
-
             switch (channel) {
                 case 0:
                     adc->SQR3 = ADC_0_CH0 & 0x1f;
                     break;
-
                 case 1:
                     adc->SQR3 = ADC_0_CH1 & 0x1f;
                     break;
-
                 default:
                     return -1;
             }
-
             break;
 #endif
 #if ADC_1_EN
-
         case ADC_1:
             adc = ADC_1_DEV;
-
             switch (channel) {
                 case 0:
                     adc->SQR3 = ADC_1_CH0 & 0x1f;
                     break;
-
                 case 1:
                     adc->SQR3 = ADC_1_CH1 & 0x1f;
                     break;
-
                 default:
                     return -1;
             }
-
             break;
 #endif
     }
 
     /* start single conversion */
     adc->CR2 |= ADC_CR2_SWSTART;
-
     /* wait until conversion is complete */
     while (!(adc->SR & ADC_SR_EOC));
-
     /* read and return result */
     return (int)adc->DR;
 }
@@ -163,13 +144,11 @@ void adc_poweron(adc_t dev)
 {
     switch (dev) {
 #if ADC_0_EN
-
         case ADC_0:
             ADC_0_CLKEN();
             break;
 #endif
 #if ADC_1_EN
-
         case ADC_1:
             ADC_1_CLKEN();
             break;
@@ -181,13 +160,11 @@ void adc_poweroff(adc_t dev)
 {
     switch (dev) {
 #if ADC_0_EN
-
         case ADC_0:
             ADC_0_CLKDIS();
             break;
 #endif
 #if ADC_1_EN
-
         case ADC_1:
             ADC_1_CLKDIS();
             break;

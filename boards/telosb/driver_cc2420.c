@@ -114,7 +114,6 @@ uint8_t cc2420_get_cca(void)
 {
     uint8_t status;
     long count = 0;
-
     do {
         unsigned int sr = disableIRQ();
         cc2420_spi_select();
@@ -122,13 +121,10 @@ uint8_t cc2420_get_cca(void)
         cc2420_spi_unselect();
         restoreIRQ(sr);
         count++;
-
         if (count >= MAX_RSSI_WAIT) {
             core_panic(0x2420, "cc2420_get_cca(): RSSI never valid!");
         }
-    }
-    while (!(status & CC2420_STATUS_RSSI_VALID));
-
+    } while (!(status & CC2420_STATUS_RSSI_VALID));
     return CC2420_GIO1;
 }
 
@@ -144,22 +140,18 @@ uint8_t cc2420_txrx(uint8_t data)
     IFG1 &= ~UTXIFG0;
     IFG1 &= ~URXIFG0;
     U0TXBUF = data;
-
-    while (!(IFG1 & UTXIFG0)) {
+    while(!(IFG1 & UTXIFG0)) {
         if (c++ == 1000000) {
             core_panic(0x2420, "cc2420_txrx() alarm");
         }
     }
-
     /* Wait for Byte received */
     c = 0;
-
-    while (!(IFG1 & URXIFG0)) {
+    while(!(IFG1 & URXIFG0)) {
         if (c++ == 1000000) {
             core_panic(0x2420, "cc2420_txrx() alarm");
         }
     }
-
     return U0RXBUF;
 }
 
@@ -168,8 +160,7 @@ void cc2420_spi_select(void)
     CC2420_CS_LOW;
 }
 
-void cc2420_spi_unselect(void)
-{
+void cc2420_spi_unselect(void) {
     CC2420_CS_HIGH;
 }
 
@@ -193,14 +184,12 @@ void cc2420_init_interrupts(void)
 void cc2420_spi_init(void)
 {
     /* Switch off async UART */
-    while (!(U0TCTL & TXEPT));  /* Wait for empty UxTXBUF register */
-
+    while(!(U0TCTL & TXEPT));   /* Wait for empty UxTXBUF register */
     IE1 &= ~(URXIE0 + UTXIE0);  /* Disable USART0 receive&transmit interrupt */
     ME1 &= ~(UTXE0 + URXE0);
 
     /* configure SPI-related pins */
-    P3SEL     |=
-        0x0E;                           /* P3.1 -  SIMO mode, P3.2 - SOMI mode, P3.3 - SCL mode */
+    P3SEL     |=  0x0E;                           /* P3.1 -  SIMO mode, P3.2 - SOMI mode, P3.3 - SCL mode */
     P3DIR     |=  0x0A;                           /* P3.1 and P3.3 as output */
     P3DIR     &= ~(0x04);                         /* P3.2 as input for SOMI */
     P4OUT     |=  0x04;                           /* P4.2 radio CS, hold high */
@@ -210,7 +199,7 @@ void cc2420_spi_init(void)
     U0CTL  = SWRST;
 
     /* 8-bit SPI Master 3-pin mode, with SMCLK as clock source */
-    /* CKPL works also, but not CKPH+CKPL or none of them!!*/
+    /* CKPL works also, but not CKPH+CKPL or none of them!! */
     U0CTL |= CHAR + SYNC + MM;
     U0TCTL = CKPH + SSEL1 + SSEL0 + STC + TXEPT;;
 
@@ -231,11 +220,10 @@ void cc2420_spi_init(void)
 /*
  * CC2420 receive interrupt
  */
-interrupt(PORT1_VECTOR) __attribute__((naked)) cc2420_isr(void)
+interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc2420_isr(void)
 {
     __enter_isr();
-
-    /* Check IFG */
+     /* Check IFG */
     if ((P1IFG & CC2420_FIFOP_PIN) != 0) {
         P1IFG &= ~CC2420_FIFOP_PIN;
         cc2420_rx_irq();
@@ -244,7 +232,6 @@ interrupt(PORT1_VECTOR) __attribute__((naked)) cc2420_isr(void)
     /* GIO0 is falling => check if FIFOP is high, indicating an RXFIFO overflow */
     else if ((P1IFG & CC2420_GIO0_PIN) != 0) {
         P1IFG &= ~CC2420_GIO0_PIN;
-
         if (cc2420_get_fifop()) {
             cc2420_rxoverflow_irq();
             DEBUG("[CC2420] rxfifo overflow");
@@ -254,6 +241,5 @@ interrupt(PORT1_VECTOR) __attribute__((naked)) cc2420_isr(void)
         puts("cc2420_isr(): unexpected IFG!");
         /* Should not occur - only GDO1 and GIO1 interrupts are enabled */
     }
-
     __exit_isr();
 }

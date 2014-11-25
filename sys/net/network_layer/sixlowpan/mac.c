@@ -55,7 +55,7 @@ uint8_t lowpan_mac_buf[PAYLOAD_SIZE];
 static uint8_t macdsn;
 
 static inline void mac_frame_short_to_eui64(net_if_eui64_t *eui64,
-        uint8_t *frame_short)
+                                            uint8_t *frame_short)
 {
     eui64->uint32[0] = HTONL(0x000000ff);
     eui64->uint16[2] = HTONS(0xfe00);
@@ -257,7 +257,7 @@ int sixlowpan_mac_prepare_ieee802144_frame(
     memcpy(&lowpan_mac_buf[hdrlen], frame->payload, frame->payload_len);
     /* set FCS */
 #ifdef MODULE_CC110X_LEGACY
-    fcs = (uint16_t *)&lowpan_mac_buf[frame->payload_len + hdrlen + 1];
+    fcs = (uint16_t *)&lowpan_mac_buf[frame->payload_len + hdrlen+1];
 #else
     fcs = (uint16_t *)&lowpan_mac_buf[frame->payload_len + hdrlen];
 #endif
@@ -285,7 +285,7 @@ int sixlowpan_mac_send_data(int if_id,
                                            payload, (size_t)payload_len);
         }
         else if (dest_len == 2) {
-            return net_if_send_packet(if_id, NTOHS((*((net_if_eui64_t *)dest)).uint16[0]),
+            return net_if_send_packet(if_id, NTOHS((*((net_if_eui64_t*)dest)).uint16[0]),
                                       payload, (size_t)payload_len);
         }
     }
@@ -308,9 +308,9 @@ int sixlowpan_mac_send_ieee802154_frame(int if_id,
         uint16_t dest_pan = HTONS(0xabcd);
         uint8_t length;
         int hdrlen = sixlowpan_mac_prepare_ieee802144_frame(&frame, if_id,
-                     dest_pan, dest,
-                     dest_len, payload,
-                     payload_len, mcast);
+                                                            dest_pan, dest,
+                                                            dest_len, payload,
+                                                            payload_len, mcast);
 
         if (hdrlen < 0) {
             return -1;

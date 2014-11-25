@@ -29,7 +29,8 @@
 /**
  * @brief   Internal structure to store the list of waiting threads.
  */
-typedef struct pthread_barrier_waiting_node {
+typedef struct pthread_barrier_waiting_node
+{
     struct pthread_barrier_waiting_node *next; /**< The next waiting thread. */
     kernel_pid_t pid; /**< The current thread to wake up. */
     volatile int cont; /**< 0 = spurious wake up, 1 = wake up */
@@ -41,7 +42,8 @@ typedef struct pthread_barrier_waiting_node {
  *            For a zeroed out datum you do not need to call the initializer,
  *            it is enough to set pthread_barrier_t::count.
  */
-typedef struct pthread_barrier {
+typedef struct pthread_barrier
+{
     struct pthread_barrier_waiting_node *next; /**< The first waiting thread. */
     mutex_t mutex; /**< Mutex to unlock to wake the thread up. */
     volatile int count; /**< Wait for N more threads before waking everyone up. */
@@ -52,7 +54,8 @@ typedef struct pthread_barrier {
  * @details   RIOT does not need this structure, because it is a single process OS.
  *            This is only here to POSIX compatibility.
  */
-typedef struct pthread_barrierattr {
+typedef struct pthread_barrierattr
+{
     int pshared; /**< See pthread_barrierattr_setpshared() and pthread_barrierattr_getpshared(). */
 } pthread_barrierattr_t;
 

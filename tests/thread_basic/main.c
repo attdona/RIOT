@@ -33,9 +33,9 @@ void *second_thread(void *arg)
 int main(void)
 {
     (void) thread_create(
-        t2_stack, sizeof(t2_stack),
-        PRIORITY_MAIN - 1, CREATE_WOUT_YIELD | CREATE_STACKTEST,
-        second_thread, NULL, "nr2");
+            t2_stack, sizeof(t2_stack),
+            PRIORITY_MAIN - 1, CREATE_WOUT_YIELD | CREATE_STACKTEST,
+            second_thread, NULL, "nr2");
     puts("first thread\n");
     return 0;
 }

@@ -40,23 +40,23 @@
 #include "TestRunner.h"
 
 static TestResult result_;
-static Test *root_;
+static Test* root_;
 int TestRunnerHadErrors;
 
-static void TestRunner_startTest(TestListner *self, Test *test)
+static void TestRunner_startTest(TestListner* self,Test* test)
 {
     (void)self;
     (void)test;
     stdimpl_print(".");
 }
 
-static void TestRunner_endTest(TestListner *self, Test *test)
+static void TestRunner_endTest(TestListner* self,Test* test)
 {
     (void)self;
     (void)test;
 }
 
-static void TestRunner_addFailure(TestListner *self, Test *test, char *msg, int line, char *file)
+static void TestRunner_addFailure(TestListner* self,Test* test,char* msg,int line,char* file)
 {
     (void)self;
     stdimpl_print("\n");
@@ -85,15 +85,15 @@ static const TestListnerImplement TestRunnerImplement = {
 };
 
 static const TestListner testrunner_ = {
-    (TestListnerImplement *) &TestRunnerImplement,
+    (TestListnerImplement*)&TestRunnerImplement,
 };
 
 void TestRunner_start(void)
 {
-    TestResult_init(&result_, (TestListner *)&testrunner_);
+    TestResult_init(&result_, (TestListner*)&testrunner_);
 }
 
-void TestRunner_runTest(Test *test)
+void TestRunner_runTest(Test* test)
 {
     root_ = test;
     Test_run(test, &result_);
@@ -102,7 +102,6 @@ void TestRunner_runTest(Test *test)
 void TestRunner_end(void)
 {
     char buf[16];
-
     if (result_.failureCount) {
         stdimpl_print("\nrun ");
         stdimpl_itoa(result_.runCount, buf, 10);
@@ -113,8 +112,7 @@ void TestRunner_end(void)
         stdimpl_print("\n");
 
         TestRunnerHadErrors = 1;
-    }
-    else {
+    } else {
         stdimpl_print("\nOK (");
         stdimpl_itoa(result_.runCount, buf, 10);
         stdimpl_print(buf);

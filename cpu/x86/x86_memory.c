@@ -98,17 +98,17 @@ void x86_init_gdt(void)
         .offset = (unsigned long) &gdt_entries[0],
     };
 
-    asm volatile("" :: "a"(0x0010));
+    asm volatile ("" :: "a"(0x0010));
 
-    asm volatile("lgdt %0" :: "m"(gdt));
-    asm volatile("ljmp $0x0008, $1f\n"
-                 "1:");
+    asm volatile ("lgdt %0" :: "m"(gdt));
+    asm volatile ("ljmp $0x0008, $1f\n"
+                  "1:");
 
-    asm volatile("mov %ax, %ds");
-    asm volatile("mov %ax, %es");
-    asm volatile("mov %ax, %fs");
-    asm volatile("mov %ax, %gs");
-    asm volatile("mov %ax, %ss");
+    asm volatile ("mov %ax, %ds");
+    asm volatile ("mov %ax, %es");
+    asm volatile ("mov %ax, %fs");
+    asm volatile ("mov %ax, %gs");
+    asm volatile ("mov %ax, %ss");
 }
 
 /* Addresses in PDPT, PD, and PT are linear addresses. */
@@ -121,7 +121,6 @@ static void init_elf_static_section(uint64_t bits, void *start_, void *end_)
 {
     unsigned long start = ((unsigned long) start_) / 0x1000;
     unsigned long end = (((unsigned long) end_) + 0x1000 - 1) / 0x1000;
-
     for (unsigned i = start; i < end; ++i) {
         unsigned pt_num = i / 512;
         unsigned pte_num = i % 512;
@@ -132,17 +131,14 @@ static void init_elf_static_section(uint64_t bits, void *start_, void *end_)
 static void check_requirements(void)
 {
     uint64_t cpuid = cpuid_caps();
-
     if ((cpuid & CPUID_PAE) == 0) {
-        puts("Your CPU does not support PAE!Halting.");
+        puts("Your CPU does not support PAE! Halting.");
         x86_hlt();
     }
-
     if ((cpuid & CPUID_PGE) == 0)  {
-        puts("Your CPU does not support PGE!Halting.");
+        puts("Your CPU does not support PGE! Halting.");
         x86_hlt();
     }
-
     if ((cpuid & CPUID_MSR) == 0) {
         puts("Warning: Your CPU does not support MSR!\n"
              "         Setting PT_XD = 0.");
@@ -153,7 +149,6 @@ static void check_requirements(void)
         uint64_t efer = msr_read(MSR_EFER);
         efer |= EFER_NXE;
         msr_set(MSR_EFER, efer);
-
         if (!(msr_read(MSR_EFER) & EFER_NXE)) {
             puts("Warning: Your hardware does not support the NX bit!\n"
                  "         Setting PT_XD = 0.");
@@ -168,13 +163,11 @@ static void init_pagetable(void)
     for (unsigned i = 0; i < X86_NUM_STATIC_PD; ++i) {
         pdpt[i] = ((uintptr_t) &static_pds[i]) | PT_PDPT_BITS;
     }
-
     for (unsigned i = 0; i < X86_NUM_STATIC_PT; ++i) {
         unsigned pd_num = i / 512;
         unsigned pt_num = i % 512;
         static_pds[pd_num][pt_num] = ((uintptr_t) &static_pts[i]) | PT_PD_BITS;
     }
-
     init_elf_static_section(PT_RW | pt_xd, (void *) 0, (void *) 0x100000);
     init_elf_static_section(PT_US, &_section_text_start, &_section_text_end);
     init_elf_static_section(PT_US | pt_xd, &_section_rodata_start, &_section_rodata_end);
@@ -200,7 +193,7 @@ static void init_pagetable(void)
 static void set_temp_page(uint64_t addr)
 {
     static_pts[TEMP_PAGE_PT][TEMP_PAGE_PTE] = addr != -1ull ? addr | PT_P | PT_RW | pt_xd : 0;
-    asm volatile("invlpg (%0)" :: "r"(&TEMP_PAGE));
+    asm volatile ("invlpg (%0)" :: "r"(&TEMP_PAGE));
 }
 
 static inline uint64_t min64(uint64_t a, uint64_t b)
@@ -215,11 +208,9 @@ static inline uint64_t max64(uint64_t a, uint64_t b)
 
 static uint32_t init_free_pages_heap_position = (uintptr_t) &_heap_start;
 
-static uint64_t init_free_pages_sub(uint64_t table, uint64_t bits, unsigned index, uint64_t *start,
-                                    uint64_t *pos)
+static uint64_t init_free_pages_sub(uint64_t table, uint64_t bits, unsigned index, uint64_t *start, uint64_t *pos)
 {
     set_temp_page(table);
-
     if (TEMP_PAGE.indices[index] & PT_P) {
         return TEMP_PAGE.indices[index] & PT_ADDR_MASK;
     }
@@ -257,13 +248,11 @@ static bool add_pages_to_pool(uint64_t start, uint64_t end)
         uint64_t table = (uintptr_t) &pdpt;
 
         table = init_free_pages_sub(table, PT_PDPT_BITS, pd_i, &start, &pos);
-
         if (pos >= end) {
             break;
         }
 
         table = init_free_pages_sub(table, PT_PD_BITS, pt_i, &start, &pos);
-
         if (pos >= end) {
             break;
         }
@@ -274,10 +263,8 @@ static bool add_pages_to_pool(uint64_t start, uint64_t end)
 
         if (++pte_i >= 512) {
             pte_i = 0;
-
             if (++pt_i >= 512) {
                 pt_i = 0;
-
                 if (++pd_i >= 4) {
                     break;
                 }
@@ -306,10 +293,8 @@ static void init_free_pages(void)
 
     unsigned long cnt = 0;
     uint64_t start, len;
-
     while (x86_get_memory_region(&start, &len, &cnt)) {
         uint64_t end = start + len;
-
         if (!add_pages_to_pool(start, end)) {
             break;
         }
@@ -318,24 +303,19 @@ static void init_free_pages(void)
     unsigned long free_pages_count = (init_free_pages_heap_position - (uintptr_t) &_heap_start) / 4096;
     float mem_amount = free_pages_count * (4096 / 1024);
     const char *mem_unit = "kB";
-
     if (mem_amount >= 2 * 1024) {
         mem_amount /= 1024;
         mem_unit = "MB";
     }
-
     if (mem_amount >= 2 * 1024) {
         mem_amount /= 1024;
         mem_unit = "GB";
     }
-
-    printf("There are %lu free pages (%.3f %s) available for the heap.\n", free_pages_count, mem_amount,
-           mem_unit);
+    printf("There are %lu free pages (%.3f %s) available for the heap.\n", free_pages_count, mem_amount, mem_unit);
 }
 
 static unsigned handling_pf;
-static void pagefault_handler(uint8_t intr_num, struct x86_pushad *orig_ctx,
-                              unsigned long error_code)
+static void pagefault_handler(uint8_t intr_num, struct x86_pushad *orig_ctx, unsigned long error_code)
 {
     (void) intr_num; /* intr_num == X86_INT_PF */
 
@@ -366,16 +346,14 @@ static void pagefault_handler(uint8_t intr_num, struct x86_pushad *orig_ctx,
         puts("Halting.");
         x86_hlt();
     }
-
 #ifdef DEBUG_READ_BEFORE_WRITE
     else if ((pte != NO_PTE) && !(pte & PT_P) && (pte & PT_HEAP_BIT)) {
         /* mark as present */
         TEMP_PAGE.indices[(virtual_addr >> 12) % 512] |= PT_P;
-        asm volatile("invlpg (%0)" :: "r"(virtual_addr));
+        asm volatile ("invlpg (%0)" :: "r"(virtual_addr));
 
         /* initialize for easier debugging */
-        uint32_t *p = (uint32_t *)(virtual_addr & ~0xfff);
-
+        uint32_t *p = (uint32_t *) (virtual_addr & ~0xfff);
         for (unsigned i = 0; i < 0x1000 / 4; ++i) {
             const union {
                 char str_value[4];
@@ -391,18 +369,15 @@ static void pagefault_handler(uint8_t intr_num, struct x86_pushad *orig_ctx,
                    virtual_addr, pte & PT_ADDR_MASK, sp[0]);
         }
     }
-
 #endif
     else if (error_code & PF_EC_P) {
-        printf("Page fault: access violation while %s present page.\n",
-               error_code & PF_EC_W ? "writing to" : "reading from");
+        printf("Page fault: access violation while %s present page.\n", error_code & PF_EC_W ? "writing to" : "reading from");
         x86_print_registers(orig_ctx, error_code);
         puts("Halting.");
         x86_hlt();
     }
     else {
-        printf("Page fault: access violation while %s non-present page.\n",
-               error_code & PF_EC_W ? "writing to" : "reading from");
+        printf("Page fault: access violation while %s non-present page.\n", error_code & PF_EC_W ? "writing to" : "reading from");
         x86_print_registers(orig_ctx, error_code);
         puts("Halting.");
         x86_hlt();
@@ -438,13 +413,11 @@ uint64_t x86_get_pte(uint32_t addr)
 
     if (pdpt[pd_i] & PT_P) {
         set_temp_page(pdpt[pd_i] & PT_ADDR_MASK);
-
         if (TEMP_PAGE.indices[pt_i] & PT_P) {
             set_temp_page(TEMP_PAGE.indices[pt_i] & PT_ADDR_MASK);
             return TEMP_PAGE.indices[pte_i];
         }
     }
-
     return NO_PTE;
 }
 
@@ -455,7 +428,7 @@ static void virtual_pages_set_bits(uint32_t virtual_addr, unsigned pages, uint64
 
         uint64_t old_physical_addr = x86_get_pte(virtual_addr) & PT_ADDR_MASK;
         TEMP_PAGE.indices[pte_i] = old_physical_addr | bits;
-        asm volatile("invlpg (%0)" :: "r"(virtual_addr));
+        asm volatile ("invlpg (%0)" :: "r"(virtual_addr));
 
         virtual_addr += 0x1000;
     }
@@ -471,7 +444,6 @@ void *x86_map_physical_pages(uint64_t physical_start, unsigned pages, uint64_t b
     /* We use an already set up space, so we are sure that the upper level page tables are allocated. */
     /* We cut out a slice and re-add the physical pages. */
     char *result = memalign(0x1000, pages * 0x1000);
-
     if (!result) {
         return NULL;
     }
@@ -504,9 +476,8 @@ void *x86_get_virtual_pages(unsigned pages, uint64_t bits)
     }
 
     char *result = memalign(0x1000, pages * 0x1000);
-
     if (!result) {
-        return (void *) - 1ul;
+        return (void *) -1ul;
     }
 
     virtual_pages_set_bits((uintptr_t) result, pages, bits);

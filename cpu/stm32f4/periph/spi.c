@@ -51,30 +51,24 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
         case SPI_SPEED_100KHZ:
             return -2;          /* not possible for stm32f4 */
             break;
-
         case SPI_SPEED_400KHZ:
             speed_devider = 7;  /* makes 656 kHz */
             break;
-
         case SPI_SPEED_1MHZ:
             speed_devider = 6;  /* makes 1.3 MHz */
             break;
-
         case SPI_SPEED_5MHZ:
             speed_devider = 4;  /* makes 5.3 MHz */
             break;
-
         case SPI_SPEED_10MHZ:
             speed_devider = 3;  /* makes 10.5 MHz */
             break;
-
         default:
             return -1;
     }
 
     switch (dev) {
 #if SPI_0_EN
-
         case SPI_0:
             spi_port = SPI_0_DEV;
             /* enable clocks */
@@ -85,7 +79,6 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
             break;
 #endif /* SPI_0_EN */
 #if SPI_1_EN
-
         case SPI_1:
             spi_port = SPI_1_DEV;
             /* enable clocks */
@@ -96,7 +89,6 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
             break;
 #endif /* SPI_1_EN */
 #if SPI_2_EN
-
         case SPI_2:
             spi_port = SPI_2_DEV;
             /* enable clocks */
@@ -106,7 +98,6 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
             SPI_2_MOSI_PORT_CLKEN();
             break;
 #endif /* SPI_2_EN */
-
         default:
             return -2;
     }
@@ -115,8 +106,7 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed)
     spi_conf_pins(dev);
 
     /**************** SPI-Init *****************/
-    spi_port->I2SCFGR &= ~
-                         (SPI_I2SCFGR_I2SMOD);/* Activate the SPI mode (Reset I2SMOD bit in I2SCFGR register) */
+    spi_port->I2SCFGR &= ~(SPI_I2SCFGR_I2SMOD);/* Activate the SPI mode (Reset I2SMOD bit in I2SCFGR register) */
     spi_port->CR1 = 0;
     spi_port->CR2 = 0;
     /* the NSS (chip select) is managed purely by software */
@@ -135,7 +125,6 @@ int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char data))
 
     switch (dev) {
 #if SPI_0_EN
-
         case SPI_0:
             spi_port = SPI_0_DEV;
             /* enable clocks */
@@ -149,7 +138,6 @@ int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char data))
             break;
 #endif /* SPI_0_EN */
 #if SPI_1_EN
-
         case SPI_1:
             spi_port = SPI_1_DEV;
             /* enable clocks */
@@ -163,7 +151,6 @@ int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char data))
             break;
 #endif /* SPI_1_EN */
 #if SPI_2_EN
-
         case SPI_2:
             spi_port = SPI_2_DEV;
             /* enable clocks */
@@ -176,7 +163,6 @@ int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char data))
             NVIC_EnableIRQ(SPI_2_IRQ);
             break;
 #endif /* SPI_2_EN */
-
         default:
             return -1;
     }
@@ -191,7 +177,7 @@ int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char data))
     /* enable RXNEIE flag to enable rx buffer not empty interrupt */
     spi_port->CR2 |= (SPI_CR2_RXNEIE); /*1:not masked */
     spi_port->CR1 |= (conf);
-    /* the NSS (chip select) is managed by software and NSS is low (slave enabled) */
+     /* the NSS (chip select) is managed by software and NSS is low (slave enabled) */
     spi_port->CR1 |= SPI_CR1_SSM;
     /* set callback */
     spi_config[dev].cb = cb;
@@ -207,7 +193,6 @@ int spi_conf_pins(spi_t dev)
 
     switch (dev) {
 #if SPI_0_EN
-
         case SPI_0:
             port[0] = SPI_0_SCK_PORT;
             pin[0] = SPI_0_SCK_PIN;
@@ -221,7 +206,6 @@ int spi_conf_pins(spi_t dev)
             break;
 #endif /* SPI_0_EN */
 #if SPI_1_EN
-
         case SPI_1:
             port[0] = SPI_1_SCK_PORT;
             pin[0] = SPI_1_SCK_PIN;
@@ -235,7 +219,6 @@ int spi_conf_pins(spi_t dev)
             break;
 #endif /* SPI_1_EN */
 #if SPI_2_EN
-
         case SPI_2:
             port[0] = SPI_2_SCK_PORT;
             pin[0] = SPI_2_SCK_PIN;
@@ -248,7 +231,6 @@ int spi_conf_pins(spi_t dev)
             af[2] = SPI_2_MISO_AF;
             break;
 #endif /* SPI_2_EN */
-
         default:
             return -1;
     }
@@ -281,30 +263,25 @@ int spi_transfer_byte(spi_t dev, char out, char *in)
 
     switch (dev) {
 #if SPI_0_EN
-
         case SPI_0:
             spi_port = SPI_0_DEV;
             break;
 #endif
 #if SPI_1_EN
-
         case SPI_1:
             spi_port = SPI_1_DEV;
             break;
 #endif
 #if SPI_2_EN
-
         case SPI_2:
             spi_port = SPI_2_DEV;
             break;
 #endif
-
         default:
             return -1;
     }
 
     while (!(spi_port->SR & SPI_SR_TXE));
-
     spi_port->DR = out;
 
     while (!(spi_port->SR & SPI_SR_RXNE));
@@ -332,15 +309,12 @@ int spi_transfer_bytes(spi_t dev, char *out, char *in, unsigned int length)
         else {
             trans_ret = spi_transfer_byte(dev, 0, &in_temp);
         }
-
         if (trans_ret < 0) {
             return -1;
         }
-
         if (in != NULL) {
             in[i] = in_temp;
         }
-
         trans_bytes++;
     }
 
@@ -352,13 +326,10 @@ int spi_transfer_reg(spi_t dev, uint8_t reg, char out, char *in)
     int trans_ret;
 
     trans_ret = spi_transfer_byte(dev, reg, in);
-
     if (trans_ret < 0) {
         return -1;
     }
-
     trans_ret = spi_transfer_byte(dev, out, in);
-
     if (trans_ret < 0) {
         return -1;
     }
@@ -371,13 +342,10 @@ int spi_transfer_regs(spi_t dev, uint8_t reg, char *out, char *in, unsigned int 
     int trans_ret;
 
     trans_ret = spi_transfer_byte(dev, reg, in);
-
     if (trans_ret < 0) {
         return -1;
     }
-
     trans_ret = spi_transfer_bytes(dev, out, in, length);
-
     if (trans_ret < 0) {
         return -1;
     }
@@ -390,19 +358,16 @@ void spi_transmission_begin(spi_t dev, char reset_val)
 
     switch (dev) {
 #if SPI_0_EN
-
         case SPI_0:
             SPI_0_DEV->DR = reset_val;
             break;
 #endif
 #if SPI_1_EN
-
         case SPI_1:
             SPI_1_DEV->DR = reset_val;
             break;
 #endif
 #if SPI_2_EN
-
         case SPI_2:
             SPI_2_DEV->DR = reset_val;
             break;
@@ -414,19 +379,16 @@ void spi_poweron(spi_t dev)
 {
     switch (dev) {
 #if SPI_0_EN
-
         case SPI_0:
             SPI_0_CLKEN();
             break;
 #endif
 #if SPI_1_EN
-
         case SPI_1:
             SPI_1_CLKEN();
             break;
 #endif
 #if SPI_2_EN
-
         case SPI_2:
             SPI_2_CLKEN();
             break;
@@ -438,26 +400,20 @@ void spi_poweroff(spi_t dev)
 {
     switch (dev) {
 #if SPI_0_EN
-
         case SPI_0:
             while (SPI_0_DEV->SR & SPI_SR_BSY);
-
             SPI_0_CLKDIS();
             break;
 #endif
 #if SPI_1_EN
-
         case SPI_1:
             while (SPI_1_DEV->SR & SPI_SR_BSY);
-
             SPI_1_CLKDIS();
             break;
 #endif
 #if SPI_2_EN
-
         case SPI_2:
             while (SPI_2_DEV->SR & SPI_SR_BSY);
-
             SPI_2_CLKDIS();
             break;
 #endif
@@ -473,7 +429,6 @@ static inline void irq_handler_transfer(SPI_TypeDef *spi, spi_t dev)
         data = spi_config[dev].cb(data);
         spi->DR = data;
     }
-
     /* see if a thread with higher priority wants to run now */
     if (sched_context_switch_request) {
         thread_yield();

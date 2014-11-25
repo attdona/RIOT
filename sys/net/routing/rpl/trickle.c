@@ -214,7 +214,6 @@ void long_delay_dao(void)
 static void *dao_delay_over(void *arg)
 {
     (void) arg;
-
     while (1) {
         thread_sleep();
 
@@ -229,7 +228,6 @@ static void *dao_delay_over(void *arg)
             long_delay_dao();
         }
     }
-
     return NULL;
 }
 

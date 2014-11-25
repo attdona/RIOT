@@ -525,7 +525,7 @@ void ipv6_net_if_get_best_src_addr(ipv6_addr_t *src, const ipv6_addr_t *dest);
  *
  * @param   next_hop    function that returns the next hop to reach dest
  */
-void ipv6_iface_set_routing_provider(ipv6_addr_t * (*next_hop)(ipv6_addr_t *dest));
+void ipv6_iface_set_routing_provider(ipv6_addr_t *(*next_hop)(ipv6_addr_t *dest));
 
 /**
  * @brief Calculates the IPv6 upper-layer checksum.

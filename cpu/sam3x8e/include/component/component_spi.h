@@ -40,19 +40,19 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Spi hardware registers */
 typedef struct {
-    WoReg SPI_CR;        /**< \brief (Spi Offset: 0x00) Control Register */
-    RwReg SPI_MR;        /**< \brief (Spi Offset: 0x04) Mode Register */
-    RoReg SPI_RDR;       /**< \brief (Spi Offset: 0x08) Receive Data Register */
-    WoReg SPI_TDR;       /**< \brief (Spi Offset: 0x0C) Transmit Data Register */
-    RoReg SPI_SR;        /**< \brief (Spi Offset: 0x10) Status Register */
-    WoReg SPI_IER;       /**< \brief (Spi Offset: 0x14) Interrupt Enable Register */
-    WoReg SPI_IDR;       /**< \brief (Spi Offset: 0x18) Interrupt Disable Register */
-    RoReg SPI_IMR;       /**< \brief (Spi Offset: 0x1C) Interrupt Mask Register */
-    RoReg Reserved1[4];
-    RwReg SPI_CSR[4];    /**< \brief (Spi Offset: 0x30) Chip Select Register */
-    RoReg Reserved2[41];
-    RwReg SPI_WPMR;      /**< \brief (Spi Offset: 0xE4) Write Protection Control Register */
-    RoReg SPI_WPSR;      /**< \brief (Spi Offset: 0xE8) Write Protection Status Register */
+  WoReg SPI_CR;        /**< \brief (Spi Offset: 0x00) Control Register */
+  RwReg SPI_MR;        /**< \brief (Spi Offset: 0x04) Mode Register */
+  RoReg SPI_RDR;       /**< \brief (Spi Offset: 0x08) Receive Data Register */
+  WoReg SPI_TDR;       /**< \brief (Spi Offset: 0x0C) Transmit Data Register */
+  RoReg SPI_SR;        /**< \brief (Spi Offset: 0x10) Status Register */
+  WoReg SPI_IER;       /**< \brief (Spi Offset: 0x14) Interrupt Enable Register */
+  WoReg SPI_IDR;       /**< \brief (Spi Offset: 0x18) Interrupt Disable Register */
+  RoReg SPI_IMR;       /**< \brief (Spi Offset: 0x1C) Interrupt Mask Register */
+  RoReg Reserved1[4];
+  RwReg SPI_CSR[4];    /**< \brief (Spi Offset: 0x30) Chip Select Register */
+  RoReg Reserved2[41];
+  RwReg SPI_WPMR;      /**< \brief (Spi Offset: 0xE4) Write Protection Control Register */
+  RoReg SPI_WPSR;      /**< \brief (Spi Offset: 0xE8) Write Protection Status Register */
 } Spi;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- SPI_CR : (SPI Offset: 0x00) Control Register -------- */

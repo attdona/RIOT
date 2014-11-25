@@ -24,7 +24,7 @@
 #include "priority_queue.h"
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 /**
@@ -45,8 +45,6 @@ typedef struct mutex_t {
      */
     priority_queue_t queue;
 } mutex_t;
-
-static inline void mutex_init(mutex_t *mutex) __attribute__((always_inline));
 
 /**
  * @brief Static initializer for mutex_t.

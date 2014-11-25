@@ -35,22 +35,21 @@
 #include "Test.h"
 #include "RepeatedTest.h"
 
-char *RepeatedTest_name(RepeatedTest *self)
+char* RepeatedTest_name(RepeatedTest* self)
 {
     return Test_name(self->test);
 }
 
-void RepeatedTest_run(RepeatedTest *self, TestResult *result)
+void RepeatedTest_run(RepeatedTest* self,TestResult* result)
 {
     int i;
-    Test *test = self->test;
-
-    for (i = 0; i < self->timesRepeat; i++) {
+    Test* test = self->test;
+    for (i=0; i<self->timesRepeat; i++) {
         Test_run(test, result);
     }
 }
 
-int RepeatedTest_countTestCases(RepeatedTest *self)
+int RepeatedTest_countTestCases(RepeatedTest* self)
 {
     return Test_countTestCases(self->test) * self->timesRepeat;
 }

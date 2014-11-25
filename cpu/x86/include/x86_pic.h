@@ -69,7 +69,7 @@ void x86_init_pic(void);
 #define PIC_ICW1_SINGLE     (0x02) /**< Single (cascade) mode */
 #define PIC_ICW1_INTERVAL4  (0x04) /**< Call address interval 4 (8) */
 #define PIC_ICW1_LEVEL      (0x08) /**< Level triggered (edge) mode */
-#define PIC_ICW1_INIT       (0x10) /**< Initialization - required!*/
+#define PIC_ICW1_INIT       (0x10) /**< Initialization - required! */
 
 #define PIC_ICW4_8086       (0x01) /**< 8086/88 (MCS-80/85) mode */
 #define PIC_ICW4_AUTO       (0x02) /**< Auto (normal) EOI */
@@ -79,7 +79,7 @@ void x86_init_pic(void);
 
 #define PIC_NUM_PIT                   (0x0) /**< IRQ line of the Programmable Interrupt Controller **/
 #define PIC_NUM_KEYBOARD_CONTROLLER_1 (0x1) /**< IRQ line of the first PS/2 port **/
-#define PIC_NUM_SLAVE                 (0x2) /**< not a valid IRQ line!*/
+#define PIC_NUM_SLAVE                 (0x2) /**< not a valid IRQ line! */
 #define PIC_NUM_RS232_2_4             (0x3) /**< IRQ line of COM 2+4 **/
 #define PIC_NUM_RS232_1_3             (0x4) /**< IRQ line of COM 1+2 **/
 #define PIC_NUM_LPT2                  (0x5) /**< IRQ line of the secondary printer or soundcard (available for PCI) **/
@@ -91,7 +91,7 @@ void x86_init_pic(void);
 #define PIC_NUM_ATA_4                 (0xa) /**< Free to use IRQ line (available for PCI) **/
 #define PIC_NUM_ATA_3                 (0xb) /**< Free to use IRQ line (available for PCI) **/
 #define PIC_NUM_KEYBOARD_CONTROLLER_2 (0xc) /**< IRQ line of the second PS/2 port **/
-#define PIC_NUM_FPU                   (0xd) /**< not a valid IRQ line!*/
+#define PIC_NUM_FPU                   (0xd) /**< not a valid IRQ line! */
 #define PIC_NUM_ATA_1                 (0xe) /**< IRQ line of the primary IDE controller **/
 #define PIC_NUM_ATA_2                 (0xf) /**< IRQ line of the secondary IDQ controller **/
 

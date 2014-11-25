@@ -24,7 +24,7 @@
 
 #include "tests-lib.h"
 
-/* (ITERATIONS * (BUF_SIZE + 1)) needs to be <= 127!Otherwise `char` overflows. */
+/* (ITERATIONS * (BUF_SIZE + 1)) needs to be <= 127! Otherwise `char` overflows. */
 #define ITERATIONS 15
 #define BUF_SIZE 7
 
@@ -55,7 +55,6 @@ static void assert_get_one(int assumed_result)
 static void run_add(void)
 {
     char next = 0;
-
     for (unsigned iteration = 0; iteration < ITERATIONS; ++iteration) {
         mutex_lock(&mutex);
 
@@ -84,7 +83,6 @@ static void *run_get(void *arg)
     (void) arg;
 
     char next = 0;
-
     for (unsigned iteration = 0; iteration < ITERATIONS; ++iteration) {
         ++next; /* the first element of a stride is always overwritten */
 
@@ -111,7 +109,7 @@ static void *run_get(void *arg)
 static void tests_lib_ringbuffer(void)
 {
     pid_add = sched_active_pid;
-    pid_get = thread_create(stack_get, sizeof(stack_get),
+    pid_get = thread_create(stack_get, sizeof (stack_get),
                             PRIORITY_MAIN, CREATE_SLEEPING | CREATE_STACKTEST,
                             run_get, NULL, "get");
     run_add();

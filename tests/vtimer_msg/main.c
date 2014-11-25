@@ -93,13 +93,13 @@ int main(void)
 {
     msg_t m;
     kernel_pid_t pid = thread_create(
-                           timer_stack,
-                           sizeof(timer_stack),
-                           PRIORITY_MAIN - 1,
-                           CREATE_STACKTEST,
-                           timer_thread,
-                           NULL,
-                           "timer");
+                  timer_stack,
+                  sizeof(timer_stack),
+                  PRIORITY_MAIN - 1,
+                  CREATE_STACKTEST,
+                  timer_thread,
+                  NULL,
+                  "timer");
 
     puts("sending 1st msg");
     m.content.ptr = (char *) &msg_a;
@@ -110,13 +110,13 @@ int main(void)
     msg_try_send(&m, pid);
 
     kernel_pid_t pid2 = thread_create(
-                            timer_stack_local,
-                            sizeof(timer_stack_local),
-                            PRIORITY_MAIN - 1,
-                            CREATE_STACKTEST,
-                            timer_thread_local,
-                            NULL,
-                            "timer local");
+                   timer_stack_local,
+                   sizeof(timer_stack_local),
+                   PRIORITY_MAIN - 1,
+                   CREATE_STACKTEST,
+                   timer_thread_local,
+                   NULL,
+                   "timer local");
 
     timex_t sleep = timex_set(1, 0);
 

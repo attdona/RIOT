@@ -35,7 +35,6 @@
 void videoram_putc(char c)
 {
     static unsigned pos = 0;
-
     if (c == '\n') {
         pos += 80;
     }
@@ -47,7 +46,6 @@ void videoram_putc(char c)
         VIDEORAM[2 * pos + 1] = (char) 0x9E; /* light blue bg, light yellow fg */
         ++pos;
     }
-
     if (pos >= 25 * 80) {
         pos = 0;
     }
@@ -72,14 +70,11 @@ void videoram_put_hex(unsigned long v)
     char *p = &s[sizeof s];
 
     *--p = 0;
-
     do {
         char c = v % 16;
         v /= 16;
         *--p = c + (c < 10 ? '0' : 'A' - 10);
-    }
-    while (v > 0);
-
+    } while (v > 0);
     *--p = 'x';
     *--p = '0';
 

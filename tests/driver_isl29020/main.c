@@ -41,7 +41,6 @@ int main(void)
 
     puts("ISL29020 light sensor test application\n");
     printf("Initializing ISL29020 sensor at I2C_%i... ", TEST_ISL29020_I2C);
-
     if (isl29020_init(&dev, TEST_ISL29020_I2C, TEST_ISL29020_ADDR, RANGE, MODE) == 0) {
         puts("[OK]\n");
     }

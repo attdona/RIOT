@@ -82,14 +82,14 @@ Test *tests_core_byteorder_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_byteorder_little_to_big_16),
-                        new_TestFixture(test_byteorder_big_to_little_16),
-                        new_TestFixture(test_byteorder_little_to_big_32),
-                        new_TestFixture(test_byteorder_big_to_little_32),
-                        new_TestFixture(test_byteorder_little_to_big_64),
-                        new_TestFixture(test_byteorder_big_to_little_64),
-                        new_TestFixture(test_byteorder_host_to_network_16),
-                        new_TestFixture(test_byteorder_host_to_network_32),
-                        new_TestFixture(test_byteorder_host_to_network_64),
+        new_TestFixture(test_byteorder_big_to_little_16),
+        new_TestFixture(test_byteorder_little_to_big_32),
+        new_TestFixture(test_byteorder_big_to_little_32),
+        new_TestFixture(test_byteorder_little_to_big_64),
+        new_TestFixture(test_byteorder_big_to_little_64),
+        new_TestFixture(test_byteorder_host_to_network_16),
+        new_TestFixture(test_byteorder_host_to_network_32),
+        new_TestFixture(test_byteorder_host_to_network_64),
     };
 
     EMB_UNIT_TESTCALLER(core_byteorder_tests, NULL, NULL, fixtures);

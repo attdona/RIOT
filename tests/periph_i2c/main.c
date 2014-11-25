@@ -39,11 +39,9 @@ void cmd_init_master(int argc, char **argv)
         puts("Error: Init: Invalid number of arguments!");
         printf("Usage:\n%s: [DEVICE] [SPEED]\n", argv[0]);
         puts("    with DEVICE:");
-
         for (int i = 0; i < I2C_NUMOF; i++) {
             printf("          %i -> I2C_%i\n", i, i);
         }
-
         puts("         SPEED:");
         puts("          0 -> SPEED_LOW (10kbit/s)");
         puts("          1 -> SPEED_NORMAL (100kbit/s)");
@@ -57,7 +55,6 @@ void cmd_init_master(int argc, char **argv)
     speed = atoi(argv[2]);
 
     res = i2c_init_master(dev, speed);
-
     if (res == -1) {
         puts("Error: Init: Given device not available");
         return;
@@ -80,11 +77,9 @@ void cmd_init_slave(int argc, char **argv)
         puts("Error: Invalid number of arguments!");
         printf("Usage:\n%s: [DEVICE] [ADDRESS]\n", argv[0]);
         puts("    with DEVICE:");
-
         for (int i = 0; i < I2C_NUMOF; i++) {
             printf("          %i -> I2C_%i\n", i, i);
         }
-
         puts("         ADDRESS: value between 0 and 127");
         return;
     }
@@ -93,7 +88,6 @@ void cmd_init_slave(int argc, char **argv)
     addr = atoi(argv[1]);
 
     res = i2c_init_slave(dev, addr);
-
     if (res == -1) {
         puts("Error: Init: Given device not available");
         return;
@@ -119,7 +113,6 @@ void cmd_write(int argc, char **argv)
         puts("Error: no I2C device was initialized");
         return;
     }
-
     if (argc < 3) {
         puts("Error: not enough arguments given");
         printf("Usage:\n%s: ADDR BYTE0 [BYTE1 [BYTE_n [...]]]\n", argv[0]);
@@ -127,7 +120,6 @@ void cmd_write(int argc, char **argv)
     }
 
     addr = (uint8_t)atoi(argv[1]);
-
     for (int i = 0; i < length; i++) {
         data[i] = (char)atoi(argv[i + 2]);
     }
@@ -138,11 +130,9 @@ void cmd_write(int argc, char **argv)
     }
     else {
         printf("i2c_write_bytes(I2C_%i, 0x%02x, [", i2c_dev, addr);
-
         for (int i = 0; i < length; i++) {
             printf(", 0x%02x", (unsigned int)data[i]);
         }
-
         puts("])");
         res = i2c_write_bytes(i2c_dev, addr, data, length);
     }
@@ -166,7 +156,6 @@ void cmd_write_reg(int argc, char **argv)
         puts("Error: no I2C device initialized");
         return;
     }
-
     if (length < 1) {
         puts("Error: not enough arguments given");
         printf("Usage:\n%s ADDR REG BYTE0 [BYTE1 ...]\n", argv[0]);
@@ -175,7 +164,6 @@ void cmd_write_reg(int argc, char **argv)
 
     addr = (uint8_t)atoi(argv[1]);
     reg = (uint8_t)atoi(argv[2]);
-
     for (int i = 0; i < length; i++) {
         data[i] = (char)atoi(argv[i + 3]);
     }
@@ -187,11 +175,9 @@ void cmd_write_reg(int argc, char **argv)
     }
     else {
         printf("i2c_write_regs(I2C_%i, 0x%02x, 0x%02x, [", i2c_dev, addr, reg);
-
         for (int i = 0; i < length; i++) {
             printf("0x%02x, ", (unsigned int)data[i]);
         }
-
         puts("])");
         res = i2c_write_regs(i2c_dev, addr, reg, data, length);
     }
@@ -215,7 +201,6 @@ void cmd_read(int argc, char **argv)
         puts("Error: no I2C device initialized");
         return;
     }
-
     if (argc < 3) {
         puts("Error: not enough arguments given");
         printf("Usage:\n%s ADDR LENGTH]\n", argv[0]);
@@ -243,11 +228,9 @@ void cmd_read(int argc, char **argv)
     }
     else {
         printf("I2C_%i: successfully read %i bytes:\n  [", i2c_dev, res);
-
         for (int i = 0; i < res; i++) {
             printf("0x%02x, ", (unsigned int)data[i]);
         }
-
         puts("])");
     }
 }
@@ -263,7 +246,6 @@ void cmd_read_reg(int argc, char **argv)
         puts("Error: no I2C device initialized");
         return;
     }
-
     if (argc < 4) {
         puts("Error: not enough arguments given");
         printf("Usage:\n%s ADDR REG LENGTH]\n", argv[0]);
@@ -292,11 +274,9 @@ void cmd_read_reg(int argc, char **argv)
     }
     else {
         printf("I2C_%i: successfully read %i bytes from reg 0x%02x:\n  [", i2c_dev, res, reg);
-
         for (int i = 0; i < res; i++) {
             printf("0x%02x, ", (unsigned int)data[i]);
         }
-
         puts("])");
     }
 

@@ -686,12 +686,12 @@ unsigned char SMB380_getWakeUpPause(void)
 void SMB380_setBandWidth(unsigned char bandWidth)
 {
     if ((bandWidth == SMB380_BAND_WIDTH_100HZ) ||
-        (bandWidth == SMB380_BAND_WIDTH_1500HZ) ||
-        (bandWidth == SMB380_BAND_WIDTH_190HZ) ||
-        (bandWidth == SMB380_BAND_WIDTH_25HZ) ||
-        (bandWidth == SMB380_BAND_WIDTH_375HZ) ||
-        (bandWidth == SMB380_BAND_WIDTH_50HZ) ||
-        (bandWidth == SMB380_BAND_WIDTH_750HZ)) {
+            (bandWidth == SMB380_BAND_WIDTH_1500HZ) ||
+            (bandWidth == SMB380_BAND_WIDTH_190HZ) ||
+            (bandWidth == SMB380_BAND_WIDTH_25HZ) ||
+            (bandWidth == SMB380_BAND_WIDTH_375HZ) ||
+            (bandWidth == SMB380_BAND_WIDTH_50HZ) ||
+            (bandWidth == SMB380_BAND_WIDTH_750HZ)) {
         unsigned long cpsr = disableIRQ();
         SMB380_Prepare();
         SMB380_ssp_write(SMB380_CONTROL3, 0, SMB380_READ_REGISTER);

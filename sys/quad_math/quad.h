@@ -53,7 +53,7 @@
 #include <limits.h>
 
 #include <machine/endian.h>
-typedef char ___QUAD_ASSERT__LENGHTS[sizeof(long long) == 2 * sizeof(int) ? +1 : -1];
+typedef char ___QUAD_ASSERT__LENGHTS[sizeof (long long) == 2*sizeof (int) ? +1 : -1];
 typedef char ___QUAD_ASSERT__2COMPLEMENT[-1234 == (~1234 + 1) ? +1 : -1];
 
 typedef long long quad_t;
@@ -135,6 +135,6 @@ quad_t __one_cmpldi2(quad_t);
 u_quad_t __qdivrem(u_quad_t, u_quad_t, u_quad_t *);
 quad_t __subdi3(quad_t, quad_t);
 int __ucmpdi2(u_quad_t, u_quad_t);
-u_quad_t __udivdi3(u_quad_t, u_quad_t);
-u_quad_t __umoddi3(u_quad_t, u_quad_t);
+u_quad_t __udivdi3(u_quad_t, u_quad_t );
+u_quad_t __umoddi3(u_quad_t, u_quad_t );
 quad_t __xordi3(quad_t, quad_t);

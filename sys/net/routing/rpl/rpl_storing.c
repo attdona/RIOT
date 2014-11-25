@@ -240,8 +240,7 @@ void send_DIO_mode(ipv6_addr_t *destination)
     rpl_send_dio_buf->version_number = mydodag->version;
     rpl_send_dio_buf->rank = mydodag->my_rank;
     DEBUG("rank %04X\n", rpl_send_dio_buf->rank);
-    rpl_send_dio_buf->g_mop_prf = (mydodag->grounded << RPL_GROUNDED_SHIFT) |
-                                  (mydodag->mop << RPL_MOP_SHIFT) | mydodag->prf;
+    rpl_send_dio_buf->g_mop_prf = (mydodag->grounded << RPL_GROUNDED_SHIFT) | (mydodag->mop << RPL_MOP_SHIFT) | mydodag->prf;
     rpl_send_dio_buf->dtsn = mydodag->dtsn;
     rpl_send_dio_buf->flags = 0;
     rpl_send_dio_buf->reserved = 0;
@@ -269,8 +268,7 @@ void send_DIO_mode(ipv6_addr_t *destination)
     rpl_send(destination, (uint8_t *)icmp_send_buf, plen, IPV6_PROTO_NUM_ICMPV6);
 }
 
-void send_DAO_mode(ipv6_addr_t *destination, uint8_t lifetime, bool default_lifetime,
-                   uint8_t start_index)
+void send_DAO_mode(ipv6_addr_t *destination, uint8_t lifetime, bool default_lifetime, uint8_t start_index)
 {
     if (i_am_root) {
         return;
@@ -614,11 +612,9 @@ void recv_rpl_DIO_mode(void)
     rpl_parent_update(parent);
 
     if (my_dodag->my_preferred_parent == NULL) {
-        DEBUG("%s, %d: my dodag has no preferred_parent yet - seems to be odd since I have a parent...\n",
-              __FILE__, __LINE__);
+        DEBUG("%s, %d: my dodag has no preferred_parent yet - seems to be odd since I have a parent...\n", __FILE__, __LINE__);
     }
-    else if (rpl_equal_id(&parent->addr, &my_dodag->my_preferred_parent->addr)
-             && (parent->dtsn != rpl_dio_buf->dtsn)) {
+    else if (rpl_equal_id(&parent->addr, &my_dodag->my_preferred_parent->addr) && (parent->dtsn != rpl_dio_buf->dtsn)) {
         delay_dao();
     }
 
@@ -686,8 +682,7 @@ void recv_rpl_DAO_mode(void)
                       ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, &rpl_opt_target_buf->target),
                       ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, &ipv6_buf->srcaddr),
                       (rpl_opt_transit_buf->path_lifetime * my_dodag->lifetime_unit));
-                rpl_add_routing_entry(&rpl_opt_target_buf->target, &ipv6_buf->srcaddr,
-                                      rpl_opt_transit_buf->path_lifetime * my_dodag->lifetime_unit);
+                rpl_add_routing_entry(&rpl_opt_target_buf->target, &ipv6_buf->srcaddr, rpl_opt_transit_buf->path_lifetime * my_dodag->lifetime_unit);
                 increment_seq = 1;
                 break;
             }
@@ -841,8 +836,7 @@ void rpl_send(ipv6_addr_t *destination, uint8_t *payload, uint16_t p_len, uint8_
 
         if (next_hop == NULL) {
             if (i_am_root) {
-                DEBUGF("[Error] destination unknown: %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN,
-                        &ipv6_send_buf->destaddr));
+                DEBUGF("[Error] destination unknown: %s\n", ipv6_addr_to_str(addr_str, IPV6_MAX_ADDR_STR_LEN, &ipv6_send_buf->destaddr));
                 return;
             }
             else {

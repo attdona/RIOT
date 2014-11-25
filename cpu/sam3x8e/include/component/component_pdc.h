@@ -40,16 +40,16 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Pdc hardware registers */
 typedef struct {
-    RwReg PERIPH_RPR;  /**< \brief (Pdc Offset: 0x0) Receive Pointer Register */
-    RwReg PERIPH_RCR;  /**< \brief (Pdc Offset: 0x4) Receive Counter Register */
-    RwReg PERIPH_TPR;  /**< \brief (Pdc Offset: 0x8) Transmit Pointer Register */
-    RwReg PERIPH_TCR;  /**< \brief (Pdc Offset: 0xC) Transmit Counter Register */
-    RwReg PERIPH_RNPR; /**< \brief (Pdc Offset: 0x10) Receive Next Pointer Register */
-    RwReg PERIPH_RNCR; /**< \brief (Pdc Offset: 0x14) Receive Next Counter Register */
-    RwReg PERIPH_TNPR; /**< \brief (Pdc Offset: 0x18) Transmit Next Pointer Register */
-    RwReg PERIPH_TNCR; /**< \brief (Pdc Offset: 0x1C) Transmit Next Counter Register */
-    WoReg PERIPH_PTCR; /**< \brief (Pdc Offset: 0x20) Transfer Control Register */
-    RoReg PERIPH_PTSR; /**< \brief (Pdc Offset: 0x24) Transfer Status Register */
+  RwReg PERIPH_RPR;  /**< \brief (Pdc Offset: 0x0) Receive Pointer Register */
+  RwReg PERIPH_RCR;  /**< \brief (Pdc Offset: 0x4) Receive Counter Register */
+  RwReg PERIPH_TPR;  /**< \brief (Pdc Offset: 0x8) Transmit Pointer Register */
+  RwReg PERIPH_TCR;  /**< \brief (Pdc Offset: 0xC) Transmit Counter Register */
+  RwReg PERIPH_RNPR; /**< \brief (Pdc Offset: 0x10) Receive Next Pointer Register */
+  RwReg PERIPH_RNCR; /**< \brief (Pdc Offset: 0x14) Receive Next Counter Register */
+  RwReg PERIPH_TNPR; /**< \brief (Pdc Offset: 0x18) Transmit Next Pointer Register */
+  RwReg PERIPH_TNCR; /**< \brief (Pdc Offset: 0x1C) Transmit Next Counter Register */
+  WoReg PERIPH_PTCR; /**< \brief (Pdc Offset: 0x20) Transfer Control Register */
+  RoReg PERIPH_PTSR; /**< \brief (Pdc Offset: 0x24) Transfer Status Register */
 } Pdc;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- PERIPH_RPR : (PDC Offset: 0x0) Receive Pointer Register -------- */

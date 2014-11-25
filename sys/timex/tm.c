@@ -67,18 +67,15 @@ int tm_is_valid_date(int year, int mon, int mday)
     if ((mon < TM_MON_JAN) || (mon > TM_MON_DEC)) {
         return 0;
     }
-
     if ((mday <= 0) || (mday > TM_MON_DAYS[mon])) {
         if ((mday != 29) || (mon != TM_MON_FEB) || !tm_is_leap_year(year)) {
             return 0;
         }
     }
-
     if (year <= 1582) {
         if (year < 1582) {
             return 0;
         }
-
         if ((mon < TM_MON_OCT) || ((mon == TM_MON_OCT) && (mday < 15))) {
             return 0;
         }

@@ -79,17 +79,13 @@ int random_read(char *buf, unsigned int num)
 {
     int count;
 
-    for (count = 0; count < num;) {
+    for (count = 0; count < num; ) {
         /* Clock the RNG LSFR once: */
         SOC_ADC->ADCCON1bits.RCTRL = 1;
 
         /* Read up to 2 bytes of random data: */
         buf[count++] = SOC_ADC_RNDL;
-
-        if (count >= num) {
-            break;
-        }
-
+        if (count >= num) break;
         buf[count++] = SOC_ADC_RNDH;
     }
 

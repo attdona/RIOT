@@ -80,7 +80,6 @@ int main(void)
             args[i].content.value = i + 1;
 
             int err = msg_send(&args[i], ths[i]);
-
             if (err < 0) {
                 printf("[!!!] Sending message to thread %d failed\n", ths[i]);
             }

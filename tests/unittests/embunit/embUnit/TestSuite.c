@@ -35,32 +35,30 @@
 #include "Test.h"
 #include "TestSuite.h"
 
-char *TestSuite_name(TestSuite *self)
+char* TestSuite_name(TestSuite* self)
 {
     return self->name;
 }
 
-void TestSuite_run(TestSuite *self, TestResult *result)
+void TestSuite_run(TestSuite* self,TestResult* result)
 {
     if (self->tests) {
         for (int i = 0; i < self->numberOfTests; i++) {
-            Test *test = self->tests[i];
+            Test* test = self->tests[i];
             Test_run(test, result);
         }
     }
 }
 
-int TestSuite_countTestCases(TestSuite *self)
+int TestSuite_countTestCases(TestSuite* self)
 {
     int count = 0;
-
     if (self->tests) {
         for (int i = 0; i < self->numberOfTests; i++) {
-            Test *test = self->tests[i];
+            Test* test = self->tests[i];
             count += Test_countTestCases(test);
         }
     }
-
     return count;
 }
 

@@ -22,7 +22,7 @@
 #include "kernel_macros.h"
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 /**
@@ -65,8 +65,6 @@ void clist_add(clist_node_t **node, clist_node_t *new_node);
  *                              Must not be NULL.
  */
 void clist_remove(clist_node_t **list, clist_node_t *node);
-
-static inline void clist_advance(clist_node_t **list) __attribute__((always_inline));
 
 /**
  * @brief Advances the circle list.

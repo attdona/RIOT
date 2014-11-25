@@ -54,11 +54,9 @@ int main(void)
 
     puts("Test UART driver in blocking mode\n");
     puts("Setting up remaining UART devices:");
-
     for (int i = UART_0; i < UART_NUMOF; i++) {
         if (i != STDIO) {
             printf("Setting up UART_%i @ %i", i, baudrates[i]);
-
             if (uart_init_blocking(i, baudrates[i]) >= 0) {
                 puts("   ...ok");
             }
@@ -68,30 +66,24 @@ int main(void)
             }
         }
     }
-
     printf("\n");
 
     for (i = UART_0; i < UART_NUMOF; i++) {
         if (i != STDIO) {
             printf("Please Connect to UART_%i @ %i now, press return when done\n", i, baudrates[i]);
-
             do {
                 tmp = getchar();
-            }
-            while (tmp != '\n');
+            } while (tmp != '\n');
 
             uart_print(i, hello);
             uart_print(i, ask);
             p = 0;
             memset(buf, 0, 128);
             printf("Input was: ");
-
             do {
                 uart_read_blocking(i, &buf[p++]);
                 printf("%c", buf[p - 1]);
-            }
-            while (buf[p - 1] != '\n');
-
+            } while (buf[p - 1] != '\n');
             buf[p] = '\0';
             uart_print(i, buf);
             printf("\n");

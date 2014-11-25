@@ -82,8 +82,8 @@ typedef struct {
  */
 static uart_conf_t uart_config[UART_NUMOF];
 
-cc2538_uart_t *const UART0 = (cc2538_uart_t *)0x4000c000;
-cc2538_uart_t *const UART1 = (cc2538_uart_t *)0x4000d000;
+cc2538_uart_t * const UART0 = (cc2538_uart_t *)0x4000c000;
+cc2538_uart_t * const UART1 = (cc2538_uart_t *)0x4000d000;
 
 /*---------------------------------------------------------------------------*/
 static void reset(cc2538_uart_t *u)
@@ -192,14 +192,12 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, uart_tx_cb_t t
     /* configure interrupts and enable RX interrupt */
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             NVIC_SetPriority(UART0_IRQn, UART_IRQ_PRIO);
             NVIC_EnableIRQ(UART0_IRQn);
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             NVIC_SetPriority(UART1_IRQn, UART_IRQ_PRIO);
             NVIC_EnableIRQ(UART1_IRQn);
@@ -218,7 +216,6 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
 
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             u = UART_0_DEV;
 
@@ -244,7 +241,6 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             u = UART_1_DEV;
 
@@ -290,7 +286,7 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
     }
 
     /* Enable clock for the UART while Running, in Sleep and Deep Sleep */
-    uart_num = ((uintptr_t)u - (uintptr_t)UART0) / 0x1000;
+    uart_num = ( (uintptr_t)u - (uintptr_t)UART0 ) / 0x1000;
     SYS_CTRL_RCGCUART |= (1 << uart_num);
     SYS_CTRL_SCGCUART |= (1 << uart_num);
     SYS_CTRL_DCGCUART |= (1 << uart_num);
@@ -353,13 +349,11 @@ int uart_write(uart_t uart, char data)
 
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             u = UART_0_DEV;
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             u = UART_1_DEV;
             break;
@@ -384,13 +378,11 @@ int uart_read_blocking(uart_t uart, char *data)
 
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             u = UART_0_DEV;
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             u = UART_1_DEV;
             break;
@@ -413,13 +405,11 @@ int uart_write_blocking(uart_t uart, char data)
 
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             u = UART_0_DEV;
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             u = UART_1_DEV;
             break;

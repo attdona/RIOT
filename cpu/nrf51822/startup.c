@@ -64,12 +64,12 @@ void reset_handler(void)
     NRF_POWER->RAMON = 0xf;
 
     /* load data section from flash to ram */
-    for (dst = &_srelocate; dst < &_erelocate;) {
+    for (dst = &_srelocate; dst < &_erelocate; ) {
         *(dst++) = *(src++);
     }
 
     /* default bss section to zero */
-    for (dst = &_szero; dst < &_ezero;) {
+    for (dst = &_szero; dst < &_ezero; ) {
         *(dst++) = 0;
     }
 
@@ -86,16 +86,12 @@ void reset_handler(void)
  */
 void dummy_handler(void)
 {
-    while (1) {
-        asm("nop");
-    }
+    while (1) {asm ("nop");}
 }
 
 void isr_nmi(void)
 {
-    while (1) {
-        asm("nop");
-    }
+    while (1) {asm ("nop");}
 }
 
 void isr_hard_fault(void)
@@ -104,96 +100,95 @@ void isr_hard_fault(void)
         for (int i = 0; i < 500000; i++) {
             asm("nop");
         }
-
         LED_RED_TOGGLE;
     }
 }
 
 /* Cortex-M specific interrupt vectors */
-void isr_svc(void)                  __attribute__((weak, alias("dummy_handler")));
-void isr_pendsv(void)               __attribute__((weak, alias("dummy_handler")));
-void isr_systick(void)              __attribute__((weak, alias("dummy_handler")));
+void isr_svc(void)                  __attribute__ ((weak, alias("dummy_handler")));
+void isr_pendsv(void)               __attribute__ ((weak, alias("dummy_handler")));
+void isr_systick(void)              __attribute__ ((weak, alias("dummy_handler")));
 
 /* nRF51822qfaa specific interrupt vector */
-void isr_power_clock(void)          __attribute__((weak, alias("dummy_handler")));
-void isr_radio(void)                __attribute__((weak, alias("dummy_handler")));
-void isr_uart0(void)                __attribute__((weak, alias("dummy_handler")));
-void isr_spi0_twi0(void)            __attribute__((weak, alias("dummy_handler")));
-void isr_spi1_twi1(void)            __attribute__((weak, alias("dummy_handler")));
-void isr_gpiote(void)               __attribute__((weak, alias("dummy_handler")));
-void isr_adc(void)                  __attribute__((weak, alias("dummy_handler")));
-void isr_timer0(void)               __attribute__((weak, alias("dummy_handler")));
-void isr_timer1(void)               __attribute__((weak, alias("dummy_handler")));
-void isr_timer2(void)               __attribute__((weak, alias("dummy_handler")));
-void isr_rtc0(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_temp(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_rng(void)                  __attribute__((weak, alias("dummy_handler")));
-void isr_ecb(void)                  __attribute__((weak, alias("dummy_handler")));
-void isr_ccm_aar(void)              __attribute__((weak, alias("dummy_handler")));
-void isr_wdt(void)                  __attribute__((weak, alias("dummy_handler")));
-void isr_rtc1(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_qdec(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_lpcomp(void)               __attribute__((weak, alias("dummy_handler")));
-void isr_swi0(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_swi1(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_swi2(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_swi3(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_swi4(void)                 __attribute__((weak, alias("dummy_handler")));
-void isr_swi5(void)                 __attribute__((weak, alias("dummy_handler")));
+void isr_power_clock(void)          __attribute__ ((weak, alias("dummy_handler")));
+void isr_radio(void)                __attribute__ ((weak, alias("dummy_handler")));
+void isr_uart0(void)                __attribute__ ((weak, alias("dummy_handler")));
+void isr_spi0_twi0(void)            __attribute__ ((weak, alias("dummy_handler")));
+void isr_spi1_twi1(void)            __attribute__ ((weak, alias("dummy_handler")));
+void isr_gpiote(void)               __attribute__ ((weak, alias("dummy_handler")));
+void isr_adc(void)                  __attribute__ ((weak, alias("dummy_handler")));
+void isr_timer0(void)               __attribute__ ((weak, alias("dummy_handler")));
+void isr_timer1(void)               __attribute__ ((weak, alias("dummy_handler")));
+void isr_timer2(void)               __attribute__ ((weak, alias("dummy_handler")));
+void isr_rtc0(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_temp(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_rng(void)                  __attribute__ ((weak, alias("dummy_handler")));
+void isr_ecb(void)                  __attribute__ ((weak, alias("dummy_handler")));
+void isr_ccm_aar(void)              __attribute__ ((weak, alias("dummy_handler")));
+void isr_wdt(void)                  __attribute__ ((weak, alias("dummy_handler")));
+void isr_rtc1(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_qdec(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_lpcomp(void)               __attribute__ ((weak, alias("dummy_handler")));
+void isr_swi0(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_swi1(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_swi2(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_swi3(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_swi4(void)                 __attribute__ ((weak, alias("dummy_handler")));
+void isr_swi5(void)                 __attribute__ ((weak, alias("dummy_handler")));
 
 
 /* interrupt vector table */
-__attribute__((section(".vectors")))
+__attribute__ ((section(".vectors")))
 const void *interrupt_vector[] = {
     /* Stack pointer */
-    (void *)(&_estack),             /* pointer to the top of the empty stack */
+    (void*) (&_estack),             /* pointer to the top of the empty stack */
     /* Cortex-M handlers */
-    (void *) reset_handler,         /* entry point of the program */
-    (void *) isr_nmi,               /* non maskable interrupt handler */
-    (void *) isr_hard_fault,        /* if you end up here its not good */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *) isr_svc,               /* system call interrupt */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *) isr_pendsv,            /* pendSV interrupt, used for task switching in RIOT */
-    (void *) isr_systick,           /* SysTick interrupt, not used in RIOT */
+    (void*) reset_handler,          /* entry point of the program */
+    (void*) isr_nmi,                /* non maskable interrupt handler */
+    (void*) isr_hard_fault,         /* if you end up here its not good */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) isr_svc,                /* system call interrupt */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) isr_pendsv,             /* pendSV interrupt, used for task switching in RIOT */
+    (void*) isr_systick,            /* SysTick interrupt, not used in RIOT */
     /* nRF51 specific peripheral handlers */
-    (void *) isr_power_clock,       /* power_clock */
-    (void *) isr_radio,             /* radio */
-    (void *) isr_uart0,             /* uart0 */
-    (void *) isr_spi0_twi0,         /* spi0_twi0 */
-    (void *) isr_spi1_twi1,         /* spi1_twi1 */
-    (void *)(0UL),                  /* reserved */
-    (void *) isr_gpiote,            /* gpiote */
-    (void *) isr_adc,               /* adc */
-    (void *) isr_timer0,            /* timer0 */
-    (void *) isr_timer1,            /* timer1 */
-    (void *) isr_timer2,            /* timer2 */
-    (void *) isr_rtc0,              /* rtc0 */
-    (void *) isr_temp,              /* temp */
-    (void *) isr_rng,               /* rng */
-    (void *) isr_ecb,               /* ecb */
-    (void *) isr_ccm_aar,           /* ccm_aar */
-    (void *) isr_wdt,               /* wdt */
-    (void *) isr_rtc1,              /* rtc1 */
-    (void *) isr_qdec,              /* qdec */
-    (void *) isr_lpcomp,            /* lpcomp */
-    (void *) isr_swi0,              /* swi0 */
-    (void *) isr_swi1,              /* swi1 */
-    (void *) isr_swi2,              /* swi2 */
-    (void *) isr_swi3,              /* swi3 */
-    (void *) isr_swi4,              /* swi4 */
-    (void *) isr_swi5,              /* swi5 */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
-    (void *)(0UL),                  /* reserved */
+    (void*) isr_power_clock,        /* power_clock */
+    (void*) isr_radio,              /* radio */
+    (void*) isr_uart0,              /* uart0 */
+    (void*) isr_spi0_twi0,          /* spi0_twi0 */
+    (void*) isr_spi1_twi1,          /* spi1_twi1 */
+    (void*) (0UL),                  /* reserved */
+    (void*) isr_gpiote,             /* gpiote */
+    (void*) isr_adc,                /* adc */
+    (void*) isr_timer0,             /* timer0 */
+    (void*) isr_timer1,             /* timer1 */
+    (void*) isr_timer2,             /* timer2 */
+    (void*) isr_rtc0,               /* rtc0 */
+    (void*) isr_temp,               /* temp */
+    (void*) isr_rng,                /* rng */
+    (void*) isr_ecb,                /* ecb */
+    (void*) isr_ccm_aar,            /* ccm_aar */
+    (void*) isr_wdt,                /* wdt */
+    (void*) isr_rtc1,               /* rtc1 */
+    (void*) isr_qdec,               /* qdec */
+    (void*) isr_lpcomp,             /* lpcomp */
+    (void*) isr_swi0,               /* swi0 */
+    (void*) isr_swi1,               /* swi1 */
+    (void*) isr_swi2,               /* swi2 */
+    (void*) isr_swi3,               /* swi3 */
+    (void*) isr_swi4,               /* swi4 */
+    (void*) isr_swi5,               /* swi5 */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
+    (void*) (0UL),                  /* reserved */
 };

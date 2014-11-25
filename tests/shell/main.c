@@ -47,7 +47,6 @@ static void print_echo(int argc, char **argv)
     for (int i = 0; i < argc; ++i) {
         printf("“%s” ", argv[i]);
     }
-
     puts("");
 }
 
@@ -55,11 +54,9 @@ static int shell_readc(void)
 {
     char c;
     int result = posix_read(uart0_handler_pid, &c, 1);
-
     if (result != 1) {
         return -1;
     }
-
     return (unsigned char) c;
 }
 

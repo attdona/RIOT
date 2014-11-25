@@ -61,7 +61,7 @@ uint8_t cc2420_strobe(uint8_t c);
  *
  * @return The number of bytes read.
  */
-radio_packet_length_t cc2420_read_ram(uint16_t addr, uint8_t *buffer, radio_packet_length_t len);
+radio_packet_length_t cc2420_read_ram(uint16_t addr, uint8_t* buffer, radio_packet_length_t len);
 
 /**
  * @brief Writes multiple bytes to the cc2420 ram.
@@ -72,7 +72,7 @@ radio_packet_length_t cc2420_read_ram(uint16_t addr, uint8_t *buffer, radio_pack
  *
  * @return The number of bytes written.
  */
-radio_packet_length_t cc2420_write_ram(uint16_t addr, uint8_t *buffer, radio_packet_length_t len);
+radio_packet_length_t cc2420_write_ram(uint16_t addr, uint8_t* buffer, radio_packet_length_t len);
 
 /**
  * @brief Writes multiple bytes to the cc2420 fifo.
@@ -82,7 +82,7 @@ radio_packet_length_t cc2420_write_ram(uint16_t addr, uint8_t *buffer, radio_pac
  *
  * @return The number of bytes written.
  */
-radio_packet_length_t cc2420_write_fifo(uint8_t *data, radio_packet_length_t data_length);
+radio_packet_length_t cc2420_write_fifo(uint8_t* data, radio_packet_length_t data_length);
 
 /**
  * @brief Reads multiple bytes from the cc2420 fifo.
@@ -92,7 +92,7 @@ radio_packet_length_t cc2420_write_fifo(uint8_t *data, radio_packet_length_t dat
  *
  * @return The number of bytes read.
  */
-radio_packet_length_t cc2420_read_fifo(uint8_t *data, radio_packet_length_t data_length);
+radio_packet_length_t cc2420_read_fifo(uint8_t* data, radio_packet_length_t data_length);
 
 #ifdef __cplusplus
 }

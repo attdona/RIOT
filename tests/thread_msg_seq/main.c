@@ -41,7 +41,7 @@ void *sub_thread(void *arg)
 
     msg_t msg;
 
-    msg.content.ptr = (char *)thread_getname(pid);
+    msg.content.ptr = (char*)thread_getname(pid);
 
     msg_send(&msg, p_main);
 
@@ -68,8 +68,7 @@ int main(void)
                        sub_thread, NULL, "nr3");
 
     puts("THREADS CREATED\n");
-
-    for (int i = 0; i < 3; i++) {
+    for(int i = 0; i < 3; i++) {
         msg_receive(&msg);
         printf("Got msg from pid %" PRIkernel_pid ": \"%s\"\n", msg.sender_pid, msg.content.ptr);
     }

@@ -40,35 +40,35 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Matrix hardware registers */
 typedef struct {
-    RwReg MATRIX_MCFG[6]; /**< \brief (Matrix Offset: 0x0000) Master Configuration Register */
-    RoReg Reserved1[10];
-    RwReg MATRIX_SCFG[9]; /**< \brief (Matrix Offset: 0x0040) Slave Configuration Register */
-    RoReg Reserved2[7];
-    RwReg MATRIX_PRAS0;   /**< \brief (Matrix Offset: 0x0080) Priority Register A for Slave 0 */
-    RoReg Reserved3[1];
-    RwReg MATRIX_PRAS1;   /**< \brief (Matrix Offset: 0x0088) Priority Register A for Slave 1 */
-    RoReg Reserved4[1];
-    RwReg MATRIX_PRAS2;   /**< \brief (Matrix Offset: 0x0090) Priority Register A for Slave 2 */
-    RoReg Reserved5[1];
-    RwReg MATRIX_PRAS3;   /**< \brief (Matrix Offset: 0x0098) Priority Register A for Slave 3 */
-    RoReg Reserved6[1];
-    RwReg MATRIX_PRAS4;   /**< \brief (Matrix Offset: 0x00A0) Priority Register A for Slave 4 */
-    RoReg Reserved7[1];
-    RwReg MATRIX_PRAS5;   /**< \brief (Matrix Offset: 0x00A8) Priority Register A for Slave 5 */
-    RoReg Reserved8[1];
-    RwReg MATRIX_PRAS6;   /**< \brief (Matrix Offset: 0x00B0) Priority Register A for Slave 6 */
-    RoReg Reserved9[1];
-    RwReg MATRIX_PRAS7;   /**< \brief (Matrix Offset: 0x00B8) Priority Register A for Slave 7 */
-    RoReg Reserved10[1];
-    RwReg MATRIX_PRAS8;   /**< \brief (Matrix Offset: 0x00C0) Priority Register A for Slave 8 */
-    RoReg Reserved11[1];
-    RoReg Reserved12[14];
-    RwReg MATRIX_MRCR;    /**< \brief (Matrix Offset: 0x0100) Master Remap Control Register */
-    RoReg Reserved13[4];
-    RwReg CCFG_SYSIO;     /**< \brief (Matrix Offset: 0x0114) System I/O Configuration register */
-    RoReg Reserved14[51];
-    RwReg MATRIX_WPMR;    /**< \brief (Matrix Offset: 0x1E4) Write Protect Mode Register */
-    RoReg MATRIX_WPSR;    /**< \brief (Matrix Offset: 0x1E8) Write Protect Status Register */
+  RwReg MATRIX_MCFG[6]; /**< \brief (Matrix Offset: 0x0000) Master Configuration Register */
+  RoReg Reserved1[10];
+  RwReg MATRIX_SCFG[9]; /**< \brief (Matrix Offset: 0x0040) Slave Configuration Register */
+  RoReg Reserved2[7];
+  RwReg MATRIX_PRAS0;   /**< \brief (Matrix Offset: 0x0080) Priority Register A for Slave 0 */
+  RoReg Reserved3[1];
+  RwReg MATRIX_PRAS1;   /**< \brief (Matrix Offset: 0x0088) Priority Register A for Slave 1 */
+  RoReg Reserved4[1];
+  RwReg MATRIX_PRAS2;   /**< \brief (Matrix Offset: 0x0090) Priority Register A for Slave 2 */
+  RoReg Reserved5[1];
+  RwReg MATRIX_PRAS3;   /**< \brief (Matrix Offset: 0x0098) Priority Register A for Slave 3 */
+  RoReg Reserved6[1];
+  RwReg MATRIX_PRAS4;   /**< \brief (Matrix Offset: 0x00A0) Priority Register A for Slave 4 */
+  RoReg Reserved7[1];
+  RwReg MATRIX_PRAS5;   /**< \brief (Matrix Offset: 0x00A8) Priority Register A for Slave 5 */
+  RoReg Reserved8[1];
+  RwReg MATRIX_PRAS6;   /**< \brief (Matrix Offset: 0x00B0) Priority Register A for Slave 6 */
+  RoReg Reserved9[1];
+  RwReg MATRIX_PRAS7;   /**< \brief (Matrix Offset: 0x00B8) Priority Register A for Slave 7 */
+  RoReg Reserved10[1];
+  RwReg MATRIX_PRAS8;   /**< \brief (Matrix Offset: 0x00C0) Priority Register A for Slave 8 */
+  RoReg Reserved11[1];
+  RoReg Reserved12[14];
+  RwReg MATRIX_MRCR;    /**< \brief (Matrix Offset: 0x0100) Master Remap Control Register */
+  RoReg Reserved13[4];
+  RwReg CCFG_SYSIO;     /**< \brief (Matrix Offset: 0x0114) System I/O Configuration register */
+  RoReg Reserved14[51];
+  RwReg MATRIX_WPMR;    /**< \brief (Matrix Offset: 0x1E4) Write Protect Mode Register */
+  RoReg MATRIX_WPSR;    /**< \brief (Matrix Offset: 0x1E8) Write Protect Status Register */
 } Matrix;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- MATRIX_MCFG[6] : (MATRIX Offset: 0x0000) Master Configuration Register -------- */

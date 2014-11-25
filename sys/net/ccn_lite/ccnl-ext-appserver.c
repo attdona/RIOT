@@ -62,7 +62,7 @@ static int appserver_create_content(char **prefix, uint8_t *out)
     char buf[CCNL_RIOT_CHUNK_SIZE - 1];
 
     for (int i = 0; i < CCNL_RIOT_CHUNK_SIZE - 1; i++) {
-        buf[i] = 'a' + i % 26;
+        buf[i] = 'a' + i%26;
     }
 
     int len = mkContent(prefix, buf, CCNL_RIOT_CHUNK_SIZE - 1, out);
@@ -96,12 +96,10 @@ static int appserver_handle_interest(char *data, uint16_t datalen, uint16_t from
     appserver_create_prefix(name, prefix);
 
     unsigned char *content_pkg = malloc(PAYLOAD_SIZE);
-
     if (!content_pkg) {
         puts("appserver_handle_interest: malloc failed");
         return 0;
     }
-
     int len = appserver_create_content(prefix, content_pkg);
     /*
      struct ccnl_prefix *myprefix = ccnl_path_to_prefix(name);
@@ -157,12 +155,10 @@ static void riot_ccnl_appserver_register(void)
     char *type = "newMSGface";
 
     unsigned char *mgnt_pkg = malloc(256);
-
     if (!mgnt_pkg) {
         puts("riot_ccnl_appserver_register: malloc failed");
         return;
     }
-
     int content_len = ccnl_riot_client_publish(relay_pid, prefix, faceid, type, mgnt_pkg);
     (void) content_len;
     DEBUG("received %d bytes.\n", content_len);
@@ -173,7 +169,7 @@ static void riot_ccnl_appserver_register(void)
 
 void *ccnl_riot_appserver_start(void *arg)
 {
-    kernel_pid_t _relay_pid = *((kernel_pid_t *) arg);
+    kernel_pid_t _relay_pid = *((kernel_pid_t*) arg);
     relay_pid = _relay_pid;
     riot_ccnl_appserver_register();
     riot_ccnl_appserver_ioloop();

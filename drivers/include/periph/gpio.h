@@ -130,8 +130,7 @@ typedef enum {
 #if GPIO_31_EN
     GPIO_31,                /**< GPIO device 31 */
 #endif
-}
-gpio_t;
+} gpio_t;
 
 /**
  * @brief Definition of pull-up/pull-down modes

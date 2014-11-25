@@ -96,17 +96,14 @@ void rtt_poweroff(void)
 __attribute__((naked)) void RTT_ISR(void)
 {
     ISR_ENTER();
-
-    if (RTT_DEV->EVENTS_COMPARE[0] == 1) {
+    if (RTT_DEV->EVENTS_COMPARE[0] ==1) {
         RTT_DEV->EVENTS_COMPARE[0] = 0;
         RTT_DEV->INTENCLR = RTC_INTENSET_COMPARE0_Msk;
         alarm_cb(alarm_arg);
     }
-
     if (sched_context_switch_request) {
         thread_yield();
     }
-
     ISR_EXIT();
 }
 

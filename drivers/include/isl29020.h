@@ -28,9 +28,9 @@
 extern "C" {
 #endif
 
-/**
- * @brief The sensors default I2C address
- */
+ /**
+  * @brief The sensors default I2C address
+  */
 #define ISL29020_DEFAULT_ADDRESS        0x44
 
 /**

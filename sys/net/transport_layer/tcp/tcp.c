@@ -179,8 +179,7 @@ uint16_t tcp_csum(ipv6_hdr_t *ipv6_header, tcp_hdr_t *tcp_header)
 }
 
 /* Check for consistent ACK and SEQ number */
-int check_tcp_consistency(socket_t *current_tcp_socket, tcp_hdr_t *tcp_header,
-                          uint8_t tcp_payload_len)
+int check_tcp_consistency(socket_t *current_tcp_socket, tcp_hdr_t *tcp_header, uint8_t tcp_payload_len)
 {
     if (tcp_payload_len == 0) {
         if (tcp_header->ack_nr > (current_tcp_socket->tcp_control.send_nxt)) {
@@ -192,8 +191,7 @@ int check_tcp_consistency(socket_t *current_tcp_socket, tcp_hdr_t *tcp_header,
             return ACK_NO_TOO_SMALL;
         }
     }
-    else if ((current_tcp_socket->tcp_control.rcv_nxt > 0)
-             && (tcp_header->seq_nr < current_tcp_socket->tcp_control.rcv_nxt)) {
+    else if ((current_tcp_socket->tcp_control.rcv_nxt > 0) && (tcp_header->seq_nr < current_tcp_socket->tcp_control.rcv_nxt)) {
         /* segment repetition, maybe ACK got lost? */
         return SEQ_NO_TOO_SMALL;
     }
@@ -410,7 +408,7 @@ socket_internal_t *get_tcp_socket(ipv6_hdr_t *ipv6_header, tcp_hdr_t *tcp_header
 
         /* Check for matching 4 touple, TCP_ESTABLISHED connection */
         if (tcp_socket_compliancy(i) && is_four_touple(current_socket, ipv6_header,
-                tcp_header)) {
+                                               tcp_header)) {
             return current_socket;
         }
         /* Sockets in TCP_LISTEN and TCP_SYN_RCVD state should only be tested on local TCP values */
@@ -698,12 +696,11 @@ void *tcp_packet_handler(void *arg)
                         handle_tcp_no_flags_packet(ipv6_header, tcp_header, tcp_socket, payload, tcp_payload_len);
                     }
                     else if (tcp_payload_len == 0
-                             && (state == TCP_ESTABLISHED || state == TCP_SYN_RCVD
-                                 || state == TCP_CLOSING || state == TCP_LAST_ACK)) {
+                            && (state == TCP_ESTABLISHED || state == TCP_SYN_RCVD
+                                || state == TCP_CLOSING || state == TCP_LAST_ACK)) {
                         /* no payload, acknowledging data only */
                         handle_tcp_ack_packet(ipv6_header, tcp_header, tcp_socket);
                     }
-
                     break;
                 }
 
@@ -739,7 +736,6 @@ void *tcp_packet_handler(void *arg)
                         /* this is the response to FIN */
                         handle_tcp_fin_ack_packet(ipv6_header, tcp_header, tcp_socket);
                     }
-
                     break;
                 }
 
@@ -764,10 +760,8 @@ void *tcp_packet_handler(void *arg)
 void printf_tcp_context(tcp_hc_context_t *current_tcp_context)
 {
     printf("Context: %u\n", current_tcp_context->context_id);
-    printf("Rcv Seq: %" PRIu32 " Rcv Ack: %" PRIu32 ", Rcv Wnd: %u\n", current_tcp_context->seq_rcv,
-           current_tcp_context->ack_rcv, current_tcp_context->wnd_rcv);
-    printf("Snd Seq: %" PRIu32 " Snd Ack: %" PRIu32 ", Snd Wnd: %u\n", current_tcp_context->seq_snd,
-           current_tcp_context->ack_snd, current_tcp_context->wnd_snd);
+    printf("Rcv Seq: %" PRIu32 " Rcv Ack: %" PRIu32 ", Rcv Wnd: %u\n", current_tcp_context->seq_rcv, current_tcp_context->ack_rcv, current_tcp_context->wnd_rcv);
+    printf("Snd Seq: %" PRIu32 " Snd Ack: %" PRIu32 ", Snd Wnd: %u\n", current_tcp_context->seq_snd, current_tcp_context->ack_snd, current_tcp_context->wnd_snd);
 }
 
 bool tcp_socket_compliancy(int s)
@@ -1375,8 +1369,7 @@ int tcp_listen(int s, int backlog)
 {
     (void) backlog;
 
-    if (tcp_socket_compliancy(s)
-        && socket_base_get_socket(s)->socket_values.tcp_control.state == TCP_CLOSED) {
+    if (tcp_socket_compliancy(s) && socket_base_get_socket(s)->socket_values.tcp_control.state == TCP_CLOSED) {
         socket_internal_t *current_socket = socket_base_get_socket(s);
         current_socket->socket_values.tcp_control.state = TCP_LISTEN;
         return 0;

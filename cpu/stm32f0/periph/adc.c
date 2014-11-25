@@ -45,7 +45,6 @@ int adc_init(adc_t dev, adc_precision_t precision)
 
     switch (dev) {
 #if ADC_0_EN
-
         case ADC_0:
             adc = ADC_0_DEV;
             ADC_0_PORT_CLKEN();
@@ -68,18 +67,14 @@ int adc_init(adc_t dev, adc_precision_t precision)
         case ADC_RES_6BIT:
             adc->CFGR1 |= ADC_CFGR1_RES_0 | ADC_CFGR1_RES_1;
             break;
-
         case ADC_RES_8BIT:
             adc->CFGR1 |= ADC_CFGR1_RES_1;
             break;
-
         case ADC_RES_10BIT:
             adc->CFGR1 |= ADC_CFGR1_RES_0;
             break;
-
         case ADC_RES_12BIT:
             break;
-
         case ADC_RES_14BIT:
         case ADC_RES_16BIT:
             adc_poweroff(dev);
@@ -102,49 +97,38 @@ int adc_sample(adc_t dev, int channel)
 
     switch (dev) {
 #if ADC_0_EN
-
         case ADC_0:
             adc = ADC_0_DEV;
-
             switch (channel) {
                 case 0:
                     adc->CHSELR = (1 << ADC_0_CH0);
                     break;
-
                 case 1:
                     adc->CHSELR = (1 << ADC_0_CH1);
                     break;
-
                 case 2:
                     adc->CHSELR = (1 << ADC_0_CH2);
                     break;
-
                 case 3:
                     adc->CHSELR = (1 << ADC_0_CH3);
                     break;
-
                 case 4:
                     adc->CHSELR = (1 << ADC_0_CH4);
                     break;
-
                 case 5:
                     adc->CHSELR = (1 << ADC_0_CH5);
                     break;
-
                 default:
                     return -1;
             }
-
             break;
 #endif
     }
 
     /* start single conversion */
     adc->CR |= ADC_CR_ADSTART;
-
     /* wait until conversion is complete */
     while (!(adc->ISR & ADC_ISR_EOC));
-
     /* read and return result */
     return (int)adc->DR;
 }
@@ -153,13 +137,11 @@ void adc_poweron(adc_t dev)
 {
     switch (dev) {
 #if ADC_0_EN
-
         case ADC_0:
             ADC_0_CLKEN();
             break;
 #endif
 #if ADC_1_EN
-
         case ADC_1:
             ADC_1_CLKEN();
             break;
@@ -171,13 +153,11 @@ void adc_poweroff(adc_t dev)
 {
     switch (dev) {
 #if ADC_0_EN
-
         case ADC_0:
             ADC_0_CLKDIS();
             break;
 #endif
 #if ADC_1_EN
-
         case ADC_1:
             ADC_1_CLKDIS();
             break;

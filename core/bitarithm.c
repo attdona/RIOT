@@ -31,19 +31,17 @@ unsigned bitarithm_msb(unsigned v)
         return bitarithm_lsb(v);
     }
     else {
-        return sizeof(v) * 8 - 1;
+        return sizeof (v) * 8 - 1;
     }
 }
 
 unsigned bitarithm_lsb(unsigned v)
 {
     unsigned r = 0;
-
     while ((v & 1) == 0) {
         v >>= 1;
         r++;
     }
-
     return r;
 }
 

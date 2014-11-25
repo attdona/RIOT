@@ -68,36 +68,30 @@ static bool spurious_irq(uint8_t irq_num)
 #if 0 /* TODO: does not work */
     irq_num -= 8;
     outb(PIC_SLAVE + PIC_COMMAND, PIC_READ_ISR);
-
     if (inb(PIC_SLAVE + PIC_COMMAND) & (1 << irq_num)) {
         outb(PIC_MASTER + PIC_COMMAND, PIC_EOI);
         return true;
     }
-
     return false;
 #endif
 }
 
-static void pic_interrupt_entry(uint8_t intr_num, struct x86_pushad *orig_ctx,
-                                unsigned long error_code)
+static void pic_interrupt_entry(uint8_t intr_num, struct x86_pushad *orig_ctx, unsigned long error_code)
 {
     (void) error_code;
     (void) orig_ctx;
 
     uint8_t irq_num = intr_num - PIC_MASTER_INTERRUPT_BASE;
-
     if (spurious_irq(irq_num)) {
         return;
     }
 
     x86_irq_handler_t handler = x86_registered_irqs[irq_num];
-
     if (handler) {
         handler(irq_num);
     }
 
     outb(PIC_MASTER + PIC_COMMAND, PIC_EOI);
-
     if (irq_num > 7) {
         outb(PIC_SLAVE + PIC_COMMAND, PIC_EOI);
     }
@@ -144,7 +138,7 @@ void x86_pic_set_enabled_irqs(uint16_t mask)
     mask &= ~PIC_MASK_FPU;
     outb(PIC_MASTER + PIC_IMR, ~(uint8_t) mask);
     io_wait();
-    outb(PIC_SLAVE + PIC_IMR, ~(uint8_t)(mask >> 8));
+    outb(PIC_SLAVE + PIC_IMR, ~(uint8_t) (mask >> 8));
 
     restoreIRQ(old_status);
 }
@@ -154,7 +148,6 @@ void x86_pic_enable_irq(unsigned num)
     unsigned old_status = disableIRQ();
 
     uint16_t port;
-
     if (num < 8) {
         port = PIC_MASTER;
     }
@@ -162,7 +155,6 @@ void x86_pic_enable_irq(unsigned num)
         num -= 8;
         port = PIC_SLAVE;
     }
-
     uint8_t cur = inb(port + PIC_IMR);
     outb(port + PIC_IMR, cur & ~(1 << num));
 
@@ -174,7 +166,6 @@ void x86_pic_disable_irq(unsigned num)
     unsigned old_status = disableIRQ();
 
     uint16_t port;
-
     if (num < 8) {
         port = PIC_MASTER;
     }
@@ -182,7 +173,6 @@ void x86_pic_disable_irq(unsigned num)
         num -= 8;
         port = PIC_SLAVE;
     }
-
     uint8_t cur = inb(port + PIC_IMR);
     outb(port + PIC_IMR, cur | (1 << num));
 

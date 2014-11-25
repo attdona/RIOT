@@ -43,7 +43,6 @@ void rtc_init(void)
 void rtc_enable(void)
 {
     DEBUG("rtc_enable\n");
-
     if (native_rtc_initialized == 1) {
         native_rtc_enabled = 1;
     }
@@ -77,7 +76,6 @@ void rtc_get_localtime(struct tm *localt)
         if (localtime_r(&t, localt) == NULL) {
             err(EXIT_FAILURE, "rtc_get_localtime: localtime_r");
         }
-
         _native_syscall_leave();
     }
 }
@@ -86,13 +84,10 @@ time_t rtc_time(struct timeval *time)
 {
     if (native_rtc_enabled == 1) {
         _native_syscall_enter();
-
         if (gettimeofday(time, NULL) == -1) {
             err(EXIT_FAILURE, "rtc_time: gettimeofday");
         }
-
         _native_syscall_leave();
     }
-
     return time->tv_sec;
 }

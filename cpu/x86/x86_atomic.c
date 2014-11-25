@@ -32,6 +32,6 @@
 
 unsigned int atomic_set_return(unsigned int *val, unsigned int set)
 {
-    asm volatile("lock xchg %0, %1" : "+m"(*val), "+r"(set));
+    asm volatile ("lock xchg %0, %1" : "+m"(*val), "+r"(set));
     return set;
 }

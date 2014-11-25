@@ -59,7 +59,6 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, uart_tx_cb_t t
 
     /* initialize UART in blocking mode first */
     res = uart_init_blocking(uart, baudrate);
-
     if (res < 0) {
         return res;
     }
@@ -67,7 +66,6 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, uart_tx_cb_t t
     /* enable global interrupt and configure the interrupts priority */
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             NVIC_SetPriority(UART_0_IRQ, UART_IRQ_PRIO);
             NVIC_EnableIRQ(UART_0_IRQ);
@@ -75,7 +73,6 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, uart_tx_cb_t t
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             NVIC_SetPriority(UART_1_IRQ, UART_IRQ_PRIO);
             NVIC_EnableIRQ(UART_1_IRQ);
@@ -106,7 +103,6 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
     /* enable UART and port clocks and select devices */
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             dev = UART_0_DEV;
             port = UART_0_PORT;
@@ -119,7 +115,6 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             dev = UART_1_DEV;
             port = UART_1_PORT;
@@ -136,7 +131,6 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
     /* configure RX and TX pins, set pin to use alternative function mode */
     port->MODER &= ~(3 << (rx_pin * 2) | 3 << (tx_pin * 2));
     port->MODER |= 2 << (rx_pin * 2) | 2 << (tx_pin * 2);
-
     /* and assign alternative function */
     if (rx_pin < 8) {
         port->AFR[0] &= ~(0xf << (rx_pin * 4));
@@ -146,7 +140,6 @@ int uart_init_blocking(uart_t uart, uint32_t baudrate)
         port->AFR[1] &= ~(0xf << ((rx_pin - 16) * 4));
         port->AFR[1] |= af << ((rx_pin - 16) * 4);
     }
-
     if (tx_pin < 8) {
         port->AFR[0] &= ~(0xf << (tx_pin * 4));
         port->AFR[0] |= af << (tx_pin * 4);
@@ -173,13 +166,11 @@ void uart_tx_begin(uart_t uart)
 {
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             UART_0_DEV->CR1 |= USART_CR1_TXEIE;
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             UART_1_DEV->CR1 |= USART_CR1_TXEIE;
             break;
@@ -193,13 +184,11 @@ int uart_write(uart_t uart, char data)
 
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             dev = UART_0_DEV;
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             dev = UART_1_DEV;
             break;
@@ -219,13 +208,11 @@ int uart_read_blocking(uart_t uart, char *data)
 
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             dev = UART_0_DEV;
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             dev = UART_1_DEV;
             break;
@@ -233,7 +220,6 @@ int uart_read_blocking(uart_t uart, char *data)
     }
 
     while (!(dev->ISR & USART_ISR_RXNE));
-
     *data = (char)dev->RDR;
 
     return 1;
@@ -245,13 +231,11 @@ int uart_write_blocking(uart_t uart, char data)
 
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             dev = UART_0_DEV;
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             dev = UART_1_DEV;
             break;
@@ -259,7 +243,6 @@ int uart_write_blocking(uart_t uart, char data)
     }
 
     while (!(dev->ISR & USART_ISR_TXE));
-
     dev->TDR = (uint8_t)data;
 
     return 1;
@@ -269,13 +252,11 @@ void uart_poweron(uart_t uart)
 {
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             UART_0_CLKEN();
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             UART_1_CLKEN();
             break;
@@ -287,13 +268,11 @@ void uart_poweroff(uart_t uart)
 {
     switch (uart) {
 #if UART_0_EN
-
         case UART_0:
             UART_0_CLKDIS();
             break;
 #endif
 #if UART_1_EN
-
         case UART_1:
             UART_1_CLKDIS();
             break;
@@ -334,7 +313,6 @@ static inline void irq_handler(uint8_t uartnum, USART_TypeDef *dev)
             dev->CR1 &= ~USART_CR1_TXEIE;
         }
     }
-
     if (sched_context_switch_request) {
         thread_yield();
     }

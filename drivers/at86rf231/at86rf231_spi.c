@@ -54,7 +54,7 @@ void at86rf231_read_fifo(uint8_t *data, radio_packet_length_t length)
     gpio_clear(AT86RF231_CS);
     /* Read a number of bytes from the devices frame buffer */
     spi_transfer_regs(AT86RF231_SPI, AT86RF231_ACCESS_FRAMEBUFFER | AT86RF231_ACCESS_READ,
-                      0, (char *)data, length);
+                      0, (char*)data, length);
     /* End the SPI transfer */
     gpio_set(AT86RF231_CS);
 }
@@ -65,7 +65,7 @@ void at86rf231_write_fifo(const uint8_t *data, radio_packet_length_t length)
     gpio_clear(AT86RF231_CS);
     /* Send Frame Buffer Write access */
     spi_transfer_regs(AT86RF231_SPI, AT86RF231_ACCESS_FRAMEBUFFER | AT86RF231_ACCESS_WRITE,
-                      (char *)data, 0, length);
+                      (char*)data, 0, length);
     /* End the SPI transfer */
     gpio_set(AT86RF231_CS);
 }

@@ -196,8 +196,7 @@ typedef struct {
     cc2538_reg_t RIS;                               /**< GPIO_A Raw Interrupt Status register */
     cc2538_reg_t MIS;                               /**< GPIO_A Masked Interrupt Status register */
     cc2538_reg_t IC;                                /**< GPIO_A Interrupt Clear register */
-    cc2538_reg_t
-    AFSEL;                             /**< GPIO_A Alternate Function / mode control select register */
+    cc2538_reg_t AFSEL;                             /**< GPIO_A Alternate Function / mode control select register */
     cc2538_reg_t RESERVED2[63];                     /**< Reserved addresses */
     cc2538_reg_t GPIOLOCK;                          /**< GPIO_A Lock register */
     cc2538_reg_t GPIOCR;                            /**< GPIO_A Commit Register */
@@ -205,8 +204,7 @@ typedef struct {
     cc2538_reg_t PMUX;                              /**< GPIO_A The PMUX register */
     cc2538_reg_t P_EDGE_CTRL;                       /**< GPIO_A The Port Edge Control register */
     cc2538_reg_t RESERVED4[2];                      /**< Reserved addresses */
-    cc2538_reg_t
-    PI_IEN;                            /**< GPIO_A The Power-up Interrupt Enable register */
+    cc2538_reg_t PI_IEN;                            /**< GPIO_A The Power-up Interrupt Enable register */
     cc2538_reg_t RESERVED5[1];                      /**< Reserved addresses */
     cc2538_reg_t IRQ_DETECT_ACK;                    /**< GPIO_A IRQ Detect ACK register */
     cc2538_reg_t USB_IRQ_ACK;                       /**< GPIO_A IRQ Detect ACK for USB */

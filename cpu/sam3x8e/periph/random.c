@@ -45,10 +45,8 @@ int random_read(char *buf, unsigned int num)
     while (count < num) {
         /* wait until new value is generated -> takes up to 84 cycles */
         while (!(TRNG->TRNG_ISR & TRNG_ISR_DATRDY));
-
         /* read 4 byte of random data */
         tmp = TRNG->TRNG_ODATA;
-
         /* extract copy bytes to result */
         for (int i = 0; i < 4 && count < num; i++) {
             buf[count++] = (char)tmp;

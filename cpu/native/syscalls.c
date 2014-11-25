@@ -52,9 +52,9 @@ ssize_t (*real_write)(int fd, const void *buf, size_t count);
 size_t (*real_fread)(void *ptr, size_t size, size_t nmemb, FILE *stream);
 void (*real_clearerr)(FILE *stream);
 void (*real_free)(void *ptr);
-void *(*real_malloc)(size_t size);
-void *(*real_calloc)(size_t nmemb, size_t size);
-void *(*real_realloc)(void *ptr, size_t size);
+void* (*real_malloc)(size_t size);
+void* (*real_calloc)(size_t nmemb, size_t size);
+void* (*real_realloc)(void *ptr, size_t size);
 int (*real_bind)(int socket, ...);
 int (*real_printf)(const char *format, ...);
 int (*real_getpid)(void);
@@ -68,7 +68,7 @@ int (*real_ferror)(FILE *stream);
 int (*real_listen)(int socket, int backlog);
 int (*real_pause)(void);
 int (*real_unlink)(const char *);
-FILE *(*real_fopen)(const char *path, const char *mode);
+FILE* (*real_fopen)(const char *path, const char *mode);
 
 void _native_syscall_enter(void)
 {
@@ -84,14 +84,14 @@ void _native_syscall_leave(void)
     real_write(STDERR_FILENO, "< _native_in_syscall\n", 21);
 #endif
     _native_in_syscall--;
-
     if (
-        (_native_sigpend > 0)
-        && (_native_in_isr == 0)
-        && (_native_in_syscall == 0)
-        && (native_interrupts_enabled == 1)
-        && (sched_active_thread != NULL)
-    ) {
+            (_native_sigpend > 0)
+            && (_native_in_isr == 0)
+            && (_native_in_syscall == 0)
+            && (native_interrupts_enabled == 1)
+            && (sched_active_thread != NULL)
+       )
+    {
         _native_in_isr = 1;
         dINT();
         _native_cur_ctx = (ucontext_t *)sched_active_thread->sp;
@@ -99,11 +99,9 @@ void _native_syscall_leave(void)
         native_isr_context.uc_stack.ss_size = SIGSTKSZ;
         native_isr_context.uc_stack.ss_flags = 0;
         makecontext(&native_isr_context, native_irq_handler, 0);
-
         if (swapcontext(_native_cur_ctx, &native_isr_context) == -1) {
             err(EXIT_FAILURE, "_native_syscall_leave: swapcontext");
         }
-
         eINT();
     }
 }
@@ -132,7 +130,7 @@ void *calloc(size_t nmemb, size_t size)
     if (!real_calloc) {
         if (_native_in_calloc) {
             /* XXX: This is a dirty hack to enable old dlsym versions to run.
-             * Throw it out when Ubuntu 12.04 support runs out (in 2017-04)!*/
+             * Throw it out when Ubuntu 12.04 support runs out (in 2017-04)! */
             return NULL;
         }
         else {
@@ -183,8 +181,7 @@ ssize_t _native_write(int fd, const void *buf, size_t count)
 #if defined(__FreeBSD__)
 #undef putchar
 #endif
-int putchar(int c)
-{
+int putchar(int c) {
     _native_write(STDOUT_FILENO, &c, 1);
     return 0;
 }
@@ -192,7 +189,7 @@ int putchar(int c)
 int puts(const char *s)
 {
     int r;
-    r = _native_write(STDOUT_FILENO, (char *)s, strlen(s));
+    r = _native_write(STDOUT_FILENO, (char*)s, strlen(s));
     putchar('\n');
     return r;
 }
@@ -208,17 +205,11 @@ char *make_message(const char *format, va_list argp)
 
     while (1) {
         int n = vsnprintf(message, size, format, argp);
-
-        if (n < 0) {
+        if (n < 0)
             return NULL;
-        }
-
-        if (n < size) {
+        if (n < size)
             return message;
-        }
-
         size = n + 1;
-
         if ((temp = realloc(message, size)) == NULL) {
             free(message);
             return NULL;
@@ -236,11 +227,9 @@ int printf(const char *format, ...)
     char *m;
 
     va_start(argp, format);
-
     if ((m = make_message(format, argp)) == NULL) {
         err(EXIT_FAILURE, "malloc");
     }
-
     r = _native_write(STDOUT_FILENO, m, strlen(m));
     va_end(argp);
     free(m);
@@ -257,7 +246,6 @@ int vprintf(const char *format, va_list argp)
     if ((m = make_message(format, argp)) == NULL) {
         err(EXIT_FAILURE, "malloc");
     }
-
     r = _native_write(STDOUT_FILENO, m, strlen(m));
     free(m);
 
@@ -275,7 +263,6 @@ void vwarn(const char *fmt, va_list args)
         _native_write(STDERR_FILENO, "malloc\n", 7);
         exit(EXIT_FAILURE);
     }
-
     _native_write(STDERR_FILENO, _progname, strlen(_progname));
     _native_write(STDERR_FILENO, ": ", 2);
     _native_write(STDERR_FILENO, m, strlen(m));
@@ -293,7 +280,6 @@ void vwarnx(const char *fmt, va_list args)
         _native_write(STDERR_FILENO, "malloc\n", 7);
         exit(EXIT_FAILURE);
     }
-
     _native_write(STDERR_FILENO, _progname, strlen(_progname));
     _native_write(STDERR_FILENO, ": ", 2);
     _native_write(STDERR_FILENO, m, strlen(m));
@@ -350,8 +336,7 @@ int getpid(void)
 }
 
 #ifdef MODULE_VTIMER
-int _gettimeofday(struct timeval *tp, void *restrict tzp)
-{
+int _gettimeofday(struct timeval *tp, void *restrict tzp) {
     (void) tzp;
     vtimer_gettimeofday(tp);
     return 0;

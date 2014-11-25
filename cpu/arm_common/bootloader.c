@@ -91,8 +91,7 @@ void UNDEF_Routine(void)
     __asm__ __volatile__("sub %0, lr, #8" : "=r"(lnk_ptr));     // get aborting instruction
 
     if (arm_abortflag == 0) {
-        arm_abortflag =
-            1;                                          // remember state (if printing should fail again)
+        arm_abortflag = 1;                                          // remember state (if printing should fail again)
         abtorigin("undef", lnk_ptr);
     }
 
@@ -106,8 +105,7 @@ void PABT_Routine(void)
     __asm__ __volatile__("sub %0, lr, #8" : "=r"(lnk_ptr));     // get aborting instruction
 
     if (arm_abortflag == 0) {
-        arm_abortflag =
-            1;                                          // remember state (if printing should fail again)
+        arm_abortflag = 1;                                          // remember state (if printing should fail again)
         abtorigin("pabt", lnk_ptr);
     }
 
@@ -121,8 +119,7 @@ void DABT_Routine(void)
     __asm__ __volatile__("sub %0, lr, #8" : "=r"(lnk_ptr));     // get aborting instruction
 
     if (arm_abortflag == 0) {
-        arm_abortflag =
-            1;                                          // remember state (if printing should fail again)
+        arm_abortflag = 1;                                          // remember state (if printing should fail again)
         abtorigin("data", lnk_ptr);
     }
 

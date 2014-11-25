@@ -40,40 +40,40 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Adc hardware registers */
 typedef struct {
-    WoReg ADC_CR;        /**< \brief (Adc Offset: 0x00) Control Register */
-    RwReg ADC_MR;        /**< \brief (Adc Offset: 0x04) Mode Register */
-    RwReg ADC_SEQR1;     /**< \brief (Adc Offset: 0x08) Channel Sequence Register 1 */
-    RwReg ADC_SEQR2;     /**< \brief (Adc Offset: 0x0C) Channel Sequence Register 2 */
-    WoReg ADC_CHER;      /**< \brief (Adc Offset: 0x10) Channel Enable Register */
-    WoReg ADC_CHDR;      /**< \brief (Adc Offset: 0x14) Channel Disable Register */
-    RoReg ADC_CHSR;      /**< \brief (Adc Offset: 0x18) Channel Status Register */
-    RoReg Reserved1[1];
-    RoReg ADC_LCDR;      /**< \brief (Adc Offset: 0x20) Last Converted Data Register */
-    WoReg ADC_IER;       /**< \brief (Adc Offset: 0x24) Interrupt Enable Register */
-    WoReg ADC_IDR;       /**< \brief (Adc Offset: 0x28) Interrupt Disable Register */
-    RoReg ADC_IMR;       /**< \brief (Adc Offset: 0x2C) Interrupt Mask Register */
-    RoReg ADC_ISR;       /**< \brief (Adc Offset: 0x30) Interrupt Status Register */
-    RoReg Reserved2[2];
-    RoReg ADC_OVER;      /**< \brief (Adc Offset: 0x3C) Overrun Status Register */
-    RwReg ADC_EMR;       /**< \brief (Adc Offset: 0x40) Extended Mode Register */
-    RwReg ADC_CWR;       /**< \brief (Adc Offset: 0x44) Compare Window Register */
-    RwReg ADC_CGR;       /**< \brief (Adc Offset: 0x48) Channel Gain Register */
-    RwReg ADC_COR;       /**< \brief (Adc Offset: 0x4C) Channel Offset Register */
-    RoReg ADC_CDR[16];   /**< \brief (Adc Offset: 0x50) Channel Data Register */
-    RoReg Reserved3[1];
-    RwReg ADC_ACR;       /**< \brief (Adc Offset: 0x94) Analog Control Register */
-    RoReg Reserved4[19];
-    RwReg ADC_WPMR;      /**< \brief (Adc Offset: 0xE4) Write Protect Mode Register */
-    RoReg ADC_WPSR;      /**< \brief (Adc Offset: 0xE8) Write Protect Status Register */
-    RoReg Reserved5[5];
-    RwReg ADC_RPR;       /**< \brief (Adc Offset: 0x100) Receive Pointer Register */
-    RwReg ADC_RCR;       /**< \brief (Adc Offset: 0x104) Receive Counter Register */
-    RoReg Reserved6[2];
-    RwReg ADC_RNPR;      /**< \brief (Adc Offset: 0x110) Receive Next Pointer Register */
-    RwReg ADC_RNCR;      /**< \brief (Adc Offset: 0x114) Receive Next Counter Register */
-    RoReg Reserved7[2];
-    WoReg ADC_PTCR;      /**< \brief (Adc Offset: 0x120) Transfer Control Register */
-    RoReg ADC_PTSR;      /**< \brief (Adc Offset: 0x124) Transfer Status Register */
+  WoReg ADC_CR;        /**< \brief (Adc Offset: 0x00) Control Register */
+  RwReg ADC_MR;        /**< \brief (Adc Offset: 0x04) Mode Register */
+  RwReg ADC_SEQR1;     /**< \brief (Adc Offset: 0x08) Channel Sequence Register 1 */
+  RwReg ADC_SEQR2;     /**< \brief (Adc Offset: 0x0C) Channel Sequence Register 2 */
+  WoReg ADC_CHER;      /**< \brief (Adc Offset: 0x10) Channel Enable Register */
+  WoReg ADC_CHDR;      /**< \brief (Adc Offset: 0x14) Channel Disable Register */
+  RoReg ADC_CHSR;      /**< \brief (Adc Offset: 0x18) Channel Status Register */
+  RoReg Reserved1[1];
+  RoReg ADC_LCDR;      /**< \brief (Adc Offset: 0x20) Last Converted Data Register */
+  WoReg ADC_IER;       /**< \brief (Adc Offset: 0x24) Interrupt Enable Register */
+  WoReg ADC_IDR;       /**< \brief (Adc Offset: 0x28) Interrupt Disable Register */
+  RoReg ADC_IMR;       /**< \brief (Adc Offset: 0x2C) Interrupt Mask Register */
+  RoReg ADC_ISR;       /**< \brief (Adc Offset: 0x30) Interrupt Status Register */
+  RoReg Reserved2[2];
+  RoReg ADC_OVER;      /**< \brief (Adc Offset: 0x3C) Overrun Status Register */
+  RwReg ADC_EMR;       /**< \brief (Adc Offset: 0x40) Extended Mode Register */
+  RwReg ADC_CWR;       /**< \brief (Adc Offset: 0x44) Compare Window Register */
+  RwReg ADC_CGR;       /**< \brief (Adc Offset: 0x48) Channel Gain Register */
+  RwReg ADC_COR;       /**< \brief (Adc Offset: 0x4C) Channel Offset Register */
+  RoReg ADC_CDR[16];   /**< \brief (Adc Offset: 0x50) Channel Data Register */
+  RoReg Reserved3[1];
+  RwReg ADC_ACR;       /**< \brief (Adc Offset: 0x94) Analog Control Register */
+  RoReg Reserved4[19];
+  RwReg ADC_WPMR;      /**< \brief (Adc Offset: 0xE4) Write Protect Mode Register */
+  RoReg ADC_WPSR;      /**< \brief (Adc Offset: 0xE8) Write Protect Status Register */
+  RoReg Reserved5[5];
+  RwReg ADC_RPR;       /**< \brief (Adc Offset: 0x100) Receive Pointer Register */
+  RwReg ADC_RCR;       /**< \brief (Adc Offset: 0x104) Receive Counter Register */
+  RoReg Reserved6[2];
+  RwReg ADC_RNPR;      /**< \brief (Adc Offset: 0x110) Receive Next Pointer Register */
+  RwReg ADC_RNCR;      /**< \brief (Adc Offset: 0x114) Receive Next Counter Register */
+  RoReg Reserved7[2];
+  WoReg ADC_PTCR;      /**< \brief (Adc Offset: 0x120) Transfer Control Register */
+  RoReg ADC_PTSR;      /**< \brief (Adc Offset: 0x124) Transfer Status Register */
 } Adc;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- ADC_CR : (ADC Offset: 0x00) Control Register -------- */

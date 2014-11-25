@@ -40,18 +40,18 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Sdramc hardware registers */
 typedef struct {
-    RwReg SDRAMC_MR;    /**< \brief (Sdramc Offset: 0x00) SDRAMC Mode Register */
-    RwReg SDRAMC_TR;    /**< \brief (Sdramc Offset: 0x04) SDRAMC Refresh Timer Register */
-    RwReg SDRAMC_CR;    /**< \brief (Sdramc Offset: 0x08) SDRAMC Configuration Register */
-    RoReg Reserved1[1];
-    RwReg SDRAMC_LPR;   /**< \brief (Sdramc Offset: 0x10) SDRAMC Low Power Register */
-    WoReg SDRAMC_IER;   /**< \brief (Sdramc Offset: 0x14) SDRAMC Interrupt Enable Register */
-    WoReg SDRAMC_IDR;   /**< \brief (Sdramc Offset: 0x18) SDRAMC Interrupt Disable Register */
-    RoReg SDRAMC_IMR;   /**< \brief (Sdramc Offset: 0x1C) SDRAMC Interrupt Mask Register */
-    RoReg SDRAMC_ISR;   /**< \brief (Sdramc Offset: 0x20) SDRAMC Interrupt Status Register */
-    RwReg SDRAMC_MDR;   /**< \brief (Sdramc Offset: 0x24) SDRAMC Memory Device Register */
-    RwReg SDRAMC_CR1;   /**< \brief (Sdramc Offset: 0x28) SDRAMC Configuration Register 1 */
-    RwReg SDRAMC_OCMS;  /**< \brief (Sdramc Offset: 0x2C) SDRAMC OCMS Register 1 */
+  RwReg SDRAMC_MR;    /**< \brief (Sdramc Offset: 0x00) SDRAMC Mode Register */
+  RwReg SDRAMC_TR;    /**< \brief (Sdramc Offset: 0x04) SDRAMC Refresh Timer Register */
+  RwReg SDRAMC_CR;    /**< \brief (Sdramc Offset: 0x08) SDRAMC Configuration Register */
+  RoReg Reserved1[1];
+  RwReg SDRAMC_LPR;   /**< \brief (Sdramc Offset: 0x10) SDRAMC Low Power Register */
+  WoReg SDRAMC_IER;   /**< \brief (Sdramc Offset: 0x14) SDRAMC Interrupt Enable Register */
+  WoReg SDRAMC_IDR;   /**< \brief (Sdramc Offset: 0x18) SDRAMC Interrupt Disable Register */
+  RoReg SDRAMC_IMR;   /**< \brief (Sdramc Offset: 0x1C) SDRAMC Interrupt Mask Register */
+  RoReg SDRAMC_ISR;   /**< \brief (Sdramc Offset: 0x20) SDRAMC Interrupt Status Register */
+  RwReg SDRAMC_MDR;   /**< \brief (Sdramc Offset: 0x24) SDRAMC Memory Device Register */
+  RwReg SDRAMC_CR1;   /**< \brief (Sdramc Offset: 0x28) SDRAMC Configuration Register 1 */
+  RwReg SDRAMC_OCMS;  /**< \brief (Sdramc Offset: 0x2C) SDRAMC OCMS Register 1 */
 } Sdramc;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- SDRAMC_MR : (SDRAMC Offset: 0x00) SDRAMC Mode Register -------- */

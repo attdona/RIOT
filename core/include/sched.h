@@ -30,7 +30,7 @@
  *
  * Given threads with priorities A=6, B=1, and C=3, B has the highest
  * priority.
- *
+ * 
  * A higher priority means that the scheduler will run this thread
  * whenever it becomes runnable instead of a thread with a lower
  * priority.
@@ -87,7 +87,7 @@
 #include "kernel_types.h"
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 /**
@@ -119,7 +119,7 @@ void sched_set_status(tcb_t *process, unsigned int status);
  *
  * @param[in]   other_prio      The priority of the target thread
  */
-void sched_switch (uint16_t other_prio);
+void sched_switch(uint16_t other_prio);
 
 /**
  * @brief   Call context switching at thread exit

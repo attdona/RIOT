@@ -50,8 +50,7 @@ typedef enum {
 #if SPI_3_EN
     SPI_3,              /**< SPI device 3 */
 #endif
-}
-spi_t;
+} spi_t;
 
 /**
  * @brief The SPI mode is defined by the four possible combinations of clock polarity and
@@ -111,7 +110,7 @@ int spi_init_master(spi_t dev, spi_conf_t conf, spi_speed_t speed);
  * @return              0 on success
  * @return              -1 on error
  */
-int spi_init_slave(spi_t dev, spi_conf_t conf, char(*cb)(char data));
+int spi_init_slave(spi_t dev, spi_conf_t conf, char (*cb)(char data));
 
 /**
  * @brief Configure SCK, MISO and MOSI pins for the given SPI device

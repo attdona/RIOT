@@ -58,7 +58,7 @@ gpioint_set(int port, uint32_t bitmask, int flags, fp_irqcb callback)
     /* lookup registers */
     bit = bitarithm_msb(bitmask);         /* get irq mapping table index */
 
-    switch (port) {
+    switch(port) {
         case 0:                                                 /* PORT0 */
             cbdata = gpioint0;
             en_f = &IO0_INT_EN_F;
@@ -108,8 +108,7 @@ gpioint_set(int port, uint32_t bitmask, int flags, fp_irqcb callback)
     return true;                                                /* success */
 }
 /*---------------------------------------------------------------------------*/
-static void __attribute__((__no_instrument_function__)) test_irq(int port, unsigned long f_mask,
-        unsigned long r_mask, struct irq_callback_t *pcb)
+static void __attribute__((__no_instrument_function__)) test_irq(int port, unsigned long f_mask, unsigned long r_mask, struct irq_callback_t *pcb)
 {
     (void) port;
 

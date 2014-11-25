@@ -66,7 +66,6 @@ int main(void)
     }
 
     int last_iteration = 0;
-
     for (int i = 0; i < NUM_ITERATIONS * NUM_CHILDREN; ++i) {
         msg_t m;
         msg_receive(&m);

@@ -49,8 +49,7 @@ typedef enum {
 #if ADC_3_EN
     ADC_3,                  /**< ADC device 3 */
 #endif
-}
-adc_t;
+} adc_t;
 
 /**
  * @brief Possible ADC precision settings

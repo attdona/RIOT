@@ -95,7 +95,6 @@ typedef void (*packet_handler_t)(void *payload, int payload_size, packet_info_t 
  * @param   protocol        Protocol type of the packet payload data
  * @param   packet_info     Cross-layer meta data
  */
-typedef void (*packet_monitor_t)(void *payload, int payload_size, protocol_t protocol,
-                                 packet_info_t *packet_info);
+typedef void (*packet_monitor_t)(void *payload, int payload_size, protocol_t protocol, packet_info_t *packet_info);
 
 #endif /* COMMONTYPES_H_ */

@@ -113,8 +113,7 @@ void cc110x_write_reg(uint8_t addr, uint8_t value)
 
     int_state = disableIRQ();
 
-    while (!(RF1AIFCTL1 &
-             RFINSTRIFG));      /* Wait for the Radio to be ready for the next instruction */
+    while (!(RF1AIFCTL1 & RFINSTRIFG));      /* Wait for the Radio to be ready for the next instruction */
 
     RF1AINSTRW = ((addr | RF_REGWR) << 8) + value; /* Send address + Instruction */
 

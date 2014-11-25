@@ -52,7 +52,6 @@ void cc2420_rx_handler(void)
     cc2420_read_fifo(&pkt_lqi, 1);
     crc_ok = ((pkt_lqi & 0x80) != 0);
     pkt_lqi &= 0x7F;
-
     if (!crc_ok) {
         DEBUG("Got packet with invalid crc.\n");
         return;

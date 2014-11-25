@@ -40,23 +40,21 @@ extern void _x86_lspci(int argc, char **argv)
     (void) argv;
 
     unsigned index = 0;
-
     while (1) {
         const char *baseclass_name, *subclass_name, *vendor_name, *device_name;
 
         const x86_known_pci_device_t *d = x86_enumerate_pci_devices(&index);
-
         if (!d) {
             break;
         }
 
         subclass_name = x86_pci_subclass_to_string(d->class.baseclass,
-                        d->class.subclass,
-                        d->class.programming_interface,
-                        &baseclass_name);
+                                                   d->class.subclass,
+                                                   d->class.programming_interface,
+                                                   &baseclass_name);
         vendor_name = x86_pci_device_id_to_string(d->vendor.vendor_id,
-                      d->vendor.device_id,
-                      &device_name);
+                                                  d->vendor.device_id,
+                                                  &device_name);
         printf("%02x:%02x.%x \"%s\": \"%s\" (%s: %s, rev: %02hhx)\n",
                d->bus, d->dev, d->fun,
                vendor_name, device_name,

@@ -90,7 +90,7 @@ off_t lseek(int fildes, off_t offset, int whence)
     (void) fildes;
     (void) offset;
     (void) whence;
-    return (off_t) - 1;
+    return (off_t) -1;
 }
 
 ssize_t read(int fildes, void *buf, size_t nbyte)

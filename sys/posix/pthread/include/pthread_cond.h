@@ -116,8 +116,7 @@ int pthread_cond_wait(struct pthread_cond_t *cond, struct mutex_t *mutex);
  * @param[in] abstime pre-allocated timeout.
  * @return returns 0 on success, an errorcode otherwise.
  */
-int pthread_cond_timedwait(struct pthread_cond_t *cond, struct mutex_t *mutex,
-                           const struct timespec *abstime);
+int pthread_cond_timedwait(struct pthread_cond_t *cond, struct mutex_t *mutex, const struct timespec *abstime);
 
 /**
  * @brief unblock at least one of the threads that are blocked on the specified condition variable cond

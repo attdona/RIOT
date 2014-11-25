@@ -40,130 +40,87 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief UotghsDevdma hardware registers */
 typedef struct {
-    RwReg
-    UOTGHS_DEVDMANXTDSC;   /**< \brief (UotghsDevdma Offset: 0x0) Device DMA Channel Next Descriptor Address Register */
-    RwReg
-    UOTGHS_DEVDMAADDRESS;  /**< \brief (UotghsDevdma Offset: 0x4) Device DMA Channel Address Register */
-    RwReg
-    UOTGHS_DEVDMACONTROL;  /**< \brief (UotghsDevdma Offset: 0x8) Device DMA Channel Control Register */
-    RwReg
-    UOTGHS_DEVDMASTATUS;   /**< \brief (UotghsDevdma Offset: 0xC) Device DMA Channel Status Register */
+  RwReg         UOTGHS_DEVDMANXTDSC;   /**< \brief (UotghsDevdma Offset: 0x0) Device DMA Channel Next Descriptor Address Register */
+  RwReg         UOTGHS_DEVDMAADDRESS;  /**< \brief (UotghsDevdma Offset: 0x4) Device DMA Channel Address Register */
+  RwReg         UOTGHS_DEVDMACONTROL;  /**< \brief (UotghsDevdma Offset: 0x8) Device DMA Channel Control Register */
+  RwReg         UOTGHS_DEVDMASTATUS;   /**< \brief (UotghsDevdma Offset: 0xC) Device DMA Channel Status Register */
 } UotghsDevdma;
 /** \brief UotghsHstdma hardware registers */
 typedef struct {
-    RwReg
-    UOTGHS_HSTDMANXTDSC;   /**< \brief (UotghsHstdma Offset: 0x0) Host DMA Channel Next Descriptor Address Register */
-    RwReg
-    UOTGHS_HSTDMAADDRESS;  /**< \brief (UotghsHstdma Offset: 0x4) Host DMA Channel Address Register */
-    RwReg
-    UOTGHS_HSTDMACONTROL;  /**< \brief (UotghsHstdma Offset: 0x8) Host DMA Channel Control Register */
-    RwReg
-    UOTGHS_HSTDMASTATUS;   /**< \brief (UotghsHstdma Offset: 0xC) Host DMA Channel Status Register */
+  RwReg         UOTGHS_HSTDMANXTDSC;   /**< \brief (UotghsHstdma Offset: 0x0) Host DMA Channel Next Descriptor Address Register */
+  RwReg         UOTGHS_HSTDMAADDRESS;  /**< \brief (UotghsHstdma Offset: 0x4) Host DMA Channel Address Register */
+  RwReg         UOTGHS_HSTDMACONTROL;  /**< \brief (UotghsHstdma Offset: 0x8) Host DMA Channel Control Register */
+  RwReg         UOTGHS_HSTDMASTATUS;   /**< \brief (UotghsHstdma Offset: 0xC) Host DMA Channel Status Register */
 } UotghsHstdma;
 /** \brief Uotghs hardware registers */
 #define UOTGHSDEVDMA_NUMBER 7
 #define UOTGHSHSTDMA_NUMBER 7
 typedef struct {
-    RwReg
-    UOTGHS_DEVCTRL;        /**< \brief (Uotghs Offset: 0x0000) Device General Control Register */
-    RoReg
-    UOTGHS_DEVISR;         /**< \brief (Uotghs Offset: 0x0004) Device Global Interrupt Status Register */
-    WoReg
-    UOTGHS_DEVICR;         /**< \brief (Uotghs Offset: 0x0008) Device Global Interrupt Clear Register */
-    WoReg
-    UOTGHS_DEVIFR;         /**< \brief (Uotghs Offset: 0x000C) Device Global Interrupt Set Register */
-    RoReg
-    UOTGHS_DEVIMR;         /**< \brief (Uotghs Offset: 0x0010) Device Global Interrupt Mask Register */
-    WoReg
-    UOTGHS_DEVIDR;         /**< \brief (Uotghs Offset: 0x0014) Device Global Interrupt Disable Register */
-    WoReg
-    UOTGHS_DEVIER;         /**< \brief (Uotghs Offset: 0x0018) Device Global Interrupt Enable Register */
-    RwReg         UOTGHS_DEVEPT;         /**< \brief (Uotghs Offset: 0x001C) Device Endpoint Register */
-    RoReg
-    UOTGHS_DEVFNUM;        /**< \brief (Uotghs Offset: 0x0020) Device Frame Number Register */
-    RoReg         Reserved1[55];
-    RwReg
-    UOTGHS_DEVEPTCFG[10];  /**< \brief (Uotghs Offset: 0x100) Device Endpoint Configuration Register (n = 0) */
-    RoReg         Reserved2[2];
-    RoReg
-    UOTGHS_DEVEPTISR[10];  /**< \brief (Uotghs Offset: 0x130) Device Endpoint Status Register (n = 0) */
-    RoReg         Reserved3[2];
-    WoReg
-    UOTGHS_DEVEPTICR[10];  /**< \brief (Uotghs Offset: 0x160) Device Endpoint Clear Register (n = 0) */
-    RoReg         Reserved4[2];
-    WoReg
-    UOTGHS_DEVEPTIFR[10];  /**< \brief (Uotghs Offset: 0x190) Device Endpoint Set Register (n = 0) */
-    RoReg         Reserved5[2];
-    RoReg
-    UOTGHS_DEVEPTIMR[10];  /**< \brief (Uotghs Offset: 0x1C0) Device Endpoint Mask Register (n = 0) */
-    RoReg         Reserved6[2];
-    WoReg
-    UOTGHS_DEVEPTIER[10];  /**< \brief (Uotghs Offset: 0x1F0) Device Endpoint Enable Register (n = 0) */
-    RoReg         Reserved7[2];
-    WoReg
-    UOTGHS_DEVEPTIDR[10];  /**< \brief (Uotghs Offset: 0x220) Device Endpoint Disable Register (n = 0) */
-    RoReg         Reserved8[50];
-    UotghsDevdma  UOTGHS_DEVDMA[UOTGHSDEVDMA_NUMBER]; /**< \brief (Uotghs Offset: 0x310) n = 1 .. 7 */
-    RoReg         Reserved9[32];
-    RwReg
-    UOTGHS_HSTCTRL;        /**< \brief (Uotghs Offset: 0x0400) Host General Control Register */
-    RoReg
-    UOTGHS_HSTISR;         /**< \brief (Uotghs Offset: 0x0404) Host Global Interrupt Status Register */
-    WoReg
-    UOTGHS_HSTICR;         /**< \brief (Uotghs Offset: 0x0408) Host Global Interrupt Clear Register */
-    WoReg
-    UOTGHS_HSTIFR;         /**< \brief (Uotghs Offset: 0x040C) Host Global Interrupt Set Register */
-    RoReg
-    UOTGHS_HSTIMR;         /**< \brief (Uotghs Offset: 0x0410) Host Global Interrupt Mask Register */
-    WoReg
-    UOTGHS_HSTIDR;         /**< \brief (Uotghs Offset: 0x0414) Host Global Interrupt Disable Register */
-    WoReg
-    UOTGHS_HSTIER;         /**< \brief (Uotghs Offset: 0x0418) Host Global Interrupt Enable Register */
-    RwReg         UOTGHS_HSTPIP;         /**< \brief (Uotghs Offset: 0x0041C) Host Pipe Register */
-    RwReg
-    UOTGHS_HSTFNUM;        /**< \brief (Uotghs Offset: 0x0420) Host Frame Number Register */
-    RwReg         UOTGHS_HSTADDR1;       /**< \brief (Uotghs Offset: 0x0424) Host Address 1 Register */
-    RwReg         UOTGHS_HSTADDR2;       /**< \brief (Uotghs Offset: 0x0428) Host Address 2 Register */
-    RwReg         UOTGHS_HSTADDR3;       /**< \brief (Uotghs Offset: 0x042C) Host Address 3 Register */
-    RoReg         Reserved10[52];
-    RwReg
-    UOTGHS_HSTPIPCFG[10];  /**< \brief (Uotghs Offset: 0x500) Host Pipe Configuration Register (n = 0) */
-    RoReg         Reserved11[2];
-    RoReg
-    UOTGHS_HSTPIPISR[10];  /**< \brief (Uotghs Offset: 0x530) Host Pipe Status Register (n = 0) */
-    RoReg         Reserved12[2];
-    WoReg
-    UOTGHS_HSTPIPICR[10];  /**< \brief (Uotghs Offset: 0x560) Host Pipe Clear Register (n = 0) */
-    RoReg         Reserved13[2];
-    WoReg
-    UOTGHS_HSTPIPIFR[10];  /**< \brief (Uotghs Offset: 0x590) Host Pipe Set Register (n = 0) */
-    RoReg         Reserved14[2];
-    RoReg
-    UOTGHS_HSTPIPIMR[10];  /**< \brief (Uotghs Offset: 0x5C0) Host Pipe Mask Register (n = 0) */
-    RoReg         Reserved15[2];
-    WoReg
-    UOTGHS_HSTPIPIER[10];  /**< \brief (Uotghs Offset: 0x5F0) Host Pipe Enable Register (n = 0) */
-    RoReg         Reserved16[2];
-    WoReg
-    UOTGHS_HSTPIPIDR[10];  /**< \brief (Uotghs Offset: 0x620) Host Pipe Disable Register (n = 0) */
-    RoReg         Reserved17[2];
-    RwReg
-    UOTGHS_HSTPIPINRQ[10]; /**< \brief (Uotghs Offset: 0x650) Host Pipe IN Request Register (n = 0) */
-    RoReg         Reserved18[2];
-    RwReg
-    UOTGHS_HSTPIPERR[10];  /**< \brief (Uotghs Offset: 0x680) Host Pipe Error Register (n = 0) */
-    RoReg         Reserved19[26];
-    UotghsHstdma  UOTGHS_HSTDMA[UOTGHSHSTDMA_NUMBER]; /**< \brief (Uotghs Offset: 0x710) n = 1 .. 7 */
-    RoReg         Reserved20[32];
-    RwReg         UOTGHS_CTRL;           /**< \brief (Uotghs Offset: 0x0800) General Control Register */
-    RoReg         UOTGHS_SR;             /**< \brief (Uotghs Offset: 0x0804) General Status Register */
-    WoReg
-    UOTGHS_SCR;            /**< \brief (Uotghs Offset: 0x0808) General Status Clear Register */
-    WoReg
-    UOTGHS_SFR;            /**< \brief (Uotghs Offset: 0x080C) General Status Set Register */
-    RoReg         Reserved21[7];
-    RoReg
-    UOTGHS_FSM;            /**< \brief (Uotghs Offset: 0x082C) General Finite State Machine Register */
+  RwReg         UOTGHS_DEVCTRL;        /**< \brief (Uotghs Offset: 0x0000) Device General Control Register */
+  RoReg         UOTGHS_DEVISR;         /**< \brief (Uotghs Offset: 0x0004) Device Global Interrupt Status Register */
+  WoReg         UOTGHS_DEVICR;         /**< \brief (Uotghs Offset: 0x0008) Device Global Interrupt Clear Register */
+  WoReg         UOTGHS_DEVIFR;         /**< \brief (Uotghs Offset: 0x000C) Device Global Interrupt Set Register */
+  RoReg         UOTGHS_DEVIMR;         /**< \brief (Uotghs Offset: 0x0010) Device Global Interrupt Mask Register */
+  WoReg         UOTGHS_DEVIDR;         /**< \brief (Uotghs Offset: 0x0014) Device Global Interrupt Disable Register */
+  WoReg         UOTGHS_DEVIER;         /**< \brief (Uotghs Offset: 0x0018) Device Global Interrupt Enable Register */
+  RwReg         UOTGHS_DEVEPT;         /**< \brief (Uotghs Offset: 0x001C) Device Endpoint Register */
+  RoReg         UOTGHS_DEVFNUM;        /**< \brief (Uotghs Offset: 0x0020) Device Frame Number Register */
+  RoReg         Reserved1[55];
+  RwReg         UOTGHS_DEVEPTCFG[10];  /**< \brief (Uotghs Offset: 0x100) Device Endpoint Configuration Register (n = 0) */
+  RoReg         Reserved2[2];
+  RoReg         UOTGHS_DEVEPTISR[10];  /**< \brief (Uotghs Offset: 0x130) Device Endpoint Status Register (n = 0) */
+  RoReg         Reserved3[2];
+  WoReg         UOTGHS_DEVEPTICR[10];  /**< \brief (Uotghs Offset: 0x160) Device Endpoint Clear Register (n = 0) */
+  RoReg         Reserved4[2];
+  WoReg         UOTGHS_DEVEPTIFR[10];  /**< \brief (Uotghs Offset: 0x190) Device Endpoint Set Register (n = 0) */
+  RoReg         Reserved5[2];
+  RoReg         UOTGHS_DEVEPTIMR[10];  /**< \brief (Uotghs Offset: 0x1C0) Device Endpoint Mask Register (n = 0) */
+  RoReg         Reserved6[2];
+  WoReg         UOTGHS_DEVEPTIER[10];  /**< \brief (Uotghs Offset: 0x1F0) Device Endpoint Enable Register (n = 0) */
+  RoReg         Reserved7[2];
+  WoReg         UOTGHS_DEVEPTIDR[10];  /**< \brief (Uotghs Offset: 0x220) Device Endpoint Disable Register (n = 0) */
+  RoReg         Reserved8[50];
+  UotghsDevdma  UOTGHS_DEVDMA[UOTGHSDEVDMA_NUMBER]; /**< \brief (Uotghs Offset: 0x310) n = 1 .. 7 */
+  RoReg         Reserved9[32];
+  RwReg         UOTGHS_HSTCTRL;        /**< \brief (Uotghs Offset: 0x0400) Host General Control Register */
+  RoReg         UOTGHS_HSTISR;         /**< \brief (Uotghs Offset: 0x0404) Host Global Interrupt Status Register */
+  WoReg         UOTGHS_HSTICR;         /**< \brief (Uotghs Offset: 0x0408) Host Global Interrupt Clear Register */
+  WoReg         UOTGHS_HSTIFR;         /**< \brief (Uotghs Offset: 0x040C) Host Global Interrupt Set Register */
+  RoReg         UOTGHS_HSTIMR;         /**< \brief (Uotghs Offset: 0x0410) Host Global Interrupt Mask Register */
+  WoReg         UOTGHS_HSTIDR;         /**< \brief (Uotghs Offset: 0x0414) Host Global Interrupt Disable Register */
+  WoReg         UOTGHS_HSTIER;         /**< \brief (Uotghs Offset: 0x0418) Host Global Interrupt Enable Register */
+  RwReg         UOTGHS_HSTPIP;         /**< \brief (Uotghs Offset: 0x0041C) Host Pipe Register */
+  RwReg         UOTGHS_HSTFNUM;        /**< \brief (Uotghs Offset: 0x0420) Host Frame Number Register */
+  RwReg         UOTGHS_HSTADDR1;       /**< \brief (Uotghs Offset: 0x0424) Host Address 1 Register */
+  RwReg         UOTGHS_HSTADDR2;       /**< \brief (Uotghs Offset: 0x0428) Host Address 2 Register */
+  RwReg         UOTGHS_HSTADDR3;       /**< \brief (Uotghs Offset: 0x042C) Host Address 3 Register */
+  RoReg         Reserved10[52];
+  RwReg         UOTGHS_HSTPIPCFG[10];  /**< \brief (Uotghs Offset: 0x500) Host Pipe Configuration Register (n = 0) */
+  RoReg         Reserved11[2];
+  RoReg         UOTGHS_HSTPIPISR[10];  /**< \brief (Uotghs Offset: 0x530) Host Pipe Status Register (n = 0) */
+  RoReg         Reserved12[2];
+  WoReg         UOTGHS_HSTPIPICR[10];  /**< \brief (Uotghs Offset: 0x560) Host Pipe Clear Register (n = 0) */
+  RoReg         Reserved13[2];
+  WoReg         UOTGHS_HSTPIPIFR[10];  /**< \brief (Uotghs Offset: 0x590) Host Pipe Set Register (n = 0) */
+  RoReg         Reserved14[2];
+  RoReg         UOTGHS_HSTPIPIMR[10];  /**< \brief (Uotghs Offset: 0x5C0) Host Pipe Mask Register (n = 0) */
+  RoReg         Reserved15[2];
+  WoReg         UOTGHS_HSTPIPIER[10];  /**< \brief (Uotghs Offset: 0x5F0) Host Pipe Enable Register (n = 0) */
+  RoReg         Reserved16[2];
+  WoReg         UOTGHS_HSTPIPIDR[10];  /**< \brief (Uotghs Offset: 0x620) Host Pipe Disable Register (n = 0) */
+  RoReg         Reserved17[2];
+  RwReg         UOTGHS_HSTPIPINRQ[10]; /**< \brief (Uotghs Offset: 0x650) Host Pipe IN Request Register (n = 0) */
+  RoReg         Reserved18[2];
+  RwReg         UOTGHS_HSTPIPERR[10];  /**< \brief (Uotghs Offset: 0x680) Host Pipe Error Register (n = 0) */
+  RoReg         Reserved19[26];
+  UotghsHstdma  UOTGHS_HSTDMA[UOTGHSHSTDMA_NUMBER]; /**< \brief (Uotghs Offset: 0x710) n = 1 .. 7 */
+  RoReg         Reserved20[32];
+  RwReg         UOTGHS_CTRL;           /**< \brief (Uotghs Offset: 0x0800) General Control Register */
+  RoReg         UOTGHS_SR;             /**< \brief (Uotghs Offset: 0x0804) General Status Register */
+  WoReg         UOTGHS_SCR;            /**< \brief (Uotghs Offset: 0x0808) General Status Clear Register */
+  WoReg         UOTGHS_SFR;            /**< \brief (Uotghs Offset: 0x080C) General Status Set Register */
+  RoReg         Reserved21[7];
+  RoReg         UOTGHS_FSM;            /**< \brief (Uotghs Offset: 0x082C) General Finite State Machine Register */
 } Uotghs;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- UOTGHS_DEVCTRL : (UOTGHS Offset: 0x0000) Device General Control Register -------- */

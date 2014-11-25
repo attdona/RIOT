@@ -47,10 +47,8 @@
 #   define BREAK_STARTUP (0)
 #endif
 
-static void __attribute__((noreturn)) startup(uint32_t multiboot_magic,
-        const multiboot_info_t *multiboot_info);
-void __attribute__((noreturn, optimize("Os", "omit-frame-pointer"),
-                    no_instrument_function)) _start(void);
+static void __attribute__((noreturn)) startup(uint32_t multiboot_magic, const multiboot_info_t *multiboot_info);
+void __attribute__((noreturn, optimize("Os", "omit-frame-pointer"), no_instrument_function)) _start(void);
 
 extern const multiboot_header_t multiboot_header __attribute__((section("._multiboot_header")));
 const multiboot_header_t multiboot_header = {
@@ -64,15 +62,14 @@ const multiboot_header_t multiboot_header = {
     .entry_addr = (uintptr_t) &_start,
 };
 
-void __attribute__((noreturn, optimize("Os", "omit-frame-pointer"),
-                    no_instrument_function)) _start(void)
+void __attribute__((noreturn, optimize("Os", "omit-frame-pointer"), no_instrument_function)) _start(void)
 {
-    asm volatile("xor %ebp, %ebp");
-    asm volatile("push %ebp");
-    asm volatile("push %ebx");
-    asm volatile("push %eax");
-    asm volatile("push %ebp");
-    asm volatile("jmp *%0" :: "r"(&startup));
+    asm volatile ("xor %ebp, %ebp");
+    asm volatile ("push %ebp");
+    asm volatile ("push %ebx");
+    asm volatile ("push %eax");
+    asm volatile ("push %ebp");
+    asm volatile ("jmp *%0" :: "r"(&startup));
     __builtin_unreachable();
 }
 
@@ -92,34 +89,18 @@ bool x86_get_memory_region(uint64_t *start, uint64_t *len, unsigned long *pos)
         *len = mmap->length_low + ((uint64_t) mmap->length_high << 32);
 
         uint64_t end = *start + *len;
-        printf("  %08lx%08lx - %08lx%08lx ", (long)(*start >> 32), (long) *start, (long)(end >> 32),
-               (long) end);
+        printf("  %08lx%08lx - %08lx%08lx ", (long) (*start >> 32), (long) *start, (long) (end >> 32), (long) end);
 
         if (mmap->type != 1) {
             // not free (ignore reclaimable RAM)
             const char *msg;
-
             switch (mmap->type) {
-                case 2:
-                    msg = "reseved";
-                    break;
-
-                case 3:
-                    msg = "ACPI [reclaimable]";
-                    break;
-
-                case 4:
-                    msg = "ACPI [NVS]";
-                    break;
-
-                case 5:
-                    msg = "bad memory";
-                    break;
-
-                default:
-                    msg = "unknown";
+                case 2: msg = "reseved"; break;
+                case 3: msg = "ACPI [reclaimable]"; break;
+                case 4: msg = "ACPI [NVS]"; break;
+                case 5: msg = "bad memory"; break;
+                default: msg = "unknown";
             }
-
             printf("(unusable: %s)\r\n", msg);
         }
         else {
@@ -132,14 +113,12 @@ bool x86_get_memory_region(uint64_t *start, uint64_t *len, unsigned long *pos)
 static void have_a_break(void)
 {
     volatile bool cnt = false;
-
     while (!cnt) {
-        asm volatile("pause");
+        asm volatile ("pause");
     }
 }
 
-static void __attribute__((noreturn)) startup(uint32_t multiboot_magic,
-        const multiboot_info_t *multiboot_info_)
+static void __attribute__((noreturn)) startup(uint32_t multiboot_magic, const multiboot_info_t *multiboot_info_)
 {
     x86_init_gdt(); /* load GDT early */
     x86_load_empty_idt(); /* just a safeguard to cause a tripple fault, not really needed */
@@ -153,7 +132,6 @@ static void __attribute__((noreturn)) startup(uint32_t multiboot_magic,
     memset(&_section_bss_start, 0, &_section_bss_end - &_section_bss_start + 1);
 
     videoram_puts(" Booting RIOT \r\n");
-
     if (multiboot_magic != MULTIBOOT_BOOTLOADER_MAGIC) {
         videoram_puts(" Multiboot magic is wrong \r\n");
         x86_hlt();

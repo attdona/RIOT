@@ -36,15 +36,10 @@ void cc2420_initialize(void)
     cc2420_reset();
 
     bool ok = false;
-
     for (int i = 0; i < CC2420_STARTUP_ATTEMPTS; i++) {
         ok = cc2420_on();
-
-        if (ok) {
-            break;
-        }
+        if (ok) break;
     }
-
     if (!ok) {
         core_panic(0x2420, "Could not start CC2420 radio transceiver");
     }
@@ -92,17 +87,13 @@ bool cc2420_on(void)
     cc2420_strobe(CC2420_STROBE_XOSCON);
     /* wait for the oscillator to be stable */
     unsigned int delay_on = 0;
-
     do {
         delay_on++;
-
         if (delay_on >= CC2420_STARTUP_TIMEOUT) {
-            /* could not start up radio transceiver!*/
+            /* could not start up radio transceiver! */
             return false;
         }
-    }
-    while ((cc2420_status_byte() & CC2420_STATUS_XOSC16M_STABLE) == 0);
-
+    } while ((cc2420_status_byte() & CC2420_STATUS_XOSC16M_STABLE) == 0);
     hwtimer_wait(CC2420_WAIT_TIME);
     /* discard any potential garbage in TX buffer */
     cc2420_strobe(CC2420_STROBE_FLUSHTX);
@@ -148,14 +139,11 @@ void cc2420_rx_irq(void)
 void cc2420_set_monitor(bool mode)
 {
     uint16_t reg = cc2420_read_reg(CC2420_REG_MDMCTRL0);
-
     if (mode) {
         reg &= ~CC2420_ADR_DECODE;
-    }
-    else {
+    } else {
         reg |= CC2420_ADR_DECODE;
     }
-
     cc2420_write_reg(CC2420_REG_MDMCTRL0, reg);
 }
 
@@ -171,7 +159,6 @@ int cc2420_set_channel(unsigned int chan)
         DEBUG("Invalid channel %i set. Valid channels are 11 through 26\n", chan);
         return -1;
     }
-
     /*
      * calculation from http://www.ti.com/lit/ds/symlink/cc2420.pdf p.50
      */
@@ -251,16 +238,9 @@ int cc2420_set_tx_power(int pow)
     uint16_t txctrl_reg = cc2420_read_reg(CC2420_REG_TXCTRL);
     /* reset PA_LEVEL bits */
     txctrl_reg &= 0xFFE0;
-
     /* constrain power in transceiver's acceptable set of values */
-    if (pow > 0) {
-        pow = 0;
-    }
-
-    if (pow < -25) {
-        pow = -25;
-    }
-
+    if (pow > 0) pow = 0;
+    if (pow < -25) pow = -25;
     /* determine TX level from power in dBm */
     uint8_t level = DBM_TO_LEVEL[-pow];
     /* put wanted value in PA_LEVEL bits, and write back register */

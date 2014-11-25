@@ -28,8 +28,7 @@
 #define OUT_PACKET          1
 
 #ifdef MODULE_TCP
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint16_t        context_id;
     uint32_t        seq_rcv; // Last received packet values
     uint32_t        ack_rcv;
@@ -38,11 +37,9 @@ typedef struct __attribute__((packed))
     uint32_t        ack_snd;
     uint16_t        wnd_snd;
     uint8_t         hc_type;
-}
-tcp_hc_context_t;
+} tcp_hc_context_t;
 
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint32_t            send_una;
     uint32_t            send_nxt;
     uint16_t            send_wnd;
@@ -65,8 +62,7 @@ typedef struct __attribute__((packed))
 #ifdef TCP_HC
     tcp_hc_context_t    tcp_context;
 #endif
-}
-tcp_cb_t;
+} tcp_cb_t;
 #endif
 
 typedef struct {

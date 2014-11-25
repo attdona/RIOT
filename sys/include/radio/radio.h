@@ -67,8 +67,7 @@ typedef struct {
     /**
      * @return  A negative value if operation failed; else the number of transmitted bytes.
      */
-    int (*send)(radio_address_t address, protocol_t protocol, int priority, char *payload,
-                int payload_len);
+    int (*send)(radio_address_t address, protocol_t protocol, int priority, char *payload, int payload_len);
     void (*print_stats)(void);
     void (*print_config)(void);
 } radio_t;

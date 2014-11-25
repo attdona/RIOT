@@ -60,7 +60,6 @@ void rx(void *ptr, char data)
     msg_t msg;
 
     ringbuffer_add_one(&rx_buf, data);
-
     if (data == '\n') {
         msg_send(&msg, main_pid);
     }
@@ -103,7 +102,6 @@ int main(void)
     ringbuffer_init(&tx_buf, tx_mem, 128);
 
     printf("Initializing UART @ %i", BAUD);
-
     if (uart_init(DEV, BAUD, rx, tx, 0) >= 0) {
         puts("   ...done");
     }

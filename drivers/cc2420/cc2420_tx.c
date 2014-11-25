@@ -37,26 +37,22 @@ radio_tx_status_t cc2420_load_tx_buf(ieee802154_packet_kind_t kind,
     /* FCS : frame version 0, we don't manage security,
        nor batchs of packets */
     switch (kind) {
-        case PACKET_KIND_BEACON:
-            hdr[0] = 0x00;
-            break;
-
-        case PACKET_KIND_DATA:
-            hdr[0] = 0x01;
-            break;
-
-        case PACKET_KIND_ACK:
-            hdr[0] = 0x02;
-            break;
-
-        default:
-            return RADIO_TX_INVALID_PARAM;
+    case PACKET_KIND_BEACON:
+        hdr[0] = 0x00;
+        break;
+    case PACKET_KIND_DATA:
+        hdr[0] = 0x01;
+        break;
+    case PACKET_KIND_ACK:
+        hdr[0] = 0x02;
+        break;
+    default:
+        return RADIO_TX_INVALID_PARAM;
     }
 
     if (wants_ack) {
         hdr[0] |= 0x20;
     }
-
     wait_for_ack = wants_ack;
 
     uint16_t src_pan = cc2420_get_pan();
@@ -64,10 +60,8 @@ radio_tx_status_t cc2420_load_tx_buf(ieee802154_packet_kind_t kind,
 
     if (use_long_addr) {
         hdr[1] = 0xcc;
-    }
-    else {
+    } else {
         hdr[1] = 0x88;
-
         /* short address mode, use PAN ID compression
             for intra-PAN communication */
         if (dest.pan.id == src_pan) {
@@ -102,22 +96,19 @@ radio_tx_status_t cc2420_load_tx_buf(ieee802154_packet_kind_t kind,
         hdr[idx++] = (uint8_t)(src_long_addr >> 40);
         hdr[idx++] = (uint8_t)(src_long_addr >> 48);
         hdr[idx++] = (uint8_t)(src_long_addr >> 56);
-    }
-    else {
+    } else {
         /* dest PAN ID */
         hdr[idx++] = (uint8_t)(dest.pan.id & 0xFF);
         hdr[idx++] = (uint8_t)(dest.pan.id >> 8);
         /* dest short addr */
         hdr[idx++] = (uint8_t)(dest.pan.addr & 0xFF);
         hdr[idx++] = (uint8_t)(dest.pan.addr >> 8);
-
         /* src PAN ID */
         if (!compress_pan) {
             uint16_t src_pan = cc2420_get_pan();
             hdr[idx++] = (uint8_t)(src_pan & 0xFF);
             hdr[idx++] = (uint8_t)(src_pan >> 8);
         }
-
         /* src short addr */
         uint16_t src_addr = cc2420_get_address();
         hdr[idx++] = (uint8_t)(src_addr & 0xFF);
@@ -126,7 +117,6 @@ radio_tx_status_t cc2420_load_tx_buf(ieee802154_packet_kind_t kind,
 
     /* total frame size */
     uint8_t size = idx + len + 2;
-
     if (size > CC2420_MAX_PKT_LENGTH) {
         return RADIO_TX_PACKET_TOO_LONG;
     }
@@ -160,7 +150,6 @@ radio_tx_status_t cc2420_transmit_tx_buf(void)
     cc2420_strobe(CC2420_STROBE_TXON);
 
     int abort_count = 0;
-
     while (cc2420_get_sfd() == 0) {
         /* Wait for SFD signal to be set -> sync word transmitted */
         abort_count++;
@@ -177,12 +166,9 @@ radio_tx_status_t cc2420_transmit_tx_buf(void)
 
     /* wait for packet to be sent, i.e.: SFD to go down */
     uint8_t st;
-
     do {
         st = cc2420_status_byte();
-    }
-    while (cc2420_get_sfd() != 0);
-
+    } while (cc2420_get_sfd() != 0);
     cc2420_switch_to_rx();
 
     /* check for underflow error flag */
@@ -198,19 +184,15 @@ radio_tx_status_t cc2420_transmit_tx_buf(void)
     /* delay for the peer to answer our packet */
     //TODO design a more robust method?
     hwtimer_wait(HWTIMER_TICKS(CC2420_ACK_WAIT_DELAY_uS));
-
     /* try to read a returning ACK packet */
     if (cc2420_get_fifop()) {
         uint8_t ackbuf[ACK_LENGTH];
         /* a packet has arrived, read the arrived data */
         cc2420_read_fifo(ackbuf, ACK_LENGTH);
-
         if (ackbuf[0] == 0x02  /* ack packet in buffer */
-            && (ackbuf[2] == sequence_nr - 1)) { /* correct sequence number */
+             && (ackbuf[2] == sequence_nr - 1)) /* correct sequence number */
             return RADIO_TX_OK;
-        }
     }
-
     return RADIO_TX_NOACK;
 }
 
@@ -222,14 +204,12 @@ radio_tx_status_t cc2420_do_send(ieee802154_packet_kind_t kind,
                                  unsigned int len)
 {
     radio_tx_status_t st = cc2420_load_tx_buf(kind, dest,
-                           use_long_addr,
-                           wants_ack,
-                           buf, len);
-
+                                              use_long_addr,
+                                              wants_ack,
+                                              buf, len);
     if (st != RADIO_TX_OK) {
         return st;
     }
-
     return cc2420_transmit_tx_buf();
 }
 

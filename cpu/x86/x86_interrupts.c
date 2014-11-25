@@ -110,10 +110,8 @@ static void print_stacktrace(unsigned long bp, unsigned long ip)
 {
     puts("<stack trace>");
     printf("  %08lx\n", ip);
-
     for (unsigned max_depth = 0; max_depth < 30; ++max_depth) {
         uint64_t pte = x86_get_pte(bp) & x86_get_pte(bp + 4);
-
         if (!(pte & PT_P) || !(pte & PT_PWT)) {
             puts("  ???");
             break;
@@ -121,29 +119,23 @@ static void print_stacktrace(unsigned long bp, unsigned long ip)
 
         unsigned long *bp_ = (void *) bp;
         ip = bp_[1];
-
         if (ip == 0) {
             break;
         }
-
         printf("  %08lx\n", ip);
         bp = bp_[0];
-
         if (bp == 0) {
             break;
         }
     }
-
     puts("</stack trace>");
 }
 
 void x86_print_registers(struct x86_pushad *orig_ctx, unsigned long error_code)
 {
     unsigned long *sp = (void *) orig_ctx->sp; /* ip, cs, flags */
-    printf("EAX=%08lx  ECX=%08lx  EDX=%08lx  EBX=%08lx\n", orig_ctx->ax, orig_ctx->cx, orig_ctx->dx,
-           orig_ctx->bx);
-    printf("ESP=%08lx  EBP=%08lx  ESI=%08lx  EDI=%08lx\n", orig_ctx->sp, orig_ctx->bp, orig_ctx->si,
-           orig_ctx->di);
+    printf("EAX=%08lx  ECX=%08lx  EDX=%08lx  EBX=%08lx\n", orig_ctx->ax, orig_ctx->cx, orig_ctx->dx, orig_ctx->bx);
+    printf("ESP=%08lx  EBP=%08lx  ESI=%08lx  EDI=%08lx\n", orig_ctx->sp, orig_ctx->bp, orig_ctx->si, orig_ctx->di);
     printf("Error code=%08lx\n", error_code);
     printf("CR0=%08x  CR2=%08x  CR3=%08x  CR4=%08x\n", cr0_read(), cr2_read(), cr3_read(), cr4_read());
     printf("EIP=%04lx:%08lx  EFLAGS=%08lx\n", sp[1], sp[0], sp[2]);
@@ -151,8 +143,7 @@ void x86_print_registers(struct x86_pushad *orig_ctx, unsigned long error_code)
     print_stacktrace(orig_ctx->bp, sp[0]);
 }
 
-static void intr_handler_default(uint8_t intr_num, struct x86_pushad *orig_ctx,
-                                 unsigned long error_code)
+static void intr_handler_default(uint8_t intr_num, struct x86_pushad *orig_ctx, unsigned long error_code)
 {
     printf("Unhandled interrupt 0x%02x (%s)\n", intr_num, exception_name[intr_num]);
     x86_print_registers(orig_ctx, error_code);
@@ -166,7 +157,7 @@ static void continue_after_intr(void)
 {
     ucontext_t *ctx = (ucontext_t *) sched_active_thread->sp;
     x86_interrupted_ctx = ctx->uc_context.registers;
-    asm volatile(
+    asm volatile (
         "push %0\n"      /* flags */
         "push $0x0008\n" /* cs */
         "push %1\n"      /* ip */
@@ -182,7 +173,6 @@ void x86_int_handler(void)
     switch (in_intr_handler++) {
         case 0:
             break;
-
         case 1:
             printf("Interrupt 0x%02x (%s) while handling 0x%02x (%s)\n",
                    x86_current_interrupt, exception_name[x86_current_interrupt],
@@ -190,24 +180,20 @@ void x86_int_handler(void)
             x86_print_registers(&x86_interrupted_ctx, x86_current_interrupt_error_code);
             puts("Halting.");
             x86_hlt();
-
         default:
             x86_hlt();
     }
-
     old_intr = x86_current_interrupt;
 
     bool old_in_isr = x86_in_isr;
     x86_in_isr = true;
 
     x86_intr_handler_t intr_handler = x86_registered_interrupts[x86_current_interrupt];
-    (intr_handler ? intr_handler : intr_handler_default)(x86_current_interrupt, &x86_interrupted_ctx,
-            x86_current_interrupt_error_code);
+    (intr_handler ? intr_handler : intr_handler_default)(x86_current_interrupt, &x86_interrupted_ctx, x86_current_interrupt_error_code);
 
     --in_intr_handler;
 
     unsigned long *sp = (void *) x86_interrupted_ctx.sp; /* ip, cs, flags */
-
     if (!sched_context_switch_request || !(sp[2] & X86_IF)) {
         x86_in_isr = old_in_isr;
         return;
@@ -217,8 +203,8 @@ void x86_int_handler(void)
     ctx->uc_context.registers = x86_interrupted_ctx;
     ctx->uc_stack.ss_sp = x86_interrupt_handler_stack;
     ctx->uc_stack.ss_size = sizeof x86_interrupt_handler_stack;
-    asm volatile("pushf; pop %0" : "=g"(ctx->uc_context.flags));
-    ctx->uc_context.ip = (void *)(uintptr_t) &continue_after_intr;
+    asm volatile ("pushf; pop %0" : "=g"(ctx->uc_context.flags));
+    ctx->uc_context.ip = (void *) (uintptr_t) &continue_after_intr;
     ctx->__intr.ip = sp[0];
     ctx->__intr.flags = sp[2];
 
@@ -228,42 +214,42 @@ void x86_int_handler(void)
 
 void ASM_FUN_ATTRIBUTES NORETURN x86_int_entry(void)
 {
-    asm volatile("mov %eax, (4*0 + x86_interrupted_ctx)");
-    asm volatile("mov %ecx, (4*1 + x86_interrupted_ctx)");
-    asm volatile("mov %edx, (4*2 + x86_interrupted_ctx)");
-    asm volatile("mov %ebx, (4*3 + x86_interrupted_ctx)");
-    asm volatile("mov %ebp, (4*5 + x86_interrupted_ctx)");
-    asm volatile("mov %esi, (4*6 + x86_interrupted_ctx)");
-    asm volatile("mov %edi, (4*7 + x86_interrupted_ctx)");
+    asm volatile ("mov %eax, (4*0 + x86_interrupted_ctx)");
+    asm volatile ("mov %ecx, (4*1 + x86_interrupted_ctx)");
+    asm volatile ("mov %edx, (4*2 + x86_interrupted_ctx)");
+    asm volatile ("mov %ebx, (4*3 + x86_interrupted_ctx)");
+    asm volatile ("mov %ebp, (4*5 + x86_interrupted_ctx)");
+    asm volatile ("mov %esi, (4*6 + x86_interrupted_ctx)");
+    asm volatile ("mov %edi, (4*7 + x86_interrupted_ctx)");
 
-    asm volatile("jnc 1f");
-    asm volatile("  mov (%esp), %eax");
-    asm volatile("  add $4, %esp");
-    asm volatile("  jmp 2f");
-    asm volatile("1:");
-    asm volatile("  xor %eax, %eax");
-    asm volatile("2:");
-    asm volatile("  mov %eax, x86_current_interrupt_error_code");
+    asm volatile ("jnc 1f");
+    asm volatile ("  mov (%esp), %eax");
+    asm volatile ("  add $4, %esp");
+    asm volatile ("  jmp 2f");
+    asm volatile ("1:");
+    asm volatile ("  xor %eax, %eax");
+    asm volatile ("2:");
+    asm volatile ("  mov %eax, x86_current_interrupt_error_code");
 
-    asm volatile("mov %esp, (4*4 + x86_interrupted_ctx)");
-    asm volatile("mov %0, %%esp" :: "g"(&x86_interrupt_handler_stack[sizeof x86_interrupt_handler_stack]));
-    asm volatile("call x86_int_handler");
-    asm volatile("jmp x86_int_exit");
+    asm volatile ("mov %esp, (4*4 + x86_interrupted_ctx)");
+    asm volatile ("mov %0, %%esp" :: "g"(&x86_interrupt_handler_stack[sizeof x86_interrupt_handler_stack]));
+    asm volatile ("call x86_int_handler");
+    asm volatile ("jmp x86_int_exit");
     __builtin_unreachable();
 }
 
 void ASM_FUN_ATTRIBUTES NORETURN x86_int_exit(void)
 {
-    asm volatile("mov (4*0 + x86_interrupted_ctx), %eax");
-    asm volatile("mov (4*1 + x86_interrupted_ctx), %ecx");
-    asm volatile("mov (4*2 + x86_interrupted_ctx), %edx");
-    asm volatile("mov (4*3 + x86_interrupted_ctx), %ebx");
-    asm volatile("mov (4*5 + x86_interrupted_ctx), %ebp");
-    asm volatile("mov (4*6 + x86_interrupted_ctx), %esi");
-    asm volatile("mov (4*7 + x86_interrupted_ctx), %edi");
-    asm volatile("mov (4*4 + x86_interrupted_ctx), %esp");
+    asm volatile ("mov (4*0 + x86_interrupted_ctx), %eax");
+    asm volatile ("mov (4*1 + x86_interrupted_ctx), %ecx");
+    asm volatile ("mov (4*2 + x86_interrupted_ctx), %edx");
+    asm volatile ("mov (4*3 + x86_interrupted_ctx), %ebx");
+    asm volatile ("mov (4*5 + x86_interrupted_ctx), %ebp");
+    asm volatile ("mov (4*6 + x86_interrupted_ctx), %esi");
+    asm volatile ("mov (4*7 + x86_interrupted_ctx), %edi");
+    asm volatile ("mov (4*4 + x86_interrupted_ctx), %esp");
 
-    asm volatile("iret");
+    asm volatile ("iret");
     __builtin_unreachable();
 }
 
@@ -322,11 +308,9 @@ static struct idtr_t idtr = {
 #define INTR_TEST_REG_SI (0x00666600ul)
 #define INTR_TEST_REG_DI (0x33000033ul)
 
-static void intr_handler_test_int_bp(uint8_t intr_num, struct x86_pushad *orig_ctx,
-                                     unsigned long error_code)
+static void intr_handler_test_int_bp(uint8_t intr_num, struct x86_pushad *orig_ctx, unsigned long error_code)
 {
     (void) error_code;
-
     if (intr_num != X86_INT_BP ||
         orig_ctx->ax != INTR_TEST_REG_AX ||
         orig_ctx->dx != INTR_TEST_REG_DX ||
@@ -334,11 +318,10 @@ static void intr_handler_test_int_bp(uint8_t intr_num, struct x86_pushad *orig_c
         orig_ctx->bx != INTR_TEST_REG_BX ||
         orig_ctx->si != INTR_TEST_REG_SI ||
         orig_ctx->di != INTR_TEST_REG_DI
-       ) {
+    ) {
         puts("Interrupt handler test failed (int 3, capture registers).");
         x86_hlt();
     }
-
     orig_ctx->ax ^= -1;
     orig_ctx->dx ^= -2;
     orig_ctx->cx ^= -3;
@@ -358,7 +341,7 @@ static void test_int_bp(void)
     unsigned long si;
     unsigned long di;
     unsigned long eflags_before, eflags_after;
-    asm volatile(
+    asm volatile (
         "mov %8, %%esi\n"
         "mov %9, %%edi\n"
         "pushf; pop %6\n"
@@ -370,7 +353,6 @@ static void test_int_bp(void)
         : "n"(INTR_TEST_REG_SI), "n"(INTR_TEST_REG_DI)
         : "esi", "edi"
     );
-
     if (ax != (INTR_TEST_REG_AX ^ -1) ||
         dx != (INTR_TEST_REG_DX ^ -2) ||
         cx != (INTR_TEST_REG_CX ^ -3) ||
@@ -379,7 +361,7 @@ static void test_int_bp(void)
         di != (INTR_TEST_REG_DI ^ -6) ||
         /* ignore EFLAGS.TF, hurts debugging */
         ((eflags_before != eflags_after) && ((eflags_before ^ eflags_after) != X86_TF))
-       ) {
+    ) {
         puts("Interrupt handler test failed (int 3, return code).");
         x86_hlt();
     }
@@ -387,16 +369,15 @@ static void test_int_bp(void)
     x86_registered_interrupts[X86_INT_BP] = NULL;
 }
 
-static inline void __attribute__((always_inline)) set_idt_desc(void (*fun_)(void), unsigned num,
-        unsigned pl)
+static inline void __attribute__((always_inline)) set_idt_desc(void (*fun_)(void), unsigned num, unsigned pl)
 {
     uintptr_t fun = (uintptr_t) fun_;
     X86_IDT_ENTRIES[num] = (struct idt_desc) {
         .offset_1 = fun & 0xffff,
-         .selector = 8,
-          .zero = 0,
-           .type_attr = 14 | (0 << 4) | (pl << 5) | (1 << 7),
-            .offset_2 = fun >> 16,
+        .selector = 8,
+        .zero = 0,
+        .type_attr = 14 | (0 << 4) | (pl << 5) | (1 << 7),
+        .offset_2 = fun >> 16,
     };
 }
 
@@ -434,7 +415,7 @@ static void load_interrupt_descriptor_table(void)
     SET_IDT_DESC(2e, 0, "PIC ATA1", 0)
     SET_IDT_DESC(2f, 0, "PIC ATA2", 0)
 
-    asm volatile("lidt %0" :: "m"(idtr));
+    asm volatile ("lidt %0" :: "m"(idtr));
 }
 
 void x86_init_interrupts(void)

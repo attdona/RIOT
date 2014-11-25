@@ -40,11 +40,11 @@ extern "C" {
 #endif
 
 typedef struct __RepeatedTest   RepeatedTest;
-typedef struct __RepeatedTest  *RepeatedTestRef;    /*downward compatible*/
+typedef struct __RepeatedTest*  RepeatedTestRef;    /*downward compatible*/
 
 struct __RepeatedTest {
-    TestImplement *isa;
-    Test *test;
+    TestImplement* isa;
+    Test* test;
     int timesRepeat;
 };
 

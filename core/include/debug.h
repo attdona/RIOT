@@ -13,7 +13,7 @@
  * @file        debug.h
  * @brief       Debug-header
  *
- * @details     If ENABLE_DEBUG is set, before this header is included,
+ * @details     If ENABLE_DEBUG is set, before this header is included, 
  *              ::DEBUG will print out to stdout, otherwise do nothing
  *
  * @author      Kaspar Schleiser <kaspar@schleiser.de>
@@ -26,7 +26,7 @@
 #include "sched.h"
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 /**

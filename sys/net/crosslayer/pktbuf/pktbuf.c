@@ -201,10 +201,9 @@ static _packet_t *_pktbuf_alloc(size_t size)
 
 static void _pktbuf_free(_packet_t *prev, _packet_t *packet)
 {
-    if ((packet->processing)-- > 1) {
-        /* `> 1` because packet->processing may already
-                                           * be 0 in which case --(packet->processing)
-                                           * would wrap to 255. */
+    if ((packet->processing)-- > 1) { /* `> 1` because packet->processing may already
+                                       * be 0 in which case --(packet->processing)
+                                       * would wrap to 255. */
         return;
     }
 

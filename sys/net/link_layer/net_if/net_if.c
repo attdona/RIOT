@@ -320,8 +320,7 @@ int net_if_send_packet(int if_id, uint16_t target, const void *payload,
         return -1;
     }
 
-    if (interfaces[if_id].transceivers & (TRANSCEIVER_CC2420 | TRANSCEIVER_AT86RF231 |
-                                          TRANSCEIVER_MC1322X)) {
+    if (interfaces[if_id].transceivers & (TRANSCEIVER_CC2420 | TRANSCEIVER_AT86RF231 | TRANSCEIVER_MC1322X)) {
         ieee802154_packet_t p;
 
         memset(&p, 0, sizeof(ieee802154_packet_t));
@@ -528,7 +527,6 @@ int32_t net_if_get_pan_id(int if_id)
     }
 
     net_if_transceiver_get_set_handler(if_id, GET_PAN, &pan_id);
-
     if (pan_id < 0) {
         return 0;
     }

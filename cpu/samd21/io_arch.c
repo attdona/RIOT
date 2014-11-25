@@ -25,10 +25,8 @@
 int io_arch_puts(char *data, int size)
 {
     int i = 0;
-
     for (; i < size; i++) {
         putchar(data[i]);
     }
-
     return i;
 }

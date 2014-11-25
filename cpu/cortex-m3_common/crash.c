@@ -30,13 +30,12 @@ int panic_code;
 /* flag preventing "recursive crash printing loop" */
 static int crashed = 0;
 
-/* WARNING: this function NEVER returns!*/
+/* WARNING: this function NEVER returns! */
 NORETURN void core_panic(int crash_code, const char *message)
 {
     /* copy panic datas to "public" global variables */
     panic_code = crash_code;
     strncpy(panic_str, message, 80);
-
     /* print panic message to console (if possible) */
     if (crashed == 0) {
         crashed = 1;
@@ -49,17 +48,14 @@ NORETURN void core_panic(int crash_code, const char *message)
 #endif
         puts("\n\n");
     }
-
     /* disable watchdog and all possible sources of interrupts */
     //TODO
     dINT();
 #if DEVELHELP
-
     /* enter infinite loop, into deepest possible sleep mode */
     while (1) {
         lpm_set(LPM_OFF);
     }
-
 #else
     /* DEVELHELP not set => reboot system */
     (void) reboot(RB_AUTOBOOT);

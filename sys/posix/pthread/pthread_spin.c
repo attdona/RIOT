@@ -49,7 +49,6 @@ int pthread_spin_lock(pthread_spinlock_t *lock)
     while (atomic_set_return((unsigned *) lock, 1) != 0) {
         /* spin */
     }
-
     return 0;
 }
 

@@ -35,11 +35,10 @@ void __attribute__((weak)) *malloc(size_t size)
 
         DEBUG("malloc(): allocating block of size %u at %p.\n", (unsigned int) size, ptr);
 
-        if (ptr != (void *) - 1) {
+        if (ptr != (void*) -1) {
             return ptr;
         }
     }
-
     return NULL;
 }
 
@@ -54,11 +53,9 @@ void __attribute__((weak)) *realloc(void *ptr, size_t size)
     }
     else {
         void *newptr = malloc(size);
-
         if (newptr) {
             memcpy(newptr, ptr, size);
         }
-
         return newptr;
     }
 }
@@ -66,11 +63,9 @@ void __attribute__((weak)) *realloc(void *ptr, size_t size)
 void __attribute__((weak)) *calloc(size_t size, size_t cnt)
 {
     void *mem = malloc(size * cnt);
-
     if (mem) {
         memset(mem, 0, size * cnt);
     }
-
     return mem;
 }
 

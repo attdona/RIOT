@@ -158,8 +158,8 @@ typedef struct {
     cc2538_reg_t RESERVED7[13];           /**< Reserved addresses */
 } cc2538_uart_t;
 
-extern cc2538_uart_t *const UART0;        /**< UART0 Instance */
-extern cc2538_uart_t *const UART1;        /**< UART1 Instance */
+extern cc2538_uart_t * const UART0;       /**< UART0 Instance */
+extern cc2538_uart_t * const UART1;       /**< UART1 Instance */
 
 #ifdef __cplusplus
 } /* end extern "C" */

@@ -41,28 +41,25 @@ static TestResult result_;
 static OutputterRef outputterRef_ = 0;
 static int wasfailure_ = 0;
 
-static void TextUIRunner_startTest(TestListnerRef self, TestRef test)
+static void TextUIRunner_startTest(TestListnerRef self,TestRef test)
 {
     (void)self;
     (void)test;
     wasfailure_ = 0;
 }
 
-static void TextUIRunner_endTest(TestListnerRef self, TestRef test)
+static void TextUIRunner_endTest(TestListnerRef self,TestRef test)
 {
     (void)self;
-
-    if (!wasfailure_) {
-        Outputter_printSuccessful(outputterRef_, test, result_.runCount);
-    }
+    if (!wasfailure_)
+        Outputter_printSuccessful(outputterRef_,test,result_.runCount);
 }
 
-static void TextUIRunner_addFailure(TestListnerRef self, TestRef test, char *msg, int line,
-                                    char *file)
+static void TextUIRunner_addFailure(TestListnerRef self,TestRef test,char *msg,int line,char *file)
 {
     (void)self;
     wasfailure_ = 1;
-    Outputter_printFailure(outputterRef_, test, msg, line, file, result_.runCount);
+    Outputter_printFailure(outputterRef_,test,msg,line,file,result_.runCount);
 }
 
 static const TestListnerImplement TextUIRunnerImplement = {
@@ -72,7 +69,7 @@ static const TestListnerImplement TextUIRunnerImplement = {
 };
 
 static const TestListner testuirunner_ = {
-    (TestListnerImplement *) &TextUIRunnerImplement,
+    (TestListnerImplement*)&TextUIRunnerImplement,
 };
 
 /*  Public
@@ -92,21 +89,19 @@ void TextUIRunner_startWithOutputter(OutputterRef outputter)
 
 void TextUIRunner_start(void)
 {
-    if (!outputterRef_) {
+    if (!outputterRef_)
         outputterRef_ = TextOutputter_outputter();
-    }
-
     TextUIRunner_startWithOutputter(outputterRef_);
 }
 
 void TextUIRunner_runTest(TestRef test)
 {
-    Outputter_printStartTest(outputterRef_, test);
+    Outputter_printStartTest(outputterRef_,test);
     Test_run(test, &result_);
-    Outputter_printEndTest(outputterRef_, test);
+    Outputter_printEndTest(outputterRef_,test);
 }
 
 void TextUIRunner_end(void)
 {
-    Outputter_printStatistics(outputterRef_, &result_);
+    Outputter_printStatistics(outputterRef_,&result_);
 }

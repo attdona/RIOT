@@ -40,14 +40,14 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Trng hardware registers */
 typedef struct {
-    WoReg TRNG_CR;       /**< \brief (Trng Offset: 0x00) Control Register */
-    RoReg Reserved1[3];
-    WoReg TRNG_IER;      /**< \brief (Trng Offset: 0x10) Interrupt Enable Register */
-    WoReg TRNG_IDR;      /**< \brief (Trng Offset: 0x14) Interrupt Disable Register */
-    RoReg TRNG_IMR;      /**< \brief (Trng Offset: 0x18) Interrupt Mask Register */
-    RoReg TRNG_ISR;      /**< \brief (Trng Offset: 0x1C) Interrupt Status Register */
-    RoReg Reserved2[12];
-    RoReg TRNG_ODATA;    /**< \brief (Trng Offset: 0x50) Output Data Register */
+  WoReg TRNG_CR;       /**< \brief (Trng Offset: 0x00) Control Register */
+  RoReg Reserved1[3];
+  WoReg TRNG_IER;      /**< \brief (Trng Offset: 0x10) Interrupt Enable Register */
+  WoReg TRNG_IDR;      /**< \brief (Trng Offset: 0x14) Interrupt Disable Register */
+  RoReg TRNG_IMR;      /**< \brief (Trng Offset: 0x18) Interrupt Mask Register */
+  RoReg TRNG_ISR;      /**< \brief (Trng Offset: 0x1C) Interrupt Status Register */
+  RoReg Reserved2[12];
+  RoReg TRNG_ODATA;    /**< \brief (Trng Offset: 0x50) Output Data Register */
 } Trng;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- TRNG_CR : (TRNG Offset: 0x00) Control Register -------- */

@@ -201,7 +201,7 @@ void msp430_init_dco(void)
     while (1) {
         unsigned int compare;
 
-        while ((CCTL2 & CCIFG) != CCIFG);   /* Wait until capture occured!*/
+        while ((CCTL2 & CCIFG) != CCIFG);   /* Wait until capture occured! */
 
         CCTL2 &= ~CCIFG;                    /* Capture occured, clear flag */
         compare = CCR2;                     /* Get current captured SMCLK */
@@ -209,7 +209,7 @@ void msp430_init_dco(void)
         oldcapture = CCR2;                  /* Save current captured SMCLK */
 
         if (delta == compare) {
-            break;                            /* if equal, leave "while (1)" */
+            break;                            /* if equal, leave "while(1)" */
         }
         else if (delta < compare) {         /* DCO is too fast, slow it down */
             DCOCTL--;

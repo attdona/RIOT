@@ -22,7 +22,7 @@
 
 int pthread_attr_init(pthread_attr_t *attr)
 {
-    memset(attr, 0, sizeof(*attr));
+    memset(attr, 0, sizeof (*attr));
     return 0;
 }
 
@@ -44,11 +44,9 @@ int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate)
         case PTHREAD_CREATE_DETACHED:
             attr->detached = 1;
             return 0;
-
         case PTHREAD_CREATE_JOINABLE:
             attr->detached = 0;
             return 0;
-
         default:
             return -1;
     }
@@ -149,11 +147,9 @@ int pthread_attr_setstackaddr(pthread_attr_t *attr, void *stackaddr)
 int pthread_attr_getstacksize(const pthread_attr_t *attr, size_t *stacksize)
 {
     *stacksize = attr->ss_size;
-
     if (*stacksize == 0) {
         /* FIXME: the standard says that this function should return the default value if no explicit value was set. */
     }
-
     return 0;
 }
 

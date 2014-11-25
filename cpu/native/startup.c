@@ -87,7 +87,6 @@ void _native_log_stdout(char *stdouttype)
     else if (strcmp(stdouttype, "file") == 0) {
         char stdout_logname[255];
         snprintf(stdout_logname, sizeof(stdout_logname), "/tmp/riot.stdout.%d", _native_pid);
-
         if ((stdout_outfile = creat(stdout_logname, 0666)) == -1) {
             err(EXIT_FAILURE, "_native_log_stdout: open");
         }
@@ -99,7 +98,6 @@ void _native_log_stdout(char *stdouttype)
     if (real_dup2(stdout_outfile, STDOUT_FILENO) == -1) {
         err(EXIT_FAILURE, "_native_log_stdout: dup2(STDOUT_FILENO)");
     }
-
     _native_null_out_file = stdout_outfile;
 }
 
@@ -124,7 +122,6 @@ void _native_log_stderr(char *stderrtype)
     else if (strcmp(stderrtype, "file") == 0) {
         char stderr_logname[255];
         snprintf(stderr_logname, sizeof(stderr_logname), "/tmp/riot.stderr.%d", _native_pid);
-
         if ((stderr_outfile = creat(stderr_logname, 0666)) == -1) {
             err(EXIT_FAILURE, "_native_log_stderr: open");
         }
@@ -216,23 +213,20 @@ __attribute__((constructor)) static void startup(int argc, char **argv)
 #endif
 
 #ifdef MODULE_NATIVENET
-
     if (
-        (argc < 2)
-        || (
-            (strcmp("-h", argv[argp]) == 0)
-            || (strcmp("--help", argv[argp]) == 0)
-        )
-    ) {
+            (argc < 2)
+            || (
+                (strcmp("-h", argv[argp]) == 0)
+                || (strcmp("--help", argv[argp]) == 0)
+               )
+       ) {
         usage_exit();
     }
-
     argp++;
 #endif
 
     for (; argp < argc; argp++) {
         char *arg = argv[argp];
-
         if ((strcmp("-h", arg) == 0) || (strcmp("--help", arg) == 0)) {
             usage_exit();
         }
@@ -243,20 +237,16 @@ __attribute__((constructor)) static void startup(int argc, char **argv)
             else {
                 usage_exit();
             }
-
             _native_id = atol(argv[argp]);
         }
         else if (strcmp("-d", arg) == 0) {
             daemonize();
-
             if (strcmp(stdiotype, "stdio") == 0) {
                 stdiotype = "null";
             }
-
             if (strcmp(stdouttype, "stdio") == 0) {
                 stdouttype = "null";
             }
-
             if (strcmp(stderrtype, "stdio") == 0) {
                 stderrtype = "null";
             }
@@ -270,7 +260,6 @@ __attribute__((constructor)) static void startup(int argc, char **argv)
         else if (strcmp("-o", arg) == 0) {
             stdouttype = "file";
         }
-
 #ifdef MODULE_UART0
         else if (strcmp("-r", arg) == 0) {
             stdouttype = "file";
@@ -278,29 +267,24 @@ __attribute__((constructor)) static void startup(int argc, char **argv)
         }
         else if (strcmp("-t", arg) == 0) {
             stdiotype = "tcp";
-
             if (argp + 1 < argc) {
                 ioparam = argv[++argp];
             }
             else {
                 usage_exit();
             }
-
             if (strcmp(stdouttype, "stdio") == 0) {
                 stdouttype = "null";
             }
-
             if (strcmp(stderrtype, "stdio") == 0) {
                 stderrtype = "null";
             }
         }
         else if (strcmp("-u", arg) == 0) {
             stdiotype = "unix";
-
             if (strcmp(stdouttype, "stdio") == 0) {
                 stdouttype = "null";
             }
-
             if (strcmp(stderrtype, "stdio") == 0) {
                 stderrtype = "null";
             }
@@ -310,7 +294,6 @@ __attribute__((constructor)) static void startup(int argc, char **argv)
                 _native_unix_socket_path = argv[++argp];
             }
         }
-
 #endif
         else {
             usage_exit();

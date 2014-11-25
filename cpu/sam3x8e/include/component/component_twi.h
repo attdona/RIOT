@@ -40,29 +40,29 @@
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Twi hardware registers */
 typedef struct {
-    WoReg TWI_CR;        /**< \brief (Twi Offset: 0x00) Control Register */
-    RwReg TWI_MMR;       /**< \brief (Twi Offset: 0x04) Master Mode Register */
-    RwReg TWI_SMR;       /**< \brief (Twi Offset: 0x08) Slave Mode Register */
-    RwReg TWI_IADR;      /**< \brief (Twi Offset: 0x0C) Internal Address Register */
-    RwReg TWI_CWGR;      /**< \brief (Twi Offset: 0x10) Clock Waveform Generator Register */
-    RoReg Reserved1[3];
-    RoReg TWI_SR;        /**< \brief (Twi Offset: 0x20) Status Register */
-    WoReg TWI_IER;       /**< \brief (Twi Offset: 0x24) Interrupt Enable Register */
-    WoReg TWI_IDR;       /**< \brief (Twi Offset: 0x28) Interrupt Disable Register */
-    RoReg TWI_IMR;       /**< \brief (Twi Offset: 0x2C) Interrupt Mask Register */
-    RoReg TWI_RHR;       /**< \brief (Twi Offset: 0x30) Receive Holding Register */
-    WoReg TWI_THR;       /**< \brief (Twi Offset: 0x34) Transmit Holding Register */
-    RoReg Reserved2[50];
-    RwReg TWI_RPR;       /**< \brief (Twi Offset: 0x100) Receive Pointer Register */
-    RwReg TWI_RCR;       /**< \brief (Twi Offset: 0x104) Receive Counter Register */
-    RwReg TWI_TPR;       /**< \brief (Twi Offset: 0x108) Transmit Pointer Register */
-    RwReg TWI_TCR;       /**< \brief (Twi Offset: 0x10C) Transmit Counter Register */
-    RwReg TWI_RNPR;      /**< \brief (Twi Offset: 0x110) Receive Next Pointer Register */
-    RwReg TWI_RNCR;      /**< \brief (Twi Offset: 0x114) Receive Next Counter Register */
-    RwReg TWI_TNPR;      /**< \brief (Twi Offset: 0x118) Transmit Next Pointer Register */
-    RwReg TWI_TNCR;      /**< \brief (Twi Offset: 0x11C) Transmit Next Counter Register */
-    WoReg TWI_PTCR;      /**< \brief (Twi Offset: 0x120) Transfer Control Register */
-    RoReg TWI_PTSR;      /**< \brief (Twi Offset: 0x124) Transfer Status Register */
+  WoReg TWI_CR;        /**< \brief (Twi Offset: 0x00) Control Register */
+  RwReg TWI_MMR;       /**< \brief (Twi Offset: 0x04) Master Mode Register */
+  RwReg TWI_SMR;       /**< \brief (Twi Offset: 0x08) Slave Mode Register */
+  RwReg TWI_IADR;      /**< \brief (Twi Offset: 0x0C) Internal Address Register */
+  RwReg TWI_CWGR;      /**< \brief (Twi Offset: 0x10) Clock Waveform Generator Register */
+  RoReg Reserved1[3];
+  RoReg TWI_SR;        /**< \brief (Twi Offset: 0x20) Status Register */
+  WoReg TWI_IER;       /**< \brief (Twi Offset: 0x24) Interrupt Enable Register */
+  WoReg TWI_IDR;       /**< \brief (Twi Offset: 0x28) Interrupt Disable Register */
+  RoReg TWI_IMR;       /**< \brief (Twi Offset: 0x2C) Interrupt Mask Register */
+  RoReg TWI_RHR;       /**< \brief (Twi Offset: 0x30) Receive Holding Register */
+  WoReg TWI_THR;       /**< \brief (Twi Offset: 0x34) Transmit Holding Register */
+  RoReg Reserved2[50];
+  RwReg TWI_RPR;       /**< \brief (Twi Offset: 0x100) Receive Pointer Register */
+  RwReg TWI_RCR;       /**< \brief (Twi Offset: 0x104) Receive Counter Register */
+  RwReg TWI_TPR;       /**< \brief (Twi Offset: 0x108) Transmit Pointer Register */
+  RwReg TWI_TCR;       /**< \brief (Twi Offset: 0x10C) Transmit Counter Register */
+  RwReg TWI_RNPR;      /**< \brief (Twi Offset: 0x110) Receive Next Pointer Register */
+  RwReg TWI_RNCR;      /**< \brief (Twi Offset: 0x114) Receive Next Counter Register */
+  RwReg TWI_TNPR;      /**< \brief (Twi Offset: 0x118) Transmit Next Pointer Register */
+  RwReg TWI_TNCR;      /**< \brief (Twi Offset: 0x11C) Transmit Next Counter Register */
+  WoReg TWI_PTCR;      /**< \brief (Twi Offset: 0x120) Transfer Control Register */
+  RoReg TWI_PTSR;      /**< \brief (Twi Offset: 0x124) Transfer Status Register */
 } Twi;
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- TWI_CR : (TWI Offset: 0x00) Control Register -------- */

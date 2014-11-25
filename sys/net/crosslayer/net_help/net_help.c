@@ -45,8 +45,7 @@ uint16_t csum(uint16_t sum, uint8_t *buf, uint16_t len)
             sum += carry;
             sum += t;
             carry = (t > sum);
-        }
-        while (count);
+        } while (count);
 
         sum += carry;
     }

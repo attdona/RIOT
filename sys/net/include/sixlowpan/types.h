@@ -29,33 +29,27 @@
 /**
  * @brief Data type to represent an EUI-64.
  */
-typedef union __attribute__((packed))
-{
+typedef union __attribute__((packed)) {
     uint8_t uint8[8];   ///< devided by 8 8-bit words.
     uint16_t uint16[4]; ///< devided by 4 16-bit words.
-}
-ieee_802154_long_t;
+} ieee_802154_long_t;
 
 /**
  * @brief Data type to represent IEEE 802.15.4 short address.
  */
-typedef union __attribute__((packed))
-{
+typedef union __attribute__((packed)) {
     uint8_t uint8[2];   ///< devided by 2 8-bit words.
     uint16_t uint16[1]; ///< as a 16-bit value.
-}
-ieee_802154_short_t;
+} ieee_802154_short_t;
 
 /**
  * @brief Data type to represent an IPv6 address.
  */
-typedef union __attribute__((packed))
-{
+typedef union __attribute__((packed)) {
     uint8_t uint8[16];  ///< devided by 16 8-bit words.
     uint16_t uint16[8]; ///< devided by 8 16-bit words.
     uint32_t uint32[4]; ///< devided by 4 32-bit words.
-}
-ipv6_addr_t;
+} ipv6_addr_t;
 
 /**
  * @brief   Data type to represent an IPv6 packet header
@@ -64,8 +58,7 @@ ipv6_addr_t;
  *          RFC 2460
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t version_trafficclass;   ///< Version field + first 4 bit of Traffic Class.
     uint8_t trafficclass_flowlabel; ///< last 4 bit of Traffic Class
     ///< and first 4 bit of Flow Label.
@@ -75,25 +68,22 @@ typedef struct __attribute__((packed))
     uint8_t hoplimit;               ///< hop limit for this packet.
     ipv6_addr_t srcaddr;            ///< source address of this packet.
     ipv6_addr_t destaddr;           ///< destination address of this packet.
-}
-ipv6_hdr_t;
+} ipv6_hdr_t;
 
 /**
  * @brief   Data type to represent an IPv6 source routing header for RPL
  *
  * @see [RFC 6554](http://tools.ietf.org/html/rfc6554)
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t nextheader;             /**< type of next header in this packet. */
     uint8_t hdrextlen;              /**< length of header in 8-octet units. */
     uint8_t routing_type;           /**< identify srh-variant. */
     uint8_t segments_left;          /**< remaining route segments before reaching destination. */
-    unsigned int cmpri: 4, cmpre: 4; /**< 4+4 bit, expressing prefix octets from each/last segment. */
-    unsigned long pad: 4;           /**< number of octets used for padding after adresses. */
-    unsigned long reserved: 20;     /**< reserved. Set to 0. */
-}
-ipv6_srh_t;
+    unsigned int cmpri:4, cmpre:4;  /**< 4+4 bit, expressing prefix octets from each/last segment. */
+    unsigned long pad:4;            /**< number of octets used for padding after adresses. */
+    unsigned long reserved:20;      /**< reserved. Set to 0. */
+} ipv6_srh_t;
 
 /**
  * @brief   Data type to represent an ICMPv6 packet header.
@@ -102,13 +92,11 @@ ipv6_srh_t;
  *          RFC 4443
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t     type;       ///< type field.
     uint8_t     code;       ///< code field.
     uint16_t    checksum;   ///< checksum field.
-}
-icmpv6_hdr_t;
+} icmpv6_hdr_t;
 
 /**
  * @brief   Data type to represent the relevant sub-part of an
@@ -118,11 +106,9 @@ icmpv6_hdr_t;
  *          RFC 4443, section 3.4
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t pointer;
-}
-icmpv6_parameter_prob_hdr_t;
+} icmpv6_parameter_prob_hdr_t;
 
 /**
  * @brief   Data type to represent the relevant sub-part of an
@@ -132,12 +118,10 @@ icmpv6_parameter_prob_hdr_t;
  *          RFC 4443, section 4.1
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint16_t id;    ///< identifier field.
     uint16_t seq;   ///< sequence number field.
-}
-icmpv6_echo_request_hdr_t;
+} icmpv6_echo_request_hdr_t;
 
 /**
  * @brief   Data type to represent the relevant sub-part of an
@@ -147,12 +131,10 @@ icmpv6_echo_request_hdr_t;
  *          RFC 4443, section 4.2
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint16_t id;    ///< identifier field.
     uint16_t seq;   ///< sequence number field.
-}
-icmpv6_echo_reply_hdr_t;
+} icmpv6_echo_reply_hdr_t;
 
 /*
  * ICMPv6 Router Solicitation has no fields but reserved fields
@@ -169,15 +151,13 @@ icmpv6_echo_reply_hdr_t;
  *          RFC 4861, section 4.2
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t hoplimit;           ///< hop limit field.
     uint8_t autoconfig_flags;   ///< (M)anaged and (Other) flag.
     uint16_t router_lifetime;   ///< router lifetime field.
     uint32_t reachable_time;    ///< reachable time field.
     uint32_t retrans_timer;     ///< retrans timer field.
-}
-icmpv6_router_adv_hdr_t;
+} icmpv6_router_adv_hdr_t;
 
 /**
  * @brief   Bit for (M)anaged flag in Router Advertisement
@@ -205,12 +185,10 @@ icmpv6_router_adv_hdr_t;
  *          RFC 4861, section 4.3
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint32_t reserved;          ///< reserved field.
     ipv6_addr_t target_addr;    ///< target address field.
-}
-icmpv6_neighbor_sol_hdr_t;
+} icmpv6_neighbor_sol_hdr_t;
 
 /**
  * @brief   Data type to represent the relevant sub-part of an
@@ -223,13 +201,11 @@ icmpv6_neighbor_sol_hdr_t;
  *          RFC 4861, section 4.4
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t rso;                ///< flags + first 5 bits of reserved field.
     uint8_t reserved[3];        ///< rest of reserved field.
     ipv6_addr_t target_addr;    ///< target address field.
-}
-icmpv6_neighbor_adv_hdr_t;
+} icmpv6_neighbor_adv_hdr_t;
 
 /**
  * @brief   Bit for (R)outer flag in Neighbor Advertisement
@@ -266,12 +242,10 @@ icmpv6_neighbor_adv_hdr_t;
  *          RFC 4861, section 4.6
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t type;   ///< type field.
     uint8_t length; ///< length field.
-}
-icmpv6_ndp_opt_hdr_t;
+} icmpv6_ndp_opt_hdr_t;
 
 /**
  * @brief   Data type to represent a Source/Target Link-layer Option
@@ -281,12 +255,10 @@ icmpv6_ndp_opt_hdr_t;
  *          RFC 4861, section 4.6.1
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t type;   ///< type field.
     uint8_t length; ///< length field.
-}
-icmpv6_ndp_opt_stllao_t;
+} icmpv6_ndp_opt_stllao_t;
 
 /**
  * @brief   Data type to represent a Prefix Information option.
@@ -297,8 +269,7 @@ icmpv6_ndp_opt_stllao_t;
  *          RFC 4861, section 4.6.2
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t type;               ///< type field.
     uint8_t length;             ///< length field.
     uint8_t prefix_length;      ///< prefix length field.
@@ -307,8 +278,7 @@ typedef struct __attribute__((packed))
     uint32_t pref_ltime;        ///< preferred lifetime field.
     uint32_t reserved2;         ///< reserved2 field.
     ipv6_addr_t addr;           ///< prefix field.
-}
-icmpv6_ndp_opt_pi_t;
+} icmpv6_ndp_opt_pi_t;
 
 /**
  * @brief   Bit for on-(L)ink flag in Prefix Information option.
@@ -336,14 +306,12 @@ icmpv6_ndp_opt_pi_t;
  *          RFC 4861, section 4.6.4
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t type;               ///< type field.
     uint8_t length;             ///< length field.
     uint16_t reserved;          ///< reserved field.
     uint32_t mtu;               ///< MTU field.
-}
-icmpv6_ndp_opt_mtu_t;
+} icmpv6_ndp_opt_mtu_t;
 
 /**
  * @brief   Data type to represent an Address Registration Option.
@@ -352,8 +320,7 @@ icmpv6_ndp_opt_mtu_t;
  *          RFC 6775, section 4.1
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t type;               ///< type field.
     uint8_t length;             ///< length field.
     uint8_t status;             ///< status field.
@@ -361,8 +328,7 @@ typedef struct __attribute__((packed))
     uint16_t reserved2;         ///< reserved2 field.
     uint16_t reg_ltime;         ///< registration lifetem field.
     ieee_802154_long_t eui64;   ///< EUI-64 field.
-}
-icmpv6_ndp_opt_aro_t;
+} icmpv6_ndp_opt_aro_t;
 
 /**
  * @brief   Data type to represent an 6LoWPAN Context Option.
@@ -373,16 +339,14 @@ icmpv6_ndp_opt_aro_t;
  *          RFC 6775, section 4.2
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t type;               ///< type field.
     uint8_t length;             ///< length field.
     uint8_t c_length;           ///< context length field.
     uint8_t c_flags;            ///< Res(erved) field + C flag + CID field.
     uint16_t reserved;          ///< reserved field.
     uint16_t val_ltime;         ///< valid lifetime field.
-}
-icmpv6_ndp_opt_6co_hdr_t;
+} icmpv6_ndp_opt_6co_hdr_t;
 
 /**
  * @brief   Bit for context (C)ompression flag in 6LoWPAN Context
@@ -411,28 +375,24 @@ icmpv6_ndp_opt_6co_hdr_t;
  *          RFC 6775, section 4.3
  *      </a>
  */
-typedef struct __attribute__((packed))
-{
+typedef struct __attribute__((packed)) {
     uint8_t type;               ///< type field.
     uint8_t length;             ///< length field.
     uint16_t version;           ///< version field.
     uint32_t reserved;          ///< reseverd field.
     ipv6_addr_t addr;           ///< 6LBR address field.
-}
-icmpv6_ndp_opt_abro_t;
+} icmpv6_ndp_opt_abro_t;
 
 /**
  * @brief   Data type to represent address types according to
  *          <a href="http://tools.ietf.org/hmtl/rfc4862">RFC 4862</a>.
  */
-typedef enum __attribute__((packed))
-{
+typedef enum __attribute__((packed)) {
     NDP_ADDR_STATE_TENTATIVE,   ///< tentative address, uniqueness to be verified.
     NDP_ADDR_STATE_PREFERRED,   ///< preferred address, for unrestricted use.
     NDP_ADDR_STATE_DEPRECATED,  ///< deprecated address, use discouraged.
     NDP_ADDR_STATE_ANY          ///< addresses of this state are always permitted.
-}
-ndp_addr_state_t;
+} ndp_addr_state_t;
 
 /** @} */
 #endif /* SIXLOWPAN_TYPES_H */

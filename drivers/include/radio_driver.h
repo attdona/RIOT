@@ -40,10 +40,10 @@ extern "C" {
  *                   @c false otherwise (corrupted packet).
  */
 typedef void (* receive_802154_packet_callback_t)(void *buf,
-        unsigned int len,
-        int8_t rssi,
-        uint8_t lqi,
-        bool crc_ok);
+                                                  unsigned int len,
+                                                  int8_t rssi,
+                                                  uint8_t lqi,
+                                                  bool crc_ok);
 
 /**
  * @brief Kind of packet to prepare/configure for transmission.

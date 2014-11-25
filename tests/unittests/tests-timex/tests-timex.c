@@ -48,9 +48,9 @@ Test *tests_timex_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_timex_set),
-                        new_TestFixture(test_timex_add),
-                        new_TestFixture(test_timex_sub),
-                        new_TestFixture(test_timex_from_uint64),
+        new_TestFixture(test_timex_add),
+        new_TestFixture(test_timex_sub),
+        new_TestFixture(test_timex_from_uint64),
     };
 
     EMB_UNIT_TESTCALLER(timex_tests, NULL, NULL, fixtures);

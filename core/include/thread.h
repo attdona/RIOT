@@ -27,10 +27,8 @@
 #include "arch/thread_arch.h"
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
-
-static inline kernel_pid_t thread_getpid(void) __attribute__((always_inline));
 
 /**
  * @brief Describes an illegal thread status
@@ -82,12 +80,12 @@ static inline kernel_pid_t thread_getpid(void) __attribute__((always_inline));
  * @return              pid of newly created task, otherwise
 */
 kernel_pid_t thread_create(char *stack,
-                           int stacksize,
-                           char priority,
-                           int flags,
-                           thread_task_func_t task_func,
-                           void *arg,
-                           const char *name);
+                  int stacksize,
+                  char priority,
+                  int flags,
+                  thread_task_func_t task_func,
+                  void *arg,
+                  const char *name);
 
 /**
  * @brief       Retreive a thread control block by PID.

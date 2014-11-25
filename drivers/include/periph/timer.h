@@ -47,8 +47,7 @@ typedef enum {
     TIMER_3,                /**< 4th timer */
 #endif
     TIMER_UNDEFINED         /**< fall-back if no timer is defined */
-}
-tim_t; /* named tim instead of timer to avoid conflicts with vendor libraries */
+} tim_t; /* named tim instead of timer to avoid conflicts with vendor libraries */
 
 /**
  * @brief Initialize the given timer

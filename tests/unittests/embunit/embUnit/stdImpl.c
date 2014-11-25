@@ -34,59 +34,46 @@
  */
 #include "stdImpl.h"
 
-char *stdimpl_strcpy(char *dst, const char *src)
+char* stdimpl_strcpy(char *dst, const char *src)
 {
     char *start = dst;
     char c;
-
     do {
         c = *src;
         *dst = c;
         src++;
         dst++;
-    }
-    while (c);
-
+    } while (c);
     return start;
 }
 
-char *stdimpl_strcat(char *dst, const char *src)
+char* stdimpl_strcat(char *dst, const char *src)
 {
     char *start = dst;
     char c;
-
     do {
         c = *dst;
         dst++;
-    }
-    while (c);
-
+    } while (c);
     dst--;
-
     do {
         c = *src;
         *dst = c;
         src++;
         dst++;
-    }
-    while (c);
-
+    } while (c);
     return start;
 }
 
-char *stdimpl_strncat(char *dst, const char *src, unsigned int count)
+char* stdimpl_strncat(char *dst, const char *src,unsigned int count)
 {
     char *start = dst;
     char c;
-
     do {
         c = *dst;
         dst++;
-    }
-    while (c);
-
+    } while (c);
     dst--;
-
     if (count) {
         do {
             c = *src;
@@ -94,12 +81,9 @@ char *stdimpl_strncat(char *dst, const char *src, unsigned int count)
             src++;
             dst++;
             count--;
-        }
-        while (c && count);
-
+        } while (c && count);
         *dst = '\0';
     }
-
     return start;
 }
 
@@ -107,40 +91,33 @@ int stdimpl_strlen(const char *str)
 {
     const char *estr = str;
     char c;
-
     do {
         c = *estr;
         estr++;
-    }
-    while (c);
-
+    } while (c);
     return ((int)(estr - str - 1));
 }
 
 int stdimpl_strcmp(const char *s1, const char *s2)
 {
-    char c1, c2;
-
+    char c1,c2;
     do {
         c1 = *s1++;
         c2 = *s2++;
-    }
-    while ((c1) && (c2) && (c1 == c2));
-
+    } while ((c1) && (c2) && (c1==c2));
     return c1 - c2;
 }
 
-static char *_xtoa(unsigned long v, char *string, int r, int is_neg)
+static char* _xtoa(unsigned long v,char *string, int r, int is_neg)
 {
     char *start = string;
-    char buf[33], *p;
+    char buf[33],*p;
 
     p = buf;
 
     do {
         *p++ = "0123456789abcdef"[(v % r) & 0xf];
-    }
-    while (v /= r);
+    } while (v /= r);
 
     if (is_neg) {
         *p++ = '-';
@@ -148,19 +125,17 @@ static char *_xtoa(unsigned long v, char *string, int r, int is_neg)
 
     do {
         *string++ = *--p;
-    }
-    while (buf != p);
+    } while (buf != p);
 
     *string = '\0';
 
     return start;
 }
 
-char *stdimpl_itoa(int v, char *string, int r)
+char* stdimpl_itoa(int v,char *string,int r)
 {
     if ((r == 10) && (v < 0)) {
         return _xtoa((unsigned long)(-v), string, r, 1);
     }
-
     return _xtoa((unsigned long)(v), string, r, 0);
 }

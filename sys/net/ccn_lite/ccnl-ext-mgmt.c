@@ -107,7 +107,7 @@ ccnl_prefix_clone(struct ccnl_prefix_s *p)
     ccnl_free(VAR); \
     VAR = (unsigned char*) s; \
     continue; \
-    } do {} while (0)
+    } do {} while(0)
 
 void
 ccnl_mgmt_return_msg(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
@@ -234,8 +234,7 @@ ccnl_mgmt_newface(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     }
 
     // create face ontop of the traceceiver iface
-    DEBUGMSG(1, "new %s=%d face gets created - faceid==%s==%d!\n", (const char *) macsrc, ifndx,
-             (const char *) port, faceid);
+    DEBUGMSG(1, "new %s=%d face gets created - faceid==%s==%d!\n", (const char *) macsrc, ifndx, (const char *) port, faceid);
     f = ccnl_get_face_or_create(
             ccnl,
             ifndx,
@@ -273,8 +272,7 @@ ccnl_mgmt_newface(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
         cp = "newface cmd worked";
     }
     else {
-        DEBUGMSG(99,
-                 "  newface request for (macsrc=%s ip4src=%s proto=%s host=%s port=%s frag=%s flags=%s) failed or was ignored\n",
+        DEBUGMSG(99, "  newface request for (macsrc=%s ip4src=%s proto=%s host=%s port=%s frag=%s flags=%s) failed or was ignored\n",
                  macsrc, ip4src, proto, host, port, frag, flags);
     }
 
@@ -487,7 +485,7 @@ ccnl_mgmt_prefixreg(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
             goto Bail;
         }
 
-        DEBUGMSG(1, "Face %s found!ifndx=%d\n", faceid, f->ifndx);
+        DEBUGMSG(1, "Face %s found! ifndx=%d\n", faceid, f->ifndx);
 
         ccnl_content_learn_name_route(ccnl, p, f, 0, CCNL_FORWARD_FLAGS_STATIC);
         cp = "prefixreg cmd worked";
@@ -511,8 +509,7 @@ Bail:
     // prepare FWDENTRY
     len3 = mkHeader(fwdentry_buf, CCNL_DTAG_PREFIX, CCN_TT_DTAG);
     len3 += mkStrBlob(fwdentry_buf + len3, CCN_DTAG_ACTION, CCN_TT_DTAG, cp);
-    len3 += mkStrBlob(fwdentry_buf + len3, CCN_DTAG_NAME, CCN_TT_DTAG,
-                      ccnl_prefix_to_path(p)); // prefix
+    len3 += mkStrBlob(fwdentry_buf + len3, CCN_DTAG_NAME, CCN_TT_DTAG, ccnl_prefix_to_path(p)); // prefix
 
     len3 += mkStrBlob(fwdentry_buf + len3, CCN_DTAG_FACEID, CCN_TT_DTAG, (char *) faceid);
     fwdentry_buf[len3++] = 0;// end-of-fwdentry
@@ -541,14 +538,13 @@ Bail:
 }
 
 static int ccnl_mgmt_handle(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
-                            struct ccnl_prefix_s *prefix, struct ccnl_face_s *from, char *cmd,
-                            int verified)
+        struct ccnl_prefix_s *prefix, struct ccnl_face_s *from, char *cmd,
+        int verified)
 {
     DEBUGMSG(99, "ccnl_mgmt_handle \"%s\"\n", cmd);
-
     if (!verified) {
         ccnl_mgmt_return_msg(ccnl, orig, from,
-                             "refused: error signature not verified");
+                "refused: error signature not verified");
         return -1;
     }
 
@@ -572,7 +568,7 @@ static int ccnl_mgmt_handle(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
 
 char cmd[500];
 int ccnl_mgmt(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
-              struct ccnl_prefix_s *prefix, struct ccnl_face_s *from)
+        struct ccnl_prefix_s *prefix, struct ccnl_face_s *from)
 {
     if (prefix->complen[2] < (int) sizeof(cmd)) {
         memcpy(cmd, prefix->comp[2], prefix->complen[2]);
@@ -590,46 +586,41 @@ int ccnl_mgmt(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
 
     DEBUGMSG(99, " rejecting because src is not a local addr\n");
     ccnl_mgmt_return_msg(ccnl, orig, from,
-                         "refused: origin of mgmt cmd is not local");
+            "refused: origin of mgmt cmd is not local");
     return -1;
 
-MGMT:
-    ccnl_mgmt_handle(ccnl, orig, prefix, from, cmd, 1);
+    MGMT: ccnl_mgmt_handle(ccnl, orig, prefix, from, cmd, 1);
 
     return 0;
 }
 
 #if 0
-char *cmd = (char *) prefix->comp[2];
+    char *cmd = (char *) prefix->comp[2];
 
-if (!ccnl_is_local_addr(&from->peer))
-{
-    DEBUGMSG(99, "  rejecting because src=%s is not a local addr\n",
-             ccnl_addr2ascii(&from->peer));
-    ccnl_mgmt_return_msg(ccnl, orig, from,
-                         "refused: origin of mgmt cmd is not local");
-    return -1;
-}
+    if (!ccnl_is_local_addr(&from->peer)) {
+        DEBUGMSG(99, "  rejecting because src=%s is not a local addr\n",
+                 ccnl_addr2ascii(&from->peer));
+        ccnl_mgmt_return_msg(ccnl, orig, from,
+                             "refused: origin of mgmt cmd is not local");
+        return -1;
+    }
 
-if (!strcmp(cmd, "newface"))
-{
-    DEBUGMSG(1, "ccnl_mgmt_newface msg\n");
-    ccnl_mgmt_newface(ccnl, orig, prefix, from);
-}
-else if (!strcmp(cmd, "prefixreg"))
-{
-    DEBUGMSG(1, "ccnl_mgmt_prefixreg msg\n");
-    ccnl_mgmt_prefixreg(ccnl, orig, prefix, from);
-}
-else
-{
-    DEBUGMSG(99, "unknown mgmt command %s\n", cmd);
+    if (!strcmp(cmd, "newface")) {
+        DEBUGMSG(1, "ccnl_mgmt_newface msg\n");
+        ccnl_mgmt_newface(ccnl, orig, prefix, from);
+    }
+    else if (!strcmp(cmd, "prefixreg")) {
+        DEBUGMSG(1, "ccnl_mgmt_prefixreg msg\n");
+        ccnl_mgmt_prefixreg(ccnl, orig, prefix, from);
+    }
+    else {
+        DEBUGMSG(99, "unknown mgmt command %s\n", cmd);
 
-    ccnl_mgmt_return_msg(ccnl, orig, from, "unknown mgmt command");
-    return -1;
-}
+        ccnl_mgmt_return_msg(ccnl, orig, from, "unknown mgmt command");
+        return -1;
+    }
 
-return 0;
+    return 0;
 }
 #endif
 

@@ -37,7 +37,6 @@ volatile tcb_t *thread_get(kernel_pid_t pid)
     if (pid_is_valid(pid)) {
         return sched_threads[pid];
     }
-
     return NULL;
 }
 
@@ -72,14 +71,13 @@ int thread_wakeup(kernel_pid_t pid)
     unsigned old_state = disableIRQ();
 
     tcb_t *other_thread = (tcb_t *) sched_threads[pid];
-
     if (other_thread && other_thread->status == STATUS_SLEEPING) {
         DEBUG("thread_wakeup: Thread is sleeping.\n");
 
         sched_set_status(other_thread, STATUS_RUNNING);
 
         restoreIRQ(old_state);
-        sched_switch (other_thread->priority);
+        sched_switch(other_thread->priority);
 
         return 1;
     }
@@ -107,8 +105,7 @@ uintptr_t thread_measure_stack_free(char *stack)
 }
 #endif
 
-kernel_pid_t thread_create(char *stack, int stacksize, char priority, int flags,
-                           thread_task_func_t function, void *arg, const char *name)
+kernel_pid_t thread_create(char *stack, int stacksize, char priority, int flags, thread_task_func_t function, void *arg, const char *name)
 {
     if (priority >= SCHED_PRIO_LEVELS) {
         return -EINVAL;
@@ -120,7 +117,6 @@ kernel_pid_t thread_create(char *stack, int stacksize, char priority, int flags,
 
     /* align the stack on a 16/32bit boundary */
     uintptr_t misalignment = (uintptr_t) stack % ALIGN_OF(void *);
-
     if (misalignment) {
         misalignment = ALIGN_OF(void *) - misalignment;
         stack += misalignment;
@@ -134,13 +130,12 @@ kernel_pid_t thread_create(char *stack, int stacksize, char priority, int flags,
     stacksize -= stacksize % ALIGN_OF(tcb_t);
 
     /* allocate our thread control block at the top of our stackspace */
-    tcb_t *cb = (tcb_t *)(stack + stacksize);
+    tcb_t *cb = (tcb_t *) (stack + stacksize);
 
 #ifdef DEVELHELP
-
     if (flags & CREATE_STACKTEST) {
         /* assign each int of the stack the value of it's address */
-        uintptr_t *stackmax = (uintptr_t *)(stack + stacksize);
+        uintptr_t *stackmax = (uintptr_t *) (stack + stacksize);
         uintptr_t *stackp = (uintptr_t *) stack;
 
         while (stackp < stackmax) {
@@ -152,7 +147,6 @@ kernel_pid_t thread_create(char *stack, int stacksize, char priority, int flags,
         /* create stack guard */
         *stack = (uintptr_t) stack;
     }
-
 #endif
 
     if (!inISR()) {
@@ -160,14 +154,12 @@ kernel_pid_t thread_create(char *stack, int stacksize, char priority, int flags,
     }
 
     kernel_pid_t pid = KERNEL_PID_UNDEF;
-
     for (kernel_pid_t i = KERNEL_PID_FIRST; i <= KERNEL_PID_LAST; ++i) {
         if (sched_threads[i] == NULL) {
             pid = i;
             break;
         }
     }
-
     if (pid == KERNEL_PID_UNDEF) {
         DEBUG("thread_create(): too many threads!\n");
 
@@ -216,7 +208,7 @@ kernel_pid_t thread_create(char *stack, int stacksize, char priority, int flags,
         if (!(flags & CREATE_WOUT_YIELD)) {
             if (!inISR()) {
                 eINT();
-                sched_switch (priority);
+                sched_switch(priority);
             }
             else {
                 sched_context_switch_request = 1;

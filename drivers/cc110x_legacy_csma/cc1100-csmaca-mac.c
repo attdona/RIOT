@@ -54,15 +54,14 @@ static void cs_timeout_cb(void *ptr)
 }
 
 /*---------------------------------------------------------------------------*/
-int cc1100_send_csmaca(radio_address_t address, protocol_t protocol, int priority, char *payload,
-                       radio_packet_length_t payload_len)
+int cc1100_send_csmaca(radio_address_t address, protocol_t protocol, int priority, char *payload, radio_packet_length_t payload_len)
 {
     uint16_t min_window_size;
     uint16_t max_window_size;
     uint16_t difs;
     uint16_t slottime;
 
-    switch (priority) {
+    switch(priority) {
         case PRIORITY_ALARM:
             min_window_size = PRIO_ALARM_MIN_WINDOW_SIZE;
             max_window_size = PRIO_ALARM_MAX_WINDOW_SIZE;
@@ -216,7 +215,7 @@ cycle:
                                 cs_timeout_cb, NULL);
 
     while (!cs_timeout_flag
-           || !cc1100_cs_read_cca()) {   /* Wait until timeout is finished */
+          || !cc1100_cs_read_cca()) {   /* Wait until timeout is finished */
         if (cc1100_cs_read_cca() == 0) {    /* Is the air still free? */
             hwtimer_remove(cs_hwtimer_id);
             goto window;                    /* No. Go back to new wait period. */

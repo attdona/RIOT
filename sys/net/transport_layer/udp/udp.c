@@ -79,8 +79,7 @@ void *udp_packet_handler(void *arg)
         ipv6_hdr_t *ipv6_header = ((ipv6_hdr_t *)m_recv_ip.content.ptr);
         udp_hdr_t *udp_header = ((udp_hdr_t *)(m_recv_ip.content.ptr + IPV6_HDR_LEN));
 
-        uint16_t chksum = ipv6_csum(ipv6_header, (uint8_t *) udp_header, NTOHS(udp_header->length),
-                                    IPPROTO_UDP);
+        uint16_t chksum = ipv6_csum(ipv6_header, (uint8_t*) udp_header, NTOHS(udp_header->length), IPPROTO_UDP);
 
         if (chksum == 0xffff) {
             udp_socket = get_udp_socket(udp_header);
@@ -135,8 +134,7 @@ int udp_bind_socket(int s, sockaddr6_t *name, int namelen, uint8_t pid)
     return 0;
 }
 
-int32_t udp_recvfrom(int s, void *buf, uint32_t len, int flags, sockaddr6_t *from,
-                     uint32_t *fromlen)
+int32_t udp_recvfrom(int s, void *buf, uint32_t len, int flags, sockaddr6_t *from, uint32_t *fromlen)
 {
     (void) flags;
 
@@ -165,7 +163,7 @@ int32_t udp_recvfrom(int s, void *buf, uint32_t len, int flags, sockaddr6_t *fro
 }
 
 int32_t udp_sendto(int s, const void *buf, uint32_t len, int flags,
-                   sockaddr6_t *to, uint32_t tolen)
+                              sockaddr6_t *to, uint32_t tolen)
 {
     (void) flags;
     (void) tolen;
@@ -210,7 +208,7 @@ int udp_init_transport_layer(void)
     memset(socket_base_sockets, 0, MAX_SOCKETS * sizeof(socket_internal_t));
 
     int udp_thread_pid = thread_create(udp_stack_buffer, UDP_STACK_SIZE, PRIORITY_MAIN,
-                                       CREATE_STACKTEST, udp_packet_handler, NULL, "udp_packet_handler");
+                                        CREATE_STACKTEST, udp_packet_handler, NULL, "udp_packet_handler");
 
     if (udp_thread_pid < 0) {
         return -1;

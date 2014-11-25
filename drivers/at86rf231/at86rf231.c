@@ -151,18 +151,12 @@ uint64_t at86rf231_set_address_long(uint64_t address)
     radio_address_long = address;
 
     at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_0, (uint8_t)(0x00000000000000FF & radio_address_long));
-    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_1,
-                        (uint8_t)(0x000000000000FF00 & radio_address_long >> 8));
-    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_2,
-                        (uint8_t)(0x0000000000FF0000 & radio_address_long >> 16));
-    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_3,
-                        (uint8_t)(0x00000000FF000000 & radio_address_long >> 24));
-    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_4,
-                        (uint8_t)(0x000000FF00000000 & radio_address_long >> 32));
-    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_5,
-                        (uint8_t)(0x0000FF0000000000 & radio_address_long >> 40));
-    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_6,
-                        (uint8_t)(0x00FF000000000000 & radio_address_long >> 48));
+    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_1, (uint8_t)(0x000000000000FF00 & radio_address_long >> 8));
+    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_2, (uint8_t)(0x0000000000FF0000 & radio_address_long >> 16));
+    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_3, (uint8_t)(0x00000000FF000000 & radio_address_long >> 24));
+    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_4, (uint8_t)(0x000000FF00000000 & radio_address_long >> 32));
+    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_5, (uint8_t)(0x0000FF0000000000 & radio_address_long >> 40));
+    at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_6, (uint8_t)(0x00FF000000000000 & radio_address_long >> 48));
     at86rf231_reg_write(AT86RF231_REG__IEEE_ADDR_7, (uint8_t)(radio_address_long >> 56));
 
     return radio_address_long;
@@ -202,8 +196,7 @@ int8_t at86rf231_set_channel(uint8_t channel)
     }
 
     cca_state = at86rf231_reg_read(AT86RF231_REG__PHY_CC_CCA) & ~AT86RF231_PHY_CC_CCA_MASK__CHANNEL;
-    at86rf231_reg_write(AT86RF231_REG__PHY_CC_CCA,
-                        cca_state | (radio_channel & AT86RF231_PHY_CC_CCA_MASK__CHANNEL));
+    at86rf231_reg_write(AT86RF231_REG__PHY_CC_CCA, cca_state | (radio_channel & AT86RF231_PHY_CC_CCA_MASK__CHANNEL));
 
     return radio_channel;
 }
@@ -244,8 +237,7 @@ void at86rf231_reset(void)
 
     /* additional waiting to comply to min rst pulse width */
     uint8_t delay = 50;
-
-    while (delay--) {}
+    while (delay--){}
 
     gpio_set(AT86RF231_RESET);
 
@@ -263,7 +255,6 @@ void at86rf231_reset(void)
             printf("at86rf231 : ERROR : could not enter TRX_OFF mode\n");
             break;
         }
-    }
-    while ((status & AT86RF231_TRX_STATUS_MASK__TRX_STATUS)
-           != AT86RF231_TRX_STATUS__TRX_OFF);
+    } while ((status & AT86RF231_TRX_STATUS_MASK__TRX_STATUS)
+             != AT86RF231_TRX_STATUS__TRX_OFF);
 }

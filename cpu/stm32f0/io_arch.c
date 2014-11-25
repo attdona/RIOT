@@ -26,10 +26,8 @@
 int io_arch_puts(char *data, int size)
 {
     int i = 0;
-
     for (; i < size; i++) {
         uart_write_blocking(STDIO, data[i]);
     }
-
     return i;
 }

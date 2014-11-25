@@ -66,19 +66,16 @@ void cc110x_after_send(void)
 }
 
 
-int cc110x_get_gdo0(void)
-{
-    return  CC1100_GDO0;
+int cc110x_get_gdo0(void) {
+        return  CC1100_GDO0;
 }
 
-int cc110x_get_gdo1(void)
-{
-    return  CC1100_GDO1;
+int cc110x_get_gdo1(void) {
+        return  CC1100_GDO1;
 }
 
-int cc110x_get_gdo2(void)
-{
-    return  CC1100_GDO2;
+int cc110x_get_gdo2(void) {
+        return  CC1100_GDO2;
 }
 
 void cc110x_spi_cs(void)
@@ -93,22 +90,18 @@ uint8_t cc110x_txrx(uint8_t data)
     IFG2 &= ~UTXIFG1;
     IFG2 &= ~URXIFG1;
     U1TXBUF = data;
-
-    while (!(IFG2 & UTXIFG1)) {
+    while(!(IFG2 & UTXIFG1)) {
         if (c++ == 1000000) {
             puts("cc110x_txrx alarm()");
         }
     }
-
     /* Wait for Byte received */
     c = 0;
-
-    while (!(IFG2 & URXIFG1)) {
+    while(!(IFG2 & URXIFG1)) {
         if (c++ == 1000000) {
             puts("cc110x_txrx alarm()");
         }
     }
-
     return U1RXBUF;
 }
 
@@ -118,40 +111,33 @@ void cc110x_spi_select(void)
     // Switch to GDO mode
     P5SEL &= ~0x04;
     P5DIR &= ~0x04;
-cs_low:
+    cs_low:
     // CS to low
     abort_count = 0;
     CC1100_CS_LOW;
     // Wait for SO to go low (voltage regulator
     // has stabilized and the crystal is running)
-loop:
-
-    //    asm volatile ("nop");
+    loop:
+//    asm volatile ("nop");
     if (CC1100_GDO1) {
         abort_count++;
-
         if (abort_count > CC1100_GDO1_LOW_COUNT) {
             retry_count++;
-
             if (retry_count > CC1100_GDO1_LOW_RETRY) {
                 puts("[CC1100 SPI] fatal error\n");
                 goto final;
             }
-
             CC1100_CS_HIGH;
             goto cs_low;        // try again
         }
-
         goto loop;
     }
-
-final:
+    final:
     /* Switch to SPI mode */
     P5SEL |= 0x04;
 }
 
-void cc110x_spi_unselect(void)
-{
+void cc110x_spi_unselect(void) {
     CC1100_CS_HIGH;
 }
 
@@ -170,8 +156,7 @@ void cc110x_init_interrupts(void)
 void cc110x_spi_init(void)
 {
     // Switch off async UART
-    while (!(U1TCTL & TXEPT));  // Wait for empty UxTXBUF register
-
+    while(!(U1TCTL & TXEPT));   // Wait for empty UxTXBUF register
     IE2 &= ~(URXIE1 + UTXIE1);  // Disable USART1 receive&transmit interrupt
     ME2 &= ~(UTXE1 + URXE1);
     P5DIR |= 0x0A;              // output for CLK and SIMO
@@ -203,11 +188,9 @@ void cc110x_spi_init(void)
 /*
  * CC1100 receive interrupt
  */
-interrupt(PORT1_VECTOR) __attribute__((naked)) cc110x_isr(void)
-{
+interrupt (PORT1_VECTOR) __attribute__ ((naked)) cc110x_isr(void){
     __enter_isr();
-
-    /* Check IFG */
+     /* Check IFG */
     if ((P1IFG & 0x10) != 0) {
         P1IFG &= ~0x10;
         cc110x_gdo2_irq();
@@ -215,12 +198,11 @@ interrupt(PORT1_VECTOR) __attribute__((naked)) cc110x_isr(void)
     else if ((P2IFG & 0x08) != 0) {
         cc110x_gdo0_irq();
         P1IE &= ~0x08;                // Disable interrupt for GDO0
-        P1IFG &= ~0x08;                // Clear IFG for GDO0
+           P1IFG &= ~0x08;                // Clear IFG for GDO0
     }
     else {
         puts("cc110x_isr(): unexpected IFG!");
         /* Should not occur - only GDO1 and GDO2 interrupts are enabled */
     }
-
     __exit_isr();
 }

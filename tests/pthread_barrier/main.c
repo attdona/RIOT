@@ -40,7 +40,6 @@ static void *run(void *id_)
         if (id == NUM_CHILDREN) {
             puts("\n======================================\n");
         }
-
         pthread_barrier_wait(&barrier);
 
         uint32_t timeout_us = genrand_uint32() % 2500000;
@@ -60,9 +59,8 @@ int main(void)
     pthread_barrier_init(&barrier, NULL, NUM_CHILDREN);
 
     pthread_t children[NUM_CHILDREN];
-
     for (int i = 0; i < NUM_CHILDREN; ++i) {
-        pthread_create(&children[i], NULL, run, (void *)(intptr_t) i);
+        pthread_create(&children[i], NULL, run, (void *) (intptr_t) i);
     }
 
     for (int i = 0; i < NUM_CHILDREN; ++i) {

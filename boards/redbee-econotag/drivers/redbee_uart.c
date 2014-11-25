@@ -164,7 +164,6 @@ void stdio_flush(void)
         UART1->DATA;
         UART2->DATA;
     }
-
     while (UART1->TXCON != 0 || UART2->TXCON != 0) {
         /* wait */
     }

@@ -92,7 +92,7 @@ void rtc_get_localtime(struct tm *localt)
                 break;
             }
 
-            switch (i) {
+            switch(i) {
                 case 0:
                     localt->tm_sec = RTCSEC;
                     break;

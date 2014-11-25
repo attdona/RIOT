@@ -283,8 +283,7 @@ int _nativenet_send_data(netdev_t *dev, void *dest, size_t dest_len,
             memcpy(&(tx_buffer[tx_ptr]), ptr->header, ptr->header_len);
             tx_ptr += ptr->header_len;
             netdev_hlist_advance(&ptr);
-        }
-        while (ptr != upper_layer_hdrs);
+        } while (ptr != upper_layer_hdrs);
     }
 
     memcpy(&(tx_buffer[tx_ptr]), data, data_len);

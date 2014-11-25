@@ -46,7 +46,7 @@ static int spi_master = -1;     /* 0 for slave, 1 for master, -1 for not initial
 static char buffer[256];       /* temporary buffer */
 
 static volatile int state;
-static char *mem = "Hello Master!abcdefghijklmnopqrstuvwxyz 0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static char* mem = "Hello Master! abcdefghijklmnopqrstuvwxyz 0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int parse_spi_dev(int argc, char **argv)
 {
@@ -58,17 +58,13 @@ int parse_spi_dev(int argc, char **argv)
     if (argc < 3 || argc > 4) {
         printf("usage: %s DEV CS [MODE [SPEED]]\n", argv[0]);
         puts("        DEV is the SPI device to use:");
-
         for (int i = 0; i < SPI_NUMOF; i++) {
             printf("             %i - SPI_%i\n", i, i);
         }
-
         puts("        CS is the GPIO used for the chip-select signal:");
-
         for (int i = 0; i < GPIO_NUMOF; i++) {
             printf("             %i - GPIO_%i\n", i, i);
         }
-
         puts("        MODE must be one of the following options (* marks default value):");
         puts("            *0 - POL:0, PHASE:0 - ON FIRST RISING EDGE");
         puts("             1 - POL:0, PHASE:1 - ON SECOND RISING EDGE");
@@ -82,58 +78,44 @@ int parse_spi_dev(int argc, char **argv)
         puts("             4 - 10 MHz\n");
         return -4;
     }
-
     spi_dev = atoi(argv[1]);
-
     if (spi_dev < 0 || spi_dev >= SPI_NUMOF) {
         puts("error: invalid DEV value given");
         return -1;
     }
-
     spi_cs = atoi(argv[2]);
-
     if (spi_dev < 0 || spi_dev >= GPIO_NUMOF) {
         puts("error: invalid CS value given");
         return -1;
     }
-
     if (argc >= 4) {
         spi_mode = argv[2][0] - '0';
-
         if (spi_mode < 0 || spi_mode > 3) {
             puts("error: invalid MODE value given");
             return -2;
         }
     }
-
     if (argc >= 5) {
         spi_speed = argv[3][0] - '0';
-
         if (spi_speed < 0 || spi_speed > 4) {
             puts("error: invalid SPEED value given");
             return -3;
         }
     }
-
     return 0;
 }
 
-void print_bytes(char *title, char *chars, int length)
+void print_bytes(char* title, char* chars, int length)
 {
     printf("%4s", title);
-
     for (int i = 0; i < length; i++) {
         printf("  %2i ", i);
     }
-
     printf("\n    ");
-
     for (int i = 0; i < length; i++) {
         printf(" 0x%02x", (int)chars[i]);
     }
-
     printf("\n    ");
-
     for (int i = 0; i < length; i++) {
         if (chars[i] < ' ' || chars[i] > '~') {
             printf("  ?? ");
@@ -142,7 +124,6 @@ void print_bytes(char *title, char *chars, int length)
             printf("   %c ", chars[i]);
         }
     }
-
     printf("\n\n");
 }
 
@@ -162,28 +143,23 @@ char slave_on_data(char data)
     switch (rw) {
         case READ:
             return mem[state++];
-
         case WRITE:
             mem[state++] = data;
             return 'o';
-
         case INIT:
             if (data == ' ') {
                 rw = READ;
                 return mem[state++];
-            }
-            else if (data & 0x80) {
+            } else if (data & 0x80) {
                 rw = WRITE;
                 state = (data & 0x7f);
                 return 'W';
-            }
-            else {
+            } else {
                 rw = READ;
                 state = data;
                 return mem[state++];
             }
     }
-
     return 'e';
 }
 
@@ -191,27 +167,21 @@ void cmd_init_master(int argc, char **argv)
 {
     int res;
     spi_master = -1;
-
     if (parse_spi_dev(argc, argv) < 0) {
         return;
     }
-
     res = spi_init_master(spi_dev, spi_mode, spi_speed);
-
     if (res < 0) {
         printf("spi_init_master: error initializing SPI_%i device (code %i)\n", spi_dev, res);
     }
-
     res = gpio_init_out(spi_cs, GPIO_PULLUP);
-
-    if (res < 0) {
+    if (res < 0){
         printf("gpio_init_out: error initializing GPIO_%i as CS line (code %i)\n", spi_cs, res);
     }
-
     gpio_set(spi_cs);
     spi_master = 1;
     printf("SPI_%i successfully initialized as master, cs: GPIO_%i, mode: %i, speed: %i\n",
-           spi_dev, spi_cs, spi_mode, spi_speed);
+            spi_dev, spi_cs, spi_mode, spi_speed);
     return;
 }
 
@@ -219,26 +189,20 @@ void cmd_init_slave(int argc, char **argv)
 {
     int res;
     spi_master = -1;
-
     if (parse_spi_dev(argc, argv) < 0) {
         return;
     }
-
     res = spi_init_slave(spi_dev, spi_mode, slave_on_data);
-
     if (res < 0) {
         printf("spi_init_slave: error initializing SPI_%i device (code: %i)\n", spi_dev, res);
     }
-
     res = gpio_init_int(spi_cs, GPIO_NOPULL, GPIO_FALLING, slave_on_cs, 0);
-
-    if (res < 0) {
+    if (res < 0){
         printf("gpio_init_int: error initializing GPIO_%i as CS line (code %i)\n", spi_cs, res);
     }
-
     spi_master = 0;
     printf("SPI_%i successfully initialized as slave, cs: GPIO_%i, mode: %i\n",
-           spi_dev, spi_cs, spi_mode);
+            spi_dev, spi_cs, spi_mode);
     return;
 }
 

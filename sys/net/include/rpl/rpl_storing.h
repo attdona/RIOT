@@ -71,8 +71,7 @@ void send_DIO_mode(ipv6_addr_t *destination);
  * @param[in] start_index           Describes whether a DAO must be split because of too many routing entries.
  *
  */
-void send_DAO_mode(ipv6_addr_t *destination, uint8_t lifetime, bool default_lifetime,
-                   uint8_t start_index);
+void send_DAO_mode(ipv6_addr_t *destination, uint8_t lifetime, bool default_lifetime, uint8_t start_index);
 
 /**
  * @brief Sends a DIS-message to a given destination

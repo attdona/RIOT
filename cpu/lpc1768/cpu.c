@@ -43,50 +43,42 @@ unsigned enableIRQ(void)
 void restoreIRQ(unsigned oldPRIMASK)
 {
     //PRIMASK lesen setzen
-    __set_PRIMASK(oldPRIMASK);
+     __set_PRIMASK(oldPRIMASK);
 }
 
 
 __attribute__((naked))
-void HardFault_Handler(void)
-{
-    DEBUG("HARD FAULT\n");
-
-    while (1);
+void HardFault_Handler(void) {
+  DEBUG("HARD FAULT\n");
+  while(1);
 }
 
 __attribute__((naked))
-void BusFault_Handler(void)
-{
-    DEBUG("BusFault_Handler\n");
-
-    while (1);
+void BusFault_Handler(void) {
+  DEBUG("BusFault_Handler\n");
+  while(1);
 }
 
 __attribute__((naked))
-void Usage_Handler(void)
-{
-    DEBUG("Usage FAULT\n");
-
-    while (1);
+void Usage_Handler(void) {
+  DEBUG("Usage FAULT\n");
+  while(1);
 }
 
 __attribute__((naked))
-void WWDG_Handler(void)
-{
-    DEBUG("WWDG FAULT\n");
-
-    while (1);
+void WWDG_Handler(void) {
+  DEBUG("WWDG FAULT\n");
+  while(1);
 }
 
 void dINT(void)
 {
-    __disable_irq();
+  __disable_irq();
 }
 
 void eINT(void)
 {
-    __enable_irq();
+  __enable_irq();
 }
 
 void save_context(void)
@@ -118,27 +110,27 @@ void restore_context(void)
     /* restore exception retrun value from stack */
     asm("pop        {r4-r11}");
     /* load unloaded register */
-    //  asm("pop        {r4}"); /*foo*/
+//  asm("pop        {r4}"); /*foo*/
     asm("bx     r0");               /* load exception return value to pc causes end of exception*/
-    /* {r0-r3,r12,LR,PC,xPSR} are restored automatically on exception return */
+                            /* {r0-r3,r12,LR,PC,xPSR} are restored automatically on exception return */
 }
 
 #define USR_RESET   (0x102)
 #define SWI         (0xAB)
 
-__attribute__((naked, noreturn)) void arm_reset(void)
+__attribute__((naked,noreturn)) void arm_reset(void)
 {
-    int value;
+     int value;
 
-    asm volatile(
+     asm volatile (
         "mov r0, %1"          "\n\t"
         "mov r1, %2"          "\n\t"
         "bkpt" " %a3"   "\n\t"
         "mov %0, r0"
-        : "=r"(value)                                          /* output operands             */
+        : "=r" (value)                                         /* output operands             */
         : "r" USR_RESET, "r" NULL, "i" SWI                     /* input operands              */
         : "r0", "r1", "r2", "r3", "ip", "lr", "memory", "cc"   /* list of clobbered registers */
-    );
+     );
 }
 
 int reboot_arch(int mode)

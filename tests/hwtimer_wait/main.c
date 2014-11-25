@@ -33,14 +33,13 @@ int main(void)
     long start_duration = 256;
     long duration = iterations * start_duration * 2L;
 
-    printf("The test should take about %li sec.\n", (HWTIMER_TICKS_TO_US(duration) / 1000000));
+    printf("The test should take about %li sec.\n", (HWTIMER_TICKS_TO_US(duration)/1000000));
 
     for (unsigned long r = iterations; r > 0; r--) {
         for (unsigned long i = start_duration; i > HWTIMER_SPIN_BARRIER; i = i >> 1) {
             hwtimer_wait(i);
         }
     }
-
     puts("success");
 
     return 0;

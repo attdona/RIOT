@@ -89,10 +89,10 @@ Test *tests_core_clist_tests(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture(test_clist_add_one),
-                        new_TestFixture(test_clist_add_two),
-                        new_TestFixture(test_clist_remove_one),
-                        new_TestFixture(test_clist_remove_two),
-                        new_TestFixture(test_clist_advance),
+        new_TestFixture(test_clist_add_two),
+        new_TestFixture(test_clist_remove_one),
+        new_TestFixture(test_clist_remove_two),
+        new_TestFixture(test_clist_advance),
     };
 
     EMB_UNIT_TESTCALLER(core_clist_tests, set_up, NULL,
