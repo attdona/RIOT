@@ -115,6 +115,10 @@ void printf(char *format, ...)
                     }
 
                     xtoa((unsigned long)n, dv);
+
+                    // because the standard seems %lu for unsigned long: skip u char from the output
+                    c = *format++;
+
                     break;
 
                 case 'x':                       // 16 bit heXadecimal

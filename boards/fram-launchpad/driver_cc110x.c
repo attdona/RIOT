@@ -23,9 +23,9 @@
 //#define CC1100_GDO1         (P5IN & 0x04)   // read serial I/O (GDO1)
 //#define CC1100_GDO2         (P1IN & 0x10)   // read serial I/O (GDO2)
 
-#define CC1100_GDO0         (CC110L_GDO0_PORT(IN) & CC110L_GDO0_PIN)
-#define CC1100_GDO1			(CC110L_GDO1_PORT(IN) & CC110L_GDO1_PIN)
-#define CC1100_GDO2			(CC110L_GDO2_PORT(IN) & CC110L_GDO2_PIN)
+#define CC1100_GDO0         (CC110L_GDO0_PORT(IN) & BV(CC110L_GDO0_PIN))
+#define CC1100_GDO1			(CC110L_GDO1_PORT(IN) & BV(CC110L_GDO1_PIN))
+#define CC1100_GDO2			(CC110L_GDO2_PORT(IN) & BV(CC110L_GDO2_PIN))
 
 
 
@@ -263,7 +263,7 @@ void cc110x_spi_init(void)
     P2SEL1 |= BV(CC110L_SPI_SCLK_PIN);
 
 }
-
+#if 0
 /*
  * CC1100 receive interrupt
  */
@@ -304,4 +304,4 @@ ISRV(PORT4_VECTOR, cc110x_gdo2)
     __exit_isr();
 }
 
-
+#endif

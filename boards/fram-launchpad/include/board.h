@@ -30,11 +30,28 @@
 
 #define CC110L_RADIO
 
+/** min and max portnumber to generate interrupts */
+#define PORTINT_MIN     (1)
+#define PORTINT_MAX     (4)
+
+/** amount of interrupt capable ports */
+#define INT_PORTS       (PORTINT_MAX - PORTINT_MIN + 1)
+
+/** number of bits per port */
+#define BITMASK_SIZE    (8)
+
+/** debouncing port interrupts */
+#define DEBOUNCE_TIMEOUT   (250)
+
+#define GPIO_PULLUP_ENABLED   0x10
+#define GPIO_PULLDOWN_ENABLED 0x20
+
+
 #ifndef BV
 #define BV(x) (1 << x)
 #endif
 
-#define _MEMORY_AREA_ __attribute__((section(".fram")))
+#define _FRAM_AREA_ __attribute__((section(".fram")))
 
 
 #if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
