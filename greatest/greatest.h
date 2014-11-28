@@ -628,6 +628,19 @@ greatest_run_info greatest_info
             ? EXIT_FAILURE : EXIT_SUCCESS);                             \
     } while (0)
 
+
+#define RESET_TEST_COUNTERS()											\
+	do {																\
+		greatest_info.assertions = 0;									\
+		greatest_info.tests_run = 0;									\
+		greatest_info.passed = 0;										\
+		greatest_info.failed = 0;										\
+		greatest_info.skipped = 0;										\
+		greatest_info.suite.passed = 0;									\
+		greatest_info.suite.failed = 0;									\
+		greatest_info.suite.skipped = 0;								\
+    } while(0)
+
 /* Make abbreviations without the GREATEST_ prefix for the
  * most commonly used symbols. */
 #if GREATEST_USE_ABBREVS
