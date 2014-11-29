@@ -77,7 +77,7 @@ void thread_print_all(void)
 #ifdef DEVELHELP
                    "%5i (%5i) "
 #endif
-                   "%p"
+                   "%x"
 #if SCHEDSTATISTICS
                    " | %6.3f%% |  %8d"
 #endif
