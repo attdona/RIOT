@@ -79,10 +79,13 @@ TEST checkRegisters() {
 #endif
 
 GREATEST_SUITE(example_suite) {
+
 	RUN_TEST(example);
+
 #ifdef CC110L_RADIO
 	RUN_TEST(checkRegisters);
 #endif
+
 	RUN_TEST(gpio);
 }
 

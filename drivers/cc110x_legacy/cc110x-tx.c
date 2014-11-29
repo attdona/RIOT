@@ -132,7 +132,7 @@ int8_t cc110x_send(cc110x_packet_t *packet)
     abort_count = 0;
     unsigned int cpsr = disableIRQ();
 
-    uint8_t lentx = cc110x_read_reg(CC1100_TXBYTES | CC1100_READ_BURST);
+    //uint8_t lentx = cc110x_read_reg(CC1100_TXBYTES | CC1100_READ_BURST);
 
     // TODO: check if CALIBRATION is really needed
     //cc110x_strobe(CC1100_SCAL);
