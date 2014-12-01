@@ -149,7 +149,11 @@
 
 /** @} */
 
+#ifdef __MSP430__
+#define ARCH_32_BIT 0
+#else
 #define ARCH_32_BIT   (__INT_MAX__ == 2147483647) /**< 1 for 32 bit architectures, 0 otherwise */
+#endif
 
 /**
  * @brief   Returns the number of the highest '1' bit in a value
