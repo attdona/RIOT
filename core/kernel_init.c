@@ -80,7 +80,7 @@ const char *main_name = "main";
 const char *idle_name = "idle";
 
 static char main_stack[KERNEL_CONF_STACKSIZE_MAIN];
-static char idle_stack[KERNEL_CONF_STACKSIZE_IDLE];
+static char _FRAM_AREA_ idle_stack[KERNEL_CONF_STACKSIZE_IDLE];
 
 void kernel_init(void)
 {

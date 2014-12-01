@@ -132,14 +132,19 @@ int8_t cc110x_send(cc110x_packet_t *packet)
     abort_count = 0;
     unsigned int cpsr = disableIRQ();
 
-    uint8_t lentx = cc110x_read_reg(CC1100_TXBYTES | CC1100_READ_BURST);
+    //uint8_t lentx = cc110x_read_reg(CC1100_TXBYTES | CC1100_READ_BURST);
+
+    // TODO: check if CALIBRATION is really needed
+    //cc110x_strobe(CC1100_SCAL);
+
+
 
     cc110x_strobe(CC1100_STX);
 
     /* Wait for GDO2 to be set -> sync word transmitted */
-    while (cc110x_get_gdo2() == 0 && lentx != 0) {
+    while (cc110x_get_gdo2() == 0) {
         abort_count++;
-        lentx = cc110x_read_reg(CC1100_TXBYTES | CC1100_READ_BURST);
+        //lentx = cc110x_read_reg(CC1100_TXBYTES | CC1100_READ_BURST);
 
 #if 0
         if (abort_count > CC1100_SYNC_WORD_TX_TIME) {
@@ -156,7 +161,6 @@ int8_t cc110x_send(cc110x_packet_t *packet)
     /* Wait for GDO2 to be cleared -> end of packet */
     while (cc110x_get_gdo2() != 0);
 
-
     /* Experimental - TOF Measurement */
     cc110x_after_send();
     cc110x_statistic.raw_packets_out++;
@@ -165,6 +169,7 @@ int8_t cc110x_send(cc110x_packet_t *packet)
     rflags.TX = 0;
 
     /* Go to mode after TX (CONST_RX -> RX, WOR -> WOR) */
+    /* TODO adona: this is a problem */
     cc110x_switch_to_rx();
 
     return size;

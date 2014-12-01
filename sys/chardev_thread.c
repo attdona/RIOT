@@ -50,7 +50,7 @@ void chardev_loop(ringbuffer_t *rb)
     kernel_pid_t reader_pid = KERNEL_PID_UNDEF;
     struct posix_iop_t *r = NULL;
 
-    puts("UART0 thread started.");
+    DEBUG("UART0 thread started.");
 
     while (1) {
         msg_receive(&m);

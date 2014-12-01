@@ -64,7 +64,7 @@ void board_uart0_init(void)
               );
     uart0_handler_pid = pid;
     thread_wakeup(pid);
-    puts("uart0_init() [OK]");
+    //puts("uart0_init() [OK]\n");
 }
 
 void uart0_handle_incoming(int c)

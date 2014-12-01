@@ -47,8 +47,8 @@ MEMORY {
   INFOB            : ORIGIN = 0x1900, LENGTH = 0x0080 /* END=0x197F, size 128 */
   INFOC            : ORIGIN = 0x1880, LENGTH = 0x0080 /* END=0x18FF, size 128 */
   INFOD            : ORIGIN = 0x1800, LENGTH = 0x0080 /* END=0x187F, size 128 */
-  FRAM			   : ORIGIN = 0x4400, LENGTH = 0x2000
-  ROM              : ORIGIN = 0x6400, LENGTH = 0xDC00 /* END=0x13FFF, size 64k */
+  FRAM			   : ORIGIN = 0x4400, LENGTH = 0x4000
+  ROM              : ORIGIN = 0x8400, LENGTH = 0xDC00 /* END=0x13FFF, size 32k */
   VECT1            : ORIGIN = 0xFF90, LENGTH = 0x0002
   VECT2            : ORIGIN = 0xFF92, LENGTH = 0x0002
   VECT3            : ORIGIN = 0xFF94, LENGTH = 0x0002

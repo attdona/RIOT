@@ -89,6 +89,8 @@ const char cc110x_conf[] = {
     0x03,   // AGCCTRL2           AGC Control
     0x40,   // AGCCTRL1           AGC Control
     0x91,   // AGCCTRL0           AGC Control
+    0x00,
+    0x00,
     0xFB,   // RESERVED_0X20      Use setting from SmartRF Studio
     0x56,   // FREND1             Front End RX Configuration
     0x10,   // FREND0             Front End TX Configuration
