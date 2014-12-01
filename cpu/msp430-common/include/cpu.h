@@ -26,8 +26,6 @@
  * @{
  */
 
-//#include <stdio.h>
-
 #include <msp430.h>
 #include "board.h"
 
@@ -65,13 +63,7 @@ inline void __restore_context_isr(void)
 
 inline void __enter_isr(void)
 {
-#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
     __save_context_isr();
-#else
-    //__asm__("mov.w r1,%0" : "=r"(sched_active_thread->sp));
-    __save_context_isr();
-#endif
-
     __asm__("mov.w %0,r1" : : "i"(__isr_stack+MSP430_ISR_STACK_SIZE));
     __inISR = 1;
 }
@@ -84,20 +76,8 @@ inline void __exit_isr(void)
         sched_run();
     }
 
-#if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
     __restore_context_isr();
     __asm__("reti");
-#else
-    //__asm__("mov.w %0,r1" : : "m"(sched_active_thread->sp));
-
-    // only for compiling with no optimization
-    //__asm__("reti");
-    __restore_context_isr();
-    __asm__("reti");
-
-
-#endif
-
 
 }
 
