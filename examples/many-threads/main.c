@@ -1,26 +1,3 @@
-/*
- * Copyright (C) 2008, 2009, 2010  Kaspar Schleiser <kaspar@schleiser.de>
- * Copyright (C) 2013 INRIA
- * Copyright (C) 2013 Ludwig Ortmann <ludwig.ortmann@fu-berlin.de>
- *
- * This file is subject to the terms and conditions of the GNU Lesser
- * General Public License v2.1. See the file LICENSE in the top level
- * directory for more details.
- */
-
-/**
- * @ingroup     examples
- * @{
- *
- * @file
- * @brief       Default application that shows a lot of functionality of RIOT
- *
- * @author      Kaspar Schleiser <kaspar@schleiser.de>
- * @author      Oliver Hahm <oliver.hahm@inria.fr>
- * @author      Ludwig Ortmann <ludwig.ortmann@fu-berlin.de>
- *
- * @}
- */
 
 #include <stdio.h>
 #include <string.h>
@@ -34,10 +11,7 @@
 #include "msg.h"
 #include "vtimer.h"
 
-// TODO insert if GCC ...
-//#undef putchar
-
-#define ENABLE_DEBUG (1)
+#define ENABLE_DEBUG (0)
 #include "debug.h"
 
 #define TWEET_SIZE 32
@@ -55,12 +29,12 @@ void *thread_1(void *arg)
     (void) arg;
     char verso[TWEET_SIZE] = "o mia bella mora";
 
-    printf("2nd thread started, pid: %" PRIkernel_pid "\n", thread_getpid());
+    DEBUG("2nd thread started, pid: %" PRIkernel_pid "\n", thread_getpid());
     msg_t m;
 
     while (1) {
         msg_receive(&m);
-        printf("1st: Got msg from %" PRIkernel_pid "\n", m.sender_pid);
+        DEBUG("1st: Got msg from %" PRIkernel_pid "\n", m.sender_pid);
         m.content.ptr = verso;
         msg_reply(&m, &m);
     }
@@ -73,12 +47,12 @@ void *thread_2(void *arg)
     (void) arg;
     char verso[TWEET_SIZE] = "ti voglio al più presto sposar";
 
-    printf("2nd thread started, pid: %" PRIkernel_pid "\n", thread_getpid());
+    DEBUG("2nd thread started, pid: %" PRIkernel_pid "\n", thread_getpid());
     msg_t m;
 
     while (1) {
         msg_receive(&m);
-        printf("2nd: Got msg from %" PRIkernel_pid "\n", m.sender_pid);
+        DEBUG("2nd: Got msg from %" PRIkernel_pid "\n", m.sender_pid);
         m.content.ptr = verso;
         msg_reply(&m, &m);
     }
@@ -120,8 +94,6 @@ int main(void)
 
 	msg_t m;
 
-    //(void) posix_open(uart0_handler_pid, 0);
-
     kernel_pid_t shell = thread_create(shell_stack, sizeof(shell_stack),
                             PRIORITY_MAIN + 1, CREATE_STACKTEST,
                             start_shell, NULL, "shell");
@@ -143,14 +115,13 @@ int main(void)
 
     msg_send_receive(&m, &m, pid1);
 
-        //printf("1st: Got msg with content %u\n", (unsigned int)m.content.value);
-        printf("%s\n", m.content.ptr);
-        msg_send_receive(&m, &m, pid2);
-        printf("%s\n", m.content.ptr);
+    printf("%s\n", m.content.ptr);
+    msg_send_receive(&m, &m, pid2);
+    printf("%s\n", m.content.ptr);
 
-        while(1) {
-        	vtimer_sleep(sleep_time);
-        }
+    while(1) {
+    	vtimer_sleep(sleep_time);
+    }
 
     return 0;
 }
