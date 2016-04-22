@@ -2,7 +2,7 @@
 export CPU = nrf51
 export CPU_MODEL = nrf51x22xxaa
 
-ifneq (,$(filter gnrc_netif_default,$(USEMODULE)))
+ifneq (,$(filter gnrc_netdev_default,$(USEMODULE)))
 	USEMODULE += cc110x gnrc_netdev2 gnrc_cc110x
 endif
 

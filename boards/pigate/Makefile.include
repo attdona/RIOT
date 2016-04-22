@@ -3,7 +3,7 @@ export CPU        = cc3200
 # export CPU_MODEL ?= cc3200
 
 ifneq (,$(filter gnrc_netdev_default,$(USEMODULE)))
-	USEMODULE += cc110x gnrc_netdev2 gnrc_cc110x
+	USEMODULE += cc1200 gnrc_netdev2 gnrc_cc1200
 endif
 
 # setup serial terminal
