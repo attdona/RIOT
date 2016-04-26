@@ -7,6 +7,6 @@ TOOLS_DIR ?= $(RIOTBASE)/../tools
 
 prepare-mock: $(BINDIR)$(MODULE).a
 	@echo "preparing to mock $(BINDIR)$(MODULE).a ..."
-	python3 $(TOOLS_DIR)/prepare_to_mock.py $(CURDIR) $(BOARD)
+	python $(TOOLS_DIR)/prepare_to_mock.py $(CURDIR) $(BOARD)
 
 include $(RIOTBASE)/Makefile.base
