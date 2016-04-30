@@ -35,6 +35,8 @@
  */
 #define MAX_CONN_WAIT_TIME (10000)
 
+#define GUARD_TIME 20000000 // 20 secs
+
 /**
  * after MAX_CONN_COUNTER_VAL periods the device start the SmartConfig process
  * to get ssid/password from smartphone app.
@@ -628,7 +630,7 @@ int sbapp_init(uint32_t options) {
 	if (sbapp.main_pid == KERNEL_PID_UNDEF) {
 
 	    // protection timer
-	    xtimer_set_msg(&guard_timer, MSEC_TO_TICKS(20000), &timeout_msg, parent);
+	    xtimer_set_msg(&guard_timer, GUARD_TIME, &timeout_msg, parent);
 
 		/* start SBAPP thread */
 		sbapp.main_pid = thread_create(_stack, sizeof(_stack), SBAPP_PRIO,
@@ -859,8 +861,9 @@ int8_t sbapp_is_connected(uint16_t msec) {
     uint32_t t1 = xtimer_now();
     int32_t delta = 0;
 
-    while (delta <= MSEC_TO_TICKS(msec) && !IS_IP_ACQUIRED(nwp.status) ) {
-        xtimer_usleep(MSEC_TO_TICKS(100));
+    msec = msec*1000;
+    while (delta <= msec && !IS_IP_ACQUIRED(nwp.status) ) {
+        xtimer_usleep(100000);
         delta = xtimer_now() - t1;
 
     }
@@ -925,7 +928,7 @@ static void *_event_loop(void *arg) {
 
 	//simplelink_to_default_state();
 
-	xtimer_set(&sbapp.sig_tim, MSEC_TO_TICKS(100));
+	xtimer_set(&sbapp.sig_tim, 100000);
 
 	// start the simplelink device channel
 	nwp.role = sl_Start(NULL, NULL, NULL);
@@ -957,7 +960,7 @@ static void *_event_loop(void *arg) {
 
 			case SMARTCONFIG_ACTIVE:
 				if (!IS_IP_ACQUIRED(nwp.status)) {
-					xtimer_set(&sbapp.sig_tim, MSEC_TO_TICKS(200));
+					xtimer_set(&sbapp.sig_tim, 200000);
 					LED_RED_TOGGLE;
 				} else {
 					LED_RED_OFF;
@@ -975,7 +978,7 @@ static void *_event_loop(void *arg) {
 					        PANIC(NAMESPACE, SMARTCONFIG_ERR);
 					    }
 					    sbapp.sig_tim.callback = smartconfig_still_active;
-					    xtimer_set(&sbapp.sig_tim, MSEC_TO_TICKS(200));
+					    xtimer_set(&sbapp.sig_tim, 200000);
 					    LED_RED_TOGGLE;
 					    LED_YELLOW_OFF;
 					} else {
@@ -988,7 +991,7 @@ static void *_event_loop(void *arg) {
 					}
 				} else if (!IS_IP_ACQUIRED(nwp.status)) {
 					counter++;
-					xtimer_set(&sbapp.sig_tim, MSEC_TO_TICKS(100));
+					xtimer_set(&sbapp.sig_tim, 100000);
 					LED_YELLOW_TOGGLE;
 				}
 
