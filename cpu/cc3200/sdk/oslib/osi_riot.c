@@ -44,19 +44,14 @@ static int synchronizer[MAX_SYNC_OBJS + 1];
 static mutex_t osi_mutexes[MAX_SYNC_OBJS];
 
 
-//static char simplelink_started;
+__attribute__ ((weak)) void SimpleLinkWlanEventHandler(SlWlanEvent_t* pSlWlanEvent) {};
 
+__attribute__ ((weak)) void SimpleLinkSockEventHandler(SlSockEvent_t* pSlSockEvent) {};
 
-#ifdef CC3200_MCU_ONLY
-void SimpleLinkWlanEventHandler(SlWlanEvent_t* pSlWlanEvent) {};
+__attribute__ ((weak)) void SimpleLinkNetAppEventHandler(SlNetAppEvent_t* pSlNetApp) {};
 
-void SimpleLinkSockEventHandler(SlSockEvent_t* pSlSockEvent) {};
-
-void SimpleLinkNetAppEventHandler(SlNetAppEvent_t* pSlNetApp) {};
-
-void SimpleLinkHttpServerCallback(SlHttpServerEvent_t *pSlHttpServerEvent,
+__attribute__ ((weak)) void SimpleLinkHttpServerCallback(SlHttpServerEvent_t *pSlHttpServerEvent,
         SlHttpServerResponse_t *pSlHttpServerResponse) {};
-#endif
 
 
 void init_sync_pool(void) {
