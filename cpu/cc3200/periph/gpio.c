@@ -266,9 +266,9 @@ static void* cbArgA3[8];
 
 void GPIOXIntHandler(uint32_t base, void (**funcs)(void*), void **arg) {
 	uint32_t i;
-	uint32_t isr = GPIOIntStatus(base, true);
+	uint32_t isr = MAP_GPIOIntStatus(base, true);
 
-	GPIOIntClear(base, isr);
+	MAP_GPIOIntClear(base, isr);
 
 	for (i = 0; i < 8; i++, isr >>= 1) {
 		if ((isr & 0x1) == 0)
@@ -347,25 +347,25 @@ int gpio_init_int(gpio_t dev, gpio_mode_t mode, gpio_flank_t flank,
 		cbFuncsA0[i] = cb;
 		cbArgA0[i] = arg;
 		MAP_GPIOIntRegister(GPIOA0_BASE, GPIOA0IntHandler);
-		IntEnable(INT_GPIOA0);
+		MAP_IntEnable(INT_GPIOA0);
 		break;
 	case GPIOA1_BASE:
 		cbFuncsA1[i] = cb;
 		cbArgA1[i] = arg;
 		MAP_GPIOIntRegister(GPIOA1_BASE, GPIOA1IntHandler);
-		IntEnable(INT_GPIOA1);
+		MAP_IntEnable(INT_GPIOA1);
 		break;
 	case GPIOA2_BASE:
 		cbFuncsA2[i] = cb;
 		cbArgA2[i] = arg;
 		MAP_GPIOIntRegister(GPIOA2_BASE, GPIOA2IntHandler);
-		IntEnable(INT_GPIOA2);
+		MAP_IntEnable(INT_GPIOA2);
 		break;
 	case GPIOA3_BASE:
 		cbFuncsA3[i] = cb;
 		cbArgA3[i] = arg;
 		MAP_GPIOIntRegister(GPIOA3_BASE, GPIOA3IntHandler);
-		IntEnable(INT_GPIOA3);
+		MAP_IntEnable(INT_GPIOA3);
 		break;
 	}
 
@@ -382,7 +382,7 @@ void gpio_irq_enable(gpio_t dev) {
 	if (port == NOT_A_PIN)
 		return;
 
-	GPIOIntEnable(portBase, bit);
+	MAP_GPIOIntEnable(portBase, bit);
 }
 
 void gpio_irq_disable(gpio_t dev) {
@@ -393,7 +393,7 @@ void gpio_irq_disable(gpio_t dev) {
 	if (port == NOT_A_PIN)
 		return;
 
-	GPIOIntDisable(portBase, bit);
+	MAP_GPIOIntDisable(portBase, bit);
 }
 
 int gpio_read(gpio_t dev) {

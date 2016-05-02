@@ -81,6 +81,7 @@
 // Macros for calling ROM functions in the Interrupt API.
 //
 //*****************************************************************************
+
 #if defined(TARGET_IS_CC3200)
 #define ROM_IntEnable                                                         \
         ((void (*)(unsigned long ulInterrupt))ROM_INTERRUPTTABLE[0])

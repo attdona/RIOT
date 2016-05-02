@@ -260,16 +260,16 @@ int timer_clear(tim_t dev, int channel) {
 unsigned int timer_read(tim_t dev) {
     switch (dev) {
     case TIMER_0:
-        return TimerValueGet(TIMERA0_BASE, TIMER_A);
+        return MAP_TimerValueGet(TIMERA0_BASE, TIMER_A);
         break;
     case TIMER_1:
-        return TimerValueGet(TIMERA1_BASE, TIMER_A);
+        return MAP_TimerValueGet(TIMERA1_BASE, TIMER_A);
         break;
     case TIMER_2:
-        return TimerValueGet(TIMERA2_BASE, TIMER_A);
+        return MAP_TimerValueGet(TIMERA2_BASE, TIMER_A);
         break;
     case TIMER_3:
-        return TimerValueGet(TIMERA3_BASE, TIMER_A);
+        return MAP_TimerValueGet(TIMERA3_BASE, TIMER_A);
         break;
     default:
         return 0;

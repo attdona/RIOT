@@ -44,12 +44,12 @@
 //
 //*****************************************************************************
 
+#include "inc/hw_ints.h"
+#include "inc/hw_nvic.h"
+#include "inc/hw_types.h"
 #include "cpu.h"
 #include "debug.h"
 #include "interrupt.h"
-#include <inc/hw_ints.h>
-#include <inc/hw_nvic.h>
-#include <inc/hw_types.h>
 
 //*****************************************************************************
 //
@@ -57,10 +57,12 @@
 // preemption priority bits.
 //
 //*****************************************************************************
-static const unsigned long g_pulPriority[] = {
-NVIC_APINT_PRIGROUP_0_8, NVIC_APINT_PRIGROUP_1_7, NVIC_APINT_PRIGROUP_2_6,
-NVIC_APINT_PRIGROUP_3_5, NVIC_APINT_PRIGROUP_4_4, NVIC_APINT_PRIGROUP_5_3,
-NVIC_APINT_PRIGROUP_6_2, NVIC_APINT_PRIGROUP_7_1 };
+static const unsigned long g_pulPriority[] =
+{
+    NVIC_APINT_PRIGROUP_0_8, NVIC_APINT_PRIGROUP_1_7, NVIC_APINT_PRIGROUP_2_6,
+    NVIC_APINT_PRIGROUP_3_5, NVIC_APINT_PRIGROUP_4_4, NVIC_APINT_PRIGROUP_5_3,
+    NVIC_APINT_PRIGROUP_6_2, NVIC_APINT_PRIGROUP_7_1
+};
 
 //*****************************************************************************
 //
@@ -68,18 +70,20 @@ NVIC_APINT_PRIGROUP_6_2, NVIC_APINT_PRIGROUP_7_1 };
 // the priority encoding for that interrupt.
 //
 //*****************************************************************************
-static const unsigned long g_pulRegs[] = { 0, NVIC_SYS_PRI1, NVIC_SYS_PRI2,
-NVIC_SYS_PRI3, NVIC_PRI0, NVIC_PRI1,
-NVIC_PRI2, NVIC_PRI3, NVIC_PRI4, NVIC_PRI5, NVIC_PRI6, NVIC_PRI7,
-NVIC_PRI8, NVIC_PRI9, NVIC_PRI10, NVIC_PRI11, NVIC_PRI12, NVIC_PRI13,
-NVIC_PRI14, NVIC_PRI15, NVIC_PRI16, NVIC_PRI17, NVIC_PRI18, NVIC_PRI19,
-NVIC_PRI20, NVIC_PRI21, NVIC_PRI22, NVIC_PRI23, NVIC_PRI24, NVIC_PRI25,
-NVIC_PRI26, NVIC_PRI27, NVIC_PRI28, NVIC_PRI29, NVIC_PRI30, NVIC_PRI31,
-NVIC_PRI32, NVIC_PRI33, NVIC_PRI34, NVIC_PRI35, NVIC_PRI36, NVIC_PRI37,
-NVIC_PRI38, NVIC_PRI39, NVIC_PRI40, NVIC_PRI41, NVIC_PRI42, NVIC_PRI43,
-NVIC_PRI44, NVIC_PRI45, NVIC_PRI46, NVIC_PRI47, NVIC_PRI48
+static const unsigned long g_pulRegs[] =
+{
+    0, NVIC_SYS_PRI1, NVIC_SYS_PRI2, NVIC_SYS_PRI3, NVIC_PRI0, NVIC_PRI1,
+    NVIC_PRI2, NVIC_PRI3, NVIC_PRI4, NVIC_PRI5, NVIC_PRI6, NVIC_PRI7,
+    NVIC_PRI8, NVIC_PRI9, NVIC_PRI10, NVIC_PRI11, NVIC_PRI12, NVIC_PRI13,
+    NVIC_PRI14, NVIC_PRI15, NVIC_PRI16, NVIC_PRI17, NVIC_PRI18, NVIC_PRI19,
+    NVIC_PRI20, NVIC_PRI21, NVIC_PRI22, NVIC_PRI23, NVIC_PRI24, NVIC_PRI25,
+    NVIC_PRI26, NVIC_PRI27, NVIC_PRI28, NVIC_PRI29, NVIC_PRI30, NVIC_PRI31,
+    NVIC_PRI32, NVIC_PRI33, NVIC_PRI34, NVIC_PRI35, NVIC_PRI36, NVIC_PRI37,
+    NVIC_PRI38, NVIC_PRI39, NVIC_PRI40, NVIC_PRI41, NVIC_PRI42, NVIC_PRI43,
+    NVIC_PRI44, NVIC_PRI45, NVIC_PRI46, NVIC_PRI47, NVIC_PRI48
 
 };
+
 
 //*****************************************************************************
 //
@@ -88,8 +92,10 @@ NVIC_PRI44, NVIC_PRI45, NVIC_PRI46, NVIC_PRI47, NVIC_PRI48
 // interrupt.
 //
 //*****************************************************************************
-static const unsigned long g_pulEnRegs[] = {
-NVIC_EN0, NVIC_EN1, NVIC_EN2, NVIC_EN3, NVIC_EN4, NVIC_EN5 };
+static const unsigned long g_pulEnRegs[] =
+{
+    NVIC_EN0, NVIC_EN1, NVIC_EN2, NVIC_EN3, NVIC_EN4, NVIC_EN5
+};
 
 //*****************************************************************************
 //
@@ -98,8 +104,10 @@ NVIC_EN0, NVIC_EN1, NVIC_EN2, NVIC_EN3, NVIC_EN4, NVIC_EN5 };
 // interrupt.
 //
 //*****************************************************************************
-static const unsigned long g_pulDisRegs[] = {
-NVIC_DIS0, NVIC_DIS1, NVIC_DIS2, NVIC_DIS3, NVIC_DIS4, NVIC_DIS5 };
+static const unsigned long g_pulDisRegs[] =
+{
+    NVIC_DIS0, NVIC_DIS1, NVIC_DIS2, NVIC_DIS3, NVIC_DIS4, NVIC_DIS5
+};
 
 //*****************************************************************************
 //
@@ -107,8 +115,10 @@ NVIC_DIS0, NVIC_DIS1, NVIC_DIS2, NVIC_DIS3, NVIC_DIS4, NVIC_DIS5 };
 // only) and the register that contains the interrupt pend for that interrupt.
 //
 //*****************************************************************************
-static const unsigned long g_pulPendRegs[] = {
-NVIC_PEND0, NVIC_PEND1, NVIC_PEND2, NVIC_PEND3, NVIC_PEND4, NVIC_PEND5 };
+static const unsigned long g_pulPendRegs[] =
+{
+    NVIC_PEND0, NVIC_PEND1, NVIC_PEND2, NVIC_PEND3, NVIC_PEND4, NVIC_PEND5
+};
 
 //*****************************************************************************
 //
@@ -117,9 +127,12 @@ NVIC_PEND0, NVIC_PEND1, NVIC_PEND2, NVIC_PEND3, NVIC_PEND4, NVIC_PEND5 };
 // interrupt.
 //
 //*****************************************************************************
-static const unsigned long g_pulUnpendRegs[] = {
-NVIC_UNPEND0, NVIC_UNPEND1, NVIC_UNPEND2, NVIC_UNPEND3, NVIC_UNPEND4,
-NVIC_UNPEND5 };
+static const unsigned long g_pulUnpendRegs[] =
+{
+    NVIC_UNPEND0, NVIC_UNPEND1, NVIC_UNPEND2, NVIC_UNPEND3, NVIC_UNPEND4,
+    NVIC_UNPEND5
+};
+
 
 //*****************************************************************************
 //
@@ -134,11 +147,14 @@ NVIC_UNPEND5 };
 //! \return None.
 //
 //*****************************************************************************
-static void IntDefaultHandler(void) {
+static void
+IntDefaultHandler(void)
+{
     //
     // Go into an infinite loop.
     //
-    while (1) {
+    while(1)
+    {
     }
 }
 
@@ -160,11 +176,13 @@ static void IntDefaultHandler(void) {
 //! called or \b false if they were initially enabled.
 //
 //*****************************************************************************
-tBoolean IntMasterEnable(void) {
+tBoolean
+IntMasterEnable(void)
+{
     //
     // Enable processor interrupts.
     //
-    return (CPUcpsie());
+    return(CPUcpsie());
 }
 
 //*****************************************************************************
@@ -185,11 +203,13 @@ tBoolean IntMasterEnable(void) {
 //! function was called or \b false if they were initially enabled.
 //
 //*****************************************************************************
-tBoolean IntMasterDisable(void) {
+tBoolean
+IntMasterDisable(void)
+{
     //
     // Disable processor interrupts.
     //
-    return (CPUcpsid());
+    return(CPUcpsid());
 }
 //*****************************************************************************
 //
@@ -205,7 +225,9 @@ tBoolean IntMasterDisable(void) {
 //! \return None.
 //
 //*****************************************************************************
-void IntVTableBaseSet(unsigned long ulVtableBase) {
+void
+IntVTableBaseSet(unsigned long ulVtableBase)
+{
     HWREG(NVIC_VTABLE) = ulVtableBase;
 }
 
@@ -227,7 +249,9 @@ void IntVTableBaseSet(unsigned long ulVtableBase) {
 //! \return None.
 //
 //*****************************************************************************
-void IntRegister(unsigned long ulInterrupt, void (*pfnHandler)(void)) {
+void
+IntRegister(unsigned long ulInterrupt, void (*pfnHandler)(void))
+{
     unsigned long *ulNvicTbl;
 
     //
@@ -235,8 +259,8 @@ void IntRegister(unsigned long ulInterrupt, void (*pfnHandler)(void)) {
     //
     ASSERT(ulInterrupt < NUM_INTERRUPTS);
 
-    ulNvicTbl = (unsigned long *) HWREG(NVIC_VTABLE);
-    ulNvicTbl[ulInterrupt] = (unsigned long) pfnHandler;
+    ulNvicTbl = (unsigned long *)HWREG(NVIC_VTABLE);
+    ulNvicTbl[ulInterrupt]= (unsigned long)pfnHandler;
 }
 
 //*****************************************************************************
@@ -255,16 +279,18 @@ void IntRegister(unsigned long ulInterrupt, void (*pfnHandler)(void)) {
 //! \return None.
 //
 //*****************************************************************************
-void IntUnregister(unsigned long ulInterrupt) {
-    unsigned long *ulNvicTbl;
+void
+IntUnregister(unsigned long ulInterrupt)
+{
+  unsigned long *ulNvicTbl;
 
-    //
-    // Check the arguments.
-    //
-    ASSERT(ulInterrupt < NUM_INTERRUPTS);
+  //
+  // Check the arguments.
+  //
+  ASSERT(ulInterrupt < NUM_INTERRUPTS);
 
-    ulNvicTbl = (unsigned long *) HWREG(NVIC_VTABLE);
-    ulNvicTbl[ulInterrupt] = (unsigned long) IntDefaultHandler;
+  ulNvicTbl = (unsigned long *)HWREG(NVIC_VTABLE);
+  ulNvicTbl[ulInterrupt]= (unsigned long)IntDefaultHandler;
 }
 
 //*****************************************************************************
@@ -283,7 +309,9 @@ void IntUnregister(unsigned long ulInterrupt) {
 //! \return None.
 //
 //*****************************************************************************
-void IntPriorityGroupingSet(unsigned long ulBits) {
+void
+IntPriorityGroupingSet(unsigned long ulBits)
+{
     //
     // Check the arguments.
     //
@@ -305,7 +333,9 @@ void IntPriorityGroupingSet(unsigned long ulBits) {
 //! \return The number of bits of preemptable priority.
 //
 //*****************************************************************************
-unsigned long IntPriorityGroupingGet(void) {
+unsigned long
+IntPriorityGroupingGet(void)
+{
     unsigned long ulLoop, ulValue;
 
     //
@@ -316,11 +346,13 @@ unsigned long IntPriorityGroupingGet(void) {
     //
     // Loop through the priority grouping values.
     //
-    for (ulLoop = 0; ulLoop < NUM_PRIORITY; ulLoop++) {
+    for(ulLoop = 0; ulLoop < NUM_PRIORITY; ulLoop++)
+    {
         //
         // Stop looping if this value matches.
         //
-        if (ulValue == g_pulPriority[ulLoop]) {
+        if(ulValue == g_pulPriority[ulLoop])
+        {
             break;
         }
     }
@@ -328,7 +360,7 @@ unsigned long IntPriorityGroupingGet(void) {
     //
     // Return the number of priority bits.
     //
-    return (ulLoop);
+    return(ulLoop);
 }
 
 //*****************************************************************************
@@ -365,7 +397,9 @@ unsigned long IntPriorityGroupingGet(void) {
 //! \return None.
 //
 //*****************************************************************************
-void IntPrioritySet(unsigned long ulInterrupt, unsigned char ucPriority) {
+void
+IntPrioritySet(unsigned long ulInterrupt, unsigned char ucPriority)
+{
     unsigned long ulTemp;
 
     //
@@ -395,7 +429,9 @@ void IntPrioritySet(unsigned long ulInterrupt, unsigned char ucPriority) {
 //! specified.
 //
 //*****************************************************************************
-long IntPriorityGet(unsigned long ulInterrupt) {
+long
+IntPriorityGet(unsigned long ulInterrupt)
+{
     //
     // Check the arguments.
     //
@@ -404,8 +440,8 @@ long IntPriorityGet(unsigned long ulInterrupt) {
     //
     // Return the interrupt priority.
     //
-    return ((HWREG(g_pulRegs[ulInterrupt >> 2]) >> (8 * (ulInterrupt & 3)))
-            & 0xFF);
+    return((HWREG(g_pulRegs[ulInterrupt >> 2]) >> (8 * (ulInterrupt & 3))) &
+           0xFF);
 }
 
 //*****************************************************************************
@@ -421,7 +457,9 @@ long IntPriorityGet(unsigned long ulInterrupt) {
 //! \return None.
 //
 //*****************************************************************************
-void IntEnable(unsigned long ulInterrupt) {
+void
+IntEnable(unsigned long ulInterrupt)
+{
     //
     // Check the arguments.
     //
@@ -430,40 +468,49 @@ void IntEnable(unsigned long ulInterrupt) {
     //
     // Determine the interrupt to enable.
     //
-    if (ulInterrupt == FAULT_MPU) {
+    if(ulInterrupt == FAULT_MPU)
+    {
         //
         // Enable the MemManage interrupt.
         //
         HWREG(NVIC_SYS_HND_CTRL) |= NVIC_SYS_HND_CTRL_MEM;
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt == FAULT_BUS) {
+    }
+    else if(ulInterrupt == FAULT_BUS)
+    {
         //
         // Enable the bus fault interrupt.
         //
         HWREG(NVIC_SYS_HND_CTRL) |= NVIC_SYS_HND_CTRL_BUS;
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt == FAULT_USAGE) {
+    }
+    else if(ulInterrupt == FAULT_USAGE)
+    {
         //
         // Enable the usage fault interrupt.
         //
         HWREG(NVIC_SYS_HND_CTRL) |= NVIC_SYS_HND_CTRL_USAGE;
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt == FAULT_SYSTICK) {
+    }
+    else if(ulInterrupt == FAULT_SYSTICK)
+    {
         //
         // Enable the System Tick interrupt.
         //
         HWREG(NVIC_ST_CTRL) |= NVIC_ST_CTRL_INTEN;
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt >= 16) {
+    }
+    else if(ulInterrupt >= 16)
+    {
         //
         // Enable the general interrupt.
         //
-        HWREG(g_pulEnRegs[(ulInterrupt - 16) / 32]) = 1
-                << ((ulInterrupt - 16) & 31);
+        HWREG(g_pulEnRegs[(ulInterrupt - 16) / 32]) =
+            1 << ((ulInterrupt - 16) & 31);
         __asm(" dsb     ");
         __asm(" isb     ");
     }
@@ -482,7 +529,9 @@ void IntEnable(unsigned long ulInterrupt) {
 //! \return None.
 //
 //*****************************************************************************
-void IntDisable(unsigned long ulInterrupt) {
+void
+IntDisable(unsigned long ulInterrupt)
+{
     //
     // Check the arguments.
     //
@@ -491,40 +540,49 @@ void IntDisable(unsigned long ulInterrupt) {
     //
     // Determine the interrupt to disable.
     //
-    if (ulInterrupt == FAULT_MPU) {
+    if(ulInterrupt == FAULT_MPU)
+    {
         //
         // Disable the MemManage interrupt.
         //
         HWREG(NVIC_SYS_HND_CTRL) &= ~(NVIC_SYS_HND_CTRL_MEM);
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt == FAULT_BUS) {
+    }
+    else if(ulInterrupt == FAULT_BUS)
+    {
         //
         // Disable the bus fault interrupt.
         //
         HWREG(NVIC_SYS_HND_CTRL) &= ~(NVIC_SYS_HND_CTRL_BUS);
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt == FAULT_USAGE) {
+    }
+    else if(ulInterrupt == FAULT_USAGE)
+    {
         //
         // Disable the usage fault interrupt.
         //
         HWREG(NVIC_SYS_HND_CTRL) &= ~(NVIC_SYS_HND_CTRL_USAGE);
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt == FAULT_SYSTICK) {
+    }
+    else if(ulInterrupt == FAULT_SYSTICK)
+    {
         //
         // Disable the System Tick interrupt.
         //
         HWREG(NVIC_ST_CTRL) &= ~(NVIC_ST_CTRL_INTEN);
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt >= 16) {
+    }
+    else if(ulInterrupt >= 16)
+    {
         //
         // Disable the general interrupt.
         //
-        HWREG(g_pulDisRegs[(ulInterrupt - 16) / 32]) = 1
-                << ((ulInterrupt - 16) & 31);
+        HWREG(g_pulDisRegs[(ulInterrupt - 16) / 32]) =
+            1 << ((ulInterrupt - 16) & 31);
         __asm(" dsb     ");
         __asm(" isb     ");
     }
@@ -548,7 +606,9 @@ void IntDisable(unsigned long ulInterrupt) {
 //! \return None.
 //
 //*****************************************************************************
-void IntPendSet(unsigned long ulInterrupt) {
+void
+IntPendSet(unsigned long ulInterrupt)
+{
     //
     // Check the arguments.
     //
@@ -557,33 +617,40 @@ void IntPendSet(unsigned long ulInterrupt) {
     //
     // Determine the interrupt to pend.
     //
-    if (ulInterrupt == FAULT_NMI) {
+    if(ulInterrupt == FAULT_NMI)
+    {
         //
         // Pend the NMI interrupt.
         //
         HWREG(NVIC_INT_CTRL) |= NVIC_INT_CTRL_NMI_SET;
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt == FAULT_PENDSV) {
+    }
+    else if(ulInterrupt == FAULT_PENDSV)
+    {
         //
         // Pend the PendSV interrupt.
         //
         HWREG(NVIC_INT_CTRL) |= NVIC_INT_CTRL_PEND_SV;
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt == FAULT_SYSTICK) {
+    }
+    else if(ulInterrupt == FAULT_SYSTICK)
+    {
         //
         // Pend the SysTick interrupt.
         //
         HWREG(NVIC_INT_CTRL) |= NVIC_INT_CTRL_PENDSTSET;
         __asm(" dsb     ");
         __asm(" isb     ");
-    } else if (ulInterrupt >= 16) {
+    }
+    else if(ulInterrupt >= 16)
+    {
         //
         // Pend the general interrupt.
         //
-        HWREG(g_pulPendRegs[(ulInterrupt - 16) / 32]) = 1
-                << ((ulInterrupt - 16) & 31);
+        HWREG(g_pulPendRegs[(ulInterrupt - 16) / 32]) =
+            1 << ((ulInterrupt - 16) & 31);
         __asm(" dsb     ");
         __asm(" isb     ");
     }
@@ -604,7 +671,9 @@ void IntPendSet(unsigned long ulInterrupt) {
 //! \return None.
 //
 //*****************************************************************************
-void IntPendClear(unsigned long ulInterrupt) {
+void
+IntPendClear(unsigned long ulInterrupt)
+{
     //
     // Check the arguments.
     //
@@ -613,22 +682,27 @@ void IntPendClear(unsigned long ulInterrupt) {
     //
     // Determine the interrupt to unpend.
     //
-    if (ulInterrupt == FAULT_PENDSV) {
+    if(ulInterrupt == FAULT_PENDSV)
+    {
         //
         // Unpend the PendSV interrupt.
         //
         HWREG(NVIC_INT_CTRL) |= NVIC_INT_CTRL_UNPEND_SV;
-    } else if (ulInterrupt == FAULT_SYSTICK) {
+    }
+    else if(ulInterrupt == FAULT_SYSTICK)
+    {
         //
         // Unpend the SysTick interrupt.
         //
         HWREG(NVIC_INT_CTRL) |= NVIC_INT_CTRL_PENDSTCLR;
-    } else if (ulInterrupt >= 16) {
+    }
+    else if(ulInterrupt >= 16)
+    {
         //
         // Unpend the general interrupt.
         //
-        HWREG(g_pulUnpendRegs[(ulInterrupt - 16) / 32]) = 1
-                << ((ulInterrupt - 16) & 31);
+        HWREG(g_pulUnpendRegs[(ulInterrupt - 16) / 32]) =
+            1 << ((ulInterrupt - 16) & 31);
     }
 }
 
@@ -655,7 +729,9 @@ void IntPendClear(unsigned long ulInterrupt) {
 //! \return None.
 //
 //*****************************************************************************
-void IntPriorityMaskSet(unsigned long ulPriorityMask) {
+void
+IntPriorityMaskSet(unsigned long ulPriorityMask)
+{
     CPUbasepriSet(ulPriorityMask);
 }
 
@@ -679,8 +755,10 @@ void IntPriorityMaskSet(unsigned long ulPriorityMask) {
 //! \return Returns the value of the interrupt priority level mask.
 //
 //*****************************************************************************
-unsigned long IntPriorityMaskGet(void) {
-    return (CPUbasepriGet());
+unsigned long
+IntPriorityMaskGet(void)
+{
+    return(CPUbasepriGet());
 }
 
 //*****************************************************************************

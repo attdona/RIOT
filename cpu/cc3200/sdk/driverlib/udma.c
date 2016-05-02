@@ -44,13 +44,15 @@
 //
 //*****************************************************************************
 
+
+#include "inc/hw_types.h"
+#include "inc/hw_udma.h"
+#include "inc/hw_ints.h"
+#include "inc/hw_memmap.h"
 #include "debug.h"
 #include "interrupt.h"
 #include "udma.h"
-#include <inc/hw_ints.h>
-#include <inc/hw_memmap.h>
-#include <inc/hw_types.h>
-#include <inc/hw_udma.h>
+
 
 //*****************************************************************************
 //
@@ -62,7 +64,9 @@
 //! \return None.
 //
 //*****************************************************************************
-void uDMAEnable(void) {
+void
+uDMAEnable(void)
+{
     //
     // Set the master enable bit in the config register.
     //
@@ -79,7 +83,9 @@ void uDMAEnable(void) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMADisable(void) {
+void
+uDMADisable(void)
+{
     //
     // Clear the master enable bit in the config register.
     //
@@ -97,11 +103,13 @@ void uDMADisable(void) {
 //! \return Returns non-zero if a uDMA error is pending.
 //
 //*****************************************************************************
-unsigned long uDMAErrorStatusGet(void) {
+unsigned long
+uDMAErrorStatusGet(void)
+{
     //
     // Return the uDMA error status.
     //
-    return (HWREG(UDMA_BASE + UDMA_O_ERRCLR));
+    return(HWREG(UDMA_BASE + UDMA_O_ERRCLR));
 }
 
 //*****************************************************************************
@@ -115,7 +123,9 @@ unsigned long uDMAErrorStatusGet(void) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAErrorStatusClear(void) {
+void
+uDMAErrorStatusClear(void)
+{
     //
     // Clear the uDMA error interrupt.
     //
@@ -139,7 +149,9 @@ void uDMAErrorStatusClear(void) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelEnable(unsigned long ulChannelNum) {
+void
+uDMAChannelEnable(unsigned long ulChannelNum)
+{
     //
     // Check the arguments.
     //
@@ -164,7 +176,9 @@ void uDMAChannelEnable(unsigned long ulChannelNum) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelDisable(unsigned long ulChannelNum) {
+void
+uDMAChannelDisable(unsigned long ulChannelNum)
+{
     //
     // Check the arguments.
     //
@@ -189,7 +203,9 @@ void uDMAChannelDisable(unsigned long ulChannelNum) {
 //! \return Returns \b true if the channel is enabled, \b false if disabled.
 //
 //*****************************************************************************
-tBoolean uDMAChannelIsEnabled(unsigned long ulChannelNum) {
+tBoolean
+uDMAChannelIsEnabled(unsigned long ulChannelNum)
+{
     //
     // Check the arguments.
     //
@@ -199,8 +215,8 @@ tBoolean uDMAChannelIsEnabled(unsigned long ulChannelNum) {
     // AND the specified channel bit with the enable register and return the
     // result.
     //
-    return ((HWREG(UDMA_BASE + UDMA_O_ENASET) & (1 << (ulChannelNum & 0x1f))) ?
-            true : false);
+    return((HWREG(UDMA_BASE + UDMA_O_ENASET) &
+            (1 << (ulChannelNum & 0x1f))) ? true : false);
 }
 
 //*****************************************************************************
@@ -223,17 +239,20 @@ tBoolean uDMAChannelIsEnabled(unsigned long ulChannelNum) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAControlBaseSet(void *pControlTable) {
+void
+uDMAControlBaseSet(void *pControlTable)
+{
     //
     // Check the arguments.
     //
     ASSERT(((unsigned long)pControlTable & ~0x3FF) ==
-            (unsigned long)pControlTable);ASSERT((unsigned long)pControlTable >= 0x20000000);
+            (unsigned long)pControlTable);
+    ASSERT((unsigned long)pControlTable >= 0x20000000);
 
     //
     // Program the base address into the register.
     //
-    HWREG(UDMA_BASE + UDMA_O_CTLBASE) = (unsigned long) pControlTable;
+    HWREG(UDMA_BASE + UDMA_O_CTLBASE) = (unsigned long)pControlTable;
 }
 
 //*****************************************************************************
@@ -248,12 +267,13 @@ void uDMAControlBaseSet(void *pControlTable) {
 //
 //*****************************************************************************
 void *
-uDMAControlBaseGet(void) {
+uDMAControlBaseGet(void)
+{
     //
     // Read the current value of the control base register and return it to
     // the caller.
     //
-    return ((void *) HWREG(UDMA_BASE + UDMA_O_CTLBASE));
+    return((void *)HWREG(UDMA_BASE + UDMA_O_CTLBASE));
 }
 
 //*****************************************************************************
@@ -268,12 +288,13 @@ uDMAControlBaseGet(void) {
 //
 //*****************************************************************************
 void *
-uDMAControlAlternateBaseGet(void) {
+uDMAControlAlternateBaseGet(void)
+{
     //
     // Read the current value of the control base register and return it to
     // the caller.
     //
-    return ((void *) HWREG(UDMA_BASE + UDMA_O_ALTBASE));
+    return((void *)HWREG(UDMA_BASE + UDMA_O_ALTBASE));
 }
 
 //*****************************************************************************
@@ -296,7 +317,9 @@ uDMAControlAlternateBaseGet(void) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelRequest(unsigned long ulChannelNum) {
+void
+uDMAChannelRequest(unsigned long ulChannelNum)
+{
     //
     // Check the arguments.
     //
@@ -330,13 +353,15 @@ void uDMAChannelRequest(unsigned long ulChannelNum) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelAttributeEnable(unsigned long ulChannelNum,
-        unsigned long ulAttr) {
+void
+uDMAChannelAttributeEnable(unsigned long ulChannelNum, unsigned long ulAttr)
+{
     //
     // Check the arguments.
     //
-    ASSERT((ulChannelNum & 0xffff) < 32);ASSERT((ulAttr & ~(UDMA_ATTR_USEBURST | UDMA_ATTR_ALTSELECT |
-                            UDMA_ATTR_HIGH_PRIORITY | UDMA_ATTR_REQMASK)) == 0);
+    ASSERT((ulChannelNum & 0xffff) < 32);
+    ASSERT((ulAttr & ~(UDMA_ATTR_USEBURST | UDMA_ATTR_ALTSELECT |
+                       UDMA_ATTR_HIGH_PRIORITY | UDMA_ATTR_REQMASK)) == 0);
 
     //
     // In case a channel selector macro (like UDMA_CH0_USB0EP1RX) was
@@ -348,7 +373,8 @@ void uDMAChannelAttributeEnable(unsigned long ulChannelNum,
     //
     // Set the useburst bit for this channel if set in ulConfig.
     //
-    if (ulAttr & UDMA_ATTR_USEBURST) {
+    if(ulAttr & UDMA_ATTR_USEBURST)
+    {
         HWREG(UDMA_BASE + UDMA_O_USEBURSTSET) = 1 << ulChannelNum;
     }
 
@@ -356,21 +382,24 @@ void uDMAChannelAttributeEnable(unsigned long ulChannelNum,
     // Set the alternate control select bit for this channel,
     // if set in ulConfig.
     //
-    if (ulAttr & UDMA_ATTR_ALTSELECT) {
+    if(ulAttr & UDMA_ATTR_ALTSELECT)
+    {
         HWREG(UDMA_BASE + UDMA_O_ALTSET) = 1 << ulChannelNum;
     }
 
     //
     // Set the high priority bit for this channel, if set in ulConfig.
     //
-    if (ulAttr & UDMA_ATTR_HIGH_PRIORITY) {
+    if(ulAttr & UDMA_ATTR_HIGH_PRIORITY)
+    {
         HWREG(UDMA_BASE + UDMA_O_PRIOSET) = 1 << ulChannelNum;
     }
 
     //
     // Set the request mask bit for this channel, if set in ulConfig.
     //
-    if (ulAttr & UDMA_ATTR_REQMASK) {
+    if(ulAttr & UDMA_ATTR_REQMASK)
+    {
         HWREG(UDMA_BASE + UDMA_O_REQMASKSET) = 1 << ulChannelNum;
     }
 }
@@ -397,13 +426,15 @@ void uDMAChannelAttributeEnable(unsigned long ulChannelNum,
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelAttributeDisable(unsigned long ulChannelNum,
-        unsigned long ulAttr) {
+void
+uDMAChannelAttributeDisable(unsigned long ulChannelNum, unsigned long ulAttr)
+{
     //
     // Check the arguments.
     //
-    ASSERT((ulChannelNum & 0xffff) < 32);ASSERT((ulAttr & ~(UDMA_ATTR_USEBURST | UDMA_ATTR_ALTSELECT |
-                            UDMA_ATTR_HIGH_PRIORITY | UDMA_ATTR_REQMASK)) == 0);
+    ASSERT((ulChannelNum & 0xffff) < 32);
+    ASSERT((ulAttr & ~(UDMA_ATTR_USEBURST | UDMA_ATTR_ALTSELECT |
+                       UDMA_ATTR_HIGH_PRIORITY | UDMA_ATTR_REQMASK)) == 0);
 
     //
     // In case a channel selector macro (like UDMA_CH0_USB0EP1RX) was
@@ -415,7 +446,8 @@ void uDMAChannelAttributeDisable(unsigned long ulChannelNum,
     //
     // Clear the useburst bit for this channel if set in ulConfig.
     //
-    if (ulAttr & UDMA_ATTR_USEBURST) {
+    if(ulAttr & UDMA_ATTR_USEBURST)
+    {
         HWREG(UDMA_BASE + UDMA_O_USEBURSTCLR) = 1 << ulChannelNum;
     }
 
@@ -423,21 +455,24 @@ void uDMAChannelAttributeDisable(unsigned long ulChannelNum,
     // Clear the alternate control select bit for this channel, if set in
     // ulConfig.
     //
-    if (ulAttr & UDMA_ATTR_ALTSELECT) {
+    if(ulAttr & UDMA_ATTR_ALTSELECT)
+    {
         HWREG(UDMA_BASE + UDMA_O_ALTCLR) = 1 << ulChannelNum;
     }
 
     //
     // Clear the high priority bit for this channel, if set in ulConfig.
     //
-    if (ulAttr & UDMA_ATTR_HIGH_PRIORITY) {
+    if(ulAttr & UDMA_ATTR_HIGH_PRIORITY)
+    {
         HWREG(UDMA_BASE + UDMA_O_PRIOCLR) = 1 << ulChannelNum;
     }
 
     //
     // Clear the request mask bit for this channel, if set in ulConfig.
     //
-    if (ulAttr & UDMA_ATTR_REQMASK) {
+    if(ulAttr & UDMA_ATTR_REQMASK)
+    {
         HWREG(UDMA_BASE + UDMA_O_REQMASKCLR) = 1 << ulChannelNum;
     }
 }
@@ -462,7 +497,9 @@ void uDMAChannelAttributeDisable(unsigned long ulChannelNum,
 //!   peripheral for this channel.
 //
 //*****************************************************************************
-unsigned long uDMAChannelAttributeGet(unsigned long ulChannelNum) {
+unsigned long
+uDMAChannelAttributeGet(unsigned long ulChannelNum)
+{
     unsigned long ulAttr = 0;
 
     //
@@ -480,35 +517,39 @@ unsigned long uDMAChannelAttributeGet(unsigned long ulChannelNum) {
     //
     // Check to see if useburst bit is set for this channel.
     //
-    if (HWREG(UDMA_BASE + UDMA_O_USEBURSTSET) & (1 << ulChannelNum)) {
+    if(HWREG(UDMA_BASE + UDMA_O_USEBURSTSET) & (1 << ulChannelNum))
+    {
         ulAttr |= UDMA_ATTR_USEBURST;
     }
 
     //
     // Check to see if the alternate control bit is set for this channel.
     //
-    if (HWREG(UDMA_BASE + UDMA_O_ALTSET) & (1 << ulChannelNum)) {
+    if(HWREG(UDMA_BASE + UDMA_O_ALTSET) & (1 << ulChannelNum))
+    {
         ulAttr |= UDMA_ATTR_ALTSELECT;
     }
 
     //
     // Check to see if the high priority bit is set for this channel.
     //
-    if (HWREG(UDMA_BASE + UDMA_O_PRIOSET) & (1 << ulChannelNum)) {
+    if(HWREG(UDMA_BASE + UDMA_O_PRIOSET) & (1 << ulChannelNum))
+    {
         ulAttr |= UDMA_ATTR_HIGH_PRIORITY;
     }
 
     //
     // Check to see if the request mask bit is set for this channel.
     //
-    if (HWREG(UDMA_BASE + UDMA_O_REQMASKSET) & (1 << ulChannelNum)) {
+    if(HWREG(UDMA_BASE + UDMA_O_REQMASKSET) & (1 << ulChannelNum))
+    {
         ulAttr |= UDMA_ATTR_REQMASK;
     }
 
     //
     // Return the configuration flags.
     //
-    return (ulAttr);
+    return(ulAttr);
 }
 
 //*****************************************************************************
@@ -559,14 +600,17 @@ unsigned long uDMAChannelAttributeGet(unsigned long ulChannelNum) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelControlSet(unsigned long ulChannelStructIndex,
-        unsigned long ulControl) {
+void
+uDMAChannelControlSet(unsigned long ulChannelStructIndex,
+                      unsigned long ulControl)
+{
     tDMAControlTable *pCtl;
 
     //
     // Check the arguments.
     //
-    ASSERT((ulChannelStructIndex & 0xffff) < 64);ASSERT(HWREG(UDMA_BASE + UDMA_O_CTLBASE) != 0);
+    ASSERT((ulChannelStructIndex & 0xffff) < 64);
+    ASSERT(HWREG(UDMA_BASE + UDMA_O_CTLBASE) != 0);
 
     //
     // In case a channel selector macro (like UDMA_CH0_USB0EP1RX) was
@@ -578,19 +622,21 @@ void uDMAChannelControlSet(unsigned long ulChannelStructIndex,
     //
     // Get the base address of the control table.
     //
-    pCtl = (tDMAControlTable *) HWREG(UDMA_BASE+UDMA_O_CTLBASE);
+    pCtl = (tDMAControlTable *)HWREG(UDMA_BASE+UDMA_O_CTLBASE);
 
     //
     // Get the current control word value and mask off the fields to be
     // changed, then OR in the new settings.
     //
     pCtl[ulChannelStructIndex].ulControl =
-            ((pCtl[ulChannelStructIndex].ulControl & ~(UDMA_CHCTL_DSTINC_M |
+        ((pCtl[ulChannelStructIndex].ulControl &
+          ~(UDMA_CHCTL_DSTINC_M |
             UDMA_CHCTL_DSTSIZE_M |
             UDMA_CHCTL_SRCINC_M |
             UDMA_CHCTL_SRCSIZE_M |
             UDMA_CHCTL_ARBSIZE_M |
-            UDMA_CHCTL_NXTUSEBURST)) | ulControl);
+            UDMA_CHCTL_NXTUSEBURST)) |
+         ulControl);
 }
 
 //*****************************************************************************
@@ -662,9 +708,11 @@ void uDMAChannelControlSet(unsigned long ulChannelStructIndex,
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelTransferSet(unsigned long ulChannelStructIndex,
-        unsigned long ulMode, void *pvSrcAddr, void *pvDstAddr,
-        unsigned long ulTransferSize) {
+void
+uDMAChannelTransferSet(unsigned long ulChannelStructIndex,
+                       unsigned long ulMode, void *pvSrcAddr, void *pvDstAddr,
+                       unsigned long ulTransferSize)
+{
     tDMAControlTable *pControlTable;
     unsigned long ulControl;
     unsigned long ulInc;
@@ -673,7 +721,12 @@ void uDMAChannelTransferSet(unsigned long ulChannelStructIndex,
     //
     // Check the arguments.
     //
-    ASSERT((ulChannelStructIndex & 0xffff) < 64);ASSERT(HWREG(UDMA_BASE + UDMA_O_CTLBASE) != 0);ASSERT(ulMode <= UDMA_MODE_PER_SCATTER_GATHER);ASSERT((unsigned long)pvSrcAddr >= 0x20000000);ASSERT((unsigned long)pvDstAddr >= 0x20000000);ASSERT((ulTransferSize != 0) && (ulTransferSize <= 1024));
+    ASSERT((ulChannelStructIndex & 0xffff) < 64);
+    ASSERT(HWREG(UDMA_BASE + UDMA_O_CTLBASE) != 0);
+    ASSERT(ulMode <= UDMA_MODE_PER_SCATTER_GATHER);
+    ASSERT((unsigned long)pvSrcAddr >= 0x20000000);
+    ASSERT((unsigned long)pvDstAddr >= 0x20000000);
+    ASSERT((ulTransferSize != 0) && (ulTransferSize <= 1024));
 
     //
     // In case a channel selector macro (like UDMA_CH0_USB0EP1RX) was
@@ -685,21 +738,23 @@ void uDMAChannelTransferSet(unsigned long ulChannelStructIndex,
     //
     // Get the base address of the control table.
     //
-    pControlTable = (tDMAControlTable *) HWREG(UDMA_BASE + UDMA_O_CTLBASE);
+    pControlTable = (tDMAControlTable *)HWREG(UDMA_BASE + UDMA_O_CTLBASE);
 
     //
     // Get the current control word value and mask off the mode and size
     // fields.
     //
-    ulControl = (pControlTable[ulChannelStructIndex].ulControl
-            & ~(UDMA_CHCTL_XFERSIZE_M | UDMA_CHCTL_XFERMODE_M));
+    ulControl = (pControlTable[ulChannelStructIndex].ulControl &
+                 ~(UDMA_CHCTL_XFERSIZE_M | UDMA_CHCTL_XFERMODE_M));
 
     //
     // Adjust the mode if the alt control structure is selected.
     //
-    if (ulChannelStructIndex & UDMA_ALT_SELECT) {
-        if ((ulMode == UDMA_MODE_MEM_SCATTER_GATHER)
-                || (ulMode == UDMA_MODE_PER_SCATTER_GATHER)) {
+    if(ulChannelStructIndex & UDMA_ALT_SELECT)
+    {
+        if((ulMode == UDMA_MODE_MEM_SCATTER_GATHER) ||
+           (ulMode == UDMA_MODE_PER_SCATTER_GATHER))
+        {
             ulMode |= UDMA_MODE_ALT_SELECT;
         }
     }
@@ -720,10 +775,11 @@ void uDMAChannelTransferSet(unsigned long ulChannelStructIndex,
     // increment is set to none, then the ending address is the same as the
     // beginning.
     //
-    if (ulInc != UDMA_SRC_INC_NONE) {
+    if(ulInc != UDMA_SRC_INC_NONE)
+    {
         ulInc = ulInc >> 26;
         ulBufferBytes = ulTransferSize << ulInc;
-        pvSrcAddr = (void *) ((unsigned long) pvSrcAddr + ulBufferBytes - 1);
+        pvSrcAddr = (void *)((unsigned long)pvSrcAddr + ulBufferBytes - 1);
     }
 
     //
@@ -742,26 +798,29 @@ void uDMAChannelTransferSet(unsigned long ulChannelStructIndex,
     // destination increment is set to none, then the ending address is the
     // same as the beginning.
     //
-    if (ulInc != UDMA_DST_INC_NONE) {
+    if(ulInc != UDMA_DST_INC_NONE)
+    {
         //
         // There is a special case if this is setting up a scatter-gather
         // transfer.  The destination pointer must point to the end of
         // the alternate structure for this channel instead of calculating
         // the end of the buffer in the normal way.
         //
-        if ((ulMode == UDMA_MODE_MEM_SCATTER_GATHER)
-                || (ulMode == UDMA_MODE_PER_SCATTER_GATHER)) {
-            pvDstAddr = (void *) &pControlTable[ulChannelStructIndex |
-            UDMA_ALT_SELECT].ulSpare;
+        if((ulMode == UDMA_MODE_MEM_SCATTER_GATHER) ||
+           (ulMode == UDMA_MODE_PER_SCATTER_GATHER))
+        {
+            pvDstAddr =
+                (void *)&pControlTable[ulChannelStructIndex |
+                                       UDMA_ALT_SELECT].ulSpare;
         }
         //
         // Not a scatter-gather transfer, calculate end pointer normally.
         //
-        else {
+        else
+        {
             ulInc = ulInc >> 30;
             ulBufferBytes = ulTransferSize << ulInc;
-            pvDstAddr =
-                    (void *) ((unsigned long) pvDstAddr + ulBufferBytes - 1);
+            pvDstAddr = (void *)((unsigned long)pvDstAddr + ulBufferBytes - 1);
         }
     }
 
@@ -800,15 +859,21 @@ void uDMAChannelTransferSet(unsigned long ulChannelStructIndex,
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelScatterGatherSet(unsigned long ulChannelNum,
-        unsigned ulTaskCount, void *pvTaskList, unsigned long ulIsPeriphSG) {
+void
+uDMAChannelScatterGatherSet(unsigned long ulChannelNum, unsigned ulTaskCount,
+                            void *pvTaskList, unsigned long ulIsPeriphSG)
+{
     tDMAControlTable *pControlTable;
     tDMAControlTable *pTaskTable;
 
     //
     // Check the parameters
     //
-    ASSERT((ulChannelNum & 0xffff) < 32);ASSERT(HWREG(UDMA_BASE + UDMA_O_CTLBASE) != 0);ASSERT(pvTaskList != 0);ASSERT(ulTaskCount <= 1024);ASSERT(ulTaskCount != 0);
+    ASSERT((ulChannelNum & 0xffff) < 32);
+    ASSERT(HWREG(UDMA_BASE + UDMA_O_CTLBASE) != 0);
+    ASSERT(pvTaskList != 0);
+    ASSERT(ulTaskCount <= 1024);
+    ASSERT(ulTaskCount != 0);
 
     //
     // In case a channel selector macro (like UDMA_CH0_USB0EP1RX) was
@@ -820,26 +885,26 @@ void uDMAChannelScatterGatherSet(unsigned long ulChannelNum,
     //
     // Get the base address of the control table.
     //
-    pControlTable = (tDMAControlTable *) HWREG(UDMA_BASE + UDMA_O_CTLBASE);
+    pControlTable = (tDMAControlTable *)HWREG(UDMA_BASE + UDMA_O_CTLBASE);
 
     //
     // Get a handy pointer to the task list
     //
-    pTaskTable = (tDMAControlTable *) pvTaskList;
+    pTaskTable = (tDMAControlTable *)pvTaskList;
 
     //
     // Compute the ending address for the source pointer.  This address is the
     // last element of the last task in the task table
     //
     pControlTable[ulChannelNum].pvSrcEndAddr =
-            &pTaskTable[ulTaskCount - 1].ulSpare;
+        &pTaskTable[ulTaskCount - 1].ulSpare;
 
     //
     // Compute the ending address for the destination pointer.  This address
     // is the end of the alternate structure for this channel.
     //
-    pControlTable[ulChannelNum].pvDstEndAddr = &pControlTable[ulChannelNum
-            | UDMA_ALT_SELECT].ulSpare;
+    pControlTable[ulChannelNum].pvDstEndAddr =
+        &pControlTable[ulChannelNum | UDMA_ALT_SELECT].ulSpare;
 
     //
     // Compute the control word.  Most configurable items are fixed for
@@ -847,13 +912,13 @@ void uDMAChannelScatterGatherSet(unsigned long ulChannelNum,
     // size must be 4.  The count is the number of items in the task list
     // times 4 (4 words per task).
     //
-    pControlTable[ulChannelNum].ulControl = (UDMA_CHCTL_DSTINC_32
-            | UDMA_CHCTL_DSTSIZE_32 |
-            UDMA_CHCTL_SRCINC_32 | UDMA_CHCTL_SRCSIZE_32 |
-            UDMA_CHCTL_ARBSIZE_4
-            | (((ulTaskCount * 4) - 1) << UDMA_CHCTL_XFERSIZE_S)
-            | (ulIsPeriphSG ? UDMA_CHCTL_XFERMODE_PER_SG :
-            UDMA_CHCTL_XFERMODE_MEM_SG));
+    pControlTable[ulChannelNum].ulControl =
+        (UDMA_CHCTL_DSTINC_32 | UDMA_CHCTL_DSTSIZE_32 |
+         UDMA_CHCTL_SRCINC_32 | UDMA_CHCTL_SRCSIZE_32 |
+         UDMA_CHCTL_ARBSIZE_4 |
+         (((ulTaskCount * 4) - 1) << UDMA_CHCTL_XFERSIZE_S) |
+         (ulIsPeriphSG ? UDMA_CHCTL_XFERMODE_PER_SG :
+          UDMA_CHCTL_XFERMODE_MEM_SG));
 }
 
 //*****************************************************************************
@@ -872,14 +937,17 @@ void uDMAChannelScatterGatherSet(unsigned long ulChannelNum,
 //! \return Returns the number of items remaining to transfer.
 //
 //*****************************************************************************
-unsigned long uDMAChannelSizeGet(unsigned long ulChannelStructIndex) {
+unsigned long
+uDMAChannelSizeGet(unsigned long ulChannelStructIndex)
+{
     tDMAControlTable *pControlTable;
     unsigned long ulControl;
 
     //
     // Check the arguments.
     //
-    ASSERT((ulChannelStructIndex & 0xffff) < 64);ASSERT(HWREG(UDMA_BASE + UDMA_O_CTLBASE) != 0);
+    ASSERT((ulChannelStructIndex & 0xffff) < 64);
+    ASSERT(HWREG(UDMA_BASE + UDMA_O_CTLBASE) != 0);
 
     //
     // In case a channel selector macro (like UDMA_CH0_USB0EP1RX) was
@@ -891,32 +959,34 @@ unsigned long uDMAChannelSizeGet(unsigned long ulChannelStructIndex) {
     //
     // Get the base address of the control table.
     //
-    pControlTable = (tDMAControlTable *) HWREG(UDMA_BASE + UDMA_O_CTLBASE);
+    pControlTable = (tDMAControlTable *)HWREG(UDMA_BASE + UDMA_O_CTLBASE);
 
     //
     // Get the current control word value and mask off all but the size field
     // and the mode field.
     //
-    ulControl = (pControlTable[ulChannelStructIndex].ulControl
-            & (UDMA_CHCTL_XFERSIZE_M | UDMA_CHCTL_XFERMODE_M));
+    ulControl = (pControlTable[ulChannelStructIndex].ulControl &
+                 (UDMA_CHCTL_XFERSIZE_M | UDMA_CHCTL_XFERMODE_M));
 
     //
     // If the size field and mode field are 0 then the transfer is finished
     // and there are no more items to transfer
     //
-    if (ulControl == 0) {
-        return (0);
+    if(ulControl == 0)
+    {
+        return(0);
     }
 
     //
     // Otherwise, if either the size field or more field is non-zero, then
     // not all the items have been transferred.
     //
-    else {
+    else
+    {
         //
         // Shift the size field and add one, then return to user.
         //
-        return ((ulControl >> 4) + 1);
+        return((ulControl >> 4) + 1);
     }
 }
 
@@ -937,14 +1007,17 @@ unsigned long uDMAChannelSizeGet(unsigned long ulChannelStructIndex) {
 //! \b UDMA_MODE_MEM_SCATTER_GATHER, or \b UDMA_MODE_PER_SCATTER_GATHER.
 //
 //*****************************************************************************
-unsigned long uDMAChannelModeGet(unsigned long ulChannelStructIndex) {
+unsigned long
+uDMAChannelModeGet(unsigned long ulChannelStructIndex)
+{
     tDMAControlTable *pControlTable;
     unsigned long ulControl;
 
     //
     // Check the arguments.
     //
-    ASSERT((ulChannelStructIndex & 0xffff) < 64);ASSERT(HWREG(UDMA_O_CTLBASE) != 0);
+    ASSERT((ulChannelStructIndex & 0xffff) < 64);
+    ASSERT(HWREG(UDMA_O_CTLBASE) != 0);
 
     //
     // In case a channel selector macro (like UDMA_CH0_USB0EP1RX) was
@@ -956,27 +1029,27 @@ unsigned long uDMAChannelModeGet(unsigned long ulChannelStructIndex) {
     //
     // Get the base address of the control table.
     //
-    pControlTable = (tDMAControlTable *) HWREG(UDMA_BASE + UDMA_O_CTLBASE);
+    pControlTable = (tDMAControlTable *)HWREG(UDMA_BASE + UDMA_O_CTLBASE);
 
     //
     // Get the current control word value and mask off all but the mode field.
     //
     ulControl = (pControlTable[ulChannelStructIndex].ulControl &
-    UDMA_CHCTL_XFERMODE_M);
+                 UDMA_CHCTL_XFERMODE_M);
 
     //
     // Check if scatter/gather mode, and if so, mask off the alt bit.
     //
-    if (((ulControl & ~UDMA_MODE_ALT_SELECT) == UDMA_MODE_MEM_SCATTER_GATHER)
-            || ((ulControl & ~UDMA_MODE_ALT_SELECT)
-                    == UDMA_MODE_PER_SCATTER_GATHER)) {
+    if(((ulControl & ~UDMA_MODE_ALT_SELECT) == UDMA_MODE_MEM_SCATTER_GATHER) ||
+       ((ulControl & ~UDMA_MODE_ALT_SELECT) == UDMA_MODE_PER_SCATTER_GATHER))
+    {
         ulControl &= ~UDMA_MODE_ALT_SELECT;
     }
 
     //
     // Return the mode to the caller.
     //
-    return (ulControl);
+    return(ulControl);
 }
 
 //*****************************************************************************
@@ -1007,11 +1080,14 @@ unsigned long uDMAChannelModeGet(unsigned long ulChannelStructIndex) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAIntRegister(unsigned long ulIntChannel, void (*pfnHandler)(void)) {
+void
+uDMAIntRegister(unsigned long ulIntChannel, void (*pfnHandler)(void))
+{
     //
     // Check the arguments.
     //
-    ASSERT(pfnHandler);ASSERT((ulIntChannel == UDMA_INT_SW) || (ulIntChannel == UDMA_INT_ERR));
+    ASSERT(pfnHandler);
+    ASSERT((ulIntChannel == UDMA_INT_SW) || (ulIntChannel == UDMA_INT_ERR));
 
     //
     // Register the interrupt handler.
@@ -1041,7 +1117,9 @@ void uDMAIntRegister(unsigned long ulIntChannel, void (*pfnHandler)(void)) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAIntUnregister(unsigned long ulIntChannel) {
+void
+uDMAIntUnregister(unsigned long ulIntChannel)
+{
     //
     // Disable the interrupt.
     //
@@ -1072,12 +1150,15 @@ void uDMAIntUnregister(unsigned long ulIntChannel) {
 //! is requesting an interrupt.  Multiple bits can be set.
 //
 //*****************************************************************************
-unsigned long uDMAIntStatus(void) {
+unsigned long
+uDMAIntStatus(void)
+{
+
 
     //
     // Return the value of the uDMA interrupt status register
     //
-    return (HWREG(UDMA_BASE + UDMA_O_CHIS));
+    return(HWREG(UDMA_BASE + UDMA_O_CHIS));
 }
 
 //*****************************************************************************
@@ -1098,7 +1179,9 @@ unsigned long uDMAIntStatus(void) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAIntClear(unsigned long ulChanMask) {
+void
+uDMAIntClear(unsigned long ulChanMask)
+{
 
     //
     // Clear the requested bits in the uDMA interrupt status register
@@ -1130,7 +1213,9 @@ void uDMAIntClear(unsigned long ulChanMask) {
 //! \return None.
 //
 //*****************************************************************************
-void uDMAChannelAssign(unsigned long ulMapping) {
+void
+uDMAChannelAssign(unsigned long ulMapping)
+{
     unsigned long ulMapReg;
     unsigned long ulMapShift;
     unsigned long ulChannelNum;
@@ -1139,6 +1224,7 @@ void uDMAChannelAssign(unsigned long ulMapping) {
     // Check the parameters
     //
     ASSERT((ulMapping & 0xffffff00) < 0x00050000);
+
 
     //
     // Extract the channel number and map encoding value from the parameter.
@@ -1156,8 +1242,8 @@ void uDMAChannelAssign(unsigned long ulMapping) {
     //
     // Set the channel map encoding for this channel
     //
-    HWREG(ulMapReg) = (HWREG(ulMapReg) & ~(0xf << ulMapShift))
-            | ulMapping << ulMapShift;
+    HWREG(ulMapReg) = (HWREG(ulMapReg) & ~(0xf << ulMapShift)) |
+                      ulMapping << ulMapShift;
 }
 
 //*****************************************************************************

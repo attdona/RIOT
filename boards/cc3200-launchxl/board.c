@@ -15,18 +15,15 @@
  *
  * @author      Attilio Dona'
  */
-
 #include <inc/hw_ints.h>
 #include <inc/hw_memmap.h>
 #include <inc/hw_types.h>
 #include <stdio.h>
 
-#include "driverlib/rom_map.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/utils.h"
 
 #include "board.h"
-#include "cpu.h"
 #include "lpm.h"
 
 #include "periph/gpio.h"

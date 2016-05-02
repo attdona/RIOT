@@ -50,9 +50,9 @@ static uart_conf_t uart_config[UART_NUMOF];
 
 /*---------------------------------------------------------------------------*/
 static void reset(unsigned long uart_base) {
-    UARTDisable(uart_base);
-    UARTRxErrorClear(uart_base);
-    UARTEnable(uart_base);
+    MAP_UARTDisable(uart_base);
+    MAP_UARTRxErrorClear(uart_base);
+    MAP_UARTEnable(uart_base);
     MAP_UARTFIFODisable(uart_base);
 }
 
@@ -64,7 +64,7 @@ void isr_uart0(void) {
     MAP_UARTIntClear(UARTA0_BASE,
     UART_INT_RX | UART_INT_OE | UART_INT_BE | UART_INT_PE | UART_INT_FE);
 
-    if (UARTRxErrorGet(UARTA0_BASE)) {
+    if (MAP_UARTRxErrorGet(UARTA0_BASE)) {
         reset(UARTA0_BASE);
     } else {
         long data;
