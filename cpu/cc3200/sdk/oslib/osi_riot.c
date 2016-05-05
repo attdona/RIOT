@@ -53,6 +53,8 @@ __attribute__ ((weak)) void SimpleLinkNetAppEventHandler(SlNetAppEvent_t* pSlNet
 __attribute__ ((weak)) void SimpleLinkHttpServerCallback(SlHttpServerEvent_t *pSlHttpServerEvent,
         SlHttpServerResponse_t *pSlHttpServerResponse) {};
 
+__attribute__ ((weak)) void SimpleLinkGeneralEventHandler(SlDeviceEvent_t *pDevEvent) {};
+
 
 void init_sync_pool(void) {
     lifo_init(synchronizer, MAX_SYNC_OBJS);

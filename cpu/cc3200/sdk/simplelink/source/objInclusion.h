@@ -1,40 +1,40 @@
 /*
  * objInclusion.h - CC31xx/CC32xx Host Driver Implementation
  *
- * Copyright (C) 2014 Texas Instruments Incorporated - http://www.ti.com/
- *
- *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions
+ * Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com/ 
+ * 
+ * 
+ *  Redistribution and use in source and binary forms, with or without 
+ *  modification, are permitted provided that the following conditions 
  *  are met:
  *
- *    Redistributions of source code must retain the above copyright
+ *    Redistributions of source code must retain the above copyright 
  *    notice, this list of conditions and the following disclaimer.
  *
  *    Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the
+ *    notice, this list of conditions and the following disclaimer in the 
+ *    documentation and/or other materials provided with the   
  *    distribution.
  *
  *    Neither the name of Texas Instruments Incorporated nor the names of
  *    its contributors may be used to endorse or promote products derived
  *    from this software without specific prior written permission.
  *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
  *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
  *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- */
+*/
 
-#include <simplelink.h>
+#include "simplelink.h"
 
 #ifndef OBJINCLUSION_H_
 #define OBJINCLUSION_H_
@@ -43,21 +43,23 @@
 extern "C" {
 #endif
 
-    /******************************************************************************
-
-     For future use
-
-     *******************************************************************************/
+/******************************************************************************
+ 
+ For future use
+	
+*******************************************************************************/
 
 #define __inln        	/* if inline functions requiered: #define __inln inline */
 
 #define SL_DEVICE      	/* Device silo is currently always mandatory */
 
-    /******************************************************************************
 
-     Qualifiers for package customizations
 
-     *******************************************************************************/
+/******************************************************************************
+
+ Qualifiers for package customizations 
+	
+*******************************************************************************/
 
 #if defined (SL_DEVICE)
 #define __dev   1
@@ -70,6 +72,7 @@ extern "C" {
 #else
 #define __dev__ext   0
 #endif
+
 
 #if (!defined (SL_PLATFORM_MULTI_THREADED)) || (!defined (SL_PLATFORM_EXTERNAL_SPAWN))
 #define __int__spwn     1
@@ -94,7 +97,7 @@ extern "C" {
 #else
 #define __nap__ext   0
 #endif
-
+  
 #if defined (SL_INC_NET_CFG_PKG)
 #define __ncg        1
 #else
@@ -161,20 +164,22 @@ extern "C" {
 #define __wln__ext      0
 #endif
 
-    /* The return 1 is the function need to be included in the output */
+/* The return 1 is the function need to be included in the output */
 #define _SL_INCLUDE_FUNC(Name)		(_SL_INC_##Name)
 
-    /* Driver */
+/* Driver */
 #define _SL_INC_sl_NetAppStart          __nap__ext
 #define _SL_INC_sl_NetAppStop           __nap__ext
 
 #define _SL_INC_sl_NetAppDnsGetHostByName   __nap__clt
+
 
 #define _SL_INC_sl_NetAppDnsGetHostByService			__nap__ext
 #define _SL_INC_sl_NetAppMDNSRegisterService		    __nap__ext
 #define _SL_INC_sl_NetAppMDNSUnRegisterService		    __nap__ext
 #define _SL_INC_sl_NetAppMDNSRegisterUnregisterService	__nap__ext
 #define _SL_INC_sl_NetAppGetServiceList	                __nap__ext
+	
 
 #define _SL_INC_sl_DnsGetHostByAddr     __nap__ext
 #define _SL_INC_sl_NetAppPingStart      __nap__ext
@@ -182,7 +187,8 @@ extern "C" {
 #define _SL_INC_sl_NetAppSet            __nap__ext
 #define _SL_INC_sl_NetAppGet            __nap__ext
 
-    /* FS */
+
+/* FS */
 #define _SL_INC_sl_FsOpen            __nvm
 
 #define _SL_INC_sl_FsClose           __nvm
@@ -195,7 +201,7 @@ extern "C" {
 
 #define _SL_INC_sl_FsDel             __nvm
 
-    /* netcfg */
+/* netcfg */
 #define _SL_INC_sl_MacAdrrSet           __ncg
 
 #define _SL_INC_sl_MacAdrrGet           __ncg
@@ -204,7 +210,8 @@ extern "C" {
 
 #define _SL_INC_sl_NetCfgSet          __ncg
 
-    /* socket */
+
+/* socket */
 #define _SL_INC_sl_Socket               __sck
 
 #define _SL_INC_sl_Close                __sck
@@ -236,8 +243,8 @@ extern "C" {
 #define _SL_INC_sl_Htonl                __sck
 
 #define _SL_INC_sl_Htons                __sck
-
-    /* wlan */
+  
+/* wlan */
 #define _SL_INC_sl_WlanConnect          __wln__ext
 
 #define _SL_INC_sl_WlanDisconnect           __wln__ext
@@ -264,6 +271,7 @@ extern "C" {
 
 #define _SL_INC_sl_SmartConfigOptSet    __wln__ext
 
+
 #define _SL_INC_sl_WlanSmartConfigStart  __wln
 
 #define _SL_INC_sl_WlanSmartConfigStop   __wln
@@ -284,16 +292,19 @@ extern "C" {
 
 #define _SL_INC_sl_WlanRxStatGet        __wln__ext
 
-    /* device */
+
+/* device */
 #define _SL_INC_sl_Task                 __int__spwn
 
 #define _SL_INC_sl_Start                __dev
 
 #define _SL_INC_sl_Stop                 __dev
 
+#define _SL_INC_sl_Stop_WithNwpLpdsPoll __dev
+
 #define _SL_INC_sl_StatusGet            __dev
 
-#ifdef SL_IF_TYPE_UART
+#ifdef SL_IF_TYPE_UART  
 #define _SL_INC_sl_UartSetMode	        __dev__ext
 #endif
 
@@ -304,6 +315,7 @@ extern "C" {
 #define _SL_INC_sl_DevGet			    __dev__ext
 
 #define _SL_INC_sl_DevSet			    __dev__ext
+
 
 #ifdef  __cplusplus
 }
