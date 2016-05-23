@@ -13,7 +13,7 @@
  * @{
  *
  * @file
- * @brief           
+ * @brief
  *
  * @author          Attilio Dona'
  */
@@ -121,7 +121,7 @@ int encode(const char* string)
 }
 
 
-void morse(const char* namespace, int err_code, int detail) {
+void morse(const char* namespace, int err_code, int detail, char loop) {
     char string[64];
     if (detail) {
         sprintf(string, "%s%d:%d", namespace, err_code, detail);
@@ -131,8 +131,7 @@ void morse(const char* namespace, int err_code, int detail) {
 
     int len = encode(string);
 
-
-    while (true) {
+    do {
         for (int i = 0; i <= len; i++) {
             switch (morse_word[i]) {
                 case '.': //dit
@@ -156,6 +155,6 @@ void morse(const char* namespace, int err_code, int detail) {
             }
         }
         delay(UNIT_LENGTH*7);
-    }
+    } while (loop);
 
 }
