@@ -13,7 +13,7 @@
  * @{
  *
  * @file
- * @brief           
+ * @brief
  *
  * @author          Attilio Dona'
  */
@@ -23,17 +23,21 @@
 
 #ifdef DEVELHELP
 
- #define PANIC(NS, ERR_ID)  puts(sl_err_descr[ERR_ID]); while(1) {}
- #define PANIC2(NS, ERR_ID, ERR_VAL) printf("%s (%d)\n", sl_err_descr[ERR_ID], ERR_VAL); while(1) {}
- #define SIGNAL(NS, ERR_ID)  puts(sl_err_descr[ERR_ID])
+// #define PANIC(NS, ERR_ID)  puts(sl_err_descr[ERR_ID]); while(1) {}
+// #define PANIC2(NS, ERR_ID, ERR_VAL) printf("%s (%d)\n", sl_err_descr[ERR_ID], ERR_VAL); while(1) {}
+// #define SIGNAL(NS, ERR_ID)  puts(sl_err_descr[ERR_ID])
+
+#define PANIC(NS, ERR_ID)  printf("%s:%d fatal error: [%s:%d]\n", __FILE__, __LINE__, NS, ERR_ID); while(1) {}
+#define PANIC2(NS, ERR_ID, ERR_VAL) printf("%s:%d fatal error: [%s:%d:%d] \n", __FILE__, __LINE__, NS, ERR_ID, ERR_VAL); while(1) {}
+#define SIGNAL(NS, ERR_ID) printf("%s:%d error: [%s:%d]\n", __FILE__, __LINE__, NS, ERR_ID)
 
  #define PANIC_MESSAGE "critical fault: %s:%d\n", __FILE__, __LINE__
 
 #else
 
- #define PANIC(NS, ERR_ID)           morse(NS, ERR_ID, 0)
- #define PANIC2(NS, ERR_ID, ERR_VAL) morse(NS, ERR_ID, ERR_VAL)
- #define SIGNAL(NS, ERR_ID)          morse(NS, ERR_ID, 0)
+ #define PANIC(NS, ERR_ID)           morse(NS, ERR_ID, 0, 1)
+ #define PANIC2(NS, ERR_ID, ERR_VAL) morse(NS, ERR_ID, ERR_VAL, 1)
+ #define SIGNAL(NS, ERR_ID)          morse(NS, ERR_ID, 0, 0)
 
  #define PANIC_MESSAGE "SOS"
 
