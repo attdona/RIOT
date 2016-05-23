@@ -71,6 +71,8 @@ typedef enum {
 
     WLAN_CONNECTED,              // Link established
 
+    WLAN_DISCONNECTED,           // Link broken
+
     IP_ACQUIRED,                 // ip address assignment
 
     SOCKET_CONNECTION,           // a socket connection event
