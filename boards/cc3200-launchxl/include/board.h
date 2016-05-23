@@ -46,12 +46,12 @@ extern "C" {
 #define LED_YELLOW 9
 
 /**
- * SW2 button id
+ * SW3 button id
  */
 #define PUSH1 3
 
 /**
- * SW3 button id
+ * SW2 button id
  */
 #define PUSH2 11
 
