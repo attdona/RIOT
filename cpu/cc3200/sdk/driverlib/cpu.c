@@ -45,7 +45,7 @@
 // on entry.
 //
 //*****************************************************************************
-#if defined(gcc)
+#if defined(__GNUC__)
 unsigned long __attribute__((naked))
 CPUcpsid(void)
 {
