@@ -31,6 +31,9 @@
 #include "device.h"
 #include "nwp_conf.h"
 
+/* Priority 5, or 160 as only the top three bits are implemented. */
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY    ( 1 << 5 )
+
 #ifndef MALLOC_SL_OBJECTS
 
 #define MAX_SYNC_OBJS 64
@@ -42,6 +45,8 @@
 static int synchronizer[MAX_SYNC_OBJS + 1];
 
 static mutex_t osi_mutexes[MAX_SYNC_OBJS];
+
+static int uxCriticalNesting = 0;
 
 
 __attribute__ ((weak)) void SimpleLinkWlanEventHandler(SlWlanEvent_t* pSlWlanEvent) {};
@@ -690,6 +695,73 @@ OsiReturnVal_e osi_MsgQRead(OsiMsgQ_t* pMsgQ, void* pMsg, OsiTime_t Timeout) {
 */
 void osi_Sleep(unsigned int MilliSecs) {
     xtimer_usleep(MilliSecs * 80000);
+}
+
+__attribute__(( naked )) uint32_t ulPortSetInterruptMask( void )
+{
+	__asm volatile														\
+	(																	\
+		"	mrs r0, basepri											\n" \
+		"	mov r1, %0												\n"	\
+		"	msr basepri, r1											\n" \
+		"	bx lr													\n" \
+		:: "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) : "r0", "r1"	\
+	);
+
+	/* This return will not be reached but is necessary to prevent compiler
+	warnings. */
+	return 0;
+}
+/*-----------------------------------------------------------*/
+
+__attribute__(( naked )) void vPortClearInterruptMask( uint32_t ulNewMaskValue )
+{
+	__asm volatile													\
+	(																\
+		"	msr basepri, r0										\n"	\
+		"	bx lr												\n" \
+		:::"r0"														\
+	);
+
+	/* Just to avoid compiler warnings. */
+	( void ) ulNewMaskValue;
+}
+
+/*!
+	\brief 	This function use to entering into critical section
+	\param	void
+	\return - void
+	\note
+	\warning
+*/
+unsigned long osi_EnterCritical(void)
+{
+	// portDISABLE_INTERRUPTS();
+	ulPortSetInterruptMask();
+	uxCriticalNesting++;
+	__asm volatile( "dsb" );
+	__asm volatile( "isb" );
+
+    return 0;
+}
+
+/*!
+	\brief 	This function use to exit critical section
+	\param	void
+	\return - void
+	\note
+	\warning
+*/
+void osi_ExitCritical(unsigned long ulKey)
+{
+	//configASSERT(uxCriticalNesting);
+	uxCriticalNesting--;
+	if( uxCriticalNesting == 0 )
+	{
+		//portENABLE_INTERRUPTS();
+		vPortClearInterruptMask(0);
+	}
+
 }
 
 
