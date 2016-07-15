@@ -19,11 +19,21 @@
  */
 
 #include "arch/lpm_arch.h"
+#include "cc3200.h"
+
+#ifdef PM_MODULE
+#include "cc_pm.h"
+#endif
 
 void lpm_arch_init(void) {
 }
 
 enum lpm_mode lpm_arch_set(enum lpm_mode target) {
+
+#ifdef PM_MODULE
+	cc_idle_task_pm();
+#endif
+
     return 0;
 }
 
