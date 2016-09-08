@@ -120,14 +120,14 @@ typedef struct {
  */
 #define SBAPI_SMARTCONFIG   (0x1)
 #define SBAPI_DEFAULT_RESET (0x2)
-#define SBAPI_AUTOSTART     (0x3)
+#define SBAPI_AUTOSTART     (0x4)
 
 // 2 bits flag, numbers of connections attempt before invoking smartconfig if
 // enabled
 #define SBAPI_RETRIES         (2 << 2)
 #define SBAPI_DELETE_PROFILES (0x10)
 
-#define SBAPI_DEFAULT_CFG   (SBAPI_RETRIES|SBAPI_SMARTCONFIG|SBAPI_AUTOSTART)
+#define SBAPI_DEFAULT_CFG   (SBAPI_RETRIES|SBAPI_AUTOSTART)
 
 /**
  * @brief msec timeout before hibernating network processor
@@ -163,11 +163,27 @@ typedef void* sbh_t;
  */
 int sbapp_init(uint32_t options);
 
+long simplelink_to_default_state(void);
+
+int16_t is_open(void);
+
+int16_t set_to_open(void);
+
+int16_t set_ap_password(char* pwd);
+
+int16_t set_max_power(void);
+
+int16_t sbapp_add_profile(const char* ssid, const char* pwd);
 
 /**
  * @brief close the connection with the network processor
  */
 int sbapp_stop(void);
+
+/**
+ * @brief
+ */
+int16_t sbapp_set_mode(SlWlanMode_e mode);
 
 
 /**
