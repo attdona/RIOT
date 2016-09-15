@@ -187,7 +187,7 @@ int _xtimer_set_absolute(xtimer_t *timer, uint32_t target)
     //timer->target = target;
 #endif
     timer->long_target = _long_cnt;
-    if (target < now) {
+    if (timer->target < now) {
         timer->long_target++;
     }
 
