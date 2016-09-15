@@ -407,7 +407,7 @@ extern "C" {
 #define IP_DROP_MEMBERSHIP                  SL_IP_DROP_MEMBERSHIP
 
 #define socklen_t                           SlSocklen_t
-#define timeval                             SlTimeval_t
+//#define timeval                             SlTimeval_t
 #define sockaddr                            SlSockAddr_t
 #define in6_addr                            SlIn6Addr_t
 #define sockaddr_in6                        SlSockAddrIn6_t
@@ -430,7 +430,7 @@ extern "C" {
 #define bind                                sl_Bind
 #define listen                              sl_Listen
 #define connect                             sl_Connect
-#define select                              sl_Select
+//#define select                              sl_Select
 #define setsockopt                          sl_SetSockOpt
 #define getsockopt                          sl_GetSockOpt
 #define recv                                sl_Recv
