@@ -40,7 +40,7 @@ typedef struct {
     void (*cb)(void*, int);
 } timer_conf_t;
 
-timer_conf_t config[MAX_TIMERS];
+static timer_conf_t config[MAX_TIMERS];
 
 
 void irq_timer0_handler(void) {
