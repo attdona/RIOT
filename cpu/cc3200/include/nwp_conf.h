@@ -146,7 +146,7 @@ typedef enum {
 typedef struct nwp_t {
     volatile uint16_t status;
     unsigned char ssid[SSID_LEN_MAX + 1];
-    unsigned char bssid[BSSID_LEN_MAX];
+    unsigned char bssid[BSSID_LEN_MAX + 1];
     uint32_t ip;
     uint32_t gw_ip;
     uint16_t role;   //< the current active role (STA/AP/P2P) or ROLE_INVALID
