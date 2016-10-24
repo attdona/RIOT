@@ -180,7 +180,7 @@ int _xtimer_set_absolute(xtimer_t *timer, uint32_t target)
     if (_is_set(timer)) {
         _remove(timer);
     }
-#if XTIMER_SHIFT
+#ifdef XTIMER_SHIFT
     timer->target = (target - XTIMER_OVERHEAD)%(0xffffffff/XTIMER_USEC_TO_TICKS_FACTOR);
 #else
     timer->target = target - XTIMER_OVERHEAD;

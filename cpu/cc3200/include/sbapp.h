@@ -175,6 +175,8 @@ int16_t set_max_power(void);
 
 int16_t sbapp_add_profile(const char* ssid, const char* pwd);
 
+uint16_t sbapp_get_profiles(void);
+
 /**
  * @brief close the connection with the network processor
  */

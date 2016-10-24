@@ -193,6 +193,7 @@ _ssize_t _read_r(struct _reent *r, int fd, void *buffer, size_t count)
     return uart_stdio_read(buffer, count);
 }
 
+#ifndef CUSTOM_WRITE_R
 /**
  * @brief Write characters to a file
  *
@@ -214,6 +215,8 @@ _ssize_t _write_r(struct _reent *r, int fd, const void *data, size_t count)
     (void) fd;
     return uart_stdio_write(data, count);
 }
+
+#endif
 
 /**
  * @brief Close a file

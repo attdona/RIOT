@@ -64,7 +64,7 @@ extern "C" {
  */
 #define DEBUG_PIN 5 // P1.5 on launchpad
 
-#define ALARM_PIN 8
+#define ALARM_PIN 6
 
 /**
  * timer module allocated for xtimer
@@ -75,6 +75,11 @@ extern "C" {
  * xtimer fixed channel value
  */
 #define XTIMER_CHAN (0)
+
+/**
+ * redefine write_r for diverting characters from UART
+ */
+#define CUSTOM_WRITE_R
 
 
 #if TIMER_0_MAX_VALUE == 0xffffff
@@ -119,6 +124,8 @@ extern "C" {
  * @brief Initialize board specific hardware, including clock, LEDs and std-IO
  */
 void board_init(void);
+
+void uart_remote(const uint8_t *data, size_t len);
 
 #ifdef __cplusplus
 } /* end extern "C" */
