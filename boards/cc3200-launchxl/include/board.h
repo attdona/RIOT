@@ -79,7 +79,7 @@ extern "C" {
 /**
  * redefine write_r for diverting characters from UART
  */
-#define CUSTOM_WRITE_R
+//#define CUSTOM_WRITE_R
 
 
 #if TIMER_0_MAX_VALUE == 0xffffff

@@ -212,7 +212,9 @@ void uart_tx_end(uart_t uart) {
 void uart_write(uart_t uart, const uint8_t *data, size_t len) {
     unsigned long u;
 
+#ifdef CUSTOM_WRITE_R
     uart_remote(data, len);
+#endif
 
     switch (uart) {
 #if UART_0_EN
