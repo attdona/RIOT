@@ -19,6 +19,8 @@
 #ifndef PERIPH_CONF_H_
 #define PERIPH_CONF_H_
 
+#include "periph_cpu.h"
+ 
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -35,6 +37,17 @@ extern "C" {
                                                       16: 16MHz crystal
                                                       32: 32MHz crystal */
 /** @} */
+
+
+/**
+ * @name Timer configuration
+ * @{
+ */
+static const timer_conf_t timer_config[] = {
+    /* dev, channels, width */
+    { NRF_TIMER0, 3, TIMER_BITMODE_BITMODE_24Bit, TIMER0_IRQn }
+};
+
 
 /**
  * @name Timer configuration
@@ -116,6 +129,16 @@ extern "C" {
 #define SPI_0_PIN_MISO      3
 #define SPI_0_PIN_SCK       1
 
+/** @} */
+
+
+/**
+ * @brief   ADC configuration
+ *
+ * The configuration consists simply of a list of channels that should be used
+ * @{
+ */
+#define ADC_NUMOF          (0)
 /** @} */
 
 
