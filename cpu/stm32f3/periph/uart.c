@@ -34,7 +34,7 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, void *arg)
 {
     /* do basic initialization */
     int res = init_base(uart, baudrate);
-    if (res < 0) {
+    if (res != UART_OK) {
         return res;
     }
 
@@ -64,7 +64,7 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, void *arg)
 #endif
     }
 
-    return 0;
+    return UART_OK;
 }
 
 static int init_base(uart_t uart, uint32_t baudrate)
@@ -116,8 +116,14 @@ static int init_base(uart_t uart, uint32_t baudrate)
             break;
 #endif
         default:
-            return -1;
+            return UART_NODEV;
     }
+
+    /* Make sure port and dev are != NULL here, i.e. that the variables are
+     * assigned in all non-returning branches of the switch at the top of this
+     * function. */
+    assert(port != NULL);
+    assert(dev != NULL);
 
     /* uart_configure RX and TX pins, set pin to use alternative function mode */
     port->MODER &= ~(3 << (rx_pin * 2) | 3 << (tx_pin * 2));
@@ -151,7 +157,7 @@ static int init_base(uart_t uart, uint32_t baudrate)
     dev->CR2 = 0;
     dev->CR1 |= USART_CR1_UE | USART_CR1_TE | USART_CR1_RE;
 
-    return 0;
+    return UART_OK;
 }
 
 void uart_write(uart_t uart, const uint8_t *data, size_t len)
@@ -177,6 +183,10 @@ void uart_write(uart_t uart, const uint8_t *data, size_t len)
         default:
             return;
     }
+
+    /* Make sure dev is != NULL here, i.e. that the variable is assigned in
+     * all non-returning branches of the switch at the top of this function. */
+    assert(dev != NULL);
 
     for (size_t i = 0; i < len; i++) {
         while (!(dev->ISR & USART_ISR_TXE)) {}

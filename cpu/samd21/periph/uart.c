@@ -50,7 +50,7 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, void *arg)
 {
     /* initialize basic functionality */
     int res = init_base(uart, baudrate);
-    if (res != 0) {
+    if (res != UART_OK) {
         return res;
     }
 
@@ -60,7 +60,7 @@ int uart_init(uart_t uart, uint32_t baudrate, uart_rx_cb_t rx_cb, void *arg)
     /* configure interrupts and enable RX interrupt */
     _uart(uart)->INTENSET.reg = SERCOM_USART_INTENSET_RXC;
     NVIC_EnableIRQ(SERCOM0_IRQn + _sercom_id(_uart(uart)));
-    return 0;
+    return UART_OK;
 }
 
 static int init_base(uart_t uart, uint32_t baudrate)
@@ -69,7 +69,7 @@ static int init_base(uart_t uart, uint32_t baudrate)
     SercomUsart *dev;
 
     if ((unsigned int)uart >= UART_NUMOF) {
-        return -1;
+        return UART_NODEV;
     }
 
     /* get the devices base register */
@@ -86,11 +86,12 @@ static int init_base(uart_t uart, uint32_t baudrate)
     /* reset the UART device */
     dev->CTRLA.reg = SERCOM_USART_CTRLA_SWRST;
     while (dev->SYNCBUSY.reg & SERCOM_USART_SYNCBUSY_SWRST) {}
-    /* set asynchronous mode w/o parity, LSB first, PAD0 to TX, PAD1 to RX and
-     * use internal clock */
+    /* set asynchronous mode w/o parity, LSB first, TX and RX pad as specified
+     * by the board in the periph_conf.h, x16 sampling and use internal clock */
     dev->CTRLA.reg = (SERCOM_USART_CTRLA_DORD |
-                      SERCOM_USART_CTRLA_RXPO(0x1) |
                       SERCOM_USART_CTRLA_SAMPR(0x1) |
+                      SERCOM_USART_CTRLA_TXPO(uart_config[uart].tx_pad) |
+                      SERCOM_USART_CTRLA_RXPO(uart_config[uart].rx_pad) |
                       SERCOM_USART_CTRLA_MODE_USART_INT_CLK);
     /* set baudrate */
     dev->BAUD.FRAC.FP = (baud % 10);
@@ -100,7 +101,7 @@ static int init_base(uart_t uart, uint32_t baudrate)
     while (dev->SYNCBUSY.reg & SERCOM_USART_SYNCBUSY_CTRLB) {}
     /* finally, enable the device */
     dev->CTRLA.reg |= SERCOM_USART_CTRLA_ENABLE;
-    return 0;
+    return UART_OK;
 }
 
 void uart_write(uart_t uart, const uint8_t *data, size_t len)

@@ -41,6 +41,13 @@ extern "C" {
 #define TIMER_MAXVAL        (0xffff)
 
 /**
+ * @brief declare needed generic SPI functions
+ * @{
+ */
+#undef PERIPH_SPI_NEEDS_TRANSFER_BYTES
+#define PERIPH_SPI_NEEDS_TRANSFER_BYTE
+
+/**
  * @brief   Generate GPIO mode bitfields
  *
  * We use 4 bit to determine the pin functions:
@@ -51,6 +58,7 @@ extern "C" {
  */
 #define GPIO_MODE(mode, cnf, odr)       (mode | (cnf << 2) | (odr << 4))
 
+#ifndef DOXYGEN
 /**
  * @brief   Override GPIO mode options
  *
@@ -67,6 +75,7 @@ typedef enum {
     GPIO_OD_PU = (0xff)                 /**< not supported by HW */
 } gpio_mode_t;
 /** @} */
+#endif /* ndef DOXYGEN */
 
 /**
  * @brief   Override values for pull register configuration
@@ -80,6 +89,7 @@ typedef enum {
 } gpio_pp_t;
 /** @} */
 
+#ifndef DOXYGEN
 /**
  * @brief   Override flank configuration values
  * @{
@@ -91,6 +101,7 @@ typedef enum {
     GPIO_BOTH = 3           /**< emit interrupt on both flanks */
 } gpio_flank_t;
 /** @} */
+#endif /* ndef DOXYGEN */
 
 /**
  * @brief   Available ports on the STM32F1 family

@@ -73,23 +73,51 @@ static bool _is_iface(kernel_pid_t dev)
     return false;
 }
 
-#ifdef MODULE_NETSTATS_L2
-static int _netif_stats(kernel_pid_t dev, bool reset)
+#ifdef MODULE_NETSTATS
+const char *_netstats_module_to_str(uint8_t module)
+{
+    switch (module) {
+        case NETSTATS_LAYER2:
+            return "Layer 2";
+        case NETSTATS_IPV6:
+            return "IPv6";
+        case NETSTATS_ALL:
+            return "all";
+        default:
+            return "Unknown";
+    }
+}
+
+static int _netif_stats(kernel_pid_t dev, unsigned module, bool reset)
 {
     netstats_t *stats;
     int res = -ENOTSUP;
-    res = gnrc_netapi_get(dev, NETOPT_STATS, 0, &stats, sizeof(&stats));
+
+    if (module == NETSTATS_LAYER2) {
+        res = gnrc_netapi_get(dev, NETOPT_STATS, 0, &stats, sizeof(&stats));
+    }
+#ifdef MODULE_NETSTATS_IPV6
+    else if (module == NETSTATS_IPV6) {
+        stats = gnrc_ipv6_netif_get_stats(dev);
+        if (stats != NULL) {
+            res = 1;
+        }
+    }
+#endif
+
     if (res < 0) {
         puts("           Protocol or device doesn't provide statistics.");
     }
     else if (reset) {
         memset(stats, 0, sizeof(netstats_t));
-        puts("Reset statistics!");
+        printf("Reset statistics for module %s!\n", _netstats_module_to_str(module));
     }
     else {
-        printf("           RX packets %u  bytes %u\n"
-               "           TX packets %u (Multicast: %u)  bytes %u\n"
-               "           TX succeeded %u errors %u\n",
+        printf("           Statistics for %s\n"
+               "            RX packets %u  bytes %u\n"
+               "            TX packets %u (Multicast: %u)  bytes %u\n"
+               "            TX succeeded %u errors %u\n",
+               _netstats_module_to_str(module),
                (unsigned) stats->rx_count,
                (unsigned) stats->rx_bytes,
                (unsigned) (stats->tx_unicast_count + stats->tx_mcast_count),
@@ -97,10 +125,11 @@ static int _netif_stats(kernel_pid_t dev, bool reset)
                (unsigned) stats->tx_bytes,
                (unsigned) stats->tx_success,
                (unsigned) stats->tx_failed);
+        res = 0;
     }
     return res;
 }
-#endif
+#endif // MODULE_NETSTATS
 
 static void _set_usage(char *cmd_name)
 {
@@ -131,14 +160,16 @@ static void _mtu_usage(char *cmd_name)
     printf("usage: %s <if_id> mtu <n>\n", cmd_name);
 }
 
+#ifdef MODULE_GNRC_IPV6_NETIF
 static void _hl_usage(char *cmd_name)
 {
     printf("usage: %s <if_id> hl <n>\n", cmd_name);
 }
+#endif
 
 static void _flag_usage(char *cmd_name)
 {
-    printf("usage: %s <if_id> [-]{promisc|autoack|csma|autocca|cca_threshold|preload|iphc|rtr_adv}\n", cmd_name);
+    printf("usage: %s <if_id> [-]{promisc|autoack|ack_req|csma|autocca|cca_threshold|preload|iphc|rtr_adv}\n", cmd_name);
 }
 
 static void _add_usage(char *cmd_name)
@@ -153,10 +184,13 @@ static void _del_usage(char *cmd_name)
            cmd_name);
 }
 
+#ifdef MODULE_NETSTATS
 static void _stats_usage(char *cmd_name)
 {
-    printf("usage: %s <if_id> stats [reset]\n", cmd_name);
+    printf("usage: %s <if_id> stats [l2|ipv6] [reset]\n", cmd_name);
+    puts("       reset can be only used if the module is specified.");
 }
+#endif
 
 static void _print_netopt(netopt_t opt)
 {
@@ -350,6 +384,13 @@ static void _netif_list(kernel_pid_t dev)
         linebreak = true;
     }
 
+    res = gnrc_netapi_get(dev, NETOPT_ACK_REQ, 0, &enable, sizeof(enable));
+
+    if ((res >= 0) && (enable == NETOPT_ENABLE)) {
+        printf("ACK_REQ  ");
+        linebreak = true;
+    }
+
     res = gnrc_netapi_get(dev, NETOPT_PRELOADING, 0, &enable, sizeof(enable));
 
     if ((res >= 0) && (enable == NETOPT_ENABLE)) {
@@ -460,7 +501,10 @@ static void _netif_list(kernel_pid_t dev)
 
 #ifdef MODULE_NETSTATS_L2
     puts("");
-    _netif_stats(dev, false);
+    _netif_stats(dev, NETSTATS_LAYER2, false);
+#endif
+#ifdef MODULE_NETSTATS_IPV6
+    _netif_stats(dev, NETSTATS_IPV6, false);
 #endif
     puts("");
 }
@@ -792,6 +836,9 @@ static int _netif_flag(char *cmd, kernel_pid_t dev, char *flag)
     else if (strcmp(flag, "autoack") == 0) {
         return _netif_set_flag(dev, NETOPT_AUTOACK, set);
     }
+    else if (strcmp(flag, "ack_req") == 0) {
+        return _netif_set_flag(dev, NETOPT_ACK_REQ, set);
+    }
     else if (strcmp(flag, "raw") == 0) {
         return _netif_set_flag(dev, NETOPT_RAWMODE, set);
     }
@@ -1106,13 +1153,39 @@ int _netif_config(int argc, char **argv)
 
                 return _netif_mtu((kernel_pid_t)dev, argv[3]);
             }
-#ifdef MODULE_NETSTATS_L2
+#ifdef MODULE_NETSTATS
             else if (strcmp(argv[2], "stats") == 0) {
+                uint8_t module;
                 bool reset = false;
-                if ((argc > 3) && (strncmp(argv[3], "reset", 5) == 0)) {
+
+                /* check for requested module */
+                if ((argc == 3) || (strcmp(argv[3], "all") == 0)) {
+                    module = NETSTATS_ALL;
+                }
+                else if (strcmp(argv[3], "l2") == 0) {
+                    module = NETSTATS_LAYER2;
+                }
+                else if (strcmp(argv[3], "ipv6") == 0) {
+                    module = NETSTATS_IPV6;
+                }
+                else {
+                    printf("Module %s doesn't exist or does not provide statistics.\n", argv[3]);
+
+                    return 0;
+                }
+
+                /* check if reset flag was given */
+                if ((argc > 4) && (strncmp(argv[4], "reset", 5) == 0)) {
                     reset = true;
                 }
-                return _netif_stats((kernel_pid_t)dev, reset);
+                if (module & NETSTATS_LAYER2) {
+                    _netif_stats((kernel_pid_t) dev, NETSTATS_LAYER2, reset);
+                }
+                if (module & NETSTATS_IPV6) {
+                    _netif_stats((kernel_pid_t) dev, NETSTATS_IPV6, reset);
+                }
+
+                return 1;
             }
 #endif
 #ifdef MODULE_GNRC_IPV6_NETIF
@@ -1151,10 +1224,14 @@ int _netif_config(int argc, char **argv)
     printf("usage: %s [<if_id>]\n", argv[0]);
     _set_usage(argv[0]);
     _mtu_usage(argv[0]);
+#ifdef MODULE_GNRC_IPV6_NETIF
     _hl_usage(argv[0]);
+#endif
     _flag_usage(argv[0]);
     _add_usage(argv[0]);
     _del_usage(argv[0]);
+#ifdef MODULE_NETSTATS
     _stats_usage(argv[0]);
+#endif
     return 1;
 }

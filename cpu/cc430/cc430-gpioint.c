@@ -162,10 +162,10 @@ ISRV(PORT1_VECTOR, port1_isr)
     /* check interrupt source */
     if (debounce_flags[0] & p1ifg) {
         /* check if bouncing */
-        diff = xtimer_now() - debounce_time[0][ifg_num];
+        diff = xtimer_now_usec() - debounce_time[0][ifg_num];
 
         if (diff > DEBOUNCE_TIMEOUT) {
-            debounce_time[0][ifg_num] = xtimer_now();
+            debounce_time[0][ifg_num] = xtimer_now_usec();
 
             if (cb[0][ifg_num] != NULL) {
                 cb[0][ifg_num]();
@@ -207,10 +207,10 @@ ISRV(PORT2_VECTOR, port2_isr)
     /* check interrupt source */
     if (debounce_flags[1] & p2ifg) {
         /* check if bouncing */
-        diff = xtimer_now() - debounce_time[1][ifg_num];
+        diff = xtimer_now_usec() - debounce_time[1][ifg_num];
 
         if (diff > DEBOUNCE_TIMEOUT) {
-            debounce_time[1][ifg_num] = xtimer_now();
+            debounce_time[1][ifg_num] = xtimer_now_usec();
             c1++;
 
             if (cb[1][ifg_num] != NULL) {
