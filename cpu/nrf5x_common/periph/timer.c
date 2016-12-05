@@ -85,6 +85,8 @@ int timer_init(tim_t tim, unsigned long freq, timer_cb_t cb, void *arg)
     dev(tim)->EVENTS_COMPARE[1] = 0;
     dev(tim)->EVENTS_COMPARE[2] = 0;
 
+    NVIC_SetPriority(TIMER_1_IRQ, TIMER_IRQ_PRIO);
+
     /* enable interrupts */
     timer_irq_enable(tim);
     /* start the timer */

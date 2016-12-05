@@ -21,6 +21,7 @@
 #include <stdint.h>
 #include "cpu.h"
 #include "vectors_cortexm.h"
+//#include "system_nrf51.h"
 
 /* get the start of the ISR stack as defined in the linkerscript */
 extern uint32_t _estack;
@@ -36,6 +37,8 @@ void pre_startup(void)
     /* make sure all RAM blocks are turned on
      * -> see NRF51822 Product Anomaly Notice (PAN) #16 for more details */
     NRF_POWER->RAMON = 0xf;
+
+    //SystemInit();
 }
 
 /* Cortex-M common interrupt vectors */

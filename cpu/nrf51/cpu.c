@@ -20,12 +20,21 @@
 #include "cpu.h"
 #include "periph_conf.h"
 
+
+#ifdef SOFTDEVICE_PRESENT
+#include "softdevice_handler.h"
+uint8_t _ble_evt_buffer[BLE_STACK_EVT_MSG_BUF_SIZE];
+#endif
+
+
+
 /**
  * @brief Initialize the CPU, set IRQ priorities
  */
 void cpu_init(void)
 {
-    /* initialize the Cortex-M core */
+
+	/* initialize the Cortex-M core */
     cortexm_init();
     /* set the correct clock source for HFCLK */
 #if CLOCK_CRYSTAL == 32
@@ -39,4 +48,11 @@ void cpu_init(void)
     NRF_CLOCK->TASKS_HFCLKSTART = 1;
     while (NRF_CLOCK->EVENTS_HFCLKSTARTED == 0) {}
 #endif
+
+    /* softdevice needs to be enabled from ISR context */
+#ifdef SOFTDEVICE_PRESENT
+    softdevice_handler_init(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, &_ble_evt_buffer,
+            BLE_STACK_EVT_MSG_BUF_SIZE, NULL);
+#endif
+
 }

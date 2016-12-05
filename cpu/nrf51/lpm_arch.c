@@ -22,6 +22,10 @@
 #include "cpu.h"
 #include "arch/lpm_arch.h"
 
+#ifdef SOFTDEVICE_PRESENT
+#include "softdevice_handler.h"
+#endif
+
 void lpm_arch_init(void)
 {
     /* TODO: needs to be implemented */
@@ -33,10 +37,17 @@ enum lpm_mode lpm_arch_set(enum lpm_mode target)
         /* wait for next interrupt */
         case LPM_IDLE:
         case LPM_SLEEP:
-        case LPM_POWERDOWN:
+        case LPM_POWERDOWN: {
+#ifdef SOFTDEVICE_PRESENT
+            uint32_t err_code = sd_app_evt_wait();
+            APP_ERROR_CHECK(err_code);
+#else
             __DSB();
             __WFI();
+#endif
             break;
+
+        }
         case LPM_OFF:
             /* Switch of RAM and power off */
             NRF_POWER->RAMON = 0;

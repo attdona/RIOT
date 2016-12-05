@@ -35,6 +35,23 @@ extern "C" {
 #define CPU_IRQ_NUMOF                   (26U)
 /** @} */
 
+/**
+ * @brief   SoftDevice settings
+ * @{
+ */
+#ifdef SOFTDEVICE_PRESENT
+
+
+
+#ifndef DONT_OVERRIDE_NVIC
+#include "nrf_soc.h"
+#undef NVIC_SetPriority
+#define NVIC_SetPriority    sd_nvic_SetPriority
+#endif /* DONT_OVERRIDE_NVIC */
+#endif /* SOFTDEVICE_PRESENT */
+/** @} */
+
+
 #ifdef __cplusplus
 }
 #endif

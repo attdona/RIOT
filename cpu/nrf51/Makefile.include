@@ -1,5 +1,39 @@
 export CPU_ARCH = cortex-m0
 export CPU_FAM  = nrf51
 
+# special options when using SoftDevice
+ifneq (,$(filter nrf51_sdk6,$(USEMODULE)))
+
+NORDIC_SDK := $(RIOTBASE)/drivers/nrf51_sdk6
+
+NORDIC_SRCS := $(NORDIC_SDK)/Source
+NORDIC_INCS := $(NORDIC_SDK)/Include
+
+INCLUDES += \
+			-I$(NORDIC_INCS) \
+			-I$(NORDIC_INCS)/ble \
+			-I$(NORDIC_INCS)/s110 \
+			-I$(NORDIC_INCS)/sd_common \
+			-I$(NORDIC_INCS)/ble/ble_services \
+			-I$(NORDIC_INCS)/serialization/connectivity/ \
+			-I$(NORDIC_INCS)/app_common
+
+CFLAGS += -DNRF51 \
+		  -DNRF51822_QFAA_CA \
+		  -DBLE_STACK_SUPPORT_REQD \
+		  -DSOFTDEVICE_PRESENT \
+		  -DS110
+
+# Nordic's ble_6lowpan.a is compiled with hard-float
+# so set this, otherwise linking fails
+#CFLAGS_FPU := -mfloat-abi=hard -mfpu=fpv4-sp-d16
+
+DIRS += \
+		$(NORDIC_SRCS)/sd_common \
+		$(NORDIC_SRCS)/ble
+
+endif
+
+
 include $(RIOTCPU)/nrf5x_common/Makefile.include
 include $(RIOTCPU)/Makefile.include.cortexm_common
