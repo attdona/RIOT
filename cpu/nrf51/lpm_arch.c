@@ -44,6 +44,9 @@ enum lpm_mode lpm_arch_set(enum lpm_mode target)
 #else
             __DSB();
             __WFI();
+
+            //NRF_POWER->RAMON = 0;
+            //NRF_POWER->SYSTEMOFF = 1;
 #endif
             break;
 

@@ -60,7 +60,9 @@ char *heap_top = &_sheap + 4;
  */
 void _init(void)
 {
+#ifndef NO_UART
     uart_stdio_init();
+#endif
 }
 
 /**

@@ -15,8 +15,14 @@ INCLUDES += \
 			-I$(NORDIC_INCS)/s110 \
 			-I$(NORDIC_INCS)/sd_common \
 			-I$(NORDIC_INCS)/ble/ble_services \
-			-I$(NORDIC_INCS)/serialization/connectivity/ \
-			-I$(NORDIC_INCS)/app_common
+			-I$(NORDIC_INCS)/app_common \
+			-I$(NORDIC_INCS)/ble/device_manager \
+			-I$(NORDIC_INCS)/sdk \
+			-I$(NORDIC_INCS)/bootloader_dfu/hci_transport \
+			-I$(CURDIR)
+			
+#			-I$(NORDIC_INCS)/serialization/connectivity \
+
 
 CFLAGS += -DNRF51 \
 		  -DNRF51822_QFAA_CA \
@@ -30,8 +36,11 @@ CFLAGS += -DNRF51 \
 
 DIRS += \
 		$(NORDIC_SRCS)/sd_common \
-		$(NORDIC_SRCS)/ble
-
+		$(NORDIC_SRCS)/ble \
+		$(NORDIC_SRCS)/ble/ble_services \
+		$(NORDIC_SRCS)/ble/device_manager \
+		$(NORDIC_SRCS)/app_common
+		
 endif
 
 

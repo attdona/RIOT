@@ -21,7 +21,9 @@
 #include <stdint.h>
 #include "cpu.h"
 #include "vectors_cortexm.h"
-//#include "system_nrf51.h"
+#include "system_nrf51.h"
+
+#include "thread.h"
 
 /* get the start of the ISR stack as defined in the linkerscript */
 extern uint32_t _estack;
@@ -38,21 +40,21 @@ void pre_startup(void)
      * -> see NRF51822 Product Anomaly Notice (PAN) #16 for more details */
     NRF_POWER->RAMON = 0xf;
 
-    //SystemInit();
+    SystemInit();
 }
 
 /* Cortex-M common interrupt vectors */
 WEAK_DEFAULT void isr_svc(void);
 WEAK_DEFAULT void isr_pendsv(void);
 WEAK_DEFAULT void isr_systick(void);
+
+
 /* nRF51822 specific interrupt vectors */
 WEAK_DEFAULT void isr_power_clock(void);
 WEAK_DEFAULT void isr_radio(void);
 WEAK_DEFAULT void isr_uart0(void);
 WEAK_DEFAULT void isr_spi0_twi0(void);
 WEAK_DEFAULT void isr_spi1_twi1(void);
-WEAK_DEFAULT void isr_gpiote(void);
-WEAK_DEFAULT void isr_adc(void);
 WEAK_DEFAULT void isr_timer0(void);
 WEAK_DEFAULT void isr_timer1(void);
 WEAK_DEFAULT void isr_timer2(void);
@@ -62,15 +64,37 @@ WEAK_DEFAULT void isr_rng(void);
 WEAK_DEFAULT void isr_ecb(void);
 WEAK_DEFAULT void isr_ccm_aar(void);
 WEAK_DEFAULT void isr_wdt(void);
-WEAK_DEFAULT void isr_rtc1(void);
 WEAK_DEFAULT void isr_qdec(void);
 WEAK_DEFAULT void isr_lpcomp(void);
-WEAK_DEFAULT void isr_swi0(void);
 WEAK_DEFAULT void isr_swi1(void);
 WEAK_DEFAULT void isr_swi2(void);
 WEAK_DEFAULT void isr_swi3(void);
 WEAK_DEFAULT void isr_swi4(void);
 WEAK_DEFAULT void isr_swi5(void);
+
+#ifndef SOFTDEVICE_PRESENT
+WEAK_DEFAULT void isr_rtc1(void);
+WEAK_DEFAULT void isr_swi0(void);
+WEAK_DEFAULT void isr_gpiote(void);
+WEAK_DEFAULT void isr_adc(void);
+WEAK_DEFAULT void isr_swi0(void);
+#else
+
+#define isr_gpiote GPIOTE_IRQHandler
+extern void GPIOTE_IRQHandler(void);
+
+#define isr_adc ADC_IRQHandler
+extern void isr_adc(void);
+
+#define isr_swi0 SWI0_IRQHandler
+extern void isr_swi0(void);
+
+#define isr_rtc1 RTC1_IRQHandler
+extern void isr_rtc1(void);
+
+#endif
+
+
 
 /* interrupt vector table */
 ISR_VECTORS const void *interrupt_vector[] = {

@@ -36,7 +36,7 @@ extern "C" {
 #define BMP180_PARAM_I2C_DEV         (0)
 #endif
 #ifndef BMP180_PARAM_MODE
-#define BMP180_PARAM_MODE            BMP180_ULTRALOWPOWER
+#define BMP180_PARAM_MODE            BMP180_ULTRAHIGHRES
 #endif
 
 #define BMP180_PARAMS_DEFAULT        {.i2c_dev = BMP180_PARAM_I2C_DEV,  \

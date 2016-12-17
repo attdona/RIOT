@@ -46,7 +46,8 @@ extern "C" {
 static const timer_conf_t timer_config[] = {
     /* dev, channels, width */
     { NRF_TIMER0, 3, TIMER_BITMODE_BITMODE_24Bit, TIMER0_IRQn },
-	{ NRF_TIMER1, 3, TIMER_BITMODE_BITMODE_24Bit, TIMER1_IRQn }
+	{ NRF_TIMER1, 3, TIMER_BITMODE_BITMODE_16Bit, TIMER1_IRQn }
+
 };
 
 
@@ -56,9 +57,10 @@ static const timer_conf_t timer_config[] = {
  */
 #define TIMER_NUMOF         (2U)
 #define TIMER_0_EN          0
-#define TIMER_1_EN          1
+#define TIMER_1_EN          0
 #define TIMER_2_EN          0
 #define TIMER_IRQ_PRIO      1
+
 
 /* Timer 0 configuration */
 #define TIMER_0_DEV         NRF_TIMER0
@@ -68,11 +70,12 @@ static const timer_conf_t timer_config[] = {
 #define TIMER_0_ISR         isr_timer0
 #define TIMER_0_IRQ         TIMER0_IRQn
 
+
 /* Timer 1 configuration */
 #define TIMER_1_DEV         NRF_TIMER1
 #define TIMER_1_CHANNELS    3
-#define TIMER_1_MAX_VALUE   (0xffffffff)
-#define TIEMR_1_BITMODE     TIMER_BITMODE_BITMODE_32Bit
+#define TIMER_1_MAX_VALUE   (0xffff)
+#define TIEMR_1_BITMODE     TIMER_BITMODE_BITMODE_16Bit
 #define TIMER_1_ISR         isr_timer1
 #define TIMER_1_IRQ         TIMER1_IRQn
 
@@ -109,7 +112,7 @@ static const timer_conf_t timer_config[] = {
 #define UART_IRQ_PRIO       1
 
 /* UART pin configuration */
-#define UART_HWFLOWCTRL   1
+#define UART_HWFLOWCTRL   0
 #define UART_PIN_RX       11
 #define UART_PIN_TX       9
 #define UART_PIN_RTS      8
@@ -126,11 +129,21 @@ static const timer_conf_t timer_config[] = {
 
 /* SPI_0 device configuration */
 #define SPI_0_DEV           NRF_SPI0
-#define SPI_0_PIN_MOSI      5
-#define SPI_0_PIN_MISO      3
-#define SPI_0_PIN_SCK       1
+#define SPI_0_PIN_MOSI      28
+#define SPI_0_PIN_MISO      29
+#define SPI_0_PIN_SCK       30
+#define SPI_0_PIN_CS        20
 
 /** @} */
+
+#define I2C_NUMOF           (1U)
+#define I2C_0_EN            1
+#define I2C_IRQ_PRIO        1
+
+/* I2C_0 device configuration */
+#define I2C_0_DEV           NRF_TWI0
+#define I2C_0_PIN_SCL       25
+#define I2C_0_PIN_SDA       24
 
 
 /**
