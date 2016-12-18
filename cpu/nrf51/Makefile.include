@@ -4,7 +4,7 @@ export CPU_FAM  = nrf51
 # special options when using SoftDevice
 ifneq (,$(filter nrf51_sdk6,$(USEMODULE)))
 
-NORDIC_SDK := $(RIOTBASE)/drivers/nrf51_sdk6
+NORDIC_SDK ?= $(RIOTBASE)/drivers/nrf51_sdk6
 
 NORDIC_SRCS := $(NORDIC_SDK)/Source
 NORDIC_INCS := $(NORDIC_SDK)/Include
