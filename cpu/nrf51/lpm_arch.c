@@ -41,6 +41,7 @@ enum lpm_mode lpm_arch_set(enum lpm_mode target)
 #ifdef SOFTDEVICE_PRESENT
             uint32_t err_code = sd_app_evt_wait();
             APP_ERROR_CHECK(err_code);
+            //sd_power_system_off();
 #else
             __DSB();
             __WFI();

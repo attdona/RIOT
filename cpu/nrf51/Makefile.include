@@ -1,6 +1,9 @@
 export CPU_ARCH = cortex-m0
 export CPU_FAM  = nrf51
 
+
+USEMODULE += nrf51_sdk6
+
 # special options when using SoftDevice
 ifneq (,$(filter nrf51_sdk6,$(USEMODULE)))
 
@@ -39,7 +42,8 @@ DIRS += \
 		$(NORDIC_SRCS)/ble \
 		$(NORDIC_SRCS)/ble/ble_services \
 		$(NORDIC_SRCS)/ble/device_manager \
-		$(NORDIC_SRCS)/app_common
+		$(NORDIC_SRCS)/app_common \
+		$(NORDIC_SRCS)/nrf_delay
 		
 endif
 

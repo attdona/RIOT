@@ -518,6 +518,7 @@ static inline bool xtimer_less64(xtimer_ticks64_t a, xtimer_ticks64_t b);
  * Default xtimer configuration
  */
 #ifndef XTIMER_DEV
+
 /**
  * @brief Underlying hardware timer device to assign to xtimer
  */

@@ -216,7 +216,9 @@ _ssize_t _write_r(struct _reent *r, int fd, const void *data, size_t count)
 {
     (void) r;
     (void) fd;
+#ifndef NO_UART
     return uart_stdio_write(data, count);
+#endif
 }
 
 #endif

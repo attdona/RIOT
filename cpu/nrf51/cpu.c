@@ -27,6 +27,21 @@ uint8_t _ble_evt_buffer[BLE_STACK_EVT_MSG_BUF_SIZE];
 #endif
 
 
+/** @brief Function starting the internal LFCLK XTAL oscillator.
+ */
+static void lfclk_config(void) {
+	NRF_CLOCK->LFCLKSRC = (CLOCK_LFCLKSRC_SRC_Xtal << CLOCK_LFCLKSRC_SRC_Pos);
+	NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
+	NRF_CLOCK->TASKS_LFCLKSTART = 1;
+
+	NRF_CLOCK->TASKS_HFCLKSTOP = 1;
+
+	while (NRF_CLOCK->EVENTS_LFCLKSTARTED == 0) {
+		//Do nothing.
+	}
+	NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
+}
+
 
 /**
  * @brief Initialize the CPU, set IRQ priorities
@@ -51,6 +66,8 @@ void cpu_init(void)
 
     /* softdevice needs to be enabled from ISR context */
 #ifdef SOFTDEVICE_PRESENT
+	lfclk_config();
+
     softdevice_handler_init(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, &_ble_evt_buffer,
             BLE_STACK_EVT_MSG_BUF_SIZE, NULL);
 #endif

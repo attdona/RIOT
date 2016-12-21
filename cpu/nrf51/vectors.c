@@ -72,19 +72,23 @@ WEAK_DEFAULT void isr_swi3(void);
 WEAK_DEFAULT void isr_swi4(void);
 WEAK_DEFAULT void isr_swi5(void);
 
+WEAK_DEFAULT void
+isr_adc (void);
+
 #ifndef SOFTDEVICE_PRESENT
 WEAK_DEFAULT void isr_rtc1(void);
 WEAK_DEFAULT void isr_swi0(void);
 WEAK_DEFAULT void isr_gpiote(void);
-WEAK_DEFAULT void isr_adc(void);
+
 WEAK_DEFAULT void isr_swi0(void);
 #else
 
-#define isr_gpiote GPIOTE_IRQHandler
-extern void GPIOTE_IRQHandler(void);
+// Source/app_gpiote.c
+//#define isr_gpiote GPIOTE_IRQHandler
+extern void isr_gpiote(void);
 
-#define isr_adc ADC_IRQHandler
-extern void isr_adc(void);
+//#define isr_adc ADC_IRQHandler
+//extern void isr_adc(void);
 
 #define isr_swi0 SWI0_IRQHandler
 extern void isr_swi0(void);

@@ -20,9 +20,10 @@
 #define PERIPH_CONF_H_
 
 #include "periph_cpu.h"
- 
+
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /**
@@ -38,30 +39,30 @@ extern "C" {
                                                       32: 32MHz crystal */
 /** @} */
 
-
 /**
  * @name Timer configuration
  * @{
  */
 static const timer_conf_t timer_config[] = {
-    /* dev, channels, width */
-    { NRF_TIMER0, 3, TIMER_BITMODE_BITMODE_24Bit, TIMER0_IRQn },
-	{ NRF_TIMER1, 3, TIMER_BITMODE_BITMODE_16Bit, TIMER1_IRQn }
+        /* dev, channels, width */
+        { NRF_TIMER2, 3, TIMER_BITMODE_BITMODE_16Bit, TIMER2_IRQn }
 
 };
-
 
 /**
  * @name Timer configuration
  * @{
  */
-#define TIMER_NUMOF         (2U)
+#define TIMER_NUMOF         (1U)
+#define TIMER_0_ISR         isr_timer0
+#define TIMER_1_ISR         isr_timer1
+#define TIMER_2_ISR         isr_timer2
+
+#if 0
 #define TIMER_0_EN          0
 #define TIMER_1_EN          0
 #define TIMER_2_EN          0
 #define TIMER_IRQ_PRIO      1
-
-
 /* Timer 0 configuration */
 #define TIMER_0_DEV         NRF_TIMER0
 #define TIMER_0_CHANNELS    3
@@ -69,7 +70,6 @@ static const timer_conf_t timer_config[] = {
 #define TIMER_0_BITMODE     TIMER_BITMODE_BITMODE_24Bit
 #define TIMER_0_ISR         isr_timer0
 #define TIMER_0_IRQ         TIMER0_IRQn
-
 
 /* Timer 1 configuration */
 #define TIMER_1_DEV         NRF_TIMER1
@@ -87,6 +87,8 @@ static const timer_conf_t timer_config[] = {
 #define TIMER_2_ISR         isr_timer2
 #define TIMER_2_IRQ         TIMER2_IRQn
 /** @} */
+
+#endif
 
 /**
  * @name Real time counter configuration
@@ -145,7 +147,6 @@ static const timer_conf_t timer_config[] = {
 #define I2C_0_PIN_SCL       25
 #define I2C_0_PIN_SDA       24
 
-
 /**
  * @brief   ADC configuration
  *
@@ -154,7 +155,6 @@ static const timer_conf_t timer_config[] = {
  */
 #define ADC_NUMOF          (0)
 /** @} */
-
 
 /**
  * @name Random Number Generator configuration

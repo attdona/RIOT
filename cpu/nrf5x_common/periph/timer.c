@@ -191,6 +191,6 @@ void TIMER_1_ISR(void)
 #ifdef TIMER_2_ISR
 void TIMER_2_ISR(void)
 {
-    irq_handler(2);
+    irq_handler(0);
 }
 #endif
