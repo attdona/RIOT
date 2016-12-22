@@ -25,7 +25,7 @@ endif
 
 ifneq (,$(filter bmp180,$(USEMODULE)))
     FEATURES_REQUIRED += periph_i2c
-    USEMODULE += xtimer
+    #USEMODULE += xtimer
 endif
 
 ifneq (,$(filter cc110x,$(USEMODULE)))

@@ -66,7 +66,9 @@ void cpu_init(void)
 
     /* softdevice needs to be enabled from ISR context */
 #ifdef SOFTDEVICE_PRESENT
+#ifndef DEVELHELP
 	lfclk_config();
+#endif
 
     softdevice_handler_init(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, &_ble_evt_buffer,
             BLE_STACK_EVT_MSG_BUF_SIZE, NULL);

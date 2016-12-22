@@ -113,8 +113,8 @@ void auto_init(void)
     rtc_init();
 #endif
 #ifdef MODULE_BMP180
-    DEBUG("Auto init BMP180 module.\n");
-    bmp180_auto_init();
+	//DEBUG("Auto init BMP180 module.\n");
+	//bmp180_auto_init();
 #endif
 #ifdef MODULE_IO1_XPLAINED
     DEBUG("Auto init IO1 Xplained extension module.\n");

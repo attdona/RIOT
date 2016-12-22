@@ -136,6 +136,7 @@ void gpio_write(gpio_t pin, int value)
     }
 }
 
+#if 0
 void isr_gpiote(void)
 {
 	for(int i=0; i<4;i++) {
@@ -149,3 +150,4 @@ void isr_gpiote(void)
         thread_yield();
     }
 }
+#endif

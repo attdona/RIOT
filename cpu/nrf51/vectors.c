@@ -88,7 +88,7 @@ WEAK_DEFAULT void isr_swi0(void);
 extern void isr_gpiote(void);
 
 //#define isr_adc ADC_IRQHandler
-//extern void isr_adc(void);
+extern void isr_adc(void);
 
 #define isr_swi0 SWI0_IRQHandler
 extern void isr_swi0(void);
