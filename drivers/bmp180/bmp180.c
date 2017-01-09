@@ -140,7 +140,7 @@ int bmp180_read_temperature(bmp180_t *dev, int32_t *temperature) {
 
 	/* Compute true temperature value following datasheet formulas */
 	_compute_b5(dev, ut, &b5);
-	*temperature = (b5 + 8) >> 4;
+    *temperature = ((b5 + 8) >> 4) * 10;
 
 	/* Release I2C device */
 	i2c_release(dev->i2c_dev);
