@@ -35,7 +35,7 @@ extern "C" {
 #define XTIMER_BACKOFF  9
 #define XTIMER_OVERHEAD 5
 
-#define XTIMER_SHIFT 1
+#define XTIMER_SHIFT 0
 #define XTIMER_USEC_TO_TICKS_FACTOR 80
 
 #define XTIMER_USEC_TO_TICKS(value) ( value*XTIMER_USEC_TO_TICKS_FACTOR )
