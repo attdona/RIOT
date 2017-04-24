@@ -1,13 +1,84 @@
 export CPU_ARCH = cortex-m0
 export CPU_FAM  = nrf51
 
+#USEMODULE += nrf51_sdk12
 
-USEMODULE += nrf51_sdk6
 
-# special options when using SoftDevice
+# special options when using SoftDevice S130
+ifneq (,$(filter nrf51_sdk12,$(USEMODULE)))
+
+NORDIC_CMP := $(NORDIC_SDK)/components
+
+INCLUDES += \
+			-I$(NORDIC_CMP)/libraries/util \
+			-I$(NORDIC_CMP)/device \
+			-I$(NORDIC_CMP)/toolchain \
+			-I$(NORDIC_CMP)/softdevice/s130/headers \
+			-I$(NORDIC_CMP)/ble/common \
+			-I$(NORDIC_CMP)/ble/ble_advertising \
+			-I$(NORDIC_CMP)/ble/ble_services/ble_bas \
+			-I$(NORDIC_CMP)/ble/ble_services/ble_hrs \
+			-I$(NORDIC_CMP)/ble/ble_services/ble_dis \
+			-I$(NORDIC_CMP)/ble/nrf_ble_gatt \
+			-I$(NORDIC_CMP)/ble/peer_manager \
+			-I$(NORDIC_CMP)/boards \
+			-I$(NORDIC_CMP)/drivers_nrf/hal \
+			-I$(NORDIC_CMP)/drivers_nrf/delay \
+			-I$(NORDIC_CMP)/libraries/sensorsim \
+			-I$(NORDIC_CMP)/libraries/timer \
+			-I$(NORDIC_CMP)/libraries/bsp \
+			-I$(NORDIC_CMP)/libraries/button \
+			-I$(NORDIC_CMP)/libraries/fds \
+			-I$(NORDIC_CMP)/libraries/fstorage \
+			-I$(NORDIC_CMP)/libraries/log \
+			-I$(NORDIC_CMP)/libraries/log/src \
+			-I$(NORDIC_CMP)/softdevice/common/softdevice_handler \
+			-I$(NORDIC_CMP)/libraries/experimental_section_vars \
+			-I$(NORDIC_CMP)/drivers_nrf/clock \
+			-I$(NORDIC_CMP)/drivers_nrf/common \
+			-I$(NORDIC_CMP)/drivers_nrf/gpiote \
+			-I$(CURDIR)
+
+CFLAGS += -DBOARD_PCA10028 \
+		  -DNRF51 \
+		  -DNRF51822 \
+		  -DBLE_STACK_SUPPORT_REQD \
+		  -DSOFTDEVICE_PRESENT \
+		  -DNRF_SD_BLE_API_VERSION=2 \
+		  -DS130
+
+# Nordic's ble_6lowpan.a is compiled with hard-float
+# so set this, otherwise linking fails
+#CFLAGS_FPU := -mfloat-abi=hard -mfpu=fpv4-sp-d16
+
+DIRS += $(NORDIC_CMP)/libraries/util \
+		$(NORDIC_CMP)/libraries/sensorsim \
+		$(NORDIC_CMP)/ble/ble_services/ble_hrs \
+		$(NORDIC_CMP)/libraries/timer \
+		$(NORDIC_CMP)/libraries/bsp \
+		$(NORDIC_CMP)/boards \
+		$(NORDIC_CMP)/softdevice/common/softdevice_handler \
+		$(NORDIC_CMP)/drivers_nrf/clock \
+		$(NORDIC_CMP)/ble/ble_advertising \
+		$(NORDIC_CMP)/ble/common \
+		$(NORDIC_CMP)/ble/peer_manager \
+		$(NORDIC_CMP)/libraries/fds \
+		$(NORDIC_CMP)/libraries/fstorage \
+		$(NORDIC_CMP)/ble/ble_services/ble_bas \
+		$(NORDIC_CMP)/ble/ble_services/ble_dis \
+		$(NORDIC_CMP)/ble/nrf_ble_gatt \
+		$(NORDIC_CMP)/libraries/button \
+		$(NORDIC_CMP)/drivers_nrf/gpiote \
+		$(NORDIC_CMP)/drivers_nrf/common
+		
+endif
+###################################################################
+
+# special options when using SoftDevice S110
 ifneq (,$(filter nrf51_sdk6,$(USEMODULE)))
 
-NORDIC_SDK ?= $(RIOTBASE)/drivers/nrf51_sdk6
+NORDIC_SDK = $(BURBA)/drivers/nrf51_sdk6
+#NORDIC_SDK ?= $(RIOTBASE)/drivers/nrf51_sdk6
 
 NORDIC_SRCS := $(NORDIC_SDK)/Source
 NORDIC_INCS := $(NORDIC_SDK)/Include

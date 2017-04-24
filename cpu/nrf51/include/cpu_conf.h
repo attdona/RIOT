@@ -56,6 +56,8 @@ extern "C" {
 #ifdef SOFTDEVICE_PRESENT
 
 #ifndef DONT_OVERRIDE_NVIC
+// nrf51_sdk12
+//#include "nrf_nvic.h"
 #include "nrf_soc.h"
 #undef NVIC_SetPriority
 #define NVIC_SetPriority    sd_nvic_SetPriority

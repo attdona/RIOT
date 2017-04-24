@@ -84,7 +84,7 @@ WEAK_DEFAULT void isr_swi0(void);
 #else
 
 // Source/app_gpiote.c
-//#define isr_gpiote GPIOTE_IRQHandler
+#define isr_gpiote GPIOTE_IRQHandler
 extern void isr_gpiote(void);
 
 //#define isr_adc ADC_IRQHandler

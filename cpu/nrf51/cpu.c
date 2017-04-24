@@ -26,6 +26,11 @@
 uint8_t _ble_evt_buffer[BLE_STACK_EVT_MSG_BUF_SIZE];
 #endif
 
+#define NRF_CLOCK_LFCLKSRC      {.source        = NRF_CLOCK_LF_SRC_XTAL,            \
+                                 .rc_ctiv       = 0,                                \
+                                 .rc_temp_ctiv  = 0,                                \
+                                 .xtal_accuracy = NRF_CLOCK_LF_XTAL_ACCURACY_20_PPM}
+
 
 /** @brief Function starting the internal LFCLK XTAL oscillator.
  */
@@ -48,6 +53,9 @@ static void lfclk_config(void) {
  */
 void cpu_init(void)
 {
+#ifdef S130
+    nrf_clock_lf_cfg_t clock_lf_cfg = NRF_CLOCK_LFCLKSRC;
+#endif
 
 	/* initialize the Cortex-M core */
     cortexm_init();
@@ -70,8 +78,13 @@ void cpu_init(void)
 	lfclk_config();
 #endif
 
+#ifdef S130
+    softdevice_handler_init(&clock_lf_cfg, &_ble_evt_buffer,
+    BLE_STACK_EVT_MSG_BUF_SIZE, NULL);
+#else
     softdevice_handler_init(NRF_CLOCK_LFCLKSRC_XTAL_20_PPM, &_ble_evt_buffer,
             BLE_STACK_EVT_MSG_BUF_SIZE, NULL);
+#endif
 #endif
 
 }

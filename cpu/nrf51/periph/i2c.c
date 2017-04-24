@@ -19,6 +19,7 @@
 #include "periph_conf.h"
 #include "periph/i2c.h"
 #include "periph/gpio.h"
+#include "nrf_soc.h"
 
 #define ENABLE_DEBUG    (0)
 #include "debug.h"
